@@ -44,10 +44,10 @@
    - W przypadku potrzeby stworzenia wielu zmiennych o takich samych nazwach, należy dokładniej opisać funkcję zmiennej, np. `playerNameText`, `playerNameSize`.
    - Unikaj skrótów, chyba że są powszechnie zrozumiałe, np. `UI` (User Interface), `s` (Sekundy).
 
-### 3. **Nazywanie Branchy i Pull Request'ów**
+### 3. **Gałęzie i Pull Request'y**
 
-1. **Branch Naming**
-   - Nazwy branchy powinny być krótkie, lecz opisowe. Zaleca się stosowanie formatu:
+1. **Gałęzie"**
+   - Nazwy powinny być krótkie, lecz opisowe. Zaleca się stosowanie formatu:
      ```
      feature/{opis-funkcji}        # Przykład: feature/black-box
      fix/{opis-poprawki}           # Przykład: fix/ui-button-alignment
@@ -58,16 +58,15 @@
    - Wszystkie litery w nazwach branchy powinny być małe, a słowa oddzielone myślnikami.
    - Każda gałąź powinna być tworzona z głównej gałęzi projektu (`develop`). Gałąź `main` zarezerwowana jest tylko do *stabilnych* (przetestowanych) wersji gry.
 
-2. **Pull Request Naming**
-   - Pull request'y powinny być nazwane zgodnie z ich treścią, np.:
+3. **Pull Request'y:**
+   - Powinny być przypisane do konkretnego issue.
+   - Powinny być nazwane zgodnie z ich treścią, np.:
      - `[Feature] Implementacja ruchu postaci`
      - `[Fix] Poprawa wyświetlania UI na małych ekranach`
 
-   **Zawartość Pull Request**:
+   **Zawartość Pull Request'ów**:
    - Krótki opis zmian.
-   - Numer zadania z systemu zarządzania projektami (np. JIRA, Trello).
-   - Lista zmian i ich wpływ na projekt.
-   - Czy PR wymaga dodatkowych działań przed scaleniem, np. uruchomienie testów, review kodu itp.
+   - Czy PR wymaga dodatkowych działań przed scaleniem, np. stworzenia scenariusza testowego, review kodu itp.
 
 ### 4. **Komentarze w Kodzie**
 
