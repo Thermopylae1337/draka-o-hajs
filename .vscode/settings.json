@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Draka o hajs.sln"
+    "dotnet.defaultSolution": "DoH.sln"
 }
