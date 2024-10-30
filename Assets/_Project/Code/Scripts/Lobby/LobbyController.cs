@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class LobbyController : NetworkBehaviour
 
     private Image readyButtonImage;
     private bool selfReady = false;
-    private readonly Dictionary<ulong, (bool, Transform)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
+    private readonly Dictionary<ulong, (bool, Transform, string)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
 
     Color readyColor = Color.green;
     Color notReadyColor = Color.red;
@@ -35,51 +36,52 @@ public class LobbyController : NetworkBehaviour
     public void OnSelfJoin()
     {
         selfReady = false;
-
-
-        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
-        {
-            AddPlayerToList(clientId);
-        }
-
-        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId);
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
+        // foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        // {
+        //     AddPlayerToList(clientId);
+        // }
 
         RequestReadyBroadcastRpc();
+        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
     }
-
 
     [Rpc(SendTo.NotMe)]
     void RequestReadyBroadcastRpc()
     {
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
     }
 
-    [Rpc(SendTo.NotMe)]
-    void BroadcastPlayerJoinedRpc(ulong clientId)
+    [Rpc(SendTo.Everyone)]
+    void BroadcastPlayerJoinedRpc(ulong clientId, string name)
     {
-        AddPlayerToList(clientId);
+        AddPlayerToList(clientId, name);
     }
 
-    private void AddPlayerToList(ulong clientId)
+    private void AddPlayerToList(ulong clientId, string name)
     {
         var playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
         playerListTile.name = $"PlayerListTile_{clientId}";
-        playerListTile.GetComponent<TMP_Text>().text = $"Player_{clientId}";
-        playerList[clientId] = (false, playerListTile.transform);
+        playerListTile.GetComponent<TMP_Text>().text = name;
+        playerList[clientId] = (false, playerListTile.transform, name);
     }
 
     public void OnPlayerReadySwitch()
     {
         selfReady = !selfReady;
         readyButtonImage.color = selfReady ? readyColor : notReadyColor;
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId)
+    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, string name)
     {
-        playerList[clientId] = (ready, playerList[clientId].Item2);
+        if (!playerList.ContainsKey(clientId))
+        {
+            AddPlayerToList(clientId, name);
+        };
+        Transform playerListTile = playerList[clientId].Item2;
+        playerList[clientId] = (ready, playerListTile, name);
 
         playerList[clientId].Item2.GetComponent<TMP_Text>().color = ready ? readyColor : notReadyColor;
 
