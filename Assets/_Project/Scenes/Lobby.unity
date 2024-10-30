@@ -641,7 +641,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 345263293}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 802142992}
+        m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
+        m_MethodName: OnPlayerLeave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &345263293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,6 +1017,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &802142992 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1831960708774831543, guid: 0cc09b3920dc1a74bad7f6268f701a77, type: 3}
+  m_PrefabInstance: {fileID: 953420059}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b3699895e10854786e81aba12bc0b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &857438933
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,6 +1123,10 @@ PrefabInstance:
       propertyPath: startButton
       value: 
       objectReference: {fileID: 1255228629}
+    - target: {fileID: 1831960708774831543, guid: 0cc09b3920dc1a74bad7f6268f701a77, type: 3}
+      propertyPath: playerListGameObject
+      value: 
+      objectReference: {fileID: 1311950121}
     - target: {fileID: 1831960708774831543, guid: 0cc09b3920dc1a74bad7f6268f701a77, type: 3}
       propertyPath: playerListEntryPrefab
       value: 

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyController : NetworkBehaviour
@@ -11,59 +13,106 @@ public class LobbyController : NetworkBehaviour
     // reaktywne na wiele związanych ze sobą i zdarzen i w wielu miejscach.
     public Button startButton;
     public Button readyButton;
-    public GameObject playerList;
+    public GameObject playerListGameObject;
     public GameObject playerListEntryPrefab;
 
     private Image readyButtonImage;
-    private bool currentReady = true; // Will be changed on Start to false
-    private Dictionary<ulong, bool> playersReadyStatus = new Dictionary<ulong, bool>();
+    private bool selfReady = false;
+    private readonly Dictionary<ulong, (bool, Transform)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
 
     Color readyColor = Color.green;
     Color notReadyColor = Color.red;
 
-
     void Start()
     {
         readyButtonImage = readyButton.GetComponent<Image>();
-        readyButton.onClick.AddListener(SwitchReady);
-        SwitchReady();
+        readyButton.onClick.AddListener(OnPlayerReadySwitch);
+
+        startButton.interactable = false;
+        OnSelfJoin();
     }
 
-    public void RefreshPlayerList()
+    public void OnSelfJoin()
     {
-        foreach (var playerId in NetworkManager.ConnectedClientsIds)
+        selfReady = false;
+
+
+        foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
         {
-            Transform entry = playerList.transform.Find(playerId.ToString());
-            if (!entry)
-            {
-                playersReadyStatus[playerId] = false;
-                entry = Instantiate(playerListEntryPrefab, playerList.transform).transform;
-                entry.name = playerId.ToString();
-            }
-            TMP_Text textComponent = entry.GetComponentInChildren<TMP_Text>();
-            textComponent.text = playerId.ToString();
-            textComponent.color = playersReadyStatus[playerId] ? readyColor : notReadyColor;
+            AddPlayerToList(clientId);
         }
 
-        startButton.interactable = IsHost && playersReadyStatus.Values.All(x => x);
+        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
+
+        RequestReadyBroadcastRpc();
     }
 
-    public void SwitchReady()
+
+    [Rpc(SendTo.NotMe)]
+    void RequestReadyBroadcastRpc()
     {
-        currentReady = !currentReady;
-        BroadcastPlayerReadyRpc(currentReady, NetworkManager.LocalClientId);
-        readyButtonImage.color = currentReady ? readyColor : notReadyColor;
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
     }
 
-    public void OnStartGame()
+    [Rpc(SendTo.NotMe)]
+    void BroadcastPlayerJoinedRpc(ulong clientId)
     {
+        AddPlayerToList(clientId);
+    }
 
+    private void AddPlayerToList(ulong clientId)
+    {
+        var playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
+        playerListTile.name = $"PlayerListTile_{clientId}";
+        playerListTile.GetComponent<TMP_Text>().text = $"Player_{clientId}";
+        playerList[clientId] = (false, playerListTile.transform);
+    }
+
+    public void OnPlayerReadySwitch()
+    {
+        selfReady = !selfReady;
+        readyButtonImage.color = selfReady ? readyColor : notReadyColor;
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId);
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerReadyRpc(bool ready, ulong playerId)
+    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId)
     {
-        playersReadyStatus[playerId] = ready;
-        RefreshPlayerList();
+        playerList[clientId] = (ready, playerList[clientId].Item2);
+
+        playerList[clientId].Item2.GetComponent<TMP_Text>().color = ready ? readyColor : notReadyColor;
+
+        if (IsHost)
+        {
+            startButton.interactable = playerList.Values.All(x => x.Item1) && playerList.Count > 1 && playerList.Count < 4;
+        }
+    }
+
+    public void OnPlayerLeave()
+    {
+        if (IsHost) DisconnectClientsRpc();
+        DisconnectSelf();
+    }
+
+
+    [Rpc(SendTo.NotMe)]
+    private void DisconnectClientsRpc()
+    {
+        DisconnectSelf();
+    }
+
+    private void DisconnectSelf()
+    {
+        BroadcastPlayerLeftRpc(NetworkManager.Singleton.LocalClientId);
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void BroadcastPlayerLeftRpc(ulong clientId)
+    {
+        Destroy(playerList[clientId].Item2.gameObject);
+        playerList.Remove(clientId);
     }
 }
