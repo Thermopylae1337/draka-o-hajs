@@ -47,11 +47,11 @@ public class AnswerControl : MonoBehaviour
 
         if (playerAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase))
         {
-            feedbackText.text = $"Brawo! Poprawna odpowiedü. ${playerAnswer}$";
+            feedbackText.text = $"Brawo! Poprawna odpowiedü.";
         }
         else
         {
-            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedü. Poprawna odpowiedz to: ${kategoria.PobierzPoprawnaOdpowiedz()}$ || twoja odpowiedz to ${playerAnswer}$";
+            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedü. Poprawna odpowiedz to: {kategoria.PobierzPoprawnaOdpowiedz()}";
         }
     }
 
