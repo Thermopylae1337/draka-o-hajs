@@ -2191,7 +2191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -684, y: 270}
+  m_AnchoredPosition: {x: -552.69, y: 229.79}
   m_SizeDelta: {x: 327.5256, y: 123.5724}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1694318653
@@ -2599,7 +2599,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118, y: 334}
+  m_AnchoredPosition: {x: -103, y: 390}
   m_SizeDelta: {x: 667.022, y: 142.7047}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1864509232
@@ -3225,18 +3225,17 @@ MonoBehaviour:
   answerInput: {fileID: 1460090438}
   questionText: {fileID: 1643125326}
   feedbackText: {fileID: 1845827796}
-  question: 0
   timerText: {fileID: 1694318653}
   submitButton: {fileID: 520944251}
   numerRundy: {fileID: 1755481312}
-  answerButton1: {fileID: 697054216}
-  answerButton2: {fileID: 445116496}
-  answerButton3: {fileID: 1870615084}
-  answerButton4: {fileID: 1322239301}
   buttonText1: {fileID: 1022873522}
   buttonText2: {fileID: 718462348}
   buttonText3: {fileID: 8702534}
   buttonText4: {fileID: 729662119}
+  answerButton1: {fileID: 697054216}
+  answerButton2: {fileID: 445116496}
+  answerButton3: {fileID: 1870615084}
+  answerButton4: {fileID: 1322239301}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
