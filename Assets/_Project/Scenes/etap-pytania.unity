@@ -3236,6 +3236,7 @@ MonoBehaviour:
   answerButton2: {fileID: 445116496}
   answerButton3: {fileID: 1870615084}
   answerButton4: {fileID: 1322239301}
+  hintButton: {fileID: 875709226}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
