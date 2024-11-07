@@ -46,12 +46,13 @@ public class AnswerControl : MonoBehaviour
             questionText.text = kategoria.LosujPytanie();
             feedbackText.text = "";
             answerInput.text = "";
-            timeRemaining = 5f;
+            timeRemaining = 30f;
             timerText.text = "Czas: 30s";
             StartCoroutine(StartCountdown());
         }
         else
         {
+            interactivityOfItems(false);
             feedbackText.text = "Koniec gry";
         }
     }
