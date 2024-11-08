@@ -65,7 +65,7 @@ public class Wheel : MonoBehaviour
 
         if (spinning)
         {
-            velocity = Mathf.Lerp(velocity, -100, delta / 2);             // Wytracanie  prêskoœci
+            velocity = Mathf.Lerp(velocity, -50, delta / 2);             // Wytracanie  prêskoœci
             transform.Rotate(new Vector3(0, 0, -velocity) * delta);
 
             if (velocity < 0.5f)
@@ -114,7 +114,6 @@ public class Wheel : MonoBehaviour
             Color segmentColor = Color.HSVToRGB(hue, 0.8f, 1f);
             segmentImage.color = segmentColor;
 
-
             // Obrót tekstu na wycinku
             TextMeshProUGUI textComponent = segment.GetComponentInChildren<TextMeshProUGUI>(); // Pobranie komponentu tekstowego
             textComponent.rectTransform.localRotation = Quaternion.Euler(0, 0, -angleStep * 0.5f - 90f);
@@ -126,6 +125,12 @@ public class Wheel : MonoBehaviour
             float y = -d * Mathf.Cos(angleStepRad * 0.5f);
             textComponent.rectTransform.localPosition = new Vector2(x, y);
 
+            // Czarna kategoria czarnej skrzynki
+            if (categories[i] == "Czarna Skrzynka")
+            {
+                //textComponent.color = Color.white;    //to jeœli napisy bêd¹ domyœlnie czarne
+                segmentImage.color = Color.black;
+            }
 
             textComponent.text = categories[i];
             textComponent.text += i;
