@@ -84,7 +84,7 @@ public class Team
         this.id = id;
         this.money = money;
         this.bid = bid;
-        this.cluesUsed = cluesUsed;
+        this.cluesUsed = clues_used;
     }
 
     public string Serialize() 
