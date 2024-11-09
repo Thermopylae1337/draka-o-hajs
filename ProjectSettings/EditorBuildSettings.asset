@@ -6,8 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/_Project/Scenes/Startup.unity
+    guid: 0cf18335730a50144acda248c3cd074f
+  - enabled: 1
+    path: Assets/_Project/Scenes/MainMenu.unity
+    guid: e1588e5b81637c34892b10e8bccc33ad
+  - enabled: 1
+    path: Assets/_Project/Scenes/Leaderboard.unity
+    guid: ed453765ca547db41bab0d9e2fa1370f
+  - enabled: 1
+    path: Assets/_Project/Scenes/Lobby.unity
+    guid: 8583b3a2c6d6ae34a902e0ed3695774f
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 8b9c7274ce7af724bb41d0ea3eda4fd4, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 0db938a5a6e106846b4e8ddbebafdd14, type: 2}
+  m_UseUCBPForAssetBundles: 0
