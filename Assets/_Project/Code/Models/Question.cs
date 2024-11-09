@@ -1,32 +1,32 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using Newtonsoft.Json;
 
+public class Question { 
 
-public class Pytanie
-{
+    [JsonProperty("tresc")]
     public string Tresc { get; private set; }
-    [JsonProperty("Poprawne Odpowiedzi", Order = 2)]
+    [JsonProperty("poprawneOdpowiedzi", Order = 2)]
     private List<string> poprawneOdpowiedzi = new List<string>();
-    [JsonProperty("Odpowiedzi", Order = 3)]
-    private Dictionary<char, string> odpowiedzi;
+    [JsonProperty("podpowiedzi", Order = 3)]
+    private List<string> odpowiedzi = new List<string>();
 
 
-    public Pytanie(string Tresc, List<string> poprawneOdpowiedzi, string odpA, string odpB, string odpC, string odpD)
+    public Question(string Tresc, List<string> poprawneOdpowiedzi, string odpA, string odpB, string odpC, string odpD)
     {
         this.Tresc = Tresc;
         this.poprawneOdpowiedzi = poprawneOdpowiedzi; // podane jako lista poprawne warianty odpowiedzi
 
-        odpowiedzi = new Dictionary<char, string>
-        {
-            {'A', odpA},
-            {'B', odpB},
-            {'C', odpC},
-            {'D', odpD}
-        };
+
+        odpowiedzi.Add(odpA);
+        odpowiedzi.Add(odpB);
+        odpowiedzi.Add(odpC);
+        odpowiedzi.Add(odpD);
     }
 
     public bool czyPoprawna(string odpowiedz)
@@ -36,28 +36,29 @@ public class Pytanie
 
     public string Podpowiedz()
     {
-        return $"A: {odpowiedzi['A']}, B: {odpowiedzi['B']}, C: {odpowiedzi['C']}, D: {odpowiedzi['D']}";
+        return $"A: {odpowiedzi[0]}, B: {odpowiedzi[1]}, C: {odpowiedzi[2]}, D: {odpowiedzi[3]}";
     }
+
 
     public void Serializuj(string sciezka)
     {
         JsonSerializerSettings settings = new JsonSerializerSettings
         {
-            Formatting = Newtonsoft.Json.Formatting.Indented,
+            Formatting = Newtonsoft.Json.Formatting.None,
             NullValueHandling = NullValueHandling.Ignore
+
         };
         string json = JsonConvert.SerializeObject(this, settings);
         File.WriteAllText(sciezka, json);
     }
 
-    public static Pytanie Deserializuj(string sciezka)
+    public static Question Deserializuj(string sciezka)
     {
         if (!File.Exists(sciezka))
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", sciezka);
         }
         string json = File.ReadAllText(sciezka);
-        return JsonConvert.DeserializeObject<Pytanie>(json);
+        return JsonConvert.DeserializeObject<Question>(json);
     }
 }
-
