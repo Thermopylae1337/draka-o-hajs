@@ -29,14 +29,20 @@ public class Question {
         odpowiedzi.Add(odpD);
     }
 
-    public bool czyPoprawna(string odpowiedz)
+    public bool IsCorrect(string answer)
     {
         return poprawneOdpowiedzi.Contains(odpowiedz.Trim().ToLower());
     }
 
-    public string Podpowiedz()
+    public string[] Hint()
     {
-        return $"A: {odpowiedzi[0]}, B: {odpowiedzi[1]}, C: {odpowiedzi[2]}, D: {odpowiedzi[3]}";
+        return new string[]
+        {
+        answers[0],
+        answers[1],
+        answers[2],
+        answers[3]
+        };
     }
 
 
@@ -60,5 +66,10 @@ public class Question {
         }
         string json = File.ReadAllText(sciezka);
         return JsonConvert.DeserializeObject<Question>(json);
+    }
+
+    public string giveCorrectAnswer()
+    {
+        return correctAnswers[0];
     }
 }
