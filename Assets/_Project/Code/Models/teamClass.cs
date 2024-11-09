@@ -90,7 +90,7 @@ public class Team
     public string Serialize() 
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(name);
+        sb.Append(colour);
         sb.Append(";");
         sb.Append(id );
         sb.Append(";");
@@ -111,7 +111,7 @@ public class Team
     public static Team Deserialize(string source) 
     {
         //vars to find (do add them here (and to the Serialize() method), should you add any)
-        string name="";
+        string colour="";
 
         ulong id = 0;
         int money = 10000;
@@ -132,7 +132,7 @@ public class Team
                 switch (vari)
                 {
                     case 0:
-                        name = var.ToString();
+                        colour = var.ToString();
                         break;
                     case 1:
                          
@@ -165,7 +165,7 @@ public class Team
             }
             i += 1;
         }
-        return new Team(name,id, money, bid, cluesUsed, inactiveRounds,powerups );
+        return new Team(colour,id, money, bid, cluesUsed, inactiveRounds,powerups );
  }
 
 
