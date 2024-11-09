@@ -10,7 +10,6 @@ public class AnswerControl : MonoBehaviour
     public TMP_InputField answerInput; 
     public TMP_Text questionText;     
     public TMP_Text feedbackText;    
-    public Kategoria kategoria = new Kategoria();
     public TMP_Text timerText;      
     public Button submitButton;
     public TMP_Text numerRundy;
@@ -22,6 +21,8 @@ public class AnswerControl : MonoBehaviour
     public static int currentQuestionIndex = -1;
     private const int totalQuestions = 8;
     private bool isAnswerChecked = false;
+    public static Category category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
+    Question currentQuestion = category.DrawQuestion();
     void Start()
     {
         interactivityOfItems(true);
@@ -43,7 +44,7 @@ public class AnswerControl : MonoBehaviour
             HintMode(false);
             isAnswerChecked = false;
             numerRundy.text = "Runda numer: " + (currentQuestionIndex + 1).ToString();
-            questionText.text = kategoria.LosujPytanie();
+            questionText.text = currentQuestion.Tresc;
             feedbackText.text = "";
             answerInput.text = "";
             timeRemaining = 30f;
@@ -67,7 +68,7 @@ public class AnswerControl : MonoBehaviour
         if (timeRemaining <= 0)
         {
             interactivityOfItems(false);
-            feedbackText.text = "Czas minął! Odpowiedź: " + kategoria.PobierzPoprawnaOdpowiedz();
+            feedbackText.text = "Czas minął! Odpowiedź: " + currentQuestion.giveCorrectAnswer();
             StartCoroutine(ChangeScene("TestScene", 4));
         }
     }
@@ -76,15 +77,14 @@ public class AnswerControl : MonoBehaviour
         interactivityOfItems(false);
         isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
-        string correctAnswer = kategoria.PobierzPoprawnaOdpowiedz();
 
-        if (playerAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase))
+        if (currentQuestion.IsCorrect(playerAnswer))
         {
             feedbackText.text = $"Brawo! Poprawna odpowiedź.";
         }
         else
         {
-            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {kategoria.PobierzPoprawnaOdpowiedz()}";
+            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
         }
         StartCoroutine(ChangeScene("TestScene", 4));
     }
@@ -93,15 +93,14 @@ public class AnswerControl : MonoBehaviour
     {
         interactivityOfItems(false);
         isAnswerChecked = true;
-        string correctAnswer = kategoria.PobierzPoprawnaOdpowiedz();
 
-        if (playerAnswer.Equals(correctAnswer, StringComparison.OrdinalIgnoreCase))
+        if (currentQuestion.IsCorrect(playerAnswer))
         {
             feedbackText.text = $"Brawo! Poprawna odpowiedź.";
         }
         else
         {
-            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {kategoria.PobierzPoprawnaOdpowiedz()}";
+            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
         }
         StartCoroutine(ChangeScene("TestScene", 4));
     }
@@ -109,10 +108,10 @@ public class AnswerControl : MonoBehaviour
     public void Hint()
     {
         HintMode(true);
-        buttonText1.text = kategoria.PobierzPodpowiedzi()[0];
-        buttonText2.text = kategoria.PobierzPodpowiedzi()[1];
-        buttonText3.text = kategoria.PobierzPodpowiedzi()[2];
-        buttonText4.text = kategoria.PobierzPodpowiedzi()[3];
+        buttonText1.text = currentQuestion.Hint()[0];
+        buttonText2.text = currentQuestion.Hint()[1];
+        buttonText3.text = currentQuestion.Hint()[2];
+        buttonText4.text = currentQuestion.Hint()[3];
     }
     //HintMode jest oddzielna funkcja niz Hint poniewaz Hint jest przypisany do buttona i nie może mieć parametrów
     private void HintMode(bool active)
@@ -144,39 +143,6 @@ public class AnswerControl : MonoBehaviour
         string buttonValue = buttonText.text;
         CheckAnswer(buttonValue);
     }
-
-    /*private IEnumerator AskQuestions()
-    {
-        while (currentQuestionIndex < totalQuestions)
-        {
-            HintMode(false);
-            isAnswerChecked = false;
-            numerRundy.text = "Runda numer: " + (currentQuestionIndex+1).ToString();
-            questionText.text = kategoria.LosujPytanie();
-            feedbackText.text = "";
-            answerInput.text = "";
-            timeRemaining = 5f;
-            timerText.text = "Czas: 30s";
-
-            while (timeRemaining > 0 && isAnswerChecked == false)
-            {
-                timeRemaining -= Time.deltaTime;
-                timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
-                yield return null;
-            }
-            if(isAnswerChecked == true)
-            {
-                yield return new WaitForSeconds(4);
-                continue;
-            }
-            feedbackText.text = "Czas minął! Odpowiedź: " + kategoria.PobierzPoprawnaOdpowiedz();
-            yield return new WaitForSeconds(4);
-            ChangeScene("TestScene", 4);
-        }
-
-        feedbackText.text = "Koniec gry! Dziękujemy za udział.";
-        submitButton.gameObject.SetActive(false);
-    }*/
 
     private void setButtonsDefaultColor()
     {
