@@ -12,7 +12,7 @@ public class Team
     private int cluesUsed=0;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
     private int bid = 0;
-    private int id;
+    private ulong id;
     //powerupy zmienione z listy stringów na inta. Po prostu będziemy mieć listę powerupów gdzieśtam w kodzie wpisaną, a żeby sprawdzić
     //czy drużyna ma danego powerupa trzeba bd zrobić 
     /*
@@ -31,7 +31,7 @@ public class Team
     public int PowerUps => powerUps;
 
     public int Bid => bid;
-    public int ID => id;
+    public ulong ID => id;
     //dodawanie pieniędzy
     public void AddMoney(int balance)
     {
@@ -110,7 +110,7 @@ public class Team
         //vars to find (do add them here (and to the Serialize() method), should you add any)
         string name="";
 
-        int id = 0;
+        ulong id = 0;
         int money = 10000;
         int bid = 0;
         int cluesUsed = 0;
@@ -134,7 +134,7 @@ public class Team
                         break;
                     case 1:
                          
-                        id = int.Parse(var.ToString());
+                        id = ulong.Parse(var.ToString());
                         break;
                     case 2:
                         money = int.Parse(var.ToString());
