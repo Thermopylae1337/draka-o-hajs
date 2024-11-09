@@ -69,13 +69,13 @@ public class Team
         SubstractMoney(amount);
     }
 
-    public  Team(string name, int id) 
+    public  Team(string name, ulong id) 
     {
         this.name = name;
         this.id = id;
     }
 
-    public Team(string name, int id, int money, int bid, int clues_used, int inactive_rounds, int powerups)
+    public Team(string name, ulong id, int money, int bid, int clues_used, int inactive_rounds, int powerups)
       {
         this.name = name;
         this.id = id;
