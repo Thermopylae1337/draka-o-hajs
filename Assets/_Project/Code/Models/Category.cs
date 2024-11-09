@@ -7,43 +7,43 @@ using System;
 public class Category
 {
     [JsonProperty("nazwa")]
-    public string Nazwa { get; }
+    public string Name { get; }
     [JsonProperty("pytania", Order = 2)]
-    public List<Question> ListaPytañ;
+    public List<Question> QuestionList;
 
-    public Category(string nazwa)
+    public Category(string name)
     {
-        Nazwa = nazwa;
-        ListaPytañ = new List<Question>();
+        Name = name;
+        QuestionList = new List<Question>();
     }
 
     [JsonConstructor]
-    public Category(string nazwa, List<Question> lista)
+    public Category(string nazwa, List<Question> list)
     {
-        this.Nazwa = nazwa;
-        this.ListaPytañ = lista;
+        this.Name = nazwa;
+        this.QuestionList = list;
     }
 
-    public void DodajPytanieDoListy(Question pytanie)
+    public void AddQuestionToList(Question question)
     {
-        if (pytanie == null)
+        if (question == null)
         {
             return;
         }
-        ListaPytañ.Add(pytanie);
+        QuestionList.Add(question);
     }
 
-    public Question LosujPytanie()
+    public Question DrawQuestion()
     {
         System.Random random = new System.Random();
-        Question question = ListaPytañ.Count == 0 ? null : ListaPytañ[random.Next(ListaPytañ.Count)];
+        Question question = QuestionList.Count == 0 ? null : QuestionList[random.Next(QuestionList.Count)];
 
-        ListaPytañ.Remove(question);
+        QuestionList.Remove(question);
         return question;
 
     }
 
-    public void Serializuj(string sciezka)
+    public void Serialize(string path)
     {
         JsonSerializerSettings settings = new JsonSerializerSettings
         {
@@ -51,16 +51,16 @@ public class Category
             NullValueHandling = NullValueHandling.Ignore,
         };
         string json = JsonConvert.SerializeObject(this, settings);
-        File.WriteAllText(sciezka, json);
+        File.WriteAllText(path, json);
     }
 
-    public static Category Deserializuj(string sciezka)
+    public static Category Deserialize(string path)
     {
-        if (!File.Exists(sciezka))
+        if (!File.Exists(path))
         {
-            throw new FileNotFoundException("Nie znaleziono pliku.", sciezka);
+            throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
-        string json = File.ReadAllText(sciezka);
+        string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Category>(json);
     }
 }
