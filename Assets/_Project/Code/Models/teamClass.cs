@@ -8,6 +8,7 @@ public class Team
 {
     //zadeklarowanie nazwa zmiennych
     private string name;
+    private string colour;
     private int money= 10000;
     private int cluesUsed=0;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
@@ -19,7 +20,7 @@ public class Team
       if( (powerUps&powerup)!=0)){
     do thing
     }
-     */
+     */ 
     //działa tak samo a mniej zabawy z serializacją listy w liście x.x
     //no i zamiast lecieć przez listę mamy jednego ifa
     private int powerUps = 0;
@@ -29,7 +30,7 @@ public class Team
     public int CluesUsed => cluesUsed;
     public int InactiveRounds => inactiveRounds;
     public int PowerUps => powerUps;
-
+    public string Colour => colour;
     public int Bid => bid;
     public ulong ID => id;
     //dodawanie pieniędzy
@@ -40,12 +41,14 @@ public class Team
             money += balance; //dodawanie pieniędzy
         }
         else
+
         {
+            
             Debug.LogWarning("Nie można dodać ujemnej kwotry."); //wyświetlanie informacji że nie można dodać ujemnej kwoty
         }
     }
     //odejmowanie pieniędzy
-    public void SubtractMoney(int balance)
+    public void SubstractMoney(int balance)
     {
         if (balance >= 0)
         {
@@ -66,18 +69,18 @@ public class Team
     {
 
         bid += amount;
-        SubtractMoney(amount);
+        SubstractMoney(amount);
     }
-
+     
     public  Team(string name, ulong id) 
     {
-        this.name = name;
+        this.colour = name;
         this.id = id;
     }
 
     public Team(string name, ulong id, int money, int bid, int clues_used, int inactive_rounds, int powerups)
       {
-        this.name = name;
+        this.colour = name;
         this.id = id;
         this.money = money;
         this.bid = bid;
@@ -152,7 +155,7 @@ public class Team
                         break;
                 }
 
-                        var.Clear();
+                var.Clear();
                 vari += 1;
             }
             else 
