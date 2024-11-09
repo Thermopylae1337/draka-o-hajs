@@ -1,29 +1,25 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-public class ListaKategorii
+using System.IO;
+public class CategoryList
 {
-    [JsonProperty("Lista Kategorii")]
-    List<Kategoria> listaKategorii = new List<Kategoria>();
+    [JsonProperty("listaKategorii")]
+    List<Category> listaKategorii = new List<Category>(); 
 
-    public ListaKategorii(List<Kategoria> lista)
+    public CategoryList(List<Category> lista) 
     {
         listaKategorii = lista;
     }
-
-    public List<Pytanie> WyszukajKategorie(string nazwa)
+        
+    public List<Question> WyszukajKategorie(string nazwa)
     {
         if (string.IsNullOrWhiteSpace(nazwa))
         {
             throw new ArgumentNullException("Nazwa kategorii nie może być pusta.");
         }
 
-        foreach (Kategoria item in listaKategorii)
+        foreach (Category item in listaKategorii)
         {
             if (item.Nazwa.Equals(nazwa, StringComparison.OrdinalIgnoreCase))
             {
@@ -33,7 +29,7 @@ public class ListaKategorii
         throw new Exception("Nie znaleziono kategorii");
     }
 
-    public void DodajKategorię(Kategoria k)
+    public void DodajKategorię(Category k)
     {
         if (k == null)
         {
@@ -47,20 +43,19 @@ public class ListaKategorii
         JsonSerializerSettings settings = new JsonSerializerSettings
         {
             Formatting = Newtonsoft.Json.Formatting.Indented,
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
         };
         string json = JsonConvert.SerializeObject(this, settings);
         File.WriteAllText(sciezka, json);
     }
 
-    public static ListaKategorii Deserializuj(string sciezka)
+    public static CategoryList Deserializuj(string sciezka)
     {
         if (!File.Exists(sciezka))
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", sciezka);
         }
         string json = File.ReadAllText(sciezka);
-        return JsonConvert.DeserializeObject<ListaKategorii>(json);
+        return JsonConvert.DeserializeObject<CategoryList>(json);
     }
-
 }
