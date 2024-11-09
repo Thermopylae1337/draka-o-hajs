@@ -45,7 +45,7 @@ public class Team
         }
     }
     //odejmowanie pieniędzy
-    public void SubstractMoney(int balance)
+    public void SubtractMoney(int balance)
     {
         if (balance >= 0)
         {
@@ -66,7 +66,7 @@ public class Team
     {
 
         bid += amount;
-        SubstractMoney(amount);
+        SubtractMoney(amount);
     }
 
     public  Team(string name, ulong id) 
