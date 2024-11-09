@@ -130,7 +130,6 @@ public class Team
                 {
                     case 0:
                         name = var.ToString();
-                        var.Clear();
                         break;
                     case 1:
                          
@@ -153,6 +152,7 @@ public class Team
                         break;
                 }
 
+                        var.Clear();
                 vari += 1;
             }
             else 
