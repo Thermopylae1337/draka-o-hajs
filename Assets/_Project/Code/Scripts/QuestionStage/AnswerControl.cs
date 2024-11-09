@@ -21,6 +21,7 @@ public class AnswerControl : MonoBehaviour
     public static int currentQuestionIndex = -1;
     private const int totalQuestions = 8;
     private bool isAnswerChecked = false;
+    //Na razie wylosowana kategoria jest ustawiona jako stała, do zmiany przy łączeniu scen
     public static Category category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
     Question currentQuestion = category.DrawQuestion();
     void Start()
@@ -86,6 +87,7 @@ public class AnswerControl : MonoBehaviour
         {
             feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
         }
+        //Tutaj dodaj scene do której ma przejsc po Udzieleniu odpowiedzi
         StartCoroutine(ChangeScene("TestScene", 4));
     }
 
@@ -102,6 +104,7 @@ public class AnswerControl : MonoBehaviour
         {
             feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
         }
+        //Tutaj dodaj scene do której ma przejsc po Udzieleniu odpowiedzi
         StartCoroutine(ChangeScene("TestScene", 4));
     }
 
