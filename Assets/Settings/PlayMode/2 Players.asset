@@ -27,6 +27,7 @@ MonoBehaviour:
   - Name: Player 2
     <CorrespondingNodeId>k__BackingField: Player 2 - Run
     m_Nodes:
+<<<<<<< Updated upstream
     - Player 2 - Build
     - Player 2 - Run
     m_BuildProfile: {fileID: 11400000, guid: a87d9b665c9e92f498aed8569f544f71, type: 2}
@@ -40,10 +41,15 @@ MonoBehaviour:
     - Player 3 - Build
     - Player 3 - Run
     m_BuildProfile: {fileID: 11400000, guid: a87d9b665c9e92f498aed8569f544f71, type: 2}
+=======
+    - Player 1 - Build
+    - Player 1 - Run
+    m_BuildProfile: {fileID: 11400000, guid: 7ebd4e6be73b65d409b24d780a713b6a, type: 2}
+>>>>>>> Stashed changes
     advancedConfiguration:
       m_StreamLogsToMainEditor: 1
       m_LogsColor: {r: 0.3643, g: 0.581, b: 0.8679, a: 1}
-      m_Arguments: -screen-fullscreen 0 -screen-width 1024 -screen-height 720
+      m_Arguments: -screen-fullscreen 0 -screen-width 1600 -screen-height 720
   m_RemoteInstances: []
   m_OverridePort: 0
   m_Port: 0

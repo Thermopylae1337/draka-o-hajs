@@ -1,0 +1,277 @@
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class Licytacja_Controller : NetworkBehaviour
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject obj;
+    NetworkManager NetMan;
+    public List<TextMeshProUGUI> Team_Names_Text;
+    public List<TextMeshProUGUI> Team_Bid_Text;
+    public List<TextMeshProUGUI> Team_Balance_Text;
+    public TextMeshProUGUI Timer_Text;  
+    public List<Team> Teams;
+    public TextMeshProUGUI Total_Bid_Text;
+    int _total_bid;
+    float _timer;
+    float _time_given = 5;
+    int _Winning_Team_ID=0;
+    int _winning_bid_amount = 0;
+    bool _has_Set_Up = false;
+    bool _is_host;
+    ulong _player_id;
+    bool _game_ongoing=false;
+    //przyciski kolejno maj¹ wartoœæ: 100,200,300,400,500,1000z³
+    //no i va banque
+    //wartoœæ przycisku= wartoœæ o jak¹ dru¿yna *przebija stawkê*
+    //mo¿naby te¿ zrobiæ z ka¿dego przycisku oddzielny var ale imo tak jest ³adniej. 
+    public List<Button> Bid_Buttons;
+    public Button VB_Button;
+    /*
+    ///make it so each event removes itself by using the id
+    List<Timer> Active_Timers
+    public delegate void My_Timer_Delegate(int )
+    */
+
+    public class Timer {
+        float start_time;
+        float desired_gap;
+    }
+    private void Awake()
+    {
+        
+        Debug.LogWarning("awake");
+    }
+    void Start()
+    {
+
+        _player_id = General_Game_Data.ID;
+        NetMan = General_Game_Data.NetMan;
+        _is_host = General_Game_Data._is_host;
+        //Debug.Log(netman.GetInstanceID());
+        Teams = General_Game_Data.Teams;
+
+
+
+
+
+
+        if (!_is_host)
+        {
+            NetMan.StartClient();
+        }
+        else
+        {
+            NetMan.StartHost();
+        }
+
+        //Debug.Log(Total_Bid_Text.transform); 
+        if (Teams.Count < 4)
+        {
+            Total_Bid_Text.transform.position = Team_Balance_Text[Teams.Count].transform.position;
+            Total_Bid_Text.text = "aaaaa";
+        }
+        int i = Teams.Count;
+        while (i < Team_Names_Text.Count)
+        {
+            Destroy(Team_Names_Text[i]);
+            Destroy(Team_Bid_Text[i]);
+            Destroy(Team_Balance_Text[i]);
+            i += 1;
+        }
+        Setup(); ;
+        Add_Listners();
+        //
+        if (!_is_host)
+        {
+            test_Rpc();
+        }
+        Debug.LogWarning( "post-scene change " + NetMan.ConnectedClients[0].ClientId + "  " + NetMan.ConnectedClients[1].ClientId );
+    }
+
+
+    [Rpc(SendTo.Everyone)]
+    public void test_Rpc() 
+    {
+          
+    }
+    public void Add_Listners() 
+    {
+        Bid_Buttons[0].onClick.AddListener(delegate { Bid(100); });
+
+        Bid_Buttons[0].onClick.AddListener(delegate { Debug.LogWarning("le button has been le clicked"); });
+        Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
+        Bid_Buttons[2].onClick.AddListener(delegate { Bid(300); });
+        Bid_Buttons[3].onClick.AddListener(delegate { Bid(400); });
+        Bid_Buttons[4].onClick.AddListener(delegate { Bid(500); });
+        Bid_Buttons[5].onClick.AddListener(delegate { Bid(1000); });
+        VB_Button.onClick.AddListener(delegate { Va_Banque(); });
+    }
+    /*
+    void Get_Netman()
+    {
+        //is this an elegant solution? Probably not. Could I find something better? Nope. Does it work? Like a charm
+        //copied this to the lobby controller since (in the system I needed to make for my part of the project) I needed
+        GameObject g2 = new GameObject();
+        GameObject g = new GameObject();
+        DontDestroyOnLoad(g);
+
+        foreach (GameObject obj in g.scene.GetRootGameObjects())
+        {
+            if (obj.name == "NetworkManager")
+            {
+
+                g2 = obj;
+                break;
+            }
+        }
+        netman = g2.GetComponent<NetworkManager>();
+        Debug.Log(netman.GetInstanceID());
+        Destroy(g);
+
+
+    }*/ 
+    void Setup()
+    {
+        Debug.LogWarning("this is " + _player_id + "and we're setting up");
+        int i = 0;
+        while (i < Teams.Count) 
+        { 
+            Team_Balance_Text[i].text = Teams[i].Money.ToString();
+            Team_Bid_Text[i].text = Teams[i].Bid.ToString();
+            Team_Names_Text[i].text = Teams[i].Colour;
+             
+            i += 1;
+        }
+        Reset_Timer();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void Setup_Stage_2_Rpc()
+    {
+        Debug.LogWarning("this is " + _player_id + "and we're in the second setup stage");
+        int i = 0;
+        while (i < Teams.Count) 
+        {
+            Teams[i].Raise_Bid(500);
+            Update_Money_Status_For_Team(i);
+            i += 1;
+            _winning_bid_amount = 500;
+            _total_bid = Teams.Count * 500;
+            Total_Bid_Text.text = _total_bid.ToString();
+        }
+        _game_ongoing = true;
+    }
+    public void Update_Money_Status_For_Team(int i) 
+    {
+        Team_Balance_Text[i].text = Teams[i].Money.ToString();
+        Team_Bid_Text[i].text = Teams[i].Bid.ToString();
+    }
+    public void Update_Money_Status()
+    {
+        int i = 0;
+        while (i < Teams.Count) 
+        {
+             
+            Update_Money_Status_For_Team(i);
+            i += 1;  
+        }
+        Total_Bid_Text.text = _total_bid.ToString();
+    }
+    public void Va_Banque() 
+    {
+        int amount = Teams[ (int)_player_id].Money+Teams[(int)_player_id].Bid- _winning_bid_amount;
+        Debug.LogWarning("va banqueing " + amount +"  with a winning bid of " + _winning_bid_amount);
+        Bid(amount);
+    }
+
+    public void Bid(int amount)
+    {
+        if (_game_ongoing)
+        {
+            Team_Bid_Rpc(_player_id, amount);
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void Team_Bid_Rpc(ulong teamid, int amount)
+    {
+        int team_id = (int)teamid;
+        int difference = _winning_bid_amount +amount -Teams[team_id].Bid;
+        if ((Teams[team_id].Money >= difference && Teams[team_id].Bid!=_winning_bid_amount )|| Teams[team_id].Money >= difference && _winning_bid_amount==500)
+        {
+           // Teams[team_id].Raise_Bid(amount);
+            _winning_bid_amount +=amount;
+            //_total_bid += amount; 
+            
+            Update_Bids_Rpc(team_id, difference, _winning_bid_amount, team_id);
+           
+            if (Teams[team_id].Money == 0) 
+            {
+                Sell(team_id);
+            }
+        }
+    }
+    [Rpc(SendTo.Everyone)]
+    public void Update_Bids_Rpc(int team_id, int difference,   int winning_bid,int winning_team_id) 
+        {
+        Debug.LogWarning("raising bid by " + difference);
+        Teams[team_id].Raise_Bid(difference);
+        _total_bid += difference;
+         _winning_bid_amount = winning_bid;
+        _Winning_Team_ID = winning_team_id;
+        Reset_Timer();
+        Update_Money_Status();
+}
+
+   
+    public void Reset_Timer () 
+    {
+        _timer = Time.time;
+        
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
+        if (_game_ongoing )
+        {
+            if (_winning_bid_amount != 500)
+            {
+                Timer_Text.text = (_time_given - (Time.time - _timer)).ToString();
+                if (Time.time - _timer > _time_given && _is_host)
+                {
+
+                    Sell(_Winning_Team_ID);
+
+                }
+            }
+        }
+        else {
+
+            if (Time.time - _timer > _time_given && _is_host && !_has_Set_Up & _is_host) 
+            {
+                 
+                Setup_Stage_2_Rpc();
+            }
+        }
+    }
+    void Sell(int team_id)
+    {
+        Sell_Rpc(team_id); 
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void Sell_Rpc(int team_id) 
+    {
+        _game_ongoing = false;
+        Timer_Text.text = "Wygrywa dru¿yna " + Teams[team_id].Colour;
+        //na razie team_id nie jest na nic potrzebne ale jest na póŸniej ¿eby mo¿na by³o w nastêpnej scenie stwierdziæ kto wygra³ licytacjê
+    }
+}
+ 
