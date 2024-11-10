@@ -14,6 +14,7 @@ public class Licytacja_Controller : NetworkBehaviour
     public List<TextMeshProUGUI> Team_Names_Text;
     public List<TextMeshProUGUI> Team_Bid_Text;
     public List<TextMeshProUGUI> Team_Balance_Text;
+    public List<TextMeshProUGUI> Bid_Button_Text;
     public TextMeshProUGUI Timer_Text;  
     public List<Team> Teams;
     public TextMeshProUGUI Total_Bid_Text;
@@ -104,8 +105,7 @@ public class Licytacja_Controller : NetworkBehaviour
     {
         Bid_Buttons[0].onClick.AddListener(delegate { Bid(100); });
 
-        Bid_Buttons[0].onClick.AddListener(delegate { Debug.LogWarning("le button has been le clicked"); });
-        Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
+          Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
         Bid_Buttons[2].onClick.AddListener(delegate { Bid(300); });
         Bid_Buttons[3].onClick.AddListener(delegate { Bid(400); });
         Bid_Buttons[4].onClick.AddListener(delegate { Bid(500); });
@@ -181,7 +181,32 @@ public class Licytacja_Controller : NetworkBehaviour
             Update_Money_Status_For_Team(i);
             i += 1;  
         }
+        Update_Buttons();
         Total_Bid_Text.text = _total_bid.ToString();
+    }
+    public void Update_Buttons() 
+    {
+        if (_winning_bid_amount != Teams[(int)_player_id].Bid)
+        {
+            int difference = _winning_bid_amount - Teams[(int)_player_id].Bid;
+
+            Bid_Button_Text[0].text = "100(" + (difference + 100).ToString() + ")";
+            Bid_Button_Text[1].text = "200(" + (difference + 200).ToString() + ")";
+            Bid_Button_Text[2].text = "300(" + (difference + 300).ToString() + ")";
+            Bid_Button_Text[3].text = "400(" + (difference + 400).ToString() + ")";
+            Bid_Button_Text[4].text = "500(" + (difference + 500).ToString() + ")";
+            Bid_Button_Text[5].text = "1000(" + (difference + 1000).ToString() + ")";
+        }
+        else
+        {
+            Bid_Button_Text[0].text = "100";
+            Bid_Button_Text[1].text = "200";
+            Bid_Button_Text[2].text = "300";
+            Bid_Button_Text[3].text = "400";
+            Bid_Button_Text[4].text = "500";
+            Bid_Button_Text[5].text = "1000";
+
+        }
     }
     public void Va_Banque() 
     {

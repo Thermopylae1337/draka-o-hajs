@@ -2230,6 +2230,13 @@ MonoBehaviour:
   - {fileID: 1970227131}
   - {fileID: 399117890}
   - {fileID: 1413879594}
+  Bid_Button_Text:
+  - {fileID: 1555673408}
+  - {fileID: 1442908995}
+  - {fileID: 448070719}
+  - {fileID: 276096861}
+  - {fileID: 981551044}
+  - {fileID: 1220248587}
   Timer_Text: {fileID: 1195921157}
   Total_Bid_Text: {fileID: 2107894925}
   Bid_Buttons:
