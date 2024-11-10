@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Leaderboard.unity
     guid: ed453765ca547db41bab0d9e2fa1370f
   - enabled: 1
-    path: Assets/_Project/Scenes/Licytacja.unity
+    path: Assets/_Project/Scenes/Bidding_War.unity
     guid: 2ed5ce18fc9eecf468f8acfbce844878
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 8b9c7274ce7af724bb41d0ea3eda4fd4, type: 2}

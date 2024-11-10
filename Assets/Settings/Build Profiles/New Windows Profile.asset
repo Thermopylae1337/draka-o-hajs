@@ -25,7 +25,7 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Leaderboard.unity
   - m_enabled: 1
-    m_path: Assets/_Project/Scenes/Licytacja.unity
+    m_path: Assets/_Project/Scenes/Bidding_War.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Lobby.unity
   m_ScriptingDefines: []
