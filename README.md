@@ -35,7 +35,7 @@
 1. **Zasady Ogólne**
    - **Zmienne prywatne**: camelCase z przedrostkiem `_`, np. `_playerHealth`.
    - **Zmienne publiczne**: PascalCase, np. `PlayerHealth`.
-   - **Stałe**: Wszystkie litery wielkie, oddzielone podkreśleniami, np. `MAX_HEALTH`.
+   - **Stałe**: Wszystkie litery wielkie, oddzielone podkreśleniami, np. `MAX_HEALTH`. Zmienne te trzymamy w pliku `constants.cs` w folderze `Code/Models`
    - **Metody**: PascalCase, np. `MovePlayer()`, `GetScore()`.
    - **Właściwości**: PascalCase, np. `PlayerHealth { get; set; }`.
 
