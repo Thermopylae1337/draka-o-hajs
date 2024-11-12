@@ -14,6 +14,7 @@ public class Team
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
     private int bid = 0;
     private ulong id;
+    private ulong totalMoney;
     //powerupy zmienione z listy stringów na inta. Po prostu będziemy mieć listę powerupów gdzieśtam w kodzie wpisaną, a żeby sprawdzić
     //czy drużyna ma danego powerupa trzeba bd zrobić 
     /*
@@ -33,6 +34,7 @@ public class Team
     public string Colour => colour;
     public int Bid => bid;
     public ulong ID => id;
+    public ulong TotalMoney => totalMoney;
     //dodawanie pieniędzy
     public void AddMoney(int balance)
     {
@@ -41,9 +43,7 @@ public class Team
             money += balance; //dodawanie pieniędzy
         }
         else
-
         {
-            
             Debug.LogWarning("Nie można dodać ujemnej kwotry."); //wyświetlanie informacji że nie można dodać ujemnej kwoty
         }
     }
@@ -78,13 +78,14 @@ public class Team
         this.id = id;
     }
 
-    public Team(string name, ulong id, int money, int bid, int clues_used, int inactive_rounds, int powerups)
+    public Team(string name, ulong id, int money, int bid, int clues_used, int inactive_rounds, int powerups, ulong totalMoney)
       {
         this.colour = name;
         this.id = id;
         this.money = money;
         this.bid = bid;
         this.cluesUsed = clues_used;
+        this.totalMoney = totalMoney;
     }
 
     public string Serialize() 
@@ -97,12 +98,14 @@ public class Team
         sb.Append(money);
         sb.Append(";");
         sb.Append(bid);
-         sb.Append(";");
+        sb.Append(";");
         sb.Append(cluesUsed);
         sb.Append(";");
         sb.Append(inactiveRounds);
         sb.Append(";");
         sb.Append(powerUps);
+        sb.Append(";");
+        sb.Append(totalMoney);
         sb.Append(";");
 
 
@@ -119,6 +122,7 @@ public class Team
         int cluesUsed = 0;
         int inactiveRounds = 0; 
         int powerups=0;
+        ulong totalMoney = 0;
         //vars for deserialization purposes. i is self explanatory, vari (var index) is for checking which variable we're writing to, and var is for the variable itself
         int i = 0;
         int vari = 0;
@@ -153,6 +157,9 @@ public class Team
                     case 6:
                         powerups = int.Parse(var.ToString());
                         break;
+                    case 7:
+                        totalMoney = ulong.Parse(var.ToString());
+                        break;
                 }
 
                 var.Clear();
@@ -165,7 +172,7 @@ public class Team
             }
             i += 1;
         }
-        return new Team(colour,id, money, bid, cluesUsed, inactiveRounds,powerups );
+        return new Team(colour,id, money, bid, cluesUsed, inactiveRounds,powerups, totalMoney );
  }
 
 
@@ -205,5 +212,10 @@ public class Team
          
         Debug.LogWarning("Nie posiadasz takiego powerUpa");
         return false;
+    }
+    public void AddTotalMoney()
+    {
+        //tutaj może dodać jakiś warunek jak drużyna wygrała (plus wtedy trzeba jakoś sprawdzać to czy wygrała)
+        totalMoney += money;
     }
 }
