@@ -36,14 +36,12 @@ public class Team
         get { return money; }
         set
         {
-            if (value >= 0)
+            if (value < 0)
             {
-                money = value;
+                money = 0;
+                Debug.LogWarning("Pieniądze zeszły poniżej zera, zeruje.");
             }
-            else
-            {
-                throw new Exception("Pieniądze nie mogą być na minusie.");
-            }
+            money = value;
         }
     }
     public int CluesUsed
@@ -51,14 +49,10 @@ public class Team
         get { return cluesUsed; }
         set
         {
-            if(value >= 0)
-            {
-                cluesUsed = value;
-            }
-            else
-            {
+            if (value < 0)
                 throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
-            }
+            
+            cluesUsed = value;
         }
     }
     public int InactiveRounds
@@ -66,6 +60,9 @@ public class Team
         get { return inactiveRounds; }
         set
         {
+            if (value < 0)
+                throw new Exception("Rundy bierności w licytacji nie mogą być na minusie.");
+
             inactiveRounds = value;
         }
     }
