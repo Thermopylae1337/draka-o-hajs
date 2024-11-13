@@ -50,7 +50,14 @@ public class Team
         get { return cluesUsed; }
         set
         {
-            cluesUsed = value;
+            if(value >= 0)
+            {
+                cluesUsed = value;
+            }
+            else
+            {
+                throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
+            }
         }
     }
     public int InactiveRounds
@@ -87,16 +94,16 @@ public class Team
     }
 
     //serializacja
-    public void Serialize(Team team)
+    public void Serialize(string path)
     {
-        string jsonString = JsonConvert.SerializeObject(team);
-        File.WriteAllText("team.json", jsonString);
+        string jsonString = JsonConvert.SerializeObject(this);
+        File.WriteAllText(path, jsonString);
     }
 
     //deserializacja
-    public void Deserialize(Team team)
+    public void Deserialize(string path)
     {
-        string jsonFromFile = File.ReadAllText("team.json");
+        string jsonFromFile = File.ReadAllText(path);
         Team deserializedTeam = JsonConvert.DeserializeObject<Team>(jsonFromFile);
         Console.WriteLine("Name: {0}, money: {1}, cluesUsed: {2}, inactiveRounds: {3}, totalMoney: {4}, powerUps: {5}, badges: {6}", deserializedTeam.name, deserializedTeam.cluesUsed, deserializedTeam.inactiveRounds, deserializedTeam.totalMoney, deserializedTeam.powerUps, deserializedTeam.badges);
     }
