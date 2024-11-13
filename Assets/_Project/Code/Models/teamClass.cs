@@ -40,6 +40,7 @@ public class Team
             {
                 money = 0;
                 Debug.LogWarning("Pieniądze zeszły poniżej zera, zeruje.");
+                return;
             }
             money = value;
         }
