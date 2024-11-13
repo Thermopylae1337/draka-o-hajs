@@ -5,11 +5,12 @@ using System.Security.AccessControl;
 using System.Text.Json.Serialization;
 using UnityEngine;
 
+
 public class Team
 {
     //zadeklarowanie nazwa zmiennych
     private string name;
-    private int money = 10000;
+    private int money = Constants.START_MONEY;
     private int cluesUsed;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
     private int totalMoney;
@@ -20,7 +21,7 @@ public class Team
     public Team(string name, int cluesUsed, int TotalMoney, List<string> powerUps, List<string> badges)
     {
         this.name = name;
-        this.money = 10000;
+        this.money = Constants.START_MONEY;
         this.cluesUsed = cluesUsed;
         this.inactiveRounds = 0;
         this.totalMoney = TotalMoney;
