@@ -17,11 +17,7 @@
         Name = name;
         UnlockCondition = unlockCondition;
         Unlocked = false;
-    }
-
-    public void Unlock()
-    {
-        Unlocked = true;
+        UnlockCounter = 0;
     }
 
     public bool IsUnlocked()

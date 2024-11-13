@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using zadanie1projekt;
-
-public class BadgeList
+﻿public class BadgeList
 {
     [JsonProperty("badges")]
     private List<Badge> badges;

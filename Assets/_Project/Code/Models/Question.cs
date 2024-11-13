@@ -1,12 +1,12 @@
 ﻿public class Question
 {
-    [JsonProperty("content")]
+    [JsonProperty("tresc")]
     public string Content { get; private set; }
 
-    [JsonProperty("correctAnswers")]
+    [JsonProperty("poprawneOdpowiedzi")]
     private List<string> correctAnswers = new List<string>();
 
-    [JsonProperty("hints")]
+    [JsonProperty("podpowiedzi")]
     private List<string> answers;
 
     public Question(string content, List<string> correctAnswers, string answerA, string answerB, string answerC, string answerD)
