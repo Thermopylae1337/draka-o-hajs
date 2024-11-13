@@ -1301,7 +1301,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 293274261}
         m_TargetAssemblyTypeName: BadgesController, Assembly-CSharp
-        m_MethodName: ViewMenu
+        m_MethodName: LoadMainMenuScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

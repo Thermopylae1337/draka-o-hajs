@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class BadgesController : MonoBehaviour
 {
-    public void ViewMenu()
+    public void LoadMainMenuScene()
     {
         SceneManager.LoadScene("MainMenu");
     }

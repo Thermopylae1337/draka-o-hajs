@@ -44,7 +44,7 @@ public class MainMenuController : MonoBehaviour
         }
         NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
-    public void ViewBadges()
+    public void LoadBadgesScene()
     {
         SceneManager.LoadScene("Badges");
     }
