@@ -22,9 +22,9 @@ public class CategoryList
 
         foreach (Category item in categoryList)
         {
-            if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+            if (item.name.Equals(name, StringComparison.OrdinalIgnoreCase))
             {
-                return item.QuestionList;
+                return item.questionList;
             }
         }
         throw new Exception("Nie znaleziono kategorii");

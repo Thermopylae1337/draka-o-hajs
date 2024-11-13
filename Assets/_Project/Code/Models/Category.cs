@@ -7,21 +7,22 @@ using System;
 public class Category
 {
     [JsonProperty("nazwa")]
-    public string Name { get; }
+    public string name { get; }
     [JsonProperty("pytania", Order = 2)]
-    public List<Question> QuestionList;
+    public List<Question> questionList;
+    private static System.Random random = new System.Random();
 
     public Category(string name)
     {
-        Name = name;
-        QuestionList = new List<Question>();
+        this.name = name;
+        questionList = new List<Question>();
     }
 
     [JsonConstructor]
     public Category(string nazwa, List<Question> list)
     {
-        this.Name = nazwa;
-        this.QuestionList = list;
+        this.name = nazwa;
+        this.questionList = list;
     }
 
     public void AddQuestionToList(Question question)
@@ -30,17 +31,15 @@ public class Category
         {
             return;
         }
-        QuestionList.Add(question);
+        questionList.Add(question);
     }
 
     public Question DrawQuestion()
     {
-        System.Random random = new System.Random();
-        Question question = QuestionList.Count == 0 ? null : QuestionList[random.Next(QuestionList.Count)];
+        Question question = questionList.Count == 0 ? null : questionList[random.Next(questionList.Count)];
 
-        QuestionList.Remove(question);
+        questionList.Remove(question);
         return question;
-
     }
 
     public void Serialize(string path)
