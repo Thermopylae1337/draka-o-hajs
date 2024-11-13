@@ -18,7 +18,7 @@ MonoBehaviour:
   m_PlatformId: 4e3c793746204150860bf175a9a41a05
   m_PlatformBuildProfile:
     rid: 8500523967411650728
-  m_OverrideGlobalSceneList: 1
+  m_OverrideGlobalSceneList: 0
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Startup.unity
@@ -49,7 +49,7 @@ MonoBehaviour:
         m_CompressionType: 0
         m_InstallInBuildFolder: 0
         m_WindowsBuildAndRunDeployTarget: 0
-        m_Architecture: 1
+        m_Architecture: 0
         m_CreateSolution: 0
         m_CopyPDBFiles: 0
         m_WindowsDevicePortalAddress: 

@@ -10,30 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a689d91966dfb46499fb63f130d9b905, type: 3}
-  m_Name: 2 Players
+  m_Name: Editor Only
   m_EditorClassIdentifier: 
-  m_Description: Sprawns 2 editors
+  m_Description: 
   m_EnableEditors: 1
   m_MainEditorInstance:
     Name: Main Editor
-    <CorrespondingNodeId>k__BackingField: Main Editor|0_run
-    m_Nodes:
-    - Main Editor|0_run
-    - Main Editor|0_deploy
+    <CorrespondingNodeId>k__BackingField: 
+    m_Nodes: []
     m_PlayerTag: 
     m_InitialScene: {fileID: 102900000, guid: 0cf18335730a50144acda248c3cd074f, type: 3}
   m_EditorInstances: []
-  m_LocalInstances:
-  - Name: Player 2
-    <CorrespondingNodeId>k__BackingField: Player 2 - Run
-    m_Nodes:
-    - Player 2 - Build
-    - Player 2 - Run
-    m_BuildProfile: {fileID: 11400000, guid: a87d9b665c9e92f498aed8569f544f71, type: 2}
-    advancedConfiguration:
-      m_StreamLogsToMainEditor: 1
-      m_LogsColor: {r: 0.3643, g: 0.581, b: 0.8679, a: 1}
-      m_Arguments: -screen-fullscreen 0 -screen-width 1024 -screen-height 720
+  m_LocalInstances: []
   m_RemoteInstances: []
   m_OverridePort: 0
   m_Port: 0
