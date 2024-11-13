@@ -1,15 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static constants;
 
 public class CategoryDrawManager : MonoBehaviour
 {
-    const int ROUNDS_LIMIT = 7;
-
-    public int currentRound = 0;
-    public Wheel wheel;
-    public TextMeshProUGUI categoryDisplayText;
-    public TextMeshProUGUI roundDisplayText;
+    int currentRound = 0;
+    [SerializeField] Wheel wheel;
+    [SerializeField] TextMeshProUGUI categoryDisplayText;
+    [SerializeField] TextMeshProUGUI roundDisplayText;
 
     string[] categories = new string[]       // temp
     {
@@ -51,15 +50,15 @@ public class CategoryDrawManager : MonoBehaviour
         wheel.OnWheelStopped += HandleWheelStopped;
     }
 
-    void HandleWheelStopped(int wynik)
+    void HandleWheelStopped(int result)
     {
-        string category = categories[wynik];
+        string category = categories[result];
         categoryDisplayText.text = "Wylosowano: " + category;
-        if (categories[wynik] == "Czarna Skrzynka")
+        if (categories[result] == "Czarna Skrzynka")
         {
             // CzarnaSkrzynka()
         }
-        else if (categories[wynik] == "PodpowiedŸ")
+        else if (categories[result] == "PodpowiedŸ")
         {
             // dru¿yna.podpowiedzi++ or sth;
         }
@@ -78,7 +77,7 @@ public class CategoryDrawManager : MonoBehaviour
          * imo to powinno byæ sprawdzane przy po odpowiedzi na pytanie,
          * zamiast ³adowaæ scene losowania tylko ¿eby znów ³adowaæ podsumowanie
          */
-        if (currentRound < ROUNDS_LIMIT)
+        if (currentRound < constants.ROUNDS_LIMIT)
         {
             wheel.SpinWheel();
         }

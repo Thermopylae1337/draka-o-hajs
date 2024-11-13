@@ -512,7 +512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8af9879cfcfdc4f9369c2cbeaf8da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRound: 0
   wheel: {fileID: 444168516}
   categoryDisplayText: {fileID: 306666760}
   roundDisplayText: {fileID: 1183885366}

@@ -7,11 +7,11 @@ public class Wheel : MonoBehaviour
 {
     float delta, angleStep, angleStepRad;
 
-    public bool spinning = false;
-    public float velocity = 0f;
-    public int numberOfSegments = 31;       // Iloœæ segmentów ko³a
+    [SerializeField] bool spinning = false;
+    [SerializeField] float velocity = 0f;
+    [SerializeField] int numberOfSegments = 31;       // Iloœæ segmentów ko³a
 
-    public GameObject segmentPrefab;        // Prefab pojedynczego segmentu
+    [SerializeField] GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
     public delegate void WheelStoppedHandler(int wynik);
     public event WheelStoppedHandler OnWheelStopped;
