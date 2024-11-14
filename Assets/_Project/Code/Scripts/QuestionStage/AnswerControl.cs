@@ -205,6 +205,10 @@ public class AnswerControl : NetworkBehaviour
         {
             category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
             currentQuestion = category.LosujPytanie();
+<<<<<<< HEAD
+=======
+            string[] answers = currentQuestion.Hint().ToArray();
+>>>>>>> da85056145841a87f832128b1c5cbd6a309be011
             SendQuestionToClientRpc(currentQuestion.Tresc);
             _timeRemaining = 30f;
             AnsweringModeRpc(IdOfPlayerWhoWonAuction);
