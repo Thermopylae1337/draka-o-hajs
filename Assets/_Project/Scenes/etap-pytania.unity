@@ -1334,7 +1334,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2096601979}
         m_TargetAssemblyTypeName: AnswerControl, Assembly-CSharp
-        m_MethodName: Hint
+        m_MethodName: AskForHint
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3108,8 +3108,8 @@ GameObject:
   - component: {fileID: 2096601978}
   - component: {fileID: 2096601977}
   - component: {fileID: 2096601976}
-  - component: {fileID: 2096601979}
   - component: {fileID: 2096601980}
+  - component: {fileID: 2096601979}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged

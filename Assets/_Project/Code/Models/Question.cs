@@ -31,17 +31,17 @@ public class Question {
 
     public bool IsCorrect(string answer)
     {
-        return poprawneOdpowiedzi.Contains(odpowiedz.Trim().ToLower());
+        return poprawneOdpowiedzi.Contains(answer.Trim().ToLower());
     }
 
     public string[] Hint()
     {
         return new string[]
         {
-        answers[0],
-        answers[1],
-        answers[2],
-        answers[3]
+        odpowiedzi[0],
+        odpowiedzi[1],
+        odpowiedzi[2],
+        odpowiedzi[3]
         };
     }
 
@@ -70,6 +70,6 @@ public class Question {
 
     public string giveCorrectAnswer()
     {
-        return correctAnswers[0];
+        return poprawneOdpowiedzi[0];
     }
 }
