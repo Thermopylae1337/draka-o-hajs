@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using System.Collections.Generic;
 using System.Linq;
 public class AnswerControl : NetworkBehaviour
 {
@@ -19,19 +18,20 @@ public class AnswerControl : NetworkBehaviour
     public Button answerButton1, answerButton2, answerButton3, answerButton4;
     public Button hintButton;
 
-    private float timeRemaining;
-    public static int currentQuestionIndex = -1;
-    private const int totalQuestions = 8;
-    private bool isAnswerChecked = false;
+    public static ulong IdOfPlayerWhoWonAuction = 0;
+    public static int currentQuestionIndex = 0;
+    private float _timeRemaining;
+    private const int _totalQuestions = 8;
+    private bool _isAnswerChecked;
 
     public static Category category;
     public Question currentQuestion;
 
     void Start()
     {
-        interactivityOfItems(true);
+        interactivityOfItems(false);
         currentQuestionIndex++;
-        isAnswerChecked = false;
+        _isAnswerChecked = false;
         HintMode(false);
 
         answerButton1.onClick.AddListener(() => SelectButton(answerButton1));
@@ -40,51 +40,36 @@ public class AnswerControl : NetworkBehaviour
         answerButton4.onClick.AddListener(() => SelectButton(answerButton4));
 
         numerRundy.text = "Runda numer: " + currentQuestionIndex.ToString();
-        Debug.Log("Start");
         if (IsHost)
         {
-            Debug.Log("Przeszlo ifa");
             SendCategoryToServerRpc();
         }
-    }
-
-    /*private void OpenQuestion()
-    {
-        if (currentQuestionIndex < totalQuestions)
+        if (NetworkManager.Singleton.LocalClientId == IdOfPlayerWhoWonAuction)
         {
-            HintMode(false);
-            isAnswerChecked = false;
-            numerRundy.text = "Runda numer: " + (currentQuestionIndex + 1).ToString();
-            questionText.text = currentQuestion.Tresc;
-            feedbackText.text = "";
-            answerInput.text = "";
-            timeRemaining = 30f;
-            timerText.text = "Czas: 30s";
-            StartCoroutine(StartCountdownRpc());
+            feedbackText.text = "Jesteś graczem ktory wygrał licytacje";
         }
         else
         {
-            interactivityOfItems(false);
-            feedbackText.text = "Koniec gry";
+            feedbackText.text = "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
         }
-    }*/
+    }
 
     private IEnumerator StartCountdown()
     {
-        while (timeRemaining > 0 && isAnswerChecked == false)
+        while (_timeRemaining > 0 && _isAnswerChecked == false)
         {
-            timeRemaining -= Time.deltaTime;
-            //timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
-            showCurrentTimeRpc(timeRemaining);
+            _timeRemaining -= Time.deltaTime;
+            showCurrentTimeRpc(_timeRemaining);
             yield return null;
         }
-        if (timeRemaining <= 0)
+        if (_timeRemaining <= 0)
         {
             interactivityOfItems(false);
             feedbackText.text = "Czas minął! Odpowiedź: " + currentQuestion.giveCorrectAnswer();
             StartCoroutine(ChangeScene("Lobby", 4));
         }
     }
+
     [Rpc(SendTo.Server)]
     void timeControllerRpc()
     {
@@ -94,7 +79,7 @@ public class AnswerControl : NetworkBehaviour
     public void CheckAnswer()
     {
         interactivityOfItems(false);
-        isAnswerChecked = true;
+        _isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
         CheckAnswerServerRpc(playerAnswer);
     }
@@ -102,20 +87,24 @@ public class AnswerControl : NetworkBehaviour
     public void CheckAnswer(string playerAnswer)
     {
         interactivityOfItems(false);
-        isAnswerChecked = true;
+        _isAnswerChecked = true;
         CheckAnswerServerRpc(playerAnswer);
     }
 
     [ServerRpc(RequireOwnership = false)]
     void CheckAnswerServerRpc(string playerAnswer)
     {
-        bool isCorrect = currentQuestion.IsCorrect(playerAnswer);
-        string feedback = isCorrect
-            ? "Brawo! Poprawna odpowiedź."
-            : $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
-
-        SendFeedbackToClientsRpc(feedback);    
+        if(currentQuestion.IsCorrect(playerAnswer))
+        {
+            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.");
+        }
+        else
+        {
+            SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
+                $"Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}");
+        }        
     }
+
     [Rpc(SendTo.ClientsAndHost)]
     void SendFeedbackToClientsRpc(string feedback)
     {
@@ -131,7 +120,7 @@ public class AnswerControl : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void HintServerRpc()
     {
-        //Nieoptymalne w chuj ale nie mam serializacji jeszcze 
+        //Do poprawy gdy dostane finalna klase Question
         showHintRpc(currentQuestion.Hint()[0], currentQuestion.Hint()[1], currentQuestion.Hint()[2], currentQuestion.Hint()[3]);
     }
 
@@ -199,18 +188,12 @@ public class AnswerControl : NetworkBehaviour
         submitButton.interactable = set;
     }
 
-
     [Rpc(SendTo.Everyone)]
-    public void SendQuestionToClientRpc(string questionText, string answer1, string answer2, string answer3, string answer4)
+    public void SendQuestionToClientRpc(string questionText)
     {
-        Debug.Log("Otrzymano pytanie od serwera...");
         this.questionText.text = questionText;
-        buttonText1.text = answer1;
-        buttonText2.text = answer2;
-        buttonText3.text = answer3;
-        buttonText4.text = answer4;
-        isAnswerChecked = false;
-        numerRundy.text = "Runda numer: " + (currentQuestionIndex + 1).ToString();
+        _isAnswerChecked = false;
+        numerRundy.text = "Runda numer: " + currentQuestionIndex.ToString();
         feedbackText.text = "";
         answerInput.text = "";
         timerText.text = "Czas: 30s";
@@ -218,14 +201,14 @@ public class AnswerControl : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void SendCategoryToServerRpc()
     {
-        Debug.Log("Wysyłam kategorię do serwera");
-        if (currentQuestionIndex < totalQuestions)
+        if (currentQuestionIndex <= _totalQuestions)
         {
             category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
             currentQuestion = category.LosujPytanie();
             string[] answers = currentQuestion.Hint().ToArray();
-            SendQuestionToClientRpc(currentQuestion.Tresc, answers[0], answers[1], answers[2], answers[3]);
-            timeRemaining = 30f;
+            SendQuestionToClientRpc(currentQuestion.Tresc);
+            _timeRemaining = 30f;
+            AnsweringModeRpc(IdOfPlayerWhoWonAuction);
             HintMode(false);
             timeControllerRpc();
         }
@@ -240,6 +223,15 @@ public class AnswerControl : NetworkBehaviour
     void showCurrentTimeRpc(float timeRemaining)
     {
         timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void AnsweringModeRpc(ulong clientId)
+    {
+        if(NetworkManager.Singleton.LocalClientId == IdOfPlayerWhoWonAuction)
+        {
+            interactivityOfItems(true);
+        }
     }
     void Update()
     {
