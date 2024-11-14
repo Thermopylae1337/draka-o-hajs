@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Security.AccessControl;
-using System.Text.Json.Serialization;
 using UnityEngine;
 
 
@@ -52,7 +53,7 @@ public class Team
         {
             if (value < 0)
                 throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
-            
+
             cluesUsed = value;
         }
     }
@@ -95,16 +96,15 @@ public class Team
     //serializacja
     public void Serialize(string path)
     {
-        string jsonString = JsonConvert.SerializeObject(this);
+        string jsonString = JsonUtility.ToJson(this);
         File.WriteAllText(path, jsonString);
     }
 
     //deserializacja
-    public void Deserialize(string path)
+    static public Team Deserialize(string path)
     {
         string jsonFromFile = File.ReadAllText(path);
-        Team deserializedTeam = JsonConvert.DeserializeObject<Team>(jsonFromFile);
-        Console.WriteLine("Name: {0}, money: {1}, cluesUsed: {2}, inactiveRounds: {3}, totalMoney: {4}, powerUps: {5}, badges: {6}", deserializedTeam.name, deserializedTeam.cluesUsed, deserializedTeam.inactiveRounds, deserializedTeam.totalMoney, deserializedTeam.powerUps, deserializedTeam.badges);
+        return JsonUtility.FromJson<Team>(jsonFromFile);
     }
 
 }

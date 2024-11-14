@@ -1,6 +1,6 @@
 ﻿using System;
 
-public readonly static Constants
+public static class Constants
 {
-    readonly static int START_MONEY = 10000;
+    public readonly static int START_MONEY = 10000;
 }
