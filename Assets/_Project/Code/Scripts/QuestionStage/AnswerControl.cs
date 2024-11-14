@@ -4,41 +4,51 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEditor.SearchService;
-public class AnswerControl : MonoBehaviour
+using Unity.Netcode;
+using System.Collections.Generic;
+using System.Linq;
+public class AnswerControl : NetworkBehaviour
 {
-    public TMP_InputField answerInput; 
-    public TMP_Text questionText;     
-    public TMP_Text feedbackText;    
-    public TMP_Text timerText;      
+    public TMP_InputField answerInput;
+    public TMP_Text questionText;
+    public TMP_Text feedbackText;
+    public TMP_Text timerText;
     public Button submitButton;
     public TMP_Text numerRundy;
     public TMP_Text buttonText1, buttonText2, buttonText3, buttonText4;
     public Button answerButton1, answerButton2, answerButton3, answerButton4;
     public Button hintButton;
 
-    private float timeRemaining; 
+    private float timeRemaining;
     public static int currentQuestionIndex = -1;
     private const int totalQuestions = 8;
     private bool isAnswerChecked = false;
-    //Na razie wylosowana kategoria jest ustawiona jako stała, do zmiany przy łączeniu scen
-    public static Category category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
-    Question currentQuestion = category.DrawQuestion();
+
+    public static Category category;
+    public Question currentQuestion;
+
     void Start()
     {
         interactivityOfItems(true);
         currentQuestionIndex++;
         isAnswerChecked = false;
         HintMode(false);
+
         answerButton1.onClick.AddListener(() => SelectButton(answerButton1));
         answerButton2.onClick.AddListener(() => SelectButton(answerButton2));
         answerButton3.onClick.AddListener(() => SelectButton(answerButton3));
         answerButton4.onClick.AddListener(() => SelectButton(answerButton4));
+
         numerRundy.text = "Runda numer: " + currentQuestionIndex.ToString();
-        OpenQuestion();
+        Debug.Log("Start");
+        if (IsHost)
+        {
+            Debug.Log("Przeszlo ifa");
+            SendCategoryToServerRpc();
+        }
     }
 
-    private void OpenQuestion()
+    /*private void OpenQuestion()
     {
         if (currentQuestionIndex < totalQuestions)
         {
@@ -50,73 +60,90 @@ public class AnswerControl : MonoBehaviour
             answerInput.text = "";
             timeRemaining = 30f;
             timerText.text = "Czas: 30s";
-            StartCoroutine(StartCountdown());
+            StartCoroutine(StartCountdownRpc());
         }
         else
         {
             interactivityOfItems(false);
             feedbackText.text = "Koniec gry";
         }
-    }
+    }*/
+
     private IEnumerator StartCountdown()
     {
         while (timeRemaining > 0 && isAnswerChecked == false)
         {
             timeRemaining -= Time.deltaTime;
-            timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
+            //timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
+            showCurrentTimeRpc(timeRemaining);
             yield return null;
         }
         if (timeRemaining <= 0)
         {
             interactivityOfItems(false);
             feedbackText.text = "Czas minął! Odpowiedź: " + currentQuestion.giveCorrectAnswer();
-            StartCoroutine(ChangeScene("TestScene", 4));
+            StartCoroutine(ChangeScene("Lobby", 4));
         }
     }
+    [Rpc(SendTo.Server)]
+    void timeControllerRpc()
+    {
+        StartCoroutine(StartCountdown());
+    }
+
     public void CheckAnswer()
     {
         interactivityOfItems(false);
         isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
-
-        if (currentQuestion.IsCorrect(playerAnswer))
-        {
-            feedbackText.text = $"Brawo! Poprawna odpowiedź.";
-        }
-        else
-        {
-            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
-        }
-        //Tutaj dodaj scene do której ma przejsc po Udzieleniu odpowiedzi
-        StartCoroutine(ChangeScene("TestScene", 4));
+        CheckAnswerServerRpc(playerAnswer);
     }
 
     public void CheckAnswer(string playerAnswer)
     {
         interactivityOfItems(false);
         isAnswerChecked = true;
-
-        if (currentQuestion.IsCorrect(playerAnswer))
-        {
-            feedbackText.text = $"Brawo! Poprawna odpowiedź.";
-        }
-        else
-        {
-            feedbackText.text = $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
-        }
-        //Tutaj dodaj scene do której ma przejsc po Udzieleniu odpowiedzi
-        StartCoroutine(ChangeScene("TestScene", 4));
+        CheckAnswerServerRpc(playerAnswer);
     }
 
-    public void Hint()
+    [ServerRpc(RequireOwnership = false)]
+    void CheckAnswerServerRpc(string playerAnswer)
+    {
+        bool isCorrect = currentQuestion.IsCorrect(playerAnswer);
+        string feedback = isCorrect
+            ? "Brawo! Poprawna odpowiedź."
+            : $"Niestety, to nie jest poprawna odpowiedź. Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}";
+
+        SendFeedbackToClientsRpc(feedback);    
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    void SendFeedbackToClientsRpc(string feedback)
+    {
+        feedbackText.text = feedback;
+        StartCoroutine(ChangeScene("Lobby", 4));
+    }
+
+    public void AskForHint()
+    {
+        HintServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void HintServerRpc()
+    {
+        //Nieoptymalne w chuj ale nie mam serializacji jeszcze 
+        showHintRpc(currentQuestion.Hint()[0], currentQuestion.Hint()[1], currentQuestion.Hint()[2], currentQuestion.Hint()[3]);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void showHintRpc(string answer, string answer1, string answer2, string answer3)
     {
         HintMode(true);
-        buttonText1.text = currentQuestion.Hint()[0];
-        buttonText2.text = currentQuestion.Hint()[1];
-        buttonText3.text = currentQuestion.Hint()[2];
-        buttonText4.text = currentQuestion.Hint()[3];
+        buttonText1.text = answer;
+        buttonText2.text = answer1;
+        buttonText3.text = answer2;
+        buttonText4.text = answer3;
     }
-    //HintMode jest oddzielna funkcja niz Hint poniewaz Hint jest przypisany do buttona i nie może mieć parametrów
     private void HintMode(bool active)
     {
         if (active == false)
@@ -154,10 +181,11 @@ public class AnswerControl : MonoBehaviour
         answerButton3.GetComponent<Image>().color = Color.white;
         answerButton4.GetComponent<Image>().color = Color.white;
     }
+
     private IEnumerator ChangeScene(string sceneName, float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.LoadScene(sceneName);
+        NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     private void interactivityOfItems(bool set)
@@ -169,10 +197,51 @@ public class AnswerControl : MonoBehaviour
         answerInput.interactable = set;
         hintButton.interactable = set;
         submitButton.interactable = set;
+    }
 
+
+    [Rpc(SendTo.Everyone)]
+    public void SendQuestionToClientRpc(string questionText, string answer1, string answer2, string answer3, string answer4)
+    {
+        Debug.Log("Otrzymano pytanie od serwera...");
+        this.questionText.text = questionText;
+        buttonText1.text = answer1;
+        buttonText2.text = answer2;
+        buttonText3.text = answer3;
+        buttonText4.text = answer4;
+        isAnswerChecked = false;
+        numerRundy.text = "Runda numer: " + (currentQuestionIndex + 1).ToString();
+        feedbackText.text = "";
+        answerInput.text = "";
+        timerText.text = "Czas: 30s";
+    }
+    [Rpc(SendTo.Server)]
+    void SendCategoryToServerRpc()
+    {
+        Debug.Log("Wysyłam kategorię do serwera");
+        if (currentQuestionIndex < totalQuestions)
+        {
+            category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
+            currentQuestion = category.LosujPytanie();
+            string[] answers = currentQuestion.Hint().ToArray();
+            SendQuestionToClientRpc(currentQuestion.Tresc, answers[0], answers[1], answers[2], answers[3]);
+            timeRemaining = 30f;
+            HintMode(false);
+            timeControllerRpc();
+        }
+        else
+        {
+            interactivityOfItems(false);
+            feedbackText.text = "Koniec gry";
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    void showCurrentTimeRpc(float timeRemaining)
+    {
+        timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
     }
     void Update()
     {
-       
     }
 }
