@@ -56,5 +56,8 @@
         "logs/": true,
         "obj/": true,
         "temp/": true
-    }
+    },
+    "cSpell.words": [
+        "Netcode"
+    ]
 }
