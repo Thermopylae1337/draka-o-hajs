@@ -10,13 +10,13 @@ public class PlayerNameManager : MonoBehaviour
     {
         inputField = GetComponent<TMP_InputField>();
 
-        inputField.text = Constants.CurrentTeam.Name;
+        inputField.text = Utils.CurrentTeam.Name;
 
         inputField.onEndEdit.AddListener(SavePlayerName);
     }
 
     public void SavePlayerName(string name)
     {
-        Constants.CurrentTeam.Name = name;
+        Utils.CurrentTeam.Name = name;
     }
 }

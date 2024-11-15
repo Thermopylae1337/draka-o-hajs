@@ -1,9 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Unity.Netcode;
+using Unity.Networking.Transport.Error;
 using UnityEngine;
 
-public static class Constants
+public static class Utils
 {
     public readonly static int START_MONEY = 10000;
+    public readonly static string TEAM_DEFAULT_NAME = "New Team";
+
+
+    // Serialization helpers
+    public static List<Y> NetworkSerializeList<T, Y>(BufferSerializer<T> serializer, List<Y> list) where T : IReaderWriter
+    {
+        string listSerialized = serializer.IsReader ? "" : JsonConvert.SerializeObject(list);
+
+        serializer.SerializeValue(ref listSerialized);
+
+        if (serializer.IsWriter)
+        {
+            return JsonConvert.DeserializeObject<List<Y>>(listSerialized);
+        }
+
+        return null;
+    }
+
+
+    // Team management
     private static Team currentTeam;
     public static Team CurrentTeam { get => currentTeam; }
 
@@ -34,4 +58,5 @@ public static class Constants
         else
             throw new Exception("Team not loaded");
     }
+
 }
