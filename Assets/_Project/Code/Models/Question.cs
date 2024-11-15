@@ -4,43 +4,46 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 using Newtonsoft.Json;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEditor.Search;
 
-public class Question { 
+public class Question : INetworkSerializable
+{
 
     [JsonProperty("tresc")]
-    public string content { get; private set; }
+    public string Content { get => content; private set => content = value; }
     [JsonProperty("poprawneOdpowiedzi", Order = 2)]
-    private List<string> correctAnswers;
+    private readonly List<string> correctAnswers;
     [JsonProperty("podpowiedzi", Order = 3)]
-    private List<string> falseAnswers;  // tutaj znajduje się 1 prawidłowa podpowiedź do ew. wyboru przez gracza 
-    private static System.Random random = new System.Random();
-    public string[] Hints { get
+    private readonly List<string> answerChoices;
+    private static readonly Random random = new();
+    private string content;
+
+    public string[] Hints
+    {
+        get
         {
-            List<string> shuffledAnswers = new List<string>(falseAnswers);
+            List<string> choicesCopy = new(answerChoices);
 
             // Fisher-Yates Shuffle na kopii listy
-            for (int i = shuffledAnswers.Count - 1; i > 0; i--)
+            for (int i = choicesCopy.Count - 1; i > 0; i--)
             {
                 int j = random.Next(i + 1);
 
-                string temp = shuffledAnswers[i];
-                shuffledAnswers[i] = shuffledAnswers[j];
-                shuffledAnswers[j] = temp;
+                (choicesCopy[j], choicesCopy[i]) = (choicesCopy[i], choicesCopy[j]);
             }
 
-            return shuffledAnswers.ToArray(); 
-        } }
+            return choicesCopy.ToArray();
+        }
+    }
 
-
-    public Question(string Tresc, List<string> correctAnswers, List<string> falseAnswers)
+    public Question(string content, List<string> correctAnswers, List<string> falseAnswers)
     {
-        this.content = Tresc;
+        this.Content = content;
         this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
-        this.falseAnswers = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedi"): falseAnswers;
+        this.answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
     }
 
     public bool IsCorrect(string answer)
@@ -50,9 +53,9 @@ public class Question {
 
     public void Serialize(string path)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
-            Formatting = Newtonsoft.Json.Formatting.None,
+            Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore
         };
         string json = JsonConvert.SerializeObject(this, settings);
@@ -67,5 +70,12 @@ public class Question {
         }
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Question>(json);
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref content);
+        Utils.NetworkSerializeList(serializer, correctAnswers);
+        Utils.NetworkSerializeList(serializer, answerChoices);
     }
 }

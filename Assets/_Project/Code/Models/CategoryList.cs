@@ -6,13 +6,13 @@ using System.IO;
 public class CategoryList
 {
     [JsonProperty("listaKategorii")]
-    List<Category> categoryList = new List<Category>(); 
+    readonly List<Category> categoryList = new();
 
-    public CategoryList(List<Category> list) 
+    public CategoryList(List<Category> list)
     {
         categoryList = list;
     }
-        
+
     public List<Question> FindCategory(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -22,7 +22,7 @@ public class CategoryList
 
         foreach (Category item in categoryList)
         {
-            if (item.name.Equals(name, StringComparison.OrdinalIgnoreCase))
+            if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 return item.questionList;
             }
@@ -41,7 +41,7 @@ public class CategoryList
 
     public void Serialize(string path)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
             Formatting = Newtonsoft.Json.Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,

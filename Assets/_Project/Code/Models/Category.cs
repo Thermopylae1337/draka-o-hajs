@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System;
+using Unity.Netcode;
 
-public class Category
+public class Category : INetworkSerializable
 {
     [JsonProperty("nazwa")]
-    public string name { get; }
+    public string Name => name;
+
     [JsonProperty("pytania", Order = 2)]
     public List<Question> questionList;
-    private static System.Random random = new System.Random();
+
+    private static readonly System.Random random = new();
+    private string name;
 
     public Category(string name)
     {
@@ -44,9 +48,9 @@ public class Category
 
     public void Serialize(string path)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
-            Formatting = Newtonsoft.Json.Formatting.Indented,
+            Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
         };
         string json = JsonConvert.SerializeObject(this, settings);
@@ -61,5 +65,12 @@ public class Category
         }
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Category>(json);
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref name);
+
+        Utils.NetworkSerializeList(serializer, questionList);
     }
 }
