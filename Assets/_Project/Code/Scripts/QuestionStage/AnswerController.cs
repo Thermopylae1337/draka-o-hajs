@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.VisualScripting;
 public class AnswerController : NetworkBehaviour
 {
     public TMP_InputField answerInput;
@@ -13,11 +15,11 @@ public class AnswerController : NetworkBehaviour
     public TMP_Text timerText;
     public Button submitButton;
     public TMP_Text roundNumber;
-    public List<TMP_Text> buttonTexts;
-    public List<Button> answerButtons;
-    public Button hintButton;
+    public GameObject hintButtonsContainer;
+    public Button useHintsButton;
 
-    public static ulong winnerID = 0;
+    private Button[] answerButtons;
+    public static Team winner;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
     private bool _isAnswerChecked;
@@ -27,26 +29,29 @@ public class AnswerController : NetworkBehaviour
 
     void Start()
     {
+        answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
+
         SetItemsInteractivity(false);
         currentQuestionIndex++;
         _isAnswerChecked = false;
         SetHintMode(false);
 
-        answerButtons[0].onClick.AddListener(() => OnSelectButton(answerButtons[0]));
-        answerButtons[1].onClick.AddListener(() => OnSelectButton(answerButtons[1]));
-        answerButtons[2].onClick.AddListener(() => OnSelectButton(answerButtons[2]));
-        answerButtons[3].onClick.AddListener(() => OnSelectButton(answerButtons[3]));
+        foreach (Button button in answerButtons)
+        {
+            button.onClick.AddListener(() => OnSelectButton(button));
+        }
 
-        roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         if (IsHost)
         {
             SetCategoryServerRpc();
             StartRoundServerRpc();
         }
-        if (NetworkManager.Singleton.LocalClientId == winnerID)
+
+        if (Utils.CurrentTeam == winner)
         {
             feedbackText.text = "Jesteś graczem ktory wygrał licytacje";
         }
+
         else
         {
             feedbackText.text = "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
@@ -58,7 +63,7 @@ public class AnswerController : NetworkBehaviour
         while (_timeRemaining > 0 && _isAnswerChecked == false)
         {
             _timeRemaining -= Time.deltaTime;
-            showCurrentTimeRpc(_timeRemaining);
+            ShowCurrentTimeRpc(_timeRemaining);
             yield return null;
         }
         if (_timeRemaining <= 0)
@@ -112,61 +117,49 @@ public class AnswerController : NetworkBehaviour
 
     public void AskForHint()
     {
-        HintServerRpc();
+        UseHintNotifyServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void HintServerRpc()
+    void UseHintNotifyServerRpc()
     {
-        //Do poprawy gdy dostane finalna klase Question
-        showHintRpc(currentQuestion.Hints[0], currentQuestion.Hints[1], currentQuestion.Hints[2], currentQuestion.Hints[3]);
+        ShowHintRpc(currentQuestion);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void showHintRpc(string answer, string answer1, string answer2, string answer3)
+    void ShowHintRpc(Question question)
     {
         SetHintMode(true);
-        buttonTexts[0].text = answer;
-        buttonTexts[1].text = answer1;
-        buttonTexts[2].text = answer2;
-        buttonTexts[3].text = answer3;
+        for (int i = 0; i < 4; i++)
+        {
+            answerButtons[i].GetComponentInChildren<TMP_Text>().text = question.Hints[i];
+        }
     }
     private void SetHintMode(bool active)
     {
-        if (active == false)
-        {
-            answerInput.gameObject.SetActive(true);
-            answerButtons[0].gameObject.SetActive(false);
-            answerButtons[1].gameObject.SetActive(false);
-            answerButtons[2].gameObject.SetActive(false);
-            answerButtons[3].gameObject.SetActive(false);
-        }
-        else
-        {
-            setButtonsDefaultColor();
-            answerInput.gameObject.SetActive(false);
-            answerButtons[0].gameObject.SetActive(true);
-            answerButtons[1].gameObject.SetActive(true);
-            answerButtons[2].gameObject.SetActive(true);
-            answerButtons[3].gameObject.SetActive(true);
-        }
+        if (active)
+            SetButtonsDefaultColor();
+
+        answerInput.gameObject.SetActive(!active);
+
+        hintButtonsContainer.SetActive(active);
     }
 
     private void OnSelectButton(Button button)
     {
-        setButtonsDefaultColor();
+        SetButtonsDefaultColor();
         button.GetComponent<Image>().color = Color.blue;
         TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
         string buttonValue = buttonText.text;
         CheckAnswer(buttonValue);
     }
 
-    private void setButtonsDefaultColor()
+    private void SetButtonsDefaultColor()
     {
-        answerButtons[0].GetComponent<Image>().color = Color.white;
-        answerButtons[1].GetComponent<Image>().color = Color.white;
-        answerButtons[2].GetComponent<Image>().color = Color.white;
-        answerButtons[3].GetComponent<Image>().color = Color.white;
+        foreach (Button button in answerButtons)
+        {
+            button.GetComponent<Image>().color = Color.white;
+        }
     }
 
     private IEnumerator ChangeScene(string sceneName, float time)
@@ -177,12 +170,13 @@ public class AnswerController : NetworkBehaviour
 
     private void SetItemsInteractivity(bool set)
     {
-        answerButtons[0].interactable = set;
-        answerButtons[1].interactable = set;
-        answerButtons[2].interactable = set;
-        answerButtons[3].interactable = set;
+        foreach (Button button in answerButtons)
+        {
+            button.interactable = set;
+        }
+
         answerInput.interactable = set;
-        hintButton.interactable = set;
+        useHintsButton.interactable = set;
         submitButton.interactable = set;
     }
 
@@ -211,7 +205,7 @@ public class AnswerController : NetworkBehaviour
         {
             SendQuestionToClientRpc(currentQuestion.Content);
             _timeRemaining = 30f;
-            AnsweringModeRpc(winnerID);
+            AnsweringModeRpc(winner);
             SetHintMode(false);
             StartServerTime();
         }
@@ -222,15 +216,15 @@ public class AnswerController : NetworkBehaviour
         }
     }
     [Rpc(SendTo.ClientsAndHost)]
-    void showCurrentTimeRpc(float timeRemaining)
+    void ShowCurrentTimeRpc(float timeRemaining)
     {
         timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void AnsweringModeRpc(ulong clientId)
+    void AnsweringModeRpc(Team winner)
     {
-        if (NetworkManager.Singleton.LocalClientId == winnerID)
+        if (Utils.CurrentTeam == winner)
         {
             SetItemsInteractivity(true);
         }
