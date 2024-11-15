@@ -10,16 +10,13 @@ public class PlayerNameManager : MonoBehaviour
     {
         inputField = GetComponent<TMP_InputField>();
 
-        if (PlayerPrefs.HasKey("PlayerName"))
-        {
-            inputField.text = PlayerPrefs.GetString("PlayerName");
-        }
+        inputField.text = Constants.CurrentTeam.Name;
 
         inputField.onEndEdit.AddListener(SavePlayerName);
     }
 
     public void SavePlayerName(string name)
     {
-        PlayerPrefs.SetString("PlayerName", name);
+        Constants.CurrentTeam.Name = name;
     }
 }
