@@ -2586,15 +2586,17 @@ MonoBehaviour:
   feedbackText: {fileID: 1845827796}
   timerText: {fileID: 1694318653}
   submitButton: {fileID: 520944251}
-  numerRundy: {fileID: 1755481312}
-  buttonText1: {fileID: 1022873522}
-  buttonText2: {fileID: 718462348}
-  buttonText3: {fileID: 8702534}
-  buttonText4: {fileID: 729662119}
-  answerButton1: {fileID: 697054216}
-  answerButton2: {fileID: 445116496}
-  answerButton3: {fileID: 1870615084}
-  answerButton4: {fileID: 1322239301}
+  roundNumber: {fileID: 1755481312}
+  buttonTexts:
+  - {fileID: 1022873522}
+  - {fileID: 718462348}
+  - {fileID: 8702534}
+  - {fileID: 729662119}
+  answerButtons:
+  - {fileID: 697054216}
+  - {fileID: 445116496}
+  - {fileID: 1870615084}
+  - {fileID: 1322239301}
   hintButton: {fileID: 875709226}
 --- !u!1 &1845827794
 GameObject:

@@ -6,22 +6,22 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Linq;
-public class AnswerControl : NetworkBehaviour
+using System.Collections.Generic;
+public class AnswerController : NetworkBehaviour
 {
     public TMP_InputField answerInput;
     public TMP_Text questionText;
     public TMP_Text feedbackText;
     public TMP_Text timerText;
     public Button submitButton;
-    public TMP_Text numerRundy;
-    public TMP_Text buttonText1, buttonText2, buttonText3, buttonText4;
-    public Button answerButton1, answerButton2, answerButton3, answerButton4;
+    public TMP_Text roundNumber;
+    public List<TMP_Text> buttonTexts;
+    public List<Button> answerButtons;
     public Button hintButton;
 
-    public static ulong IdOfPlayerWhoWonAuction = 0;
+    public static ulong winnerID = 0;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
-    private const int _totalQuestions = 8;
     private bool _isAnswerChecked;
 
     public static Category category;
@@ -29,22 +29,23 @@ public class AnswerControl : NetworkBehaviour
 
     void Start()
     {
-        interactivityOfItems(false);
+        SetItemsInteractivity(false);
         currentQuestionIndex++;
         _isAnswerChecked = false;
-        HintMode(false);
+        SetHintMode(false);
 
-        answerButton1.onClick.AddListener(() => SelectButton(answerButton1));
-        answerButton2.onClick.AddListener(() => SelectButton(answerButton2));
-        answerButton3.onClick.AddListener(() => SelectButton(answerButton3));
-        answerButton4.onClick.AddListener(() => SelectButton(answerButton4));
+        answerButtons[0].onClick.AddListener(() => OnSelectButton(answerButtons[0]));
+        answerButtons[1].onClick.AddListener(() => OnSelectButton(answerButtons[1]));
+        answerButtons[2].onClick.AddListener(() => OnSelectButton(answerButtons[2]));
+        answerButtons[3].onClick.AddListener(() => OnSelectButton(answerButtons[3]));
 
-        numerRundy.text = "Runda numer: " + currentQuestionIndex.ToString();
+        roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         if (IsHost)
         {
-            SendCategoryToServerRpc();
+            SetCategoryServerRpc();
+            StartRoundServerRpc();
         }
-        if (NetworkManager.Singleton.LocalClientId == IdOfPlayerWhoWonAuction)
+        if (NetworkManager.Singleton.LocalClientId == winnerID)
         {
             feedbackText.text = "Jesteś graczem ktory wygrał licytacje";
         }
@@ -64,21 +65,20 @@ public class AnswerControl : NetworkBehaviour
         }
         if (_timeRemaining <= 0)
         {
-            interactivityOfItems(false);
+            SetItemsInteractivity(false);
             feedbackText.text = "Czas minął! Odpowiedź: " + currentQuestion.giveCorrectAnswer();
             StartCoroutine(ChangeScene("Lobby", 4));
         }
     }
 
-    [Rpc(SendTo.Server)]
-    void timeControllerRpc()
+    void StartServerTime()
     {
         StartCoroutine(StartCountdown());
     }
 
     public void CheckAnswer()
     {
-        interactivityOfItems(false);
+        SetItemsInteractivity(false);
         _isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
         CheckAnswerServerRpc(playerAnswer);
@@ -86,7 +86,7 @@ public class AnswerControl : NetworkBehaviour
 
     public void CheckAnswer(string playerAnswer)
     {
-        interactivityOfItems(false);
+        SetItemsInteractivity(false);
         _isAnswerChecked = true;
         CheckAnswerServerRpc(playerAnswer);
     }
@@ -127,34 +127,34 @@ public class AnswerControl : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     void showHintRpc(string answer, string answer1, string answer2, string answer3)
     {
-        HintMode(true);
-        buttonText1.text = answer;
-        buttonText2.text = answer1;
-        buttonText3.text = answer2;
-        buttonText4.text = answer3;
+        SetHintMode(true);
+        buttonTexts[0].text = answer;
+        buttonTexts[1].text = answer1;
+        buttonTexts[2].text = answer2;
+        buttonTexts[3].text = answer3;
     }
-    private void HintMode(bool active)
+    private void SetHintMode(bool active)
     {
         if (active == false)
         {
             answerInput.gameObject.SetActive(true);
-            answerButton1.gameObject.SetActive(false);
-            answerButton2.gameObject.SetActive(false);
-            answerButton3.gameObject.SetActive(false);
-            answerButton4.gameObject.SetActive(false);
+            answerButtons[0].gameObject.SetActive(false);
+            answerButtons[1].gameObject.SetActive(false);
+            answerButtons[2].gameObject.SetActive(false);
+            answerButtons[3].gameObject.SetActive(false);
         }
         else
         {
             setButtonsDefaultColor();
             answerInput.gameObject.SetActive(false);
-            answerButton1.gameObject.SetActive(true);
-            answerButton2.gameObject.SetActive(true);
-            answerButton3.gameObject.SetActive(true);
-            answerButton4.gameObject.SetActive(true);
+            answerButtons[0].gameObject.SetActive(true);
+            answerButtons[1].gameObject.SetActive(true);
+            answerButtons[2].gameObject.SetActive(true);
+            answerButtons[3].gameObject.SetActive(true);
         }
     }
 
-    private void SelectButton(Button button)
+    private void OnSelectButton(Button button)
     {
         setButtonsDefaultColor();
         button.GetComponent<Image>().color = Color.blue;
@@ -165,10 +165,10 @@ public class AnswerControl : NetworkBehaviour
 
     private void setButtonsDefaultColor()
     {
-        answerButton1.GetComponent<Image>().color = Color.white;
-        answerButton2.GetComponent<Image>().color = Color.white;
-        answerButton3.GetComponent<Image>().color = Color.white;
-        answerButton4.GetComponent<Image>().color = Color.white;
+        answerButtons[0].GetComponent<Image>().color = Color.white;
+        answerButtons[1].GetComponent<Image>().color = Color.white;
+        answerButtons[2].GetComponent<Image>().color = Color.white;
+        answerButtons[3].GetComponent<Image>().color = Color.white;
     }
 
     private IEnumerator ChangeScene(string sceneName, float time)
@@ -177,12 +177,12 @@ public class AnswerControl : NetworkBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
-    private void interactivityOfItems(bool set)
+    private void SetItemsInteractivity(bool set)
     {
-        answerButton1.interactable = set;
-        answerButton2.interactable = set;
-        answerButton3.interactable = set;
-        answerButton4.interactable = set;
+        answerButtons[0].interactable = set;
+        answerButtons[1].interactable = set;
+        answerButtons[2].interactable = set;
+        answerButtons[3].interactable = set;
         answerInput.interactable = set;
         hintButton.interactable = set;
         submitButton.interactable = set;
@@ -193,31 +193,36 @@ public class AnswerControl : NetworkBehaviour
     {
         this.questionText.text = questionText;
         _isAnswerChecked = false;
-        numerRundy.text = "Runda numer: " + currentQuestionIndex.ToString();
+        roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         feedbackText.text = "";
         answerInput.text = "";
         timerText.text = "Czas: 30s";
     }
+
     [Rpc(SendTo.Server)]
-    void SendCategoryToServerRpc()
+    void SetCategoryServerRpc()
     {
-        if (currentQuestionIndex <= _totalQuestions)
+        category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
+        currentQuestion = category.LosujPytanie();
+    }
+
+    [Rpc(SendTo.Server)]
+    void StartRoundServerRpc()
+    {
+        if (currentQuestionIndex <= Constants.QUESTIONS_AMOUNT)
         {
-            category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
-            currentQuestion = category.LosujPytanie();
             SendQuestionToClientRpc(currentQuestion.Tresc);
             _timeRemaining = 30f;
-            AnsweringModeRpc(IdOfPlayerWhoWonAuction);
-            HintMode(false);
-            timeControllerRpc();
+            AnsweringModeRpc(winnerID);
+            SetHintMode(false);
+            StartServerTime();
         }
         else
         {
-            interactivityOfItems(false);
+            SetItemsInteractivity(false);
             feedbackText.text = "Koniec gry";
         }
     }
-
     [Rpc(SendTo.ClientsAndHost)]
     void showCurrentTimeRpc(float timeRemaining)
     {
@@ -227,9 +232,9 @@ public class AnswerControl : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     void AnsweringModeRpc(ulong clientId)
     {
-        if(NetworkManager.Singleton.LocalClientId == IdOfPlayerWhoWonAuction)
+        if(NetworkManager.Singleton.LocalClientId == winnerID)
         {
-            interactivityOfItems(true);
+            SetItemsInteractivity(true);
         }
     }
     void Update()
