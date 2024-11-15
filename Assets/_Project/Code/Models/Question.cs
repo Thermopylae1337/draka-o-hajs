@@ -1,20 +1,49 @@
-﻿public class Question
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Unity.Netcode;
+using Unity.VisualScripting;
+using UnityEditor.Search;
+
+public class Question : INetworkSerializable
 {
+
     [JsonProperty("tresc")]
-    public string Content { get; private set; }
+    public string Content { get => content; private set => content = value; }
+    [JsonProperty("poprawneOdpowiedzi", Order = 2)]
+    private readonly List<string> correctAnswers;
+    [JsonProperty("podpowiedzi", Order = 3)]
+    private readonly List<string> answerChoices;
+    private static readonly Random random = new();
+    private string content;
 
-    [JsonProperty("poprawneOdpowiedzi")]
-    private List<string> correctAnswers = new List<string>();
+    public string[] Hints
+    {
+        get
+        {
+            List<string> choicesCopy = new(answerChoices);
 
-    [JsonProperty("podpowiedzi")]
-    private List<string> answers;
+            // Fisher-Yates Shuffle na kopii listy
+            for (int i = choicesCopy.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
 
-    public Question(string content, List<string> correctAnswers, string answerA, string answerB, string answerC, string answerD)
+                (choicesCopy[j], choicesCopy[i]) = (choicesCopy[i], choicesCopy[j]);
+            }
+
+            return choicesCopy.ToArray();
+        }
+    }
+
+    public Question(string content, List<string> correctAnswers, List<string> falseAnswers)
     {
         this.Content = content;
-        this.correctAnswers = correctAnswers;
-
-        answers = new List<string> { answerA, answerB, answerC, answerD };
+        this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
+        this.answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
     }
 
     public bool IsCorrect(string answer)
@@ -22,35 +51,31 @@
         return correctAnswers.Contains(answer.Trim().ToLower());
     }
 
-    public string GetHint()
+    public void Serialize(string path)
     {
-        Random rand = new Random();
-        int n = answers.Count;
-        for (int i = 0; i < n - 1; i++)
+        JsonSerializerSettings settings = new()
         {
-            int j = rand.Next(i, n);
-
-            string temp = answers[i];
-            answers[i] = answers[j];
-            answers[j] = temp;
-        }
-
-        return $"A: {answers[0]}, B: {answers[1]}, C: {answers[2]}, D: {answers[3]}";
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+        string json = JsonConvert.SerializeObject(this, settings);
+        File.WriteAllText(path, json);
     }
 
-    public string Serialize()
+    public static Question Deserialize(string path)
     {
-        return JsonConvert.SerializeObject(this, Formatting.Indented);
-    }
-
-    public static Question Deserialize(string filePath)
-    {
-        if (!File.Exists(filePath))
+        if (!File.Exists(path))
         {
-            throw new FileNotFoundException("The specified file does not exist.");
+            throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
-
-        string json = File.ReadAllText(filePath);
+        string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Question>(json);
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref content);
+        Utils.NetworkSerializeList(serializer, correctAnswers);
+        Utils.NetworkSerializeList(serializer, answerChoices);
     }
 }
