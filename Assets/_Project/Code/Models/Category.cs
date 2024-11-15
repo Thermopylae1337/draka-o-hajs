@@ -9,19 +9,19 @@ public class Category
     [JsonProperty("nazwa")]
     public string Nazwa { get; }
     [JsonProperty("pytania", Order = 2)]
-    public List<Question> ListaPytañ;
+    public List<Question> questionList;
 
     public Category(string nazwa)
     {
         Nazwa = nazwa;
-        ListaPytañ = new List<Question>();
+        questionList = new List<Question>();
     }
 
     [JsonConstructor]
     public Category(string nazwa, List<Question> lista)
     {
         this.Nazwa = nazwa;
-        this.ListaPytañ = lista;
+        this.questionList = lista;
     }
 
     public void DodajPytanieDoListy(Question pytanie)
@@ -30,15 +30,15 @@ public class Category
         {
             return;
         }
-        ListaPytañ.Add(pytanie);
+        questionList.Add(pytanie);
     }
 
     public Question LosujPytanie()
     {
         System.Random random = new System.Random();
-        Question question = ListaPytañ.Count == 0 ? null : ListaPytañ[random.Next(ListaPytañ.Count)];
+        Question question = questionList.Count == 0 ? null : questionList[random.Next(questionList.Count)];
 
-        ListaPytañ.Remove(question);
+        questionList.Remove(question);
         return question;
 
     }

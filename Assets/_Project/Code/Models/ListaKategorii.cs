@@ -23,7 +23,7 @@ public class CategoryList
         {
             if (item.Nazwa.Equals(nazwa, StringComparison.OrdinalIgnoreCase))
             {
-                return item.ListaPytań;
+                return item.questionList;
             }
         }
         throw new Exception("Nie znaleziono kategorii");
