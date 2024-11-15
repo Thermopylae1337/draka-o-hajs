@@ -5,6 +5,8 @@ on: [push, pull_request]
 jobs:
   build:
     name: Build
+    permissions:
+      checks: write
     runs-on: ubuntu-latest
     steps:
       # Checkout
