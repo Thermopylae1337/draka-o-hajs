@@ -19,7 +19,7 @@ public class LobbyController : NetworkBehaviour
 
     private Image readyButtonImage;
     private bool selfReady = false;
-    private readonly Dictionary<ulong, (bool, Transform, string)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
+    private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
 
     Color readyColor = Color.green;
     Color notReadyColor = Color.red;
@@ -42,46 +42,46 @@ public class LobbyController : NetworkBehaviour
         // }
 
         RequestReadyBroadcastRpc();
-        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
+        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
     }
 
     [Rpc(SendTo.NotMe)]
     void RequestReadyBroadcastRpc()
     {
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerJoinedRpc(ulong clientId, string name)
+    void BroadcastPlayerJoinedRpc(ulong clientId, Team team)
     {
-        AddPlayerToList(clientId, name);
+        AddPlayerToList(clientId, team);
     }
 
-    private void AddPlayerToList(ulong clientId, string name)
+    private void AddPlayerToList(ulong clientId, Team team)
     {
         var playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
         playerListTile.name = $"PlayerListTile_{clientId}";
-        playerListTile.GetComponent<TMP_Text>().text = name;
-        playerList[clientId] = (false, playerListTile.transform, name);
+        playerListTile.GetComponent<TMP_Text>().text = team.Name;
+        playerList[clientId] = (false, playerListTile.transform, team);
     }
 
     public void OnPlayerReadySwitch()
     {
         selfReady = !selfReady;
         readyButtonImage.color = selfReady ? readyColor : notReadyColor;
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, PlayerPrefs.GetString("PlayerName"));
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, string name)
+    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, Team team)
     {
         if (!playerList.ContainsKey(clientId))
         {
-            AddPlayerToList(clientId, name);
+            AddPlayerToList(clientId, team);
         };
         Transform playerListTile = playerList[clientId].Item2;
-        playerList[clientId] = (ready, playerListTile, name);
+        playerList[clientId] = (ready, playerListTile, team);
 
         playerList[clientId].Item2.GetComponent<TMP_Text>().color = ready ? readyColor : notReadyColor;
 
