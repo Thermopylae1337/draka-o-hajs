@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static Constants;
 
 public class CategoryDrawManager : MonoBehaviour
 {
@@ -23,8 +22,8 @@ public class CategoryDrawManager : MonoBehaviour
         "Kulinarne Przepisy",
         "Wynalazki i Odkrycia",
         "Mitologia",
-        "Jêzyki i Idiomy",
-        "Zwierzêta",
+        "Jï¿½zyki i Idiomy",
+        "Zwierzï¿½ta",
         "Miejsca i Zabytki",
         "Trendy i Popkultura",
         "Ciekawe Fakty",
@@ -33,7 +32,7 @@ public class CategoryDrawManager : MonoBehaviour
         "Ekologia",
         "Gry i Zagadki",
         "Techniki Przetrwania",
-        "Podró¿e",
+        "Podrï¿½e",
         "Sztuki Walki",
         "Gospodarka",
         "Edukacja",
@@ -62,26 +61,26 @@ public class CategoryDrawManager : MonoBehaviour
         {
             // CzarnaSkrzynka()
         }
-        else if (categories[result] == "PodpowiedŸ")
+        else if (categories[result] == "Podpowiedï¿½")
         {
-            // dru¿yna.podpowiedzi++ or sth;
+            // druï¿½yna.podpowiedzi++ or sth;
         }
         else
         {
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
-            // WyœwietlPytanie(category)
+            // Wyï¿½wietlPytanie(category)
         }
     }
 
     public void SpinWheel()
     {
-        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest wiêkszy od zera"
+        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest wiï¿½kszy od zera"
          * ~w moim przypakdu currentRound < ROUNDS_LIMIT
-         * imo to powinno byæ sprawdzane przy po odpowiedzi na pytanie,
-         * zamiast ³adowaæ scene losowania tylko ¿eby znów ³adowaæ podsumowanie
+         * imo to powinno byï¿½ sprawdzane przy po odpowiedzi na pytanie,
+         * zamiast ï¿½adowaï¿½ scene losowania tylko ï¿½eby znï¿½w ï¿½adowaï¿½ podsumowanie
          */
-        if (currentRound < ROUNDS_LIMIT)
+        if (currentRound < Utils.ROUNDS_LIMIT)
         {
             wheel.SpinWheel();
         }
