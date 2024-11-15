@@ -9,6 +9,7 @@ public static class Utils
 {
     public readonly static int START_MONEY = 10000;
     public readonly static string TEAM_DEFAULT_NAME = "New Team";
+    public const int ROUNDS_LIMIT = 7;
 
 
     // Serialization helpers
