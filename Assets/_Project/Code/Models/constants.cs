@@ -1,6 +1,7 @@
-using UnityEngine;
+﻿using System;
 
-public static class constants
+public static class Constants
 {
-    public const int ROUNDS_LIMIT = 7;     // max. ilosc rund
+    public readonly static int START_MONEY = 10000;
+    public const int ROUNDS_LIMIT = 7;
 }

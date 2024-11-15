@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static constants;
+using static Constants;
 
 public class CategoryDrawManager : MonoBehaviour
 {
     int currentRound = 0;
-    [SerializeField] Wheel wheel;
-    [SerializeField] TextMeshProUGUI categoryDisplayText;
-    [SerializeField] TextMeshProUGUI roundDisplayText;
+    Wheel wheel;
+    TMP_Text categoryDisplayText;
+    TMP_Text roundDisplayText;
 
     string[] categories = new string[]       // temp
     {
@@ -47,6 +47,10 @@ public class CategoryDrawManager : MonoBehaviour
 
     void Start()
     {
+        wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
+        categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
+        roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
+
         wheel.OnWheelStopped += HandleWheelStopped;
     }
 
@@ -77,7 +81,7 @@ public class CategoryDrawManager : MonoBehaviour
          * imo to powinno byæ sprawdzane przy po odpowiedzi na pytanie,
          * zamiast ³adowaæ scene losowania tylko ¿eby znów ³adowaæ podsumowanie
          */
-        if (currentRound < constants.ROUNDS_LIMIT)
+        if (currentRound < ROUNDS_LIMIT)
         {
             wheel.SpinWheel();
         }
