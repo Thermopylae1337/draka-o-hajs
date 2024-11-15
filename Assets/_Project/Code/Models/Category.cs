@@ -1,8 +1,6 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using System;
 using Unity.Netcode;
 
 public class Category : INetworkSerializable

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,7 +8,7 @@ public class Wheel : MonoBehaviour
 
     [SerializeField] bool spinning = false;
     [SerializeField] float velocity = 0f;
-    [SerializeField] int numberOfSegments = 31;       // Iloœæ segmentów ko³a
+    [SerializeField] int numberOfSegments = 31;       // Iloï¿½ï¿½ segmentï¿½w koï¿½a
 
     [SerializeField] GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
@@ -29,8 +28,8 @@ public class Wheel : MonoBehaviour
         "Kulinarne Przepisy",
         "Wynalazki i Odkrycia",
         "Mitologia",
-        "Jêzyki i Idiomy",
-        "Zwierzêta",
+        "Jï¿½zyki i Idiomy",
+        "Zwierzï¿½ta",
         "Miejsca i Zabytki",
         "Trendy i Popkultura",
         "Ciekawe Fakty",
@@ -39,7 +38,7 @@ public class Wheel : MonoBehaviour
         "Ekologia",
         "Gry i Zagadki",
         "Techniki Przetrwania",
-        "Podró¿e",
+        "Podrï¿½e",
         "Sztuki Walki",
         "Gospodarka",
         "Edukacja",
@@ -65,12 +64,12 @@ public class Wheel : MonoBehaviour
 
         if (spinning)
         {
-            velocity = Mathf.Lerp(velocity, -50, delta / 2);             // Wytracanie  prêskoœci
+            velocity = Mathf.Lerp(velocity, -50, delta / 2);             // Wytracanie  prï¿½skoï¿½ci
             transform.Rotate(new Vector3(0, 0, -velocity) * delta);
 
             if (velocity < 0.5f)
             {
-                // Zatrzymanie ko³a
+                // Zatrzymanie koï¿½a
                 velocity = 0.0f;
                 spinning = false;
 
@@ -105,21 +104,21 @@ public class Wheel : MonoBehaviour
             segment.transform.localPosition = Vector3.zero;
             segment.transform.localRotation = Quaternion.Euler(0, 0, i * -angleStep + 180f);
 
-            // Ustawienie k¹ta wycinka
+            // Ustawienie kï¿½ta wycinka
             Image segmentImage = segment.GetComponent<Image>();
             segmentImage.fillAmount = 1f / numberOfSegments; // Rozmiar wycinka
 
-            // Kolor segmentu na podstawie wartoœci hue
+            // Kolor segmentu na podstawie wartoï¿½ci hue
             float hue = (float)i / numberOfSegments;
             Color segmentColor = Color.HSVToRGB(hue, 0.8f, 1f);
             segmentImage.color = segmentColor;
 
-            // Obrót tekstu na wycinku
+            // Obrï¿½t tekstu na wycinku
             TextMeshProUGUI textComponent = segment.GetComponentInChildren<TextMeshProUGUI>(); // Pobranie komponentu tekstowego
             textComponent.rectTransform.localRotation = Quaternion.Euler(0, 0, -angleStep * 0.5f - 90f);
 
             // Powyzja tekstu na wycinku
-            float d = (4 * 50 * Mathf.Sin(angleStepRad / 2)) / (3 * angleStepRad);    // odleg³oœæ od œrodka ko³a     
+            float d = (4 * 50 * Mathf.Sin(angleStepRad / 2)) / (3 * angleStepRad);    // odlegï¿½oï¿½ï¿½ od ï¿½rodka koï¿½a
             // Ewentualnie d = r / 2 -> lepiej wykorzystuje miejsce
             float x = -d * Mathf.Sin(angleStepRad * 0.5f);
             float y = -d * Mathf.Cos(angleStepRad * 0.5f);
@@ -128,7 +127,7 @@ public class Wheel : MonoBehaviour
             // Czarna kategoria czarnej skrzynki
             if (categories[i] == "Czarna Skrzynka")
             {
-                //textComponent.color = Color.white;    //to jeœli napisy bêd¹ domyœlnie czarne
+                //textComponent.color = Color.white;    //to jeï¿½li napisy bï¿½dï¿½ domyï¿½lnie czarne
                 segmentImage.color = Color.black;
             }
 
