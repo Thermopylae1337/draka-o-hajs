@@ -6,9 +6,10 @@ using UnityEngine;
 
 public static class Utils
 {
-    public readonly static int START_MONEY = 10000;
-    public readonly static string TEAM_DEFAULT_NAME = "New Team";
-    public readonly static int QUESTIONS_AMOUNT = 8;
+    public const int QUESTIONS_AMOUNT = 8;
+    public const int START_MONEY = 10000;
+    public const string TEAM_DEFAULT_NAME = "New Team";
+    public const int ROUNDS_LIMIT = 7;
 
 
     // Serialization helpers
