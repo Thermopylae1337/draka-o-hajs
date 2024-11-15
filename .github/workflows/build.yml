@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     name: Test
+    permissions:
+      checks: write
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -38,6 +40,8 @@ jobs:
   build:
     needs: test
     name: Build
+    permissions:
+      checks: write
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
