@@ -36,6 +36,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    needs: test
     name: Build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
