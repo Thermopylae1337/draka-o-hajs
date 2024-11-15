@@ -4,51 +4,60 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
+using Newtonsoft.Json;
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class Team
+public class Team : INetworkSerializable
 {
-    //zadeklarowanie nazwa zmiennych
-    private string name;
     private int money = Constants.START_MONEY;
-    private int cluesUsed;
+    private int cluesUsed = 0;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
-    private int totalMoney;
-    private List<string> powerUps;
-    private List<string> badges;
+    private List<string> powerUps = new();
+    private List<string> badges = new();
+    private string name;
 
-    //konstruktor klasy
-    public Team(string name, int cluesUsed, int TotalMoney, List<string> powerUps, List<string> badges)
+    public Team() : this("New Team")
     {
-        this.name = name;
-        this.money = Constants.START_MONEY;
-        this.cluesUsed = cluesUsed;
-        this.inactiveRounds = 0;
-        this.totalMoney = TotalMoney;
-        this.powerUps = powerUps;
+    }
+
+    public Team(string name = "New Team")
+    {
+        Name = name;
+    }
+
+    public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
+    {
+        Money = money;
+        CluesUsed = cluesUsed;
+        InactiveRounds = inactiveRounds;
         this.badges = badges;
+        this.powerUps = powerUps;
     }
 
     //gettery i settery
-    public string Name => name;
+    public string Name { get => name; set => name = value; }
+
     public int Money
     {
-        get { return money; }
+        get => money;
         set
         {
             if (value < 0)
             {
-                money = 0;
                 Debug.LogWarning("Pieniądze zeszły poniżej zera, zeruje.");
+                money = 0;
                 return;
             }
             money = value;
         }
     }
+
     public int CluesUsed
     {
-        get { return cluesUsed; }
+        get => cluesUsed;
         set
         {
             if (value < 0)
@@ -59,7 +68,7 @@ public class Team
     }
     public int InactiveRounds
     {
-        get { return inactiveRounds; }
+        get => inactiveRounds;
         set
         {
             if (value < 0)
@@ -68,43 +77,53 @@ public class Team
             inactiveRounds = value;
         }
     }
-    public int TotalMoney
-    {
-        get { return totalMoney; }
-        set
-        {
-            totalMoney = value;
-        }
-    }
+    public int TotalMoney { get; set; }
     public ReadOnlyCollection<string> PowerUps
     {
-        get { return powerUps.AsReadOnly(); }
-        set
-        {
-            powerUps = value.ToList();
-        }
+        get => powerUps.AsReadOnly();
+        set => powerUps = value.ToList();
     }
     public ReadOnlyCollection<string> Badges
     {
-        get { return badges.AsReadOnly(); }
-        set
-        {
-            badges = value.ToList();
-        }
+        get => badges.AsReadOnly();
+        set => badges = value.ToList();
     }
 
-    //serializacja
     public void Serialize(string path)
     {
         string jsonString = JsonUtility.ToJson(this);
         File.WriteAllText(path, jsonString);
     }
 
-    //deserializacja
     static public Team Deserialize(string path)
     {
         string jsonFromFile = File.ReadAllText(path);
         return JsonUtility.FromJson<Team>(jsonFromFile);
     }
 
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref name);
+        serializer.SerializeValue(ref money);
+        serializer.SerializeValue(ref cluesUsed);
+        serializer.SerializeValue(ref inactiveRounds);
+
+        var serializedPowerUps = "";
+        var serializedBadges = "";
+
+        if (serializer.IsReader)
+        {
+            serializedPowerUps = JsonConvert.SerializeObject(powerUps);
+            serializedBadges = JsonConvert.SerializeObject(badges);
+        }
+
+        serializer.SerializeValue(ref serializedPowerUps);
+        serializer.SerializeValue(ref serializedBadges);
+
+        if (serializer.IsReader)
+        {
+            powerUps = JsonConvert.DeserializeObject<List<string>>(serializedPowerUps);
+            badges = JsonConvert.DeserializeObject<List<string>>(serializedBadges);
+        }
+    }
 }
