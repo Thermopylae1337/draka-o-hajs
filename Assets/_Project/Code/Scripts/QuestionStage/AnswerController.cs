@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using System.Linq;
 using System.Collections.Generic;
 public class AnswerController : NetworkBehaviour
 {
@@ -66,7 +64,7 @@ public class AnswerController : NetworkBehaviour
         if (_timeRemaining <= 0)
         {
             SetItemsInteractivity(false);
-            feedbackText.text = "Czas minął! Odpowiedź: " + currentQuestion.giveCorrectAnswer();
+            feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
             StartCoroutine(ChangeScene("Lobby", 4));
         }
     }
@@ -94,15 +92,15 @@ public class AnswerController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     void CheckAnswerServerRpc(string playerAnswer)
     {
-        if(currentQuestion.IsCorrect(playerAnswer))
+        if (currentQuestion.IsCorrect(playerAnswer))
         {
             SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.");
         }
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
-                $"Poprawna odpowiedz to: {currentQuestion.giveCorrectAnswer()}");
-        }        
+                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}");
+        }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -121,7 +119,7 @@ public class AnswerController : NetworkBehaviour
     void HintServerRpc()
     {
         //Do poprawy gdy dostane finalna klase Question
-        showHintRpc(currentQuestion.Hint()[0], currentQuestion.Hint()[1], currentQuestion.Hint()[2], currentQuestion.Hint()[3]);
+        showHintRpc(currentQuestion.Hints[0], currentQuestion.Hints[1], currentQuestion.Hints[2], currentQuestion.Hints[3]);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -202,16 +200,16 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     void SetCategoryServerRpc()
     {
-        category = Category.Deserializuj("Assets/_Project/Code/Models/Historia.json");
-        currentQuestion = category.LosujPytanie();
+        category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
+        currentQuestion = category.DrawQuestion();
     }
 
     [Rpc(SendTo.Server)]
     void StartRoundServerRpc()
     {
-        if (currentQuestionIndex <= Constants.QUESTIONS_AMOUNT)
+        if (currentQuestionIndex <= Utils.QUESTIONS_AMOUNT)
         {
-            SendQuestionToClientRpc(currentQuestion.Tresc);
+            SendQuestionToClientRpc(currentQuestion.Content);
             _timeRemaining = 30f;
             AnsweringModeRpc(winnerID);
             SetHintMode(false);
@@ -232,7 +230,7 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     void AnsweringModeRpc(ulong clientId)
     {
-        if(NetworkManager.Singleton.LocalClientId == winnerID)
+        if (NetworkManager.Singleton.LocalClientId == winnerID)
         {
             SetItemsInteractivity(true);
         }

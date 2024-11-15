@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using Newtonsoft.Json;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class Team : INetworkSerializable
 {
-    private int money = Constants.START_MONEY;
+    private int money = Utils.START_MONEY;
     private int cluesUsed = 0;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
     private List<string> powerUps = new();
     private List<string> badges = new();
     private string name;
 
-    public Team() : this("New Team")
+    public Team() : this(Utils.TEAM_DEFAULT_NAME)
     {
     }
 
@@ -108,22 +105,7 @@ public class Team : INetworkSerializable
         serializer.SerializeValue(ref cluesUsed);
         serializer.SerializeValue(ref inactiveRounds);
 
-        var serializedPowerUps = "";
-        var serializedBadges = "";
-
-        if (serializer.IsReader)
-        {
-            serializedPowerUps = JsonConvert.SerializeObject(powerUps);
-            serializedBadges = JsonConvert.SerializeObject(badges);
-        }
-
-        serializer.SerializeValue(ref serializedPowerUps);
-        serializer.SerializeValue(ref serializedBadges);
-
-        if (serializer.IsReader)
-        {
-            powerUps = JsonConvert.DeserializeObject<List<string>>(serializedPowerUps);
-            badges = JsonConvert.DeserializeObject<List<string>>(serializedBadges);
-        }
+        Utils.NetworkSerializeList(serializer, powerUps);
+        Utils.NetworkSerializeList(serializer, badges);
     }
 }

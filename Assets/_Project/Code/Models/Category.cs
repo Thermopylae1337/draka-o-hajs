@@ -1,66 +1,74 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using System;
+using Unity.Netcode;
 
-public class Category
+public class Category : INetworkSerializable
 {
     [JsonProperty("nazwa")]
-    public string Nazwa { get; }
+    public string Name => name;
+
     [JsonProperty("pytania", Order = 2)]
     public List<Question> questionList;
 
-    public Category(string nazwa)
+    private static readonly System.Random random = new();
+    private string name;
+
+    public Category(string name)
     {
-        Nazwa = nazwa;
+        this.name = name;
         questionList = new List<Question>();
     }
 
     [JsonConstructor]
-    public Category(string nazwa, List<Question> lista)
+    public Category(string nazwa, List<Question> list)
     {
-        this.Nazwa = nazwa;
-        this.questionList = lista;
+        this.name = nazwa;
+        this.questionList = list;
     }
 
-    public void DodajPytanieDoListy(Question pytanie)
+    public void AddQuestionToList(Question question)
     {
-        if (pytanie == null)
+        if (question == null)
         {
             return;
         }
-        questionList.Add(pytanie);
+        questionList.Add(question);
     }
 
-    public Question LosujPytanie()
+    public Question DrawQuestion()
     {
-        System.Random random = new System.Random();
         Question question = questionList.Count == 0 ? null : questionList[random.Next(questionList.Count)];
 
         questionList.Remove(question);
         return question;
-
     }
 
-    public void Serializuj(string sciezka)
+    public void Serialize(string path)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
-            Formatting = Newtonsoft.Json.Formatting.Indented,
+            Formatting = Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
         };
         string json = JsonConvert.SerializeObject(this, settings);
-        File.WriteAllText(sciezka, json);
+        File.WriteAllText(path, json);
     }
 
-    public static Category Deserializuj(string sciezka)
+    public static Category Deserialize(string path)
     {
-        if (!File.Exists(sciezka))
+        if (!File.Exists(path))
         {
-            throw new FileNotFoundException("Nie znaleziono pliku.", sciezka);
+            throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
-        string json = File.ReadAllText(sciezka);
+        string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Category>(json);
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        serializer.SerializeValue(ref name);
+
+        Utils.NetworkSerializeList(serializer, questionList);
     }
 }

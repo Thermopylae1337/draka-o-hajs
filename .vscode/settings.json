@@ -58,6 +58,7 @@
         "temp/": true
     },
     "cSpell.words": [
-        "Netcode"
+        "Netcode",
+        "Newtonsoft"
     ]
 }

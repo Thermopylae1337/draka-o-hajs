@@ -2,26 +2,27 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 public class CategoryList
 {
     [JsonProperty("listaKategorii")]
-    List<Category> listaKategorii = new List<Category>(); 
+    readonly List<Category> categoryList = new();
 
-    public CategoryList(List<Category> lista) 
+    public CategoryList(List<Category> list)
     {
-        listaKategorii = lista;
+        categoryList = list;
     }
-        
-    public List<Question> WyszukajKategorie(string nazwa)
+
+    public List<Question> FindCategory(string name)
     {
-        if (string.IsNullOrWhiteSpace(nazwa))
+        if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentNullException("Nazwa kategorii nie może być pusta.");
         }
 
-        foreach (Category item in listaKategorii)
+        foreach (Category item in categoryList)
         {
-            if (item.Nazwa.Equals(nazwa, StringComparison.OrdinalIgnoreCase))
+            if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
             {
                 return item.questionList;
             }
@@ -29,33 +30,33 @@ public class CategoryList
         throw new Exception("Nie znaleziono kategorii");
     }
 
-    public void DodajKategorię(Category k)
+    public void AddCategory(Category k)
     {
         if (k == null)
         {
             throw new ArgumentNullException(nameof(k), "Kategoria nie może być null.");
         }
-        listaKategorii.Add(k);
+        categoryList.Add(k);
     }
 
-    public void Serializuj(string sciezka)
+    public void Serialize(string path)
     {
-        JsonSerializerSettings settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new()
         {
             Formatting = Newtonsoft.Json.Formatting.Indented,
             NullValueHandling = NullValueHandling.Ignore,
         };
         string json = JsonConvert.SerializeObject(this, settings);
-        File.WriteAllText(sciezka, json);
+        File.WriteAllText(path, json);
     }
 
-    public static CategoryList Deserializuj(string sciezka)
+    public static CategoryList Deserialize(string path)
     {
-        if (!File.Exists(sciezka))
+        if (!File.Exists(path))
         {
-            throw new FileNotFoundException("Nie znaleziono pliku.", sciezka);
+            throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
-        string json = File.ReadAllText(sciezka);
+        string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<CategoryList>(json);
     }
 }

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -45,14 +43,14 @@ public class LobbyController : NetworkBehaviour
         // }
 
         RequestReadyBroadcastRpc();
-        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
+        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
     }
 
     [Rpc(SendTo.NotMe)]
     void RequestReadyBroadcastRpc()
     {
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
     }
 
     [Rpc(SendTo.Everyone)]
@@ -73,7 +71,7 @@ public class LobbyController : NetworkBehaviour
     {
         selfReady = !selfReady;
         readyButtonImage.color = selfReady ? readyColor : notReadyColor;
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Constants.CurrentTeam);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
     }
 
     [Rpc(SendTo.Everyone)]
