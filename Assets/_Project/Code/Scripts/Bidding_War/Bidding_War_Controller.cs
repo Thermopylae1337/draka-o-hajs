@@ -33,6 +33,7 @@ public class Licytacja_Controller : NetworkBehaviour
     //mo¿naby te¿ zrobiæ z ka¿dego przycisku oddzielny var ale imo tak jest ³adniej. 
     public List<Button> Bid_Buttons;
     public Button VB_Button;
+    public Button ExitButton;
     /*
     ///make it so each event removes itself by using the id
     List<Timer> Active_Timers
@@ -46,7 +47,17 @@ public class Licytacja_Controller : NetworkBehaviour
     private void Awake()
     {
         
-        Debug.LogWarning("awake");
+        //Debug.LogWarning("awake");
+    }
+    public void Exit_To_Lobby() 
+    {
+        Disconnect_Player_Rpc(this._player_id);
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); 
+    }
+    [Rpc(SendTo.Server)]
+    public void Disconnect_Player_Rpc(ulong playerid) 
+    {
+        NetworkManager.DisconnectClient((ulong)playerid);
     }
     void Start()
     {
@@ -92,7 +103,7 @@ public class Licytacja_Controller : NetworkBehaviour
         {
             test_Rpc();
         }
-        Debug.LogWarning( "post-scene change " + NetMan.ConnectedClients[0].ClientId + "  " + NetMan.ConnectedClients[1].ClientId );
+      // Debug.LogWarning( "post-scene change " + NetMan.ConnectedClients[0].ClientId + "  " + NetMan.ConnectedClients[1].ClientId );
     }
 
 
@@ -111,6 +122,7 @@ public class Licytacja_Controller : NetworkBehaviour
         Bid_Buttons[4].onClick.AddListener(delegate { Bid(500); });
         Bid_Buttons[5].onClick.AddListener(delegate { Bid(1000); });
         VB_Button.onClick.AddListener(delegate { Va_Banque(); });
+        ExitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
     }
     /*
     void Get_Netman()
@@ -138,7 +150,7 @@ public class Licytacja_Controller : NetworkBehaviour
     }*/ 
     void Setup()
     {
-        Debug.LogWarning("this is " + _player_id + "and we're setting up");
+        //Debug.LogWarning("this is " + _player_id + "and we're setting up");
         int i = 0;
         while (i < Teams.Count) 
         { 
@@ -154,7 +166,7 @@ public class Licytacja_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void Setup_Stage_2_Rpc()
     {
-        Debug.LogWarning("this is " + _player_id + "and we're in the second setup stage");
+       // Debug.LogWarning("this is " + _player_id + "and we're in the second setup stage");
         int i = 0;
         while (i < Teams.Count) 
         {
@@ -211,7 +223,7 @@ public class Licytacja_Controller : NetworkBehaviour
     public void Va_Banque() 
     {
         int amount = Teams[ (int)_player_id].Money+Teams[(int)_player_id].Bid- _winning_bid_amount;
-        Debug.LogWarning("va banqueing " + amount +"  with a winning bid of " + _winning_bid_amount);
+        //Debug.LogWarning("va banqueing " + amount +"  with a winning bid of " + _winning_bid_amount);
         Bid(amount);
     }
 
@@ -245,7 +257,7 @@ public class Licytacja_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void Update_Bids_Rpc(int team_id, int difference,   int winning_bid,int winning_team_id) 
         {
-        Debug.LogWarning("raising bid by " + difference);
+        //Debug.LogWarning("raising bid by " + difference);
         Teams[team_id].Raise_Bid(difference);
         _total_bid += difference;
          _winning_bid_amount = winning_bid;

@@ -206,4 +206,8 @@ public class Team
         Debug.LogWarning("Nie posiadasz takiego powerUpa");
         return false;
     }
+    public class List_Of_Teams 
+    {
+        public List<Team> Lot;
+    }
 }
