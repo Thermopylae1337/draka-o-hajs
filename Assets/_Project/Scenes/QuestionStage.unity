@@ -2582,8 +2582,8 @@ MonoBehaviour:
   timerText: {fileID: 1694318653}
   submitButton: {fileID: 520944251}
   roundNumber: {fileID: 1755481312}
-  hintButtonsContainer: {fileID: 0}
-  useHintsButton: {fileID: 0}
+  hintButtonsContainer: {fileID: 166584928}
+  useHintsButton: {fileID: 875709226}
 --- !u!1 &1845827794
 GameObject:
   m_ObjectHideFlags: 0

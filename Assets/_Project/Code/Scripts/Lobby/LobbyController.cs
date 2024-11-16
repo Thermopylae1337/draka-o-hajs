@@ -129,6 +129,6 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void LoadGameSceneRpc()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("etap-pytania", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", LoadSceneMode.Single);
     }
 }
