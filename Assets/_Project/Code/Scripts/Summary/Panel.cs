@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Panel : MonoBehaviour
 {
@@ -45,12 +46,16 @@ public class Panel : MonoBehaviour
         int cluesUsed = 5;
 
         teamNameObj.text = teamName;
-        moneyObj.text = $"<color=green>{money.ToString()}</color>z�";
+        moneyObj.text = $"<color=green>{money.ToString()}</color>pln";
         accuracyObj.text = $"<size=22>Poprawne odpowiedzi\n</size>" +
             $"<size=60><color=red>{Mathf.Round((goodAnswers / questions) * 100f).ToString()}%\n</color></size>" +
             $"<size=18>({goodAnswers.ToString()}/{questions.ToString()})</size>";
-        cluesUsedObj.text = $"U�yte podpowiedzi\n" +
+        cluesUsedObj.text = $"Wykorzystane podpowiedzi\n" +
             $"</size><size=60><color=orange>{cluesUsed.ToString()}";
     }
-    
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene("Lobby");   //fuszerka, ale utils jest statyczne i nie wyświeltają się w inspektorze w On Click
+    }
 }
