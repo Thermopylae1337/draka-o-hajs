@@ -9,8 +9,10 @@ public class Question : INetworkSerializable
 
     [JsonProperty("tresc")]
     public string Content { get => content; private set => content = value; }
+
     [JsonProperty("poprawneOdpowiedzi", Order = 2)]
     private readonly List<string> correctAnswers;
+
     [JsonProperty("podpowiedzi", Order = 3)]
     private readonly List<string> answerChoices;
     private static readonly Random random = new();
@@ -36,11 +38,11 @@ public class Question : INetworkSerializable
 
     public List<string> CorrectAnswers => correctAnswers;
 
-    public Question(string content, List<string> correctAnswers, List<string> falseAnswers)
+    public Question(string content, List<string> correctAnswers, List<string> answerChoices)
     {
         this.Content = content;
         this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
-        this.answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
+        this.answerChoices = answerChoices.Count != 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : answerChoices;
     }
 
     public bool IsCorrect(string answer)
