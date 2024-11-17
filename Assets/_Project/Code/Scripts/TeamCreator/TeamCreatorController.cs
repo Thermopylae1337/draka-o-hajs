@@ -30,20 +30,21 @@ public class TeamCreatorController : MonoBehaviour // dodac backto mainmenu
 
     public void OnReturnToMenu()
     {
-        LobbyType.Type = -1;
+        MainMenuController.Type = LobbyType.NotSelected;
         returnButton.interactable = false;
         SceneManager.LoadScene("MainMenu");
     }
 
     private void StartGame()
     {
-        switch (LobbyType.Type)
+
+        switch (MainMenuController.Type)
         {
-            case 0:
-                bool hostStarted = NetworkManager.Singleton.StartHost();
+            case LobbyType.Host:
+                NetworkManager.Singleton.StartHost();
                 break;
-            case 1:
-                bool clientStarted = NetworkManager.Singleton.StartClient();
+            case LobbyType.Join:
+                NetworkManager.Singleton.StartClient();
                 break;
             default:
                 throw new System.Exception("Lobby type not selected");
