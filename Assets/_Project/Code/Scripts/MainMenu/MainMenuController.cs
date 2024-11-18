@@ -17,7 +17,15 @@ public class MainMenuController : MonoBehaviour
         _lobbyType = 1;
         ShowPlayerNameDialog();
     }
-
+    public void LoadLeaderboard()
+    {
+       
+        SceneManager.LoadScene("Leaderboard");
+    }
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
     public void ShowPlayerNameDialog()
     {
         playerNameDialog.SetActive(true);
