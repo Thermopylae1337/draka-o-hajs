@@ -29,7 +29,7 @@ public static class Utils
     //Bidding management
     public static void awardBiddingWinners(Team team, String categoryName)
     {
-        if(categoryName.Equals("Czarna Skrzynka"))
+        if (categoryName.Equals("Czarna Skrzynka"))
         {
             team.BlackBoxes++;
         }
