@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerNameManager : MonoBehaviour
 {
@@ -10,16 +9,13 @@ public class PlayerNameManager : MonoBehaviour
     {
         inputField = GetComponent<TMP_InputField>();
 
-        if (PlayerPrefs.HasKey("PlayerName"))
-        {
-            inputField.text = PlayerPrefs.GetString("PlayerName");
-        }
+        inputField.text = Utils.CurrentTeam.Name;
 
         inputField.onEndEdit.AddListener(SavePlayerName);
     }
 
     public void SavePlayerName(string name)
     {
-        PlayerPrefs.SetString("PlayerName", name);
+        Utils.CurrentTeam.Name = name;
     }
 }
