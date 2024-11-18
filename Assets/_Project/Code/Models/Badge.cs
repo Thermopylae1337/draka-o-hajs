@@ -1,30 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace draka-o-hajs.Assets._Project.Code.Models
+
+public class Badge
 {
-    public class Badge
+    [JsonProperty("name")]
+    public string Name { get; private set; }
+
+    [JsonProperty("unlocked")]
+    public bool Unlocked { get; private set; }
+
+    [JsonProperty("unlockCondition")]
+    public string UnlockCondition { get; private set; }
+
+    [JsonProperty("unlockCounter")]
+    public int UnlockCounter { get; private set; }
+
+    public Badge(string name, string unlockCondition)
     {
-        [JsonProperty("name")]
-        public string Name { get; private set; }
-
-        [JsonProperty("unlocked")]
-        public bool Unlocked { get; private set; }
-
-        [JsonProperty("unlockCondition")]
-        public string UnlockCondition { get; private set; }
-
-        [JsonProperty("unlockCounter")]
-        public int UnlockCounter { get; private set; }
-
-        public Badge(string name, string unlockCondition)
-        {
-            Name = name;
-            UnlockCondition = unlockCondition;
-            Unlocked = false;
-            UnlockCounter = 0;
-        }
+        Name = name;
+        UnlockCondition = unlockCondition;
+        Unlocked = false;
+        UnlockCounter = 0;
     }
 }
