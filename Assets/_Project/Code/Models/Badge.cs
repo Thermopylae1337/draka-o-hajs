@@ -1,4 +1,6 @@
-﻿public class Badge
+﻿using Newtonsoft.Json;
+
+public class Badge
 {
     [JsonProperty("name")]
     public string Name { get; private set; }
@@ -25,4 +27,3 @@
         return Unlocked;
     }
 }
-

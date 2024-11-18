@@ -1,4 +1,8 @@
-﻿public class BadgeList
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+public class BadgeList
 {
     [JsonProperty("badges")]
     private List<Badge> badges;
