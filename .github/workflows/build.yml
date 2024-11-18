@@ -42,7 +42,6 @@ jobs:
     name: Build
     permissions:
       checks: write
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       # Checkout
@@ -72,6 +71,7 @@ jobs:
 
       # Output
       - uses: actions/upload-artifact@v4
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:
           name: Build
           path: build
