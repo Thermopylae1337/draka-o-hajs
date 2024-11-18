@@ -29,7 +29,7 @@ public class BadgeList
 
     public bool IsBadgeUnlocked(string name)
     {
-        var badge? = FindBadge(name);
+        var badge = FindBadge(name);
         return badge != null;
     }
 }
