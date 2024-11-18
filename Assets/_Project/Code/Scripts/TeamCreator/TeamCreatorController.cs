@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public class TeamCreatorController : MonoBehaviour // dodac backto mainmenu
+public class TeamCreatorController : MonoBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
     public Button returnButton;
@@ -16,12 +16,13 @@ public class TeamCreatorController : MonoBehaviour // dodac backto mainmenu
         inputField.onEndEdit.AddListener(OnInputSubmit);
         returnButton.onClick.AddListener(OnReturnToMenu);
     }
+
     public void OnInputSubmit(string userInput)
     {
         if (!string.IsNullOrEmpty(userInput))
         {
-            //dodanie zapisu, odczytu teamu? 
-            // jakiœ check na zakazane s³owa? XDD
+            //dodanie zapisu, odczytu teamu?
+            // jakiï¿½ check na zakazane sï¿½owa? XDD
             Utils.CurrentTeam.Name = userInput;
             inputField.interactable = false;
             StartGame();
@@ -30,7 +31,7 @@ public class TeamCreatorController : MonoBehaviour // dodac backto mainmenu
 
     public void OnReturnToMenu()
     {
-        MainMenuController.Type = LobbyType.NotSelected;
+        MainMenuController.lobbyType = LobbyType.NotSelected;
         returnButton.interactable = false;
         SceneManager.LoadScene("MainMenu");
     }
@@ -38,7 +39,7 @@ public class TeamCreatorController : MonoBehaviour // dodac backto mainmenu
     private void StartGame()
     {
 
-        switch (MainMenuController.Type)
+        switch (MainMenuController.lobbyType)
         {
             case LobbyType.Host:
                 NetworkManager.Singleton.StartHost();

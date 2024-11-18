@@ -5,16 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public static LobbyType Type = LobbyType.NotSelected;
+    public static LobbyType lobbyType = LobbyType.NotSelected;
     public void OnHostLobby()
     {
-        Type = LobbyType.Host;
-        SceneManager.LoadScene("TeamCreator"); 
+        lobbyType = LobbyType.Host;
+        SceneManager.LoadScene("TeamCreator");
     }
 
     public void OnJoinLobby()
     {
-        Type = LobbyType.Join;
-        SceneManager.LoadScene("TeamCreator"); 
+        lobbyType = LobbyType.Join;
+        SceneManager.LoadScene("TeamCreator");
     }
 }
