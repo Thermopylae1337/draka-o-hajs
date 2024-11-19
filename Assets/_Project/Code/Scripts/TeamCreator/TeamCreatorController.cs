@@ -10,29 +10,36 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
     public Button returnButton;
+    public Button submitButton;
 
-    void Start()
+    private void Start()
     {
-        inputField.onEndEdit.AddListener(OnInputSubmit);
+        submitButton.onClick.AddListener(OnInputSubmit);
         returnButton.onClick.AddListener(OnReturnToMenu);
     }
 
-    public void OnInputSubmit(string userInput)
+    public void OnInputSubmit()
     {
+
+        submitButton.interactable = false;
+        string userInput = inputField.text;
+
         if (!string.IsNullOrEmpty(userInput))
         {
             //dodanie zapisu, odczytu teamu?
-            // jaki� check na zakazane s�owa? XDD
-            Utils.CurrentTeam.Name = userInput;
+            // jakis check na zakazane slowa? XDD
             inputField.interactable = false;
+            Utils.CurrentTeam.Name = userInput;
             StartGame();
         }
+
+        submitButton.interactable = true;
     }
 
     public void OnReturnToMenu()
     {
-        MainMenuController.lobbyType = LobbyType.NotSelected;
         returnButton.interactable = false;
+        MainMenuController.lobbyType = LobbyType.NotSelected;
         SceneManager.LoadScene("MainMenu");
     }
 
