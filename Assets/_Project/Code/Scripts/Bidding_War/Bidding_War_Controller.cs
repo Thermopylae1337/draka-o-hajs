@@ -306,6 +306,10 @@ public class Licytacja_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void Sell_Rpc(int team_id) 
     {
+        foreach(Team t in Teams) 
+        {
+            t.Reset_Bid();
+        }
         _game_ongoing = false;
         Timer_Text.text = "Wygrywa dru¿yna " + Teams[team_id].Colour;
         //na razie team_id nie jest na nic potrzebne ale jest na póŸniej ¿eby mo¿na by³o w nastêpnej scenie stwierdziæ kto wygra³ licytacjê

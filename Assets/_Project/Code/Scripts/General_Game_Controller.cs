@@ -32,48 +32,7 @@ public static class General_Game_Data
     public static int[] Team_Balance;
     public static string[] Team_Names;
 
-    //lot = list of teams
-    //musia³em zrobiæ funkcjê przemieniej¹c¹ listê dru¿yn w strina poniewa¿ przez RPC nie mo¿na wysy³aæ list ani stringów. W ogóle
-    // symbole: "@" = kolejny field, 
-     public static string Team_List_Serializer(List<Team> LoT)
-    {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        while (i < LoT.Count) 
-        {
-            sb.Append(LoT[i].Serialize());
-            i += 1;
-            if (i < LoT.Count) 
-            {
-                sb.Append(',');
-            }
-        }
-        return sb.ToString();
-    
-    }
+     
 
-     public static List<Team> Team_List_Deserializer(string source) 
-    {
-        List<Team> res = new List<Team>();        
-        int i = 0;
-        StringBuilder var = new StringBuilder();
-        while (i < source.Length)
-        {
-            if (source[i] == ',') 
-            {
-                
-                Debug.Log("deserializing list element: " + var.ToString());
-                res.Add(Team.Deserialize(var.ToString()));
-
-                var.Clear();
-            }
-            else
-            {
-                var.Append(source[i]);
-            }
-            i += 1;
-        }
-        res.Add(Team.Deserialize(var.ToString()));
-        return res;
-    }
+      
 }
