@@ -208,7 +208,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -540,110 +540,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248883922}
   m_CullTransparentMesh: 1
---- !u!1 &904918152
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 904918155}
-  - component: {fileID: 904918154}
-  - component: {fileID: 904918153}
-  m_Layer: 0
-  m_Name: NetworkManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &904918153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904918152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ProtocolType: 0
-  m_UseWebSockets: 0
-  m_UseEncryption: 0
-  m_MaxPacketQueueSize: 128
-  m_MaxPayloadSize: 6144
-  m_HeartbeatTimeoutMS: 500
-  m_ConnectTimeoutMS: 1000
-  m_MaxConnectAttempts: 60
-  m_DisconnectTimeoutMS: 30000
-  ConnectionData:
-    Address: 127.0.0.1
-    Port: 8080
-    ServerListenAddress: 127.0.0.1
-  DebugSimulator:
-    PacketDelayMS: 0
-    PacketJitterMS: 0
-    PacketDropRate: 0
---- !u!114 &904918154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904918152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkManagerExpanded: 0
-  NetworkConfig:
-    ProtocolVersion: 0
-    NetworkTransport: {fileID: 904918153}
-    PlayerPrefab: {fileID: 0}
-    Prefabs:
-      NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 4103d7b2c0f20ec418e5a8f12d869db9, type: 2}
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 10
-    EnableNetworkLogs: 1
-    NetworkTopology: 0
-    UseCMBService: 0
-    AutoSpawnPlayerPrefabClientSide: 1
-    NetworkProfilingMetrics: 1
-    OldPrefabList: []
-  RunInBackground: 1
-  LogLevel: 2
---- !u!4 &904918155
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 904918152}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 609.40497, y: 353.85272, z: 1.5040247}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1242157651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,6 +958,7 @@ GameObject:
   - component: {fileID: 1676325034}
   - component: {fileID: 1676325033}
   - component: {fileID: 1676325032}
+  - component: {fileID: 1676325035}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1119,6 +1016,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1676325035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676325031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688c7165bd26b2d4a9e0155561a4f166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNameDialog: {fileID: 0}
 --- !u!1 &1772712698
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,7 +1086,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Start
+  m_text: 'Host
 
 '
   m_isRightToLeft: 0
@@ -1340,8 +1250,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2099755096}
-        m_TargetAssemblyTypeName: NetworkManagerConnector, Assembly-CSharp
+      - m_Target: {fileID: 1676325035}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: OnJoinLobby
         m_Mode: 1
         m_Arguments:
@@ -1403,7 +1313,7 @@ GameObject:
   - component: {fileID: 2088492203}
   - component: {fileID: 2088492202}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Host
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1473,8 +1383,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2099755096}
-        m_TargetAssemblyTypeName: NetworkManagerConnector, Assembly-CSharp
+      - m_Target: {fileID: 1676325035}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
         m_MethodName: OnHostLobby
         m_Mode: 1
         m_Arguments:
@@ -1533,7 +1443,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2099755094}
   - component: {fileID: 2099755095}
-  - component: {fileID: 2099755096}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -1588,19 +1497,6 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 1
---- !u!114 &2099755096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099755093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688c7165bd26b2d4a9e0155561a4f166, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkManager: {fileID: 904918154}
 --- !u!1 &2140985154
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,4 +1606,3 @@ SceneRoots:
   - {fileID: 199541951}
   - {fileID: 2140985158}
   - {fileID: 1676325034}
-  - {fileID: 904918155}

@@ -6,177 +6,113 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
-
-
 public class LobbyController : NetworkBehaviour
 {
     // Używam Jednego obiektu do zarządzania logiką lobby, bo lobby musi być
     // reaktywne na wiele związanych ze sobą i zdarzen i w wielu miejscach.
     public Button startButton;
     public Button readyButton;
-    public Button licyButton;
-    public GameObject playerList;
+    public GameObject playerListGameObject;
     public GameObject playerListEntryPrefab;
-    public NetworkManager NetMan;
-    public string Team_Name; 
-    public int default_balance_value = 10000;
-    // !Licytacja tworzę drużyny żeby móc przypisać kążdego gracza do danej drużyny, na razie będzie to po prostu na zasadzie pierwszy gracz-pierwsza drużyna
-    public List<string> Remaining_Teams = new List<string> { "zieloni","żółci" ,"niebiescy"  };
-    public List<Team> Teams = new List<Team>();
-
-
 
     private Image readyButtonImage;
-    private bool currentReady = true; // Will be changed on Start to false
-    private Dictionary<ulong, bool> playersReadyStatus = new Dictionary<ulong, bool>();
+    private bool selfReady = false;
+    private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
 
     Color readyColor = Color.green;
     Color notReadyColor = Color.red;
 
-
-    
     void Start()
     {
-        NetMan = NetworkManager;
-        //Debug.Log("netman " + netman.GetInstanceID());
-        General_Game_Data.NetMan = NetMan;
         readyButtonImage = readyButton.GetComponent<Image>();
-        readyButton.onClick.AddListener(SwitchReady);
-        licyButton.onClick.AddListener(Load_Lic_Host );
-        
-        SwitchReady();
+        readyButton.onClick.AddListener(OnPlayerReadySwitch);
 
-        if (!IsHost)
-        {
-            Add_TeamRpc(NetMan.LocalClientId);
-
-        }
-        else
-        {
-            Add_TeamRpc(NetMan.LocalClientId);
-            /*
-            Teams.Add(Remaining_Teams[0]);
-            Remaining_Teams.RemoveAt(0);
-            Teams[0].ID = NetMan.LocalClientId;*/
-        }
-
+        startButton.interactable = false;
+        OnSelfJoin();
     }
 
-
-
-    [Rpc(SendTo.Server)]
-    public void Add_TeamRpc(ulong id)
+    public void OnSelfJoin()
     {
-        //na razie nie sprawdza czy wystarczy drużyn, po prostu liczy że ich wystarczy
-        if (Remaining_Teams.Count > 0)
-        { 
-            Teams.Add ( new Team( Remaining_Teams[0],id));
-            Remaining_Teams.RemoveAt(0); 
-            Update_Team_ListRpc(General_Game_Data.Team_List_Serializer(Teams));
-            
-           // Receive_Team_Info_Rpc(id, Teams[Teams.Count - 1].Name);
-        }
+        selfReady = false;
+        // foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        // {
+        //     AddPlayerToList(clientId);
+        // }
+
+        RequestReadyBroadcastRpc();
+        BroadcastPlayerJoinedRpc(NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
     }
-    [Rpc(SendTo.NotServer)]
-    public void Update_Team_ListRpc(string LoT) 
-    {
-        
-        Teams = General_Game_Data.Team_List_Deserializer(LoT); 
-    }
-    public void Load_Lic_Host()
-    {
-        if (IsHost) {
-            List<Team> lot = new List<Team>();
-             lot = this.Teams;
-        Load_LicRpc();
-    }}
 
+    [Rpc(SendTo.NotMe)]
+    void RequestReadyBroadcastRpc()
+    {
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
+    }
 
     [Rpc(SendTo.Everyone)]
-    public void Load_LicRpc( ) 
+    void BroadcastPlayerJoinedRpc(ulong clientId, Team team)
     {
-        General_Game_Data.Teams = Teams;
-        General_Game_Data._is_host = IsHost;
-        General_Game_Data.ID = NetMan.LocalClientId ; 
-        if (!IsHost)
-        {
-            Debug.LogWarning(Teams[0].Serialize());
-            Debug.LogWarning(Teams[1].Serialize());
-        }
-        else
-        {
-            NetMan.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
-        }
+        AddPlayerToList(clientId, team);
     }
 
-    [Rpc(SendTo.NotServer)]
-    public void Receive_Team_Info_Rpc(ulong recipient_id, string Team_Name) {
-        if (NetMan.LocalClientId==recipient_id) {
-            this.Team_Name = Team_Name; 
-        }
-    } 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void SwitchReady()
+    private void AddPlayerToList(ulong clientId, Team team)
     {
-        currentReady = !currentReady;
-        BroadcastPlayerReadyRpc(currentReady, NetworkManager.LocalClientId);
-        readyButtonImage.color = currentReady ? readyColor : notReadyColor;
+        var playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
+        playerListTile.name = $"PlayerListTile_{clientId}";
+        playerListTile.GetComponent<TMP_Text>().text = team.Name;
+        playerList[clientId] = (false, playerListTile.transform, team);
     }
 
-    public void OnStartGame()
+    public void OnPlayerReadySwitch()
     {
-
+        selfReady = !selfReady;
+        readyButtonImage.color = selfReady ? readyColor : notReadyColor;
+        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
     }
+
     [Rpc(SendTo.Everyone)]
-   
-
-    void BroadcastPlayerReadyRpc(bool ready, ulong playerId)
+    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, Team team)
     {
-        playersReadyStatus[playerId] = ready;
-        RefreshPlayerList();
-    }
-    public void RefreshPlayerList()
-    {
-        foreach (var playerId in NetworkManager.ConnectedClientsIds)
+        if (!playerList.ContainsKey(clientId))
         {
-            Transform entry = playerList.transform.Find(playerId.ToString());
-            if (!entry)
-            {
-                playersReadyStatus[playerId] = false;
-                entry = Instantiate(playerListEntryPrefab, playerList.transform).transform;
-                entry.name = playerId.ToString();
-            }
-            TMP_Text textComponent = entry.GetComponentInChildren<TMP_Text>();
-            textComponent.text = playerId.ToString();
-            textComponent.color = playersReadyStatus[playerId] ? readyColor : notReadyColor;
-        }
+            AddPlayerToList(clientId, team);
+        };
+        Transform playerListTile = playerList[clientId].Item2;
+        playerList[clientId] = (ready, playerListTile, team);
 
-        startButton.interactable = IsHost && playersReadyStatus.Values.All(x => x);
+        playerList[clientId].Item2.GetComponent<TMP_Text>().color = ready ? readyColor : notReadyColor;
+
+        if (IsHost)
+        {
+            startButton.interactable = playerList.Values.All(x => x.Item1) && playerList.Count > 1 && playerList.Count < 4;
+        }
     }
 
+    public void OnPlayerLeave()
+    {
+        if (IsHost) DisconnectClientsRpc();
+        DisconnectSelf();
+    }
+
+
+    [Rpc(SendTo.NotMe)]
+    private void DisconnectClientsRpc()
+    {
+        DisconnectSelf();
+    }
+
+    private void DisconnectSelf()
+    {
+        BroadcastPlayerLeftRpc(NetworkManager.Singleton.LocalClientId);
+        NetworkManager.Singleton.Shutdown();
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void BroadcastPlayerLeftRpc(ulong clientId)
+    {
+        Destroy(playerList[clientId].Item2.gameObject);
+        playerList.Remove(clientId);
+    }
 }
