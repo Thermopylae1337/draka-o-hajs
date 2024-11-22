@@ -26,24 +26,6 @@ public static class Utils
         return null;
     }
 
-    //Bidding management
-    public static void awardBiddingWinners(Team team, String categoryName)
-    {
-        if (categoryName.Equals("Czarna Skrzynka"))
-        {
-            team.BlackBoxes++;
-        }
-        else if (categoryName.Equals("Podpowiedz"))
-        {
-            team.Clues++;
-        }
-        else //wylosowano kategorie pytaniowa
-        {
-            //todo tutaj wywolac metode rozpoczynajaca etap pytania
-        }
-    }
-
-
     // Team management
     private static Team currentTeam;
     public static Team CurrentTeam { get => currentTeam; }
