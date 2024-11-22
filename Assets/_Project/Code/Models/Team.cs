@@ -15,7 +15,9 @@ public class Team : INetworkSerializable
     private List<string> powerUps = new();
     private List<string> badges = new();
     private string name;
-
+    private int bid=0;
+    private int id;
+    private string colour;
     public Team() : this(Utils.TEAM_DEFAULT_NAME)
     {
     }
@@ -33,10 +35,29 @@ public class Team : INetworkSerializable
         this.badges = badges;
         this.powerUps = powerUps;
     }
+    //new constructors that add colour and id so as to not break the rest of the project
+    public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges,string colour) : this(name)
+    {
+        Money = money;
+        CluesUsed = cluesUsed;
+        InactiveRounds = inactiveRounds;
+        this.badges = badges;
+        this.powerUps = powerUps;
+        this.colour = colour;
+    }
+    
+    public Team(string colour, int id) : this(name)
+    {
+        money = Utils.START_MONEY   ;
+         
+         
+        this.powerUps = 0;
+        this.colour = colour;
+    }
 
     //gettery i settery
     public string Name { get => name; set => name = value; }
-
+    
     public int Money
     {
         get => money;
@@ -51,7 +72,22 @@ public class Team : INetworkSerializable
             money = value;
         }
     }
-
+    public int Bid 
+    {
+        get => bid;
+        set 
+        {
+            bid = value;
+        }
+    }
+    public int ID 
+    {
+        get => ID;
+    }
+    public string Colour 
+    {
+        get => colour;
+    }
     public int CluesUsed
     {
         get => cluesUsed;
@@ -85,7 +121,19 @@ public class Team : INetworkSerializable
         get => badges.AsReadOnly();
         set => badges = value.ToList();
     }
-
+    public void Raise_Bid(int amount) 
+    {
+        if (money > amount)
+        {
+            money -= amount;
+            bid += amount;
+        }
+    }
+    public void Reset_Bid() 
+    {
+        //dodałem funkcję reset bid żeby można było np zrobić odznakę "zakończ licytację z jakąśtam kwotą na końcu"
+        bid = 0;
+    }
     public void Serialize(string path)
     {
         string jsonString = JsonUtility.ToJson(this);
