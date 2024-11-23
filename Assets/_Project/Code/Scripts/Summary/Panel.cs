@@ -1,21 +1,17 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class Panel : MonoBehaviour
 {
-    [SerializeField] int teamId = 0;
     TMP_Text teamNameObj, moneyObj, accuracyObj, cluesUsedObj;
     float time = 0.0f;
 
-    void Start()
+    void Awake()    // awake zeby pobralo obiekty zanim manager wywola Initialize, ktore ich uzywa
     {
         teamNameObj = transform.Find("TeamName").GetComponent<TMP_Text>();
         moneyObj = transform.Find("Money").GetComponent<TMP_Text>();
-        accuracyObj = transform.Find("AccuracyTxt").GetComponent<TMP_Text>();
+        accuracyObj = transform.Find("Accuracy").GetComponent<TMP_Text>();
         cluesUsedObj = transform.Find("CluesUsed").GetComponent<TMP_Text>();
-
-        Initialize(teamId);
     }
 
     void Update()
@@ -26,19 +22,19 @@ public class Panel : MonoBehaviour
     }
     
     
-    public void Initialize(int teamId)
+    public void Initialize(Team team)
     {
         /*
-        string teamName = teams[teamId].name;
-        int money = teams[teamId].Money;
-        float goodAnswers = teams[teamId].goodAnswers;
-        float wrongAnswers = teams[teamId].wrongAnswers;
-        float questions = goodAnswers + wrongAnswers;
-        int cluesUsed = teams[teamId].CluesUsed;
+        string teamName = team.name;
+        int money = team.Money;
+        float goodAnswers = team.goodAnswers;
+        float wrongAnswers = team.wrongAnswers;
+        float questions = team.goodAnswers + team.wrongAnswers;
+        int cluesUsed = team.CluesUsed;
         */
 
-        //usunac
-        string teamName = "Test team";
+        //temp
+        string teamName = "Test init team";
         int money = 100000;
         float goodAnswers = 3;
         float wrongAnswers = 6;
@@ -51,11 +47,6 @@ public class Panel : MonoBehaviour
             $"<size=60><color=red>{Mathf.Round((goodAnswers / questions) * 100f).ToString()}%\n</color></size>" +
             $"<size=18>({goodAnswers.ToString()}/{questions.ToString()})</size>";
         cluesUsedObj.text = $"Wykorzystane podpowiedzi\n" +
-            $"</size><size=60><color=orange>{cluesUsed.ToString()}";
-    }
-
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene("Lobby");   //fuszerka, ale utils jest statyczne i nie wyświeltają się w inspektorze w On Click
+            $"<size=60><color=orange>{cluesUsed.ToString()}</size>";
     }
 }

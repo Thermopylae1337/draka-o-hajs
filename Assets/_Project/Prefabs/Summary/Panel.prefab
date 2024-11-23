@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 5334193063963172680}
   - component: {fileID: 6889767097178754918}
   m_Layer: 5
-  m_Name: AccuracyTxt
+  m_Name: Accuracy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -506,7 +506,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5d8ee83be7dbe4d9ee6424d2bda2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
+  teamNameObj: {fileID: 0}
+  moneyObj: {fileID: 0}
+  accuracyObj: {fileID: 0}
+  cluesUsedObj: {fileID: 0}
 --- !u!114 &3178153619205301364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +546,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f5d8ee83be7dbe4d9ee6424d2bda2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamId: 0
+  teamNameObj: {fileID: 1410330124580493586}
+  moneyObj: {fileID: 220340762614709259}
+  accuracyObj: {fileID: 6889767097178754918}
+  cluesUsedObj: {fileID: 611803006872717333}
 --- !u!1 &9122224016030951251
 GameObject:
   m_ObjectHideFlags: 0
