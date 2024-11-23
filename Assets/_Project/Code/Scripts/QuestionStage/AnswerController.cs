@@ -31,7 +31,6 @@ public class AnswerController : NetworkBehaviour
     {
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
 
-        SetItemsInteractivity(false);
         currentQuestionIndex++;
         _isAnswerChecked = false;
         SetHintMode(false);
@@ -178,6 +177,8 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void SendQuestionToClientRpc(string questionText, int currentQuestionIndex)
     {
+        answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
+        SetItemsInteractivity(false);
         this.questionText.text = questionText;
         _isAnswerChecked = false;
         roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
