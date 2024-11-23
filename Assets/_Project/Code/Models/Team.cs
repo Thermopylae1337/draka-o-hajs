@@ -46,12 +46,12 @@ public class Team : INetworkSerializable
         this.colour = colour;
     }
     
-    public Team(string colour, int id) : this(name)
+    public Team(string colour, int id) : this( )
     {
         money = Utils.START_MONEY   ;
+        this.id = id;
          
-         
-        this.powerUps = 0;
+        this.powerUps = new List<string>();
         this.colour = colour;
     }
 
@@ -82,7 +82,7 @@ public class Team : INetworkSerializable
     }
     public int ID 
     {
-        get => ID;
+        get => id;
     }
     public string Colour 
     {

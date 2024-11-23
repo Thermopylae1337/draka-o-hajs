@@ -29,40 +29,39 @@ public class LobbyController : NetworkBehaviour
         //na razie nie sprawdza czy wystarczy drużyn, po prostu liczy że ich wystarczy
         if (Remaining_Teams.Count > 0)
         {
-            Teams.Add(new Team(Remaining_Teams[0], id));
+            Teams.Add(new Team(Remaining_Teams[0], (int)id));
             Remaining_Teams.RemoveAt(0);
-            Update_Team_ListRpc( Teams as Object);
+            Update_Team_ListRpc(new ListOfTeams(Teams));
 
             // Receive_Team_Info_Rpc(id, Teams[Teams.Count - 1].Name);
         }
     }
     [Rpc(SendTo.NotServer)]
-    public void Update_Team_ListRpc(Object LoT)
+    public void Update_Team_ListRpc(ListOfTeams LoT)
     {
 
-        Teams = General_Game_Data.Team_List_Deserializer(LoT);
+        Teams = LoT.list ;
     }
-    public void Load_Lic_Host()
+    public void Load_BW_Host()
     {
         if (IsHost)
         {
             List<Team> lot = new List<Team>();
             lot = this.Teams;
-            Load_LicRpc();
+            Load_BWRpc();
         }
     }
 
 
     [Rpc(SendTo.Everyone)]
-    public void Load_LicRpc()
+    public void Load_BWRpc()
     {
         General_Game_Data.Teams = Teams;
         General_Game_Data._is_host = IsHost;
         General_Game_Data.ID = NetMan.LocalClientId;
         if (!IsHost)
         {
-            Debug.LogWarning(Teams[0].Serialize());
-            Debug.LogWarning(Teams[1].Serialize());
+             
         }
         else
         {
@@ -106,7 +105,8 @@ public class LobbyController : NetworkBehaviour
 
 
          
-            NetMan = NetworkManager; 
+            NetMan = this.NetworkManager;
+        Debug.Log(NetMan);
             General_Game_Data.NetMan = NetMan; 
              BiddingWarButton.onClick.AddListener(Load_BW_Host);
 

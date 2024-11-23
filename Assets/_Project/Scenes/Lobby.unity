@@ -1246,6 +1246,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1255228629}
     - target: {fileID: 1831960708774831543, guid: 0cc09b3920dc1a74bad7f6268f701a77, type: 3}
+      propertyPath: BiddingWarButton
+      value: 
+      objectReference: {fileID: 1210946431}
+    - target: {fileID: 1831960708774831543, guid: 0cc09b3920dc1a74bad7f6268f701a77, type: 3}
       propertyPath: playerListGameObject
       value: 
       objectReference: {fileID: 1416841264}
