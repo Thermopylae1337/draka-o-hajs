@@ -27,7 +27,7 @@ public class AnswerController : NetworkBehaviour
     public static Category category;
     public Question currentQuestion;
 
-    void Start()
+    private void Start()
     {
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
 
@@ -74,11 +74,6 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
-    void StartServerTime()
-    {
-        StartCoroutine(StartCountdown());
-    }
-
     public void CheckAnswer()
     {
         SetItemsInteractivity(false);
@@ -95,7 +90,7 @@ public class AnswerController : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void CheckAnswerServerRpc(string playerAnswer)
+    private void CheckAnswerServerRpc(string playerAnswer)
     {
         if (currentQuestion.IsCorrect(playerAnswer))
         {
@@ -109,7 +104,7 @@ public class AnswerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void SendFeedbackToClientsRpc(string feedback)
+    private void SendFeedbackToClientsRpc(string feedback)
     {
         feedbackText.text = feedback;
         StartCoroutine(ChangeScene("Lobby", 4));
@@ -121,13 +116,13 @@ public class AnswerController : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    void UseHintNotifyServerRpc()
+    private void UseHintNotifyServerRpc()
     {
         ShowHintRpc(currentQuestion);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void ShowHintRpc(Question question)
+    private void ShowHintRpc(Question question)
     {
         SetHintMode(true);
         for (int i = 0; i < 4; i++)
@@ -181,33 +176,33 @@ public class AnswerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void SendQuestionToClientRpc(string questionText)
+    public void SendQuestionToClientRpc(string questionText, int currentQuestionIndex)
     {
         this.questionText.text = questionText;
         _isAnswerChecked = false;
         roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         feedbackText.text = "";
         answerInput.text = "";
-        timerText.text = "Czas: 30s";
+        timerText.text = "";
     }
 
     [Rpc(SendTo.Server)]
-    void SetCategoryServerRpc()
+    private void SetCategoryServerRpc()
     {
         category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
         currentQuestion = category.DrawQuestion();
     }
 
     [Rpc(SendTo.Server)]
-    void StartRoundServerRpc()
+    private void StartRoundServerRpc()
     {
         if (currentQuestionIndex <= Utils.QUESTIONS_AMOUNT)
         {
-            SendQuestionToClientRpc(currentQuestion.Content);
+            SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
             _timeRemaining = 30f;
             AnsweringModeRpc(winner);
             SetHintMode(false);
-            StartServerTime();
+            StartCoroutine(StartCountdown());
         }
         else
         {
@@ -216,20 +211,20 @@ public class AnswerController : NetworkBehaviour
         }
     }
     [Rpc(SendTo.ClientsAndHost)]
-    void ShowCurrentTimeRpc(float timeRemaining)
+    private void ShowCurrentTimeRpc(float timeRemaining)
     {
         timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void AnsweringModeRpc(Team winner)
+    private void AnsweringModeRpc(Team winner)
     {
         if (Utils.CurrentTeam == winner)
         {
             SetItemsInteractivity(true);
         }
     }
-    void Update()
+    private void Update()
     {
     }
 }
