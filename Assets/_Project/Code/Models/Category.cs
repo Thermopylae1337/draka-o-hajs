@@ -11,7 +11,7 @@ public class Category : INetworkSerializable
     [JsonProperty("pytania", Order = 2)]
     public List<Question> questionList;
 
-    private static readonly System.Random random = new();
+    private static readonly System.Random _random = new();
     private string name;
 
     public Category(string name)
@@ -23,8 +23,8 @@ public class Category : INetworkSerializable
     [JsonConstructor]
     public Category(string nazwa, List<Question> list)
     {
-        this.name = nazwa;
-        this.questionList = list;
+        name = nazwa;
+        questionList = list;
     }
 
     public void AddQuestionToList(Question question)
@@ -33,14 +33,15 @@ public class Category : INetworkSerializable
         {
             return;
         }
+
         questionList.Add(question);
     }
 
     public Question DrawQuestion()
     {
-        Question question = questionList.Count == 0 ? null : questionList[random.Next(questionList.Count)];
+        Question question = questionList.Count == 0 ? null : questionList[_random.Next(questionList.Count)];
 
-        questionList.Remove(question);
+        _ = questionList.Remove(question);
         return question;
     }
 
@@ -61,6 +62,7 @@ public class Category : INetworkSerializable
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
+
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Category>(json);
     }
@@ -69,6 +71,6 @@ public class Category : INetworkSerializable
     {
         serializer.SerializeValue(ref name);
 
-        Utils.NetworkSerializeList(serializer, questionList);
+        _ = Utils.NetworkSerializeList(serializer, questionList);
     }
 }
