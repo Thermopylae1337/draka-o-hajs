@@ -8,10 +8,7 @@ public class CategoryList
     [JsonProperty("listaKategorii")]
     private readonly List<Category> categoryList = new();
 
-    public CategoryList(List<Category> list)
-    {
-        categoryList = list;
-    }
+    public CategoryList(List<Category> list) => categoryList = list;
 
     public List<Question> FindCategory(string name)
     {
@@ -27,6 +24,7 @@ public class CategoryList
                 return item.questionList;
             }
         }
+
         throw new Exception("Nie znaleziono kategorii");
     }
 
@@ -36,6 +34,7 @@ public class CategoryList
         {
             throw new ArgumentNullException(nameof(k), "Kategoria nie może być null.");
         }
+
         categoryList.Add(k);
     }
 
@@ -56,6 +55,7 @@ public class CategoryList
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
+
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<CategoryList>(json);
     }

@@ -6,7 +6,6 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-
 public class Team : INetworkSerializable
 {
     private int money = Utils.START_MONEY;
@@ -20,10 +19,7 @@ public class Team : INetworkSerializable
     {
     }
 
-    public Team(string name = "New Team")
-    {
-        Name = name;
-    }
+    public Team(string name = "New Team") => Name = name;
 
     public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
     {
@@ -48,6 +44,7 @@ public class Team : INetworkSerializable
                 money = 0;
                 return;
             }
+
             money = value;
         }
     }

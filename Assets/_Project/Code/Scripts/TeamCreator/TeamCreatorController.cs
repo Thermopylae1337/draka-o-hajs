@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class TeamCreatorController : MonoBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
