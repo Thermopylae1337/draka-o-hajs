@@ -41,10 +41,7 @@ public class Question : INetworkSerializable
         answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
     }
 
-    public bool IsCorrect(string answer)
-    {
-        return correctAnswers.Contains(answer.Trim().ToLower());
-    }
+    public bool IsCorrect(string answer) => correctAnswers.Contains(answer.Trim().ToLower());
 
     public void Serialize(string path)
     {
@@ -63,6 +60,7 @@ public class Question : INetworkSerializable
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
+
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Question>(json);
     }

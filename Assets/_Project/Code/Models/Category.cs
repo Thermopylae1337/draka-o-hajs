@@ -33,6 +33,7 @@ public class Category : INetworkSerializable
         {
             return;
         }
+
         questionList.Add(question);
     }
 
@@ -61,6 +62,7 @@ public class Category : INetworkSerializable
         {
             throw new FileNotFoundException("Nie znaleziono pliku.", path);
         }
+
         string json = File.ReadAllText(path);
         return JsonConvert.DeserializeObject<Category>(json);
     }

@@ -45,16 +45,10 @@ public class LobbyController : NetworkBehaviour
     }
 
     [Rpc(SendTo.NotMe)]
-    private void RequestReadyBroadcastRpc()
-    {
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
-    }
+    private void RequestReadyBroadcastRpc() => BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
 
     [Rpc(SendTo.Everyone)]
-    private void BroadcastPlayerJoinedRpc(ulong clientId, Team team)
-    {
-        AddPlayerToList(clientId, team);
-    }
+    private void BroadcastPlayerJoinedRpc(ulong clientId, Team team) => AddPlayerToList(clientId, team);
 
     private void AddPlayerToList(ulong clientId, Team team)
     {
@@ -99,12 +93,8 @@ public class LobbyController : NetworkBehaviour
         DisconnectSelf();
     }
 
-
     [Rpc(SendTo.NotMe)]
-    private void DisconnectClientsRpc()
-    {
-        DisconnectSelf();
-    }
+    private void DisconnectClientsRpc() => DisconnectSelf();
 
     private void DisconnectSelf()
     {

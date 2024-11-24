@@ -10,7 +10,9 @@
         ".gitignore",
         "manifest.json",
         "*.txt",
-        "*.asset"
+        "*.asset",
+        "*.prefab",
+        "*.unity"
     ],
     "cSpell.words": [
         "Netcode",

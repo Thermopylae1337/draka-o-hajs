@@ -10,7 +10,6 @@ public static class Utils
     public const string TEAM_DEFAULT_NAME = "New Team";
     public const int ROUNDS_LIMIT = 7;
 
-
     // Serialization helpers
     public static List<Y> NetworkSerializeList<T, Y>(BufferSerializer<T> serializer, List<Y> list) where T : IReaderWriter
     {
@@ -58,5 +57,4 @@ public static class Utils
             throw new Exception("Team not loaded");
         }
     }
-
 }
