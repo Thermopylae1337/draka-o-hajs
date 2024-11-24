@@ -1,12 +1,12 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Panel : MonoBehaviour
 {
-    TMP_Text teamNameObj, moneyObj, accuracyObj, cluesUsedObj;
-    float time = 0.0f;
+    private TMP_Text teamNameObj, moneyObj, accuracyObj, cluesUsedObj;
+    private float time = 0.0f;
 
-    void Awake()    // awake zeby pobralo obiekty zanim manager wywola Initialize, ktore ich uzywa
+    private void Awake()    // awake zeby pobrało obiekty zanim manager wywoła Initialize, ktore ich uzywa
     {
         teamNameObj = transform.Find("TeamName").GetComponent<TMP_Text>();
         moneyObj = transform.Find("Money").GetComponent<TMP_Text>();
@@ -14,14 +14,13 @@ public class Panel : MonoBehaviour
         cluesUsedObj = transform.Find("CluesUsed").GetComponent<TMP_Text>();
     }
 
-    void Update()
+    private void Update()
     {
         time += Time.deltaTime;
-        float scale = 0.87f + 0.13f * Mathf.Sin(time - transform.position.x * 0.002f);
+        float scale = 0.87f + ( 0.13f * Mathf.Sin(time - ( transform.position.x * 0.002f )) );
         moneyObj.transform.localScale = new Vector2(scale, scale);
     }
-    
-    
+
     public void Initialize(Team team)
     {
         /*
@@ -42,11 +41,11 @@ public class Panel : MonoBehaviour
         int cluesUsed = 5;
 
         teamNameObj.text = teamName;
-        moneyObj.text = $"<color=green>{money.ToString()}</color>pln";
+        moneyObj.text = $"<color=green>{money}</color>pln";
         accuracyObj.text = $"<size=22>Poprawne odpowiedzi\n</size>" +
-            $"<size=60><color=red>{Mathf.Round((goodAnswers / questions) * 100f).ToString()}%\n</color></size>" +
-            $"<size=18>({goodAnswers.ToString()}/{questions.ToString()})</size>";
+            $"<size=60><color=red>{Mathf.Round(goodAnswers / questions * 100f)}%\n</color></size>" +
+            $"<size=18>({goodAnswers}/{questions})</size>";
         cluesUsedObj.text = $"Wykorzystane podpowiedzi\n" +
-            $"<size=60><color=orange>{cluesUsed.ToString()}</size>";
+            $"<size=60><color=orange>{cluesUsed}</size>";
     }
 }

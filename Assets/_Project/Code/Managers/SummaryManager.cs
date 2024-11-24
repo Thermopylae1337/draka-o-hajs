@@ -3,21 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class SummaryManager : MonoBehaviour
 {
-    [SerializeField] GameObject panelPrefab;
-    [SerializeField] Transform grid;
+    [SerializeField] private GameObject panelPrefab;
+    [SerializeField] private Transform grid;
 
-    void Start()
+    private void Start()
     {
-        //foreach (Team team in listOfteams)
-        foreach (Team team in new Team[] { new Team(), new Team(), new Team() })     // temp
+        //foreach (Team team in listOfTeams)
+        foreach (Team team in new Team[] { new(), new(), new() })     // temp
         {
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
             panel.Initialize(team);
         }
     }
 
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene("Lobby");   //utils jest statyczne i nie wyœwieltaja siê w inspektorze w On Click
-    }
+    public void ChangeScene() => SceneManager.LoadScene("Lobby");   //utils jest statyczne i nie wyswietlaja siÄ™ w inspektorze w On Click
 }
