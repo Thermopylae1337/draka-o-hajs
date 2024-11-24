@@ -15,22 +15,22 @@ public class Bidding_War_Controller : NetworkBehaviour
     public List<TextMeshProUGUI> Team_Bid_Text;
     public List<TextMeshProUGUI> Team_Balance_Text;
     public List<TextMeshProUGUI> Bid_Button_Text;
-    public TextMeshProUGUI Timer_Text;  
+    public TextMeshProUGUI Timer_Text;
     public List<Team> Teams;
     public TextMeshProUGUI Total_Bid_Text;
     int _total_bid;
     float _timer;
     float _time_given = 5;
-    int _Winning_Team_ID=0;
+    int _Winning_Team_ID = 0;
     int _winning_bid_amount = 0;
     bool _has_Set_Up = false;
     bool _is_host;
     ulong _player_id;
-    bool _game_ongoing=false;
-    //przyciski kolejno maj¹ wartoœæ: 100,200,300,400,500,1000z³
+    bool _game_ongoing = false;
+    //przyciski kolejno majï¿½ wartoï¿½ï¿½: 100,200,300,400,500,1000zï¿½
     //no i va banque
-    //wartoœæ przycisku= wartoœæ o jak¹ dru¿yna *przebija stawkê*
-    //mo¿naby te¿ zrobiæ z ka¿dego przycisku oddzielny var ale imo tak jest ³adniej. 
+    //wartoï¿½ï¿½ przycisku= wartoï¿½ï¿½ o jakï¿½ druï¿½yna *przebija stawkï¿½*
+    //moï¿½naby teï¿½ zrobiï¿½ z kaï¿½dego przycisku oddzielny var ale imo tak jest ï¿½adniej.
     public List<Button> Bid_Buttons;
     public Button VB_Button;
     public Button ExitButton;
@@ -40,18 +40,19 @@ public class Bidding_War_Controller : NetworkBehaviour
     public delegate void My_Timer_Delegate(int )
     */
 
-    public class Timer {
+    public class Timer
+    {
         float start_time;
         float desired_gap;
     }
-   
-    public void Exit_To_Lobby() 
+
+    public void Exit_To_Lobby()
     {
         Disconnect_Player_Rpc(this._player_id);
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); 
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
     [Rpc(SendTo.Server)]
-    public void Disconnect_Player_Rpc(ulong playerid) 
+    public void Disconnect_Player_Rpc(ulong playerid)
     {
         NetworkManager.DisconnectClient((ulong)playerid);
     }
@@ -60,7 +61,7 @@ public class Bidding_War_Controller : NetworkBehaviour
 
         _player_id = General_Game_Data.ID;
         NetMan = General_Game_Data.NetMan;
-        _is_host = General_Game_Data._is_host; 
+        _is_host = General_Game_Data._is_host;
         Teams = General_Game_Data.Teams;
         if (!_is_host)
         {
@@ -69,7 +70,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         else
         {
             NetMan.StartHost();
-        } 
+        }
         if (Teams.Count < 4)
         {
             Total_Bid_Text.transform.position = Team_Balance_Text[Teams.Count].transform.position;
@@ -84,12 +85,12 @@ public class Bidding_War_Controller : NetworkBehaviour
             i += 1;
         }
         Setup(); ;
-        Add_Listners(); 
+        Add_Listners();
     }
 
 
-    
-    public void Add_Listners() 
+
+    public void Add_Listners()
     {
         Bid_Buttons[0].onClick.AddListener(delegate { Bid(100); });
         Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
@@ -100,12 +101,12 @@ public class Bidding_War_Controller : NetworkBehaviour
         VB_Button.onClick.AddListener(delegate { Va_Banque(); });
         ExitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
     }
-   
+
     void Setup()
     {
-       int i = 0;
-        while (i < Teams.Count) 
-        { 
+        int i = 0;
+        while (i < Teams.Count)
+        {
             Team_Balance_Text[i].text = Teams[i].Money.ToString();
             Team_Bid_Text[i].text = Teams[i].Bid.ToString();
             Team_Names_Text[i].text = Teams[i].Colour;
@@ -118,7 +119,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     void Setup_Stage_2_Rpc()
     {
         int i = 0;
-        while (i < Teams.Count) 
+        while (i < Teams.Count)
         {
             Teams[i].Raise_Bid(500);
             Update_Money_Status_For_Team(i);
@@ -130,7 +131,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         _game_ongoing = true;
     }
 
-    public void Update_Money_Status_For_Team(int i) 
+    public void Update_Money_Status_For_Team(int i)
     {
         Team_Balance_Text[i].text = Teams[i].Money.ToString();
         Team_Bid_Text[i].text = Teams[i].Bid.ToString();
@@ -139,16 +140,16 @@ public class Bidding_War_Controller : NetworkBehaviour
     public void Update_Money_Status()
     {
         int i = 0;
-        while (i < Teams.Count) 
+        while (i < Teams.Count)
         {
             Update_Money_Status_For_Team(i);
-            i += 1;  
+            i += 1;
         }
         Update_Buttons();
         Total_Bid_Text.text = _total_bid.ToString();
     }
 
-    public void Update_Buttons() 
+    public void Update_Buttons()
     {
         if (_winning_bid_amount != Teams[(int)_player_id].Bid)
         {
@@ -172,9 +173,9 @@ public class Bidding_War_Controller : NetworkBehaviour
 
         }
     }
-    public void Va_Banque() 
+    public void Va_Banque()
     {
-        int amount = Teams[ (int)_player_id].Money+Teams[(int)_player_id].Bid- _winning_bid_amount;
+        int amount = Teams[(int)_player_id].Money + Teams[(int)_player_id].Bid - _winning_bid_amount;
         Bid(amount);
     }
 
@@ -190,12 +191,12 @@ public class Bidding_War_Controller : NetworkBehaviour
     public void Team_Bid_Rpc(ulong teamid, int amount)
     {
         int team_id = (int)teamid;
-        int difference = _winning_bid_amount +amount -Teams[team_id].Bid;
-        if ((Teams[team_id].Money >= difference && Teams[team_id].Bid!=_winning_bid_amount )|| Teams[team_id].Money >= difference && _winning_bid_amount==500)
+        int difference = _winning_bid_amount + amount - Teams[team_id].Bid;
+        if ((Teams[team_id].Money >= difference && Teams[team_id].Bid != _winning_bid_amount) || Teams[team_id].Money >= difference && _winning_bid_amount == 500)
         {
-            _winning_bid_amount +=amount;
+            _winning_bid_amount += amount;
             Update_Bids_Rpc(team_id, difference, _winning_bid_amount, team_id);
-            if (Teams[team_id].Money == 0) 
+            if (Teams[team_id].Money == 0)
             {
                 Sell(team_id);
             }
@@ -203,25 +204,25 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void Update_Bids_Rpc(int team_id, int difference,   int winning_bid,int winning_team_id) 
+    public void Update_Bids_Rpc(int team_id, int difference, int winning_bid, int winning_team_id)
     {
         Teams[team_id].Raise_Bid(difference);
         _total_bid += difference;
-            _winning_bid_amount = winning_bid;
+        _winning_bid_amount = winning_bid;
         _Winning_Team_ID = winning_team_id;
         Reset_Timer();
         Update_Money_Status();
     }
 
-    public void Reset_Timer () 
+    public void Reset_Timer()
     {
         _timer = Time.time;
     }
 
     void Update()
     {
-        
-        if (_game_ongoing )
+
+        if (_game_ongoing)
         {
             if (_winning_bid_amount != 500)
             {
@@ -234,8 +235,9 @@ public class Bidding_War_Controller : NetworkBehaviour
                 }
             }
         }
-        else {
-            if (Time.time - _timer > _time_given && _is_host && !_has_Set_Up & _is_host) 
+        else
+        {
+            if (Time.time - _timer > _time_given && _is_host && !_has_Set_Up & _is_host)
             {
                 Setup_Stage_2_Rpc();
             }
@@ -243,19 +245,18 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Sell(int team_id)
     {
-        Sell_Rpc(team_id); 
+        Sell_Rpc(team_id);
     }
 
     [Rpc(SendTo.Everyone)]
-    void Sell_Rpc(int team_id) 
+    void Sell_Rpc(int team_id)
     {
-        foreach(Team t in Teams) 
+        foreach (Team t in Teams)
         {
             t.Reset_Bid();
         }
         _game_ongoing = false;
-        Timer_Text.text = "Wygrywa dru¿yna " + Teams[team_id].Colour;
-        //na razie team_id nie jest na nic potrzebne ale jest na póŸniej ¿eby mo¿na by³o w nastêpnej scenie stwierdziæ kto wygra³ licytacjê
+        Timer_Text.text = "Wygrywa druï¿½yna " + Teams[team_id].Colour;
+        //na razie team_id nie jest na nic potrzebne ale jest na pï¿½niej ï¿½eby moï¿½na byï¿½o w nastï¿½pnej scenie stwierdziï¿½ kto wygraï¿½ licytacjï¿½
     }
 }
- 

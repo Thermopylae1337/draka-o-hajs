@@ -5,12 +5,12 @@ using System.IO;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
-//klasa stworzona ¿eby móc przetestowaæ licytacjê ale powinna byæ u¿yteczna po prostu do serializacji list dru¿yn
-public class ListOfTeams: INetworkSerializable
+//klasa stworzona ï¿½eby mï¿½c przetestowaï¿½ licytacjï¿½ ale powinna byï¿½ uï¿½yteczna po prostu do serializacji list druï¿½yn
+public class ListOfTeams : INetworkSerializable
 {
     public List<Team> list;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public ListOfTeams(List<Team> lot) 
+    public ListOfTeams(List<Team> lot)
     {
         this.list = lot;
     }

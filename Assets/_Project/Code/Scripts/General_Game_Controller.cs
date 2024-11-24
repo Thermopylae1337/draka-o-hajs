@@ -19,8 +19,4 @@ public static class General_Game_Data
     public static List<Team> Teams = new List<Team>();
     public static int[] Team_Balance;
     public static string[] Team_Names;
-
-     
-
-      
 }

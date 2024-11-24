@@ -18,7 +18,7 @@ public class LobbyController : NetworkBehaviour
     public Button BiddingWarButton;
     public NetworkManager NetMan;
     public string Team_Name;
-    public int default_balance_value = 10000; 
+    public int default_balance_value = 10000;
     public List<string> Remaining_Teams = new List<string> { "zieloni", "żółci", "niebiescy" };
     public List<Team> Teams = new List<Team>();
 
@@ -38,7 +38,7 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.NotServer)]
     public void Update_Team_ListRpc(ListOfTeams LoT)
     {
-        Teams = LoT.list ;
+        Teams = LoT.list;
     }
     public void Load_BW_Host()
     {
@@ -60,7 +60,7 @@ public class LobbyController : NetworkBehaviour
         if (IsHost)
         {
             NetMan.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
-        }        
+        }
     }
 
     [Rpc(SendTo.NotServer)]
@@ -82,14 +82,14 @@ public class LobbyController : NetworkBehaviour
 
     void Start()
     {
-        //to delete after testing start 
-        NetMan = this.NetworkManager; 
-        General_Game_Data.NetMan = NetMan; 
+        //to delete after testing start
+        NetMan = this.NetworkManager;
+        General_Game_Data.NetMan = NetMan;
         BiddingWarButton.onClick.AddListener(Load_BW_Host);
-       
-            Add_TeamRpc(NetMan.LocalClientId);
 
-        
+        Add_TeamRpc(NetMan.LocalClientId);
+
+
         //to delete after testing  end
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
