@@ -8,19 +8,7 @@ using UnityEngine.UI;
 
 using System.Text;
 
-/*
-public class Team:  
-{
-    public ulong ID;
-    public string Name;
-    public int Money = 10000;
-    public int bid = 0;
-    public Team(string name)
-    {
-        this.Name = name;
-    }
-    
-}*/
+
 
 
 public static class General_Game_Data

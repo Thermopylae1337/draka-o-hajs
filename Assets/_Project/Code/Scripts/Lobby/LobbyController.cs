@@ -32,14 +32,12 @@ public class LobbyController : NetworkBehaviour
             Teams.Add(new Team(Remaining_Teams[0], (int)id));
             Remaining_Teams.RemoveAt(0);
             Update_Team_ListRpc(new ListOfTeams(Teams));
-
-            // Receive_Team_Info_Rpc(id, Teams[Teams.Count - 1].Name);
         }
     }
+
     [Rpc(SendTo.NotServer)]
     public void Update_Team_ListRpc(ListOfTeams LoT)
     {
-
         Teams = LoT.list ;
     }
     public void Load_BW_Host()
@@ -59,14 +57,10 @@ public class LobbyController : NetworkBehaviour
         General_Game_Data.Teams = Teams;
         General_Game_Data._is_host = IsHost;
         General_Game_Data.ID = NetMan.LocalClientId;
-        if (!IsHost)
-        {
-             
-        }
-        else
+        if (IsHost)
         {
             NetMan.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
-        }
+        }        
     }
 
     [Rpc(SendTo.NotServer)]
@@ -77,63 +71,28 @@ public class LobbyController : NetworkBehaviour
             this.Team_Name = Team_Name;
         }
     }
-
-
-
     //end, check out Start() too
-
-
     public GameObject playerListGameObject;
     public GameObject playerListEntryPrefab;
-
-    
-
     private Image readyButtonImage;
     private bool selfReady = false;
     private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
-
     Color readyColor = Color.green;
     Color notReadyColor = Color.red;
 
     void Start()
     {
-        //to delete after testing start
+        //to delete after testing start 
+        NetMan = this.NetworkManager; 
+        General_Game_Data.NetMan = NetMan; 
+        BiddingWarButton.onClick.AddListener(Load_BW_Host);
+       
+            Add_TeamRpc(NetMan.LocalClientId);
 
-
-
-
-
-
-         
-            NetMan = this.NetworkManager;
-        Debug.Log(NetMan);
-            General_Game_Data.NetMan = NetMan; 
-             BiddingWarButton.onClick.AddListener(Load_BW_Host);
-
-            
-
-            if (!IsHost)
-            {
-                Add_TeamRpc(NetMan.LocalClientId);
-
-            }
-            else
-            {
-                Add_TeamRpc(NetMan.LocalClientId);
-                /*
-                Teams.Add(Remaining_Teams[0]);
-                Remaining_Teams.RemoveAt(0);
-                Teams[0].ID = NetMan.LocalClientId;*/
-            
-
-        }
+        
         //to delete after testing  end
-
-
-
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
-
         startButton.interactable = false;
         OnSelfJoin();
     }

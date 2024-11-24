@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Licytacja_Controller : NetworkBehaviour
+public class Bidding_War_Controller : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject obj;
@@ -44,11 +44,7 @@ public class Licytacja_Controller : NetworkBehaviour
         float start_time;
         float desired_gap;
     }
-    private void Awake()
-    {
-        
-        //Debug.LogWarning("awake");
-    }
+   
     public void Exit_To_Lobby() 
     {
         Disconnect_Player_Rpc(this._player_id);
@@ -64,15 +60,8 @@ public class Licytacja_Controller : NetworkBehaviour
 
         _player_id = General_Game_Data.ID;
         NetMan = General_Game_Data.NetMan;
-        _is_host = General_Game_Data._is_host;
-        //Debug.Log(netman.GetInstanceID());
+        _is_host = General_Game_Data._is_host; 
         Teams = General_Game_Data.Teams;
-
-
-
-
-
-
         if (!_is_host)
         {
             NetMan.StartClient();
@@ -80,9 +69,7 @@ public class Licytacja_Controller : NetworkBehaviour
         else
         {
             NetMan.StartHost();
-        }
-
-        //Debug.Log(Total_Bid_Text.transform); 
+        } 
         if (Teams.Count < 4)
         {
             Total_Bid_Text.transform.position = Team_Balance_Text[Teams.Count].transform.position;
@@ -97,26 +84,15 @@ public class Licytacja_Controller : NetworkBehaviour
             i += 1;
         }
         Setup(); ;
-        Add_Listners();
-        //
-        if (!_is_host)
-        {
-            test_Rpc();
-        }
-      // Debug.LogWarning( "post-scene change " + NetMan.ConnectedClients[0].ClientId + "  " + NetMan.ConnectedClients[1].ClientId );
+        Add_Listners(); 
     }
 
 
-    [Rpc(SendTo.Everyone)]
-    public void test_Rpc() 
-    {
-          
-    }
+    
     public void Add_Listners() 
     {
         Bid_Buttons[0].onClick.AddListener(delegate { Bid(100); });
-
-          Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
+        Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
         Bid_Buttons[2].onClick.AddListener(delegate { Bid(300); });
         Bid_Buttons[3].onClick.AddListener(delegate { Bid(400); });
         Bid_Buttons[4].onClick.AddListener(delegate { Bid(500); });
@@ -124,40 +100,15 @@ public class Licytacja_Controller : NetworkBehaviour
         VB_Button.onClick.AddListener(delegate { Va_Banque(); });
         ExitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
     }
-    /*
-    void Get_Netman()
-    {
-        //is this an elegant solution? Probably not. Could I find something better? Nope. Does it work? Like a charm
-        //copied this to the lobby controller since (in the system I needed to make for my part of the project) I needed
-        GameObject g2 = new GameObject();
-        GameObject g = new GameObject();
-        DontDestroyOnLoad(g);
-
-        foreach (GameObject obj in g.scene.GetRootGameObjects())
-        {
-            if (obj.name == "NetworkManager")
-            {
-
-                g2 = obj;
-                break;
-            }
-        }
-        netman = g2.GetComponent<NetworkManager>();
-        Debug.Log(netman.GetInstanceID());
-        Destroy(g);
-
-
-    }*/ 
+   
     void Setup()
     {
-        //Debug.LogWarning("this is " + _player_id + "and we're setting up");
-        int i = 0;
+       int i = 0;
         while (i < Teams.Count) 
         { 
             Team_Balance_Text[i].text = Teams[i].Money.ToString();
             Team_Bid_Text[i].text = Teams[i].Bid.ToString();
             Team_Names_Text[i].text = Teams[i].Colour;
-             
             i += 1;
         }
         Reset_Timer();
@@ -166,7 +117,6 @@ public class Licytacja_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void Setup_Stage_2_Rpc()
     {
-       // Debug.LogWarning("this is " + _player_id + "and we're in the second setup stage");
         int i = 0;
         while (i < Teams.Count) 
         {
@@ -179,23 +129,25 @@ public class Licytacja_Controller : NetworkBehaviour
         }
         _game_ongoing = true;
     }
+
     public void Update_Money_Status_For_Team(int i) 
     {
         Team_Balance_Text[i].text = Teams[i].Money.ToString();
         Team_Bid_Text[i].text = Teams[i].Bid.ToString();
     }
+
     public void Update_Money_Status()
     {
         int i = 0;
         while (i < Teams.Count) 
         {
-             
             Update_Money_Status_For_Team(i);
             i += 1;  
         }
         Update_Buttons();
         Total_Bid_Text.text = _total_bid.ToString();
     }
+
     public void Update_Buttons() 
     {
         if (_winning_bid_amount != Teams[(int)_player_id].Bid)
@@ -223,7 +175,6 @@ public class Licytacja_Controller : NetworkBehaviour
     public void Va_Banque() 
     {
         int amount = Teams[ (int)_player_id].Money+Teams[(int)_player_id].Bid- _winning_bid_amount;
-        //Debug.LogWarning("va banqueing " + amount +"  with a winning bid of " + _winning_bid_amount);
         Bid(amount);
     }
 
@@ -242,37 +193,31 @@ public class Licytacja_Controller : NetworkBehaviour
         int difference = _winning_bid_amount +amount -Teams[team_id].Bid;
         if ((Teams[team_id].Money >= difference && Teams[team_id].Bid!=_winning_bid_amount )|| Teams[team_id].Money >= difference && _winning_bid_amount==500)
         {
-           // Teams[team_id].Raise_Bid(amount);
             _winning_bid_amount +=amount;
-            //_total_bid += amount; 
-            
             Update_Bids_Rpc(team_id, difference, _winning_bid_amount, team_id);
-           
             if (Teams[team_id].Money == 0) 
             {
                 Sell(team_id);
             }
         }
     }
+
     [Rpc(SendTo.Everyone)]
     public void Update_Bids_Rpc(int team_id, int difference,   int winning_bid,int winning_team_id) 
-        {
-        //Debug.LogWarning("raising bid by " + difference);
+    {
         Teams[team_id].Raise_Bid(difference);
         _total_bid += difference;
-         _winning_bid_amount = winning_bid;
+            _winning_bid_amount = winning_bid;
         _Winning_Team_ID = winning_team_id;
         Reset_Timer();
         Update_Money_Status();
-}
+    }
 
-   
     public void Reset_Timer () 
     {
         _timer = Time.time;
-        
     }
-    // Update is called once per frame
+
     void Update()
     {
         
@@ -290,10 +235,8 @@ public class Licytacja_Controller : NetworkBehaviour
             }
         }
         else {
-
             if (Time.time - _timer > _time_given && _is_host && !_has_Set_Up & _is_host) 
             {
-                 
                 Setup_Stage_2_Rpc();
             }
         }
