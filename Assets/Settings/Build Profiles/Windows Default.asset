@@ -23,6 +23,12 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Startup.unity
   - m_enabled: 1
+    m_path: Assets/_Project/Scenes/Category draw.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/Summary.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/TeamCreator.unity
+  - m_enabled: 1
     m_path: Assets/_Project/Scenes/MainMenu.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Leaderboard.unity
