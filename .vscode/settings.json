@@ -14,6 +14,7 @@
         "*.prefab",
         "*.unity"
     ],
+    "cSpell.spellCheckOnlyWorkspaceFiles": true,
     "cSpell.words": [
         "Netcode",
         "Newtonsoft",
