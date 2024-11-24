@@ -9,9 +9,11 @@ using UnityEngine;
 public class Team : INetworkSerializable
 {
     private int money = Utils.START_MONEY;
+    private int clues = 0;
     private int cluesUsed = 0;
+    private int blackBoxes = 0;
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
-    private List<string> powerUps = new();
+    private List<string> powerUps = new(); //deprecated?
     private List<string> badges = new();
     private string name;
 
@@ -21,10 +23,12 @@ public class Team : INetworkSerializable
 
     public Team(string name = "New Team") => Name = name;
 
-    public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
+    public Team(string name, int money, int clues, int cluesUsed, int blackBoxes, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
     {
         Money = money;
+        Clues = clues;
         CluesUsed = cluesUsed;
+        BlackBoxes = blackBoxes;
         InactiveRounds = inactiveRounds;
         this.badges = badges;
         this.powerUps = powerUps;
@@ -48,6 +52,17 @@ public class Team : INetworkSerializable
             money = value;
         }
     }
+    public int Clues
+    {
+        get => clues;
+        set
+        {
+            if (value < 0)
+                throw new Exception("Dostępnych wskazówek nie może być mniej niż 0.");
+
+            clues = value;
+        }
+    }
 
     public int CluesUsed
     {
@@ -60,6 +75,17 @@ public class Team : INetworkSerializable
             }
 
             cluesUsed = value;
+        }
+    }
+    public int BlackBoxes
+    {
+        get => blackBoxes;
+        set
+        {
+            if (value < 0)
+                throw new Exception("Czarne Skrzynki nie mogą być na minusie.");
+
+            blackBoxes = value;
         }
     }
     public int InactiveRounds

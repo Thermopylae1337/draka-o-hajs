@@ -1,4 +1,5 @@
 using TMPro;
+using System;
 using UnityEngine;
 
 public class CategoryDrawManager : MonoBehaviour
@@ -68,6 +69,22 @@ public class CategoryDrawManager : MonoBehaviour
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
             // WyświetlPytanie(category)
+        }
+    }
+
+    void AwardBiddingWinners(Team team, String categoryName)
+    {
+        if (categoryName.Equals("Czarna Skrzynka"))
+        {
+            team.BlackBoxes++;
+        }
+        else if (categoryName.Equals("Podpowiedz"))
+        {
+            team.Clues++;
+        }
+        else //wylosowano kategorie pytaniowa
+        {
+            //todo tutaj wywolac metode rozpoczynajaca etap pytania
         }
     }
 

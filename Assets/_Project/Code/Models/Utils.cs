@@ -29,7 +29,6 @@ public static class Utils
         {
             try
             {
-
                 CurrentTeam = Team.Deserialize("team.json");
             }
             catch (Exception e)
