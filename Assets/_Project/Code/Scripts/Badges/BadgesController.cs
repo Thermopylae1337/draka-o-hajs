@@ -3,8 +3,5 @@ using UnityEngine.SceneManagement;
 
 public class BadgesController : MonoBehaviour
 {
-    public void LoadMainMenuScene()
-    {
-        SceneManager.LoadScene("MainMenu");
-    }
+    public void LoadMainMenuScene() => SceneManager.LoadScene("MainMenu");
 }
