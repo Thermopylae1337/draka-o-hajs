@@ -15,6 +15,12 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Leaderboard.unity
     guid: ed453765ca547db41bab0d9e2fa1370f
   - enabled: 1
+    path: Assets/_Project/Scenes/Category draw.unity
+    guid: 1dec0d610bd9f0c488e83488219a2940
+  - enabled: 1
+    path: Assets/_Project/Scenes/Summary.unity
+    guid: c98ccf6f65c38264390a0ec7c4dac8a7
+  - enabled: 1
     path: Assets/_Project/Scenes/Lobby.unity
     guid: 8583b3a2c6d6ae34a902e0ed3695774f
   - enabled: 1
