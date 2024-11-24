@@ -10,30 +10,28 @@ public class Bidding_War_Controller : NetworkBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public GameObject obj;
-    NetworkManager NetMan;
-    public List<TextMeshProUGUI> Team_Names_Text;
-    public List<TextMeshProUGUI> Team_Bid_Text;
-    public List<TextMeshProUGUI> Team_Balance_Text;
-    public List<TextMeshProUGUI> Bid_Button_Text;
-    public TextMeshProUGUI Timer_Text;
-    public List<Team> Teams;
-    public TextMeshProUGUI Total_Bid_Text;
-    int _total_bid;
-    float _timer;
-    float _time_given = 5;
-    int _Winning_Team_ID = 0;
-    int _winning_bid_amount = 0;
-    bool _has_Set_Up = false;
-    bool _is_host;
-    ulong _player_id;
-    bool _game_ongoing = false;
-    //przyciski kolejno maj� warto��: 100,200,300,400,500,1000z�
+    NetworkManager netMan;
+    public List<TextMeshProUGUI> teamNamesText;
+    public List<TextMeshProUGUI> teamBidText;
+    public List<TextMeshProUGUI> teamBalanceText;
+    public List<TextMeshProUGUI> bidButtonText;
+    public TextMeshProUGUI timerText;
+    public List<Team> teams;
+    public TextMeshProUGUI totalBidText;
+    int totalBid;
+    float timer;
+    float timeGiven = 5;
+    int winningTeamID = 0;
+    int winningBidAmount = 0;
+    bool hasSetUp = false;  
+    bool gameOngoing = false;
+    //przyciski kolejno mają wartość: 100,200,300,400,500,1000zł
     //no i va banque
-    //warto�� przycisku= warto�� o jak� dru�yna *przebija stawk�*
-    //mo�naby te� zrobi� z ka�dego przycisku oddzielny var ale imo tak jest �adniej.
-    public List<Button> Bid_Buttons;
-    public Button VB_Button;
-    public Button ExitButton;
+    //wartość przycisku= wartość o jaką drużyna *przebija stawkę*
+    //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej. 
+    public List<Button> bidButtons;
+    public Button VBButton;
+    public Button exitButton;
     /*
     ///make it so each event removes itself by using the id
     List<Timer> Active_Timers
@@ -42,13 +40,13 @@ public class Bidding_War_Controller : NetworkBehaviour
 
     public class Timer
     {
-        float start_time;
-        float desired_gap;
+        float StartTime;
+        float DesiredGap;
     }
 
     public void Exit_To_Lobby()
     {
-        Disconnect_Player_Rpc(this._player_id);
+        Disconnect_Player_Rpc(NetworkManager.Singleton.LocalClientId);
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
     [Rpc(SendTo.Server)]
@@ -58,30 +56,26 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-
-        _player_id = General_Game_Data.ID;
-        NetMan = General_Game_Data.NetMan;
-        _is_host = General_Game_Data._is_host;
-        Teams = General_Game_Data.Teams;
-        if (!_is_host)
+        teams = General_Game_Data.Teams;
+        if (!NetworkManager.Singleton.IsHost)
         {
-            NetMan.StartClient();
+            netMan.StartClient();
         }
         else
         {
-            NetMan.StartHost();
+            netMan.StartHost();
         }
-        if (Teams.Count < 4)
+        if (teams.Count < 4)
         {
-            Total_Bid_Text.transform.position = Team_Balance_Text[Teams.Count].transform.position;
-            Total_Bid_Text.text = "aaaaa";
+            totalBidText.transform.position = teamBalanceText[teams.Count].transform.position;
+            totalBidText.text = "aaaaa";
         }
-        int i = Teams.Count;
-        while (i < Team_Names_Text.Count)
+        int i = teams.Count;
+        while (i < teamNamesText.Count)
         {
-            Destroy(Team_Names_Text[i]);
-            Destroy(Team_Bid_Text[i]);
-            Destroy(Team_Balance_Text[i]);
+            Destroy(teamNamesText[i]);
+            Destroy(teamBidText[i]);
+            Destroy(teamBalanceText[i]);
             i += 1;
         }
         Setup(); ;
@@ -92,24 +86,24 @@ public class Bidding_War_Controller : NetworkBehaviour
 
     public void Add_Listners()
     {
-        Bid_Buttons[0].onClick.AddListener(delegate { Bid(100); });
-        Bid_Buttons[1].onClick.AddListener(delegate { Bid(200); });
-        Bid_Buttons[2].onClick.AddListener(delegate { Bid(300); });
-        Bid_Buttons[3].onClick.AddListener(delegate { Bid(400); });
-        Bid_Buttons[4].onClick.AddListener(delegate { Bid(500); });
-        Bid_Buttons[5].onClick.AddListener(delegate { Bid(1000); });
-        VB_Button.onClick.AddListener(delegate { Va_Banque(); });
-        ExitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
+        bidButtons[0].onClick.AddListener(delegate { Bid(100); });
+        bidButtons[1].onClick.AddListener(delegate { Bid(200); });
+        bidButtons[2].onClick.AddListener(delegate { Bid(300); });
+        bidButtons[3].onClick.AddListener(delegate { Bid(400); });
+        bidButtons[4].onClick.AddListener(delegate { Bid(500); });
+        bidButtons[5].onClick.AddListener(delegate { Bid(1000); });
+        VBButton.onClick.AddListener(delegate { Va_Banque(); });
+        exitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
     }
 
     void Setup()
     {
         int i = 0;
-        while (i < Teams.Count)
+        while (i < teams.Count)
         {
-            Team_Balance_Text[i].text = Teams[i].Money.ToString();
-            Team_Bid_Text[i].text = Teams[i].Bid.ToString();
-            Team_Names_Text[i].text = Teams[i].Colour;
+            teamBalanceText[i].text = teams[i].Money.ToString();
+            teamBidText[i].text = teams[i].Bid.ToString();
+            teamNamesText[i].text = teams[i].Colour;
             i += 1;
         }
         Reset_Timer();
@@ -119,71 +113,70 @@ public class Bidding_War_Controller : NetworkBehaviour
     void Setup_Stage_2_Rpc()
     {
         int i = 0;
-        while (i < Teams.Count)
+        while (i < teams.Count)
         {
-            Teams[i].Raise_Bid(500);
+            teams[i].Raise_Bid(500);
             Update_Money_Status_For_Team(i);
             i += 1;
-            _winning_bid_amount = 500;
-            _total_bid = Teams.Count * 500;
-            Total_Bid_Text.text = _total_bid.ToString();
+            winningBidAmount = 500;
+            totalBid = teams.Count * 500;
+            totalBidText.text = totalBid.ToString();
         }
-        _game_ongoing = true;
+        gameOngoing = true;
     }
 
     public void Update_Money_Status_For_Team(int i)
     {
-        Team_Balance_Text[i].text = Teams[i].Money.ToString();
-        Team_Bid_Text[i].text = Teams[i].Bid.ToString();
+        teamBalanceText[i].text = teams[i].Money.ToString();
+        teamBidText[i].text = teams[i].Bid.ToString();
     }
 
     public void Update_Money_Status()
     {
         int i = 0;
-        while (i < Teams.Count)
+        while (i < teams.Count)
         {
             Update_Money_Status_For_Team(i);
             i += 1;
         }
         Update_Buttons();
-        Total_Bid_Text.text = _total_bid.ToString();
+        totalBidText.text = totalBid.ToString();
     }
 
     public void Update_Buttons()
     {
-        if (_winning_bid_amount != Teams[(int)_player_id].Bid)
-        {
-            int difference = _winning_bid_amount - Teams[(int)_player_id].Bid;
+        bidButtonText[0].text = "100";
+        bidButtonText[1].text = "200";
+        bidButtonText[2].text = "300";
+        bidButtonText[3].text = "400";
+        bidButtonText[4].text = "500";
+        bidButtonText[5].text = "1000";
 
-            Bid_Button_Text[0].text = "100(" + (difference + 100).ToString() + ")";
-            Bid_Button_Text[1].text = "200(" + (difference + 200).ToString() + ")";
-            Bid_Button_Text[2].text = "300(" + (difference + 300).ToString() + ")";
-            Bid_Button_Text[3].text = "400(" + (difference + 400).ToString() + ")";
-            Bid_Button_Text[4].text = "500(" + (difference + 500).ToString() + ")";
-            Bid_Button_Text[5].text = "1000(" + (difference + 1000).ToString() + ")";
-        }
-        else
+        if (winningBidAmount != teams[(int)NetworkManager.Singleton.LocalClientId].Bid)
         {
-            Bid_Button_Text[0].text = "100";
-            Bid_Button_Text[1].text = "200";
-            Bid_Button_Text[2].text = "300";
-            Bid_Button_Text[3].text = "400";
-            Bid_Button_Text[4].text = "500";
-            Bid_Button_Text[5].text = "1000";
+            int difference = winningBidAmount - teams[(int)NetworkManager.Singleton.LocalClientId].Bid;
 
+            bidButtonText[0].text += "(" + (difference + 100).ToString() + ")";
+            bidButtonText[1].text += "(" + (difference + 200).ToString() + ")";
+            bidButtonText[2].text += "(" + (difference + 300).ToString() + ")";
+            bidButtonText[3].text += "(" + (difference + 400).ToString() + ")";
+            bidButtonText[4].text += "(" + (difference + 500).ToString() + ")";
+            bidButtonText[5].text += "(" + (difference + 1000).ToString() + ")";
         }
+
+
     }
     public void Va_Banque()
     {
-        int amount = Teams[(int)_player_id].Money + Teams[(int)_player_id].Bid - _winning_bid_amount;
+        int amount = teams[(int)NetworkManager.Singleton.LocalClientId].Money + teams[(int)NetworkManager.Singleton.LocalClientId].Bid - winningBidAmount;
         Bid(amount);
     }
 
     public void Bid(int amount)
     {
-        if (_game_ongoing)
+        if (gameOngoing)
         {
-            Team_Bid_Rpc(_player_id, amount);
+            Team_Bid_Rpc(NetworkManager.Singleton.LocalClientId, amount);
         }
     }
 
@@ -191,12 +184,12 @@ public class Bidding_War_Controller : NetworkBehaviour
     public void Team_Bid_Rpc(ulong teamid, int amount)
     {
         int team_id = (int)teamid;
-        int difference = _winning_bid_amount + amount - Teams[team_id].Bid;
-        if ((Teams[team_id].Money >= difference && Teams[team_id].Bid != _winning_bid_amount) || Teams[team_id].Money >= difference && _winning_bid_amount == 500)
+        int difference = winningBidAmount + amount - teams[team_id].Bid;
+        if ((teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount) || teams[team_id].Money >= difference && winningBidAmount == 500)
         {
-            _winning_bid_amount += amount;
-            Update_Bids_Rpc(team_id, difference, _winning_bid_amount, team_id);
-            if (Teams[team_id].Money == 0)
+            winningBidAmount += amount;
+            Update_Bids_Rpc(team_id, difference, winningBidAmount, team_id);
+            if (teams[team_id].Money == 0)
             {
                 Sell(team_id);
             }
@@ -206,38 +199,38 @@ public class Bidding_War_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     public void Update_Bids_Rpc(int team_id, int difference, int winning_bid, int winning_team_id)
     {
-        Teams[team_id].Raise_Bid(difference);
-        _total_bid += difference;
-        _winning_bid_amount = winning_bid;
-        _Winning_Team_ID = winning_team_id;
+        teams[team_id].Raise_Bid(difference);
+        totalBid += difference;
+        winningBidAmount = winning_bid;
+        winningTeamID = winning_team_id;
         Reset_Timer();
         Update_Money_Status();
     }
 
     public void Reset_Timer()
     {
-        _timer = Time.time;
+        timer = Time.time;
     }
 
     void Update()
     {
 
-        if (_game_ongoing)
+        if (gameOngoing)
         {
-            if (_winning_bid_amount != 500)
+            if (winningBidAmount != 500)
             {
-                Timer_Text.text = (_time_given - (Time.time - _timer)).ToString();
-                if (Time.time - _timer > _time_given && _is_host)
+                timerText.text = (timeGiven - (Time.time - timer)).ToString();
+                if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 
-                    Sell(_Winning_Team_ID);
+                    Sell(winningTeamID);
 
                 }
             }
         }
         else
         {
-            if (Time.time - _timer > _time_given && _is_host && !_has_Set_Up & _is_host)
+            if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost && !hasSetUp & NetworkManager.Singleton.IsHost)
             {
                 Setup_Stage_2_Rpc();
             }
@@ -251,12 +244,13 @@ public class Bidding_War_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void Sell_Rpc(int team_id)
     {
-        foreach (Team t in Teams)
+        foreach (Team t in teams)
         {
             t.Reset_Bid();
         }
-        _game_ongoing = false;
-        Timer_Text.text = "Wygrywa dru�yna " + Teams[team_id].Colour;
-        //na razie team_id nie jest na nic potrzebne ale jest na p�niej �eby mo�na by�o w nast�pnej scenie stwierdzi� kto wygra� licytacj�
+        gameOngoing = false;
+        timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
+        //na razie team_id nie jest na nic potrzebne ale jest na później żeby można było w następnej scenie stwierdzić kto wygrał licytację
     }
 }
+

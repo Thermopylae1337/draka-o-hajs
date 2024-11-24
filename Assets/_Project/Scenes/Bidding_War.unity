@@ -2214,39 +2214,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   obj: {fileID: 0}
-  Team_Names_Text:
+  teamNamesText:
   - {fileID: 1247782621}
   - {fileID: 1863622290}
   - {fileID: 540454610}
   - {fileID: 622657437}
-  Team_Bid_Text:
+  teamBidText:
   - {fileID: 1726296337}
   - {fileID: 1593539204}
   - {fileID: 341040795}
   - {fileID: 1422109644}
-  Team_Balance_Text:
+  teamBalanceText:
   - {fileID: 1893346882}
   - {fileID: 1970227131}
   - {fileID: 399117890}
   - {fileID: 1413879594}
-  Bid_Button_Text:
-  - {fileID: 1555673408}
-  - {fileID: 1442908995}
-  - {fileID: 448070719}
-  - {fileID: 276096861}
-  - {fileID: 981551044}
-  - {fileID: 1220248587}
-  Timer_Text: {fileID: 1195921157}
-  Total_Bid_Text: {fileID: 2107894925}
-  Bid_Buttons:
+  bidButtonText:
+  - {fileID: 1726296337}
+  - {fileID: 1593539204}
+  - {fileID: 341040795}
+  - {fileID: 1422109644}
+  timerText: {fileID: 1195921157}
+  totalBidText: {fileID: 2107894925}
+  bidButtons:
   - {fileID: 1423702031}
   - {fileID: 725896569}
   - {fileID: 1125602500}
   - {fileID: 708504049}
   - {fileID: 83599363}
   - {fileID: 154564692}
-  VB_Button: {fileID: 841063609}
-  ExitButton: {fileID: 1578211771}
+  VBButton: {fileID: 841063609}
+  exitButton: {fileID: 1578211771}
 --- !u!114 &621229572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2259,7 +2257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3812340629
+  GlobalObjectIdHash: 2886244632
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
