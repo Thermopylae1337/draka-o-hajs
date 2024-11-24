@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -58,7 +58,9 @@ public class Team : INetworkSerializable
         set
         {
             if (value < 0)
+            {
                 throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
+            }
 
             cluesUsed = value;
         }
@@ -69,7 +71,9 @@ public class Team : INetworkSerializable
         set
         {
             if (value < 0)
+            {
                 throw new Exception("Rundy bierności w licytacji nie mogą być na minusie.");
+            }
 
             inactiveRounds = value;
         }
@@ -92,7 +96,7 @@ public class Team : INetworkSerializable
         File.WriteAllText(path, jsonString);
     }
 
-    static public Team Deserialize(string path)
+    public static Team Deserialize(string path)
     {
         string jsonFromFile = File.ReadAllText(path);
         return JsonUtility.FromJson<Team>(jsonFromFile);
@@ -105,7 +109,7 @@ public class Team : INetworkSerializable
         serializer.SerializeValue(ref cluesUsed);
         serializer.SerializeValue(ref inactiveRounds);
 
-        Utils.NetworkSerializeList(serializer, powerUps);
-        Utils.NetworkSerializeList(serializer, badges);
+        _ = Utils.NetworkSerializeList(serializer, powerUps);
+        _ = Utils.NetworkSerializeList(serializer, badges);
     }
 }

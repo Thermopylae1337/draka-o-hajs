@@ -1,7 +1,7 @@
-﻿using System;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 using Unity.Netcode;
 
 public class Question : INetworkSerializable
@@ -13,7 +13,7 @@ public class Question : INetworkSerializable
     private readonly List<string> correctAnswers;
     [JsonProperty("podpowiedzi", Order = 3)]
     private readonly List<string> answerChoices;
-    private static readonly Random random = new();
+    private static readonly Random _random = new();
     private string content;
 
     public string[] Hints
@@ -25,7 +25,7 @@ public class Question : INetworkSerializable
             // Fisher-Yates Shuffle na kopii listy
             for (int i = choicesCopy.Count - 1; i > 0; i--)
             {
-                int j = random.Next(i + 1);
+                int j = _random.Next(i + 1);
 
                 (choicesCopy[j], choicesCopy[i]) = (choicesCopy[i], choicesCopy[j]);
             }
@@ -36,9 +36,9 @@ public class Question : INetworkSerializable
 
     public Question(string content, List<string> correctAnswers, List<string> falseAnswers)
     {
-        this.Content = content;
+        Content = content;
         this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
-        this.answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
+        answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
     }
 
     public bool IsCorrect(string answer)
@@ -70,7 +70,7 @@ public class Question : INetworkSerializable
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref content);
-        Utils.NetworkSerializeList(serializer, correctAnswers);
-        Utils.NetworkSerializeList(serializer, answerChoices);
+        _ = Utils.NetworkSerializeList(serializer, correctAnswers);
+        _ = Utils.NetworkSerializeList(serializer, answerChoices);
     }
 }

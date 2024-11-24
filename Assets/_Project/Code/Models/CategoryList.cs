@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.IO;
 public class CategoryList
 {
     [JsonProperty("listaKategorii")]
-    readonly List<Category> categoryList = new();
+    private readonly List<Category> categoryList = new();
 
     public CategoryList(List<Category> list)
     {
