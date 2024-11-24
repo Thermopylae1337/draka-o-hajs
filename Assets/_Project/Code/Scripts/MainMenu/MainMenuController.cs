@@ -16,4 +16,5 @@ public class MainMenuController : MonoBehaviour
         lobbyType = LobbyTypeEnum.Join;
         SceneManager.LoadScene("TeamCreator");
     }
+    public void LoadBadgesScene() => SceneManager.LoadScene("Badges");
 }

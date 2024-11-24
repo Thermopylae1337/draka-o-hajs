@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: c8bdf2577037c604f8bb68171e931f18
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - badgePrefab: {fileID: 1151526656023075185, guid: 06f6761aa6c26b14e98f6254eb27eae0, type: 3}
+  - content: {instanceID: 0}
+  - basicSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
