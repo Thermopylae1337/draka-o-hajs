@@ -9,7 +9,8 @@
         ".vscode-insiders",
         ".gitignore",
         "manifest.json",
-        "*.txt"
+        "*.txt",
+        "*.asset"
     ],
     "cSpell.words": [
         "Netcode",
