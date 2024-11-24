@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 
-
 public class Badge
 {
     [JsonProperty("name")]

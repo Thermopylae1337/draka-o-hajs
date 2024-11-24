@@ -58,7 +58,9 @@ public class Team : INetworkSerializable
         set
         {
             if (value < 0)
+            {
                 throw new Exception("Dostępnych wskazówek nie może być mniej niż 0.");
+            }
 
             clues = value;
         }
@@ -83,7 +85,9 @@ public class Team : INetworkSerializable
         set
         {
             if (value < 0)
+            {
                 throw new Exception("Czarne Skrzynki nie mogą być na minusie.");
+            }
 
             blackBoxes = value;
         }
