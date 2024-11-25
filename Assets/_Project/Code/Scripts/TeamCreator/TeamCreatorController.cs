@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class TeamCreatorController : MonoBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
@@ -27,7 +26,7 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
         if (!string.IsNullOrEmpty(userInput))
         {
             //dodanie zapisu, odczytu teamu?
-            // jakis check na zakazane slowa? XDD
+            // jakis check na zakazane słowa? XDD
             inputField.interactable = false;
             Utils.CurrentTeam.Name = userInput;
             StartGame();
@@ -39,25 +38,19 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
     public void OnReturnToMenu()
     {
         returnButton.interactable = false;
-        MainMenuController.lobbyType = LobbyType.NotSelected;
+        MainMenuController.lobbyType = LobbyTypeEnum.NotSelected;
         SceneManager.LoadScene("MainMenu");
     }
 
     private void StartGame()
     {
 
-        switch (MainMenuController.lobbyType)
+        _ = MainMenuController.lobbyType switch
         {
-            case LobbyType.Host:
-                NetworkManager.Singleton.StartHost();
-                break;
-            case LobbyType.Join:
-                NetworkManager.Singleton.StartClient();
-                break;
-            default:
-                throw new System.Exception("Lobby type not selected");
-        }
-
-        NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            LobbyTypeEnum.Host => NetworkManager.Singleton.StartHost(),
+            LobbyTypeEnum.Join => NetworkManager.Singleton.StartClient(),
+            _ => throw new System.Exception("Lobby type not selected"),
+        };
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
     }
 }
