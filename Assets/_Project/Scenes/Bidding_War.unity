@@ -2243,7 +2243,7 @@ MonoBehaviour:
   - {fileID: 708504049}
   - {fileID: 83599363}
   - {fileID: 154564692}
-  VBButton: {fileID: 841063609}
+  vbButton: {fileID: 841063609}
   exitButton: {fileID: 1578211771}
 --- !u!114 &621229572
 MonoBehaviour:

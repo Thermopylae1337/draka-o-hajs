@@ -59,11 +59,11 @@ public class Bidding_War_Controller : NetworkBehaviour
         teams = General_Game_Data.Teams;
         if (!NetworkManager.Singleton.IsHost)
         {
-            netMan.StartClient();
+            NetworkManager.Singleton.StartClient();
         }
         else
         {
-            netMan.StartHost();
+            NetworkManager.Singleton.StartHost();
         }
         if (teams.Count < 4)
         {
@@ -104,6 +104,14 @@ public class Bidding_War_Controller : NetworkBehaviour
             teamBalanceText[i].text = teams[i].Money.ToString();
             teamBidText[i].text = teams[i].Bid.ToString();
             teamNamesText[i].text = teams[i].Colour;
+            i += 1;
+        }
+        
+        while (i < teamNamesText.Count)
+        {
+            Destroy(teamNamesText[i]);
+            Destroy(teamBidText[i]);
+            Destroy(teamBalanceText[i]);
             i += 1;
         }
         Reset_Timer();
