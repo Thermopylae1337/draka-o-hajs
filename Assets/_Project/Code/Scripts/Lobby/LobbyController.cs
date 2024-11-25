@@ -15,7 +15,6 @@ public class LobbyController : NetworkBehaviour
     public GameObject playerListGameObject;
     public GameObject playerListEntryPrefab;
 
-    public Button questionButton;
     private Image readyButtonImage;
     private bool selfReady = false;
     private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
@@ -29,10 +28,8 @@ public class LobbyController : NetworkBehaviour
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
 
         startButton.interactable = false;
-        questionButton.onClick.AddListener(OnStartGame);
         OnSelfJoin();
     }
-
 
     public void OnSelfJoin()
     {
@@ -111,18 +108,5 @@ public class LobbyController : NetworkBehaviour
     {
         Destroy(playerList[clientId].Item2.gameObject);
         _ = playerList.Remove(clientId);
-    }
-    public void OnStartGame()
-    {
-        if (IsHost)
-        {
-            LoadGameSceneRpc();
-        }
-    }
-
-    [Rpc(SendTo.Everyone)]
-    private void LoadGameSceneRpc()
-    {
-        NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", LoadSceneMode.Single);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,8 +30,6 @@ public class AnswerController : NetworkBehaviour
     private void Start()
     {
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
-
-        currentQuestionIndex++;
         _isAnswerChecked = false;
         SetHintMode(false);
 
@@ -197,6 +195,7 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void StartRoundServerRpc()
     {
+        currentQuestionIndex++;
         if (currentQuestionIndex <= Utils.QUESTIONS_AMOUNT)
         {
             SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
