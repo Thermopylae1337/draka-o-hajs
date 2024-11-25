@@ -20,10 +20,10 @@ public class LobbyController : NetworkBehaviour
     private bool selfReady = false;
     private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
 
-    Color readyColor = Color.green;
-    Color notReadyColor = Color.red;
+    private Color readyColor = Color.green;
+    private Color notReadyColor = Color.red;
 
-    void Start()
+    private void Start()
     {
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
@@ -48,20 +48,14 @@ public class LobbyController : NetworkBehaviour
     }
 
     [Rpc(SendTo.NotMe)]
-    void RequestReadyBroadcastRpc()
-    {
-        BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
-    }
+    private void RequestReadyBroadcastRpc() => BroadcastPlayerReadySetRpc(selfReady, NetworkManager.Singleton.LocalClientId, Utils.CurrentTeam);
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerJoinedRpc(ulong clientId, Team team)
-    {
-        AddPlayerToList(clientId, team);
-    }
+    private void BroadcastPlayerJoinedRpc(ulong clientId, Team team) => AddPlayerToList(clientId, team);
 
     private void AddPlayerToList(ulong clientId, Team team)
     {
-        var playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
+        GameObject playerListTile = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
         playerListTile.name = $"PlayerListTile_{clientId}";
         playerListTile.GetComponent<TMP_Text>().text = team.Name;
         playerList[clientId] = (false, playerListTile.transform, team);
@@ -75,7 +69,7 @@ public class LobbyController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, Team team)
+    private void BroadcastPlayerReadySetRpc(bool ready, ulong clientId, Team team)
     {
         if (!playerList.ContainsKey(clientId))
         {
@@ -94,16 +88,16 @@ public class LobbyController : NetworkBehaviour
 
     public void OnPlayerLeave()
     {
-        if (IsHost) DisconnectClientsRpc();
+        if (IsHost)
+        {
+            DisconnectClientsRpc();
+        }
+
         DisconnectSelf();
     }
-
 
     [Rpc(SendTo.NotMe)]
-    private void DisconnectClientsRpc()
-    {
-        DisconnectSelf();
-    }
+    private void DisconnectClientsRpc() => DisconnectSelf();
 
     private void DisconnectSelf()
     {
@@ -113,10 +107,10 @@ public class LobbyController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    void BroadcastPlayerLeftRpc(ulong clientId)
+    private void BroadcastPlayerLeftRpc(ulong clientId)
     {
         Destroy(playerList[clientId].Item2.gameObject);
-        playerList.Remove(clientId);
+        _ = playerList.Remove(clientId);
     }
     public void OnStartGame()
     {

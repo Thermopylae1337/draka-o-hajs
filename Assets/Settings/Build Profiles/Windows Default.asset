@@ -18,12 +18,16 @@ MonoBehaviour:
   m_PlatformId: 4e3c793746204150860bf175a9a41a05
   m_PlatformBuildProfile:
     rid: 8500523967411650728
-  m_OverrideGlobalSceneList: 1
+  m_OverrideGlobalSceneList: 0
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Startup.unity
   - m_enabled: 1
-    m_path: Assets/_Project/Scenes/CategoryDraw.unity
+    m_path: Assets/_Project/Scenes/Category draw.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/Summary.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/TeamCreator.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/MainMenu.unity
   - m_enabled: 1
@@ -31,7 +35,7 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Lobby.unity
   - m_enabled: 1
-    m_path: Assets/_Project/Scenes/QuestionStage.unity
+    m_path: Assets/_Project/Scenes/Badges.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings: []

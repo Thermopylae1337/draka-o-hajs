@@ -1,15 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 using TMPro;
+using UnityEngine;
 
 public class CategoryDrawManager : MonoBehaviour
 {
-    int currentRound = 0;
-    Wheel wheel;
-    TMP_Text categoryDisplayText;
-    TMP_Text roundDisplayText;
-
-    string[] categories = new string[]       // temp
+    private int currentRound = 0;
+    private Wheel wheel;
+    private TMP_Text categoryDisplayText;
+    private TMP_Text roundDisplayText;
+    private readonly string[] categories = new string[]       // temp
     {
         "Czarna Skrzynka",
         "Geografia",
@@ -22,8 +21,8 @@ public class CategoryDrawManager : MonoBehaviour
         "Kulinarne Przepisy",
         "Wynalazki i Odkrycia",
         "Mitologia",
-        "J�zyki i Idiomy",
-        "Zwierz�ta",
+        "Języki i Idiomy",
+        "Zwierzęta",
         "Miejsca i Zabytki",
         "Trendy i Popkultura",
         "Ciekawe Fakty",
@@ -32,7 +31,7 @@ public class CategoryDrawManager : MonoBehaviour
         "Ekologia",
         "Gry i Zagadki",
         "Techniki Przetrwania",
-        "Podr�e",
+        "Podróże",
         "Sztuki Walki",
         "Gospodarka",
         "Edukacja",
@@ -44,7 +43,7 @@ public class CategoryDrawManager : MonoBehaviour
         "Astronomia"
     };
 
-    void Start()
+    private void Start()
     {
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
@@ -53,7 +52,7 @@ public class CategoryDrawManager : MonoBehaviour
         wheel.OnWheelStopped += HandleWheelStopped;
     }
 
-    void HandleWheelStopped(int result)
+    private void HandleWheelStopped(int result)
     {
         string category = categories[result];
         categoryDisplayText.text = "Wylosowano: " + category;
@@ -61,22 +60,38 @@ public class CategoryDrawManager : MonoBehaviour
         {
             // CzarnaSkrzynka()
         }
-        else if (categories[result] == "Podpowied�")
+        else if (categories[result] == "Podpowiedź")
         {
-            // dru�yna.podpowiedzi++ or sth;
+            // drużyna.podpowiedzi++ or sth;
         }
         else
         {
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
-            // Wy�wietlPytanie(category)
+            // WyświetlPytanie(category)
+        }
+    }
+
+    void AwardBiddingWinners(Team team, String categoryName)
+    {
+        if (categoryName.Equals("Czarna Skrzynka"))
+        {
+            team.BlackBoxes++;
+        }
+        else if (categoryName.Equals("Podpowiedz"))
+        {
+            team.Clues++;
+        }
+        else //wylosowano kategorie pytaniowa
+        {
+            //todo tutaj wywolac metode rozpoczynajaca etap pytania
         }
     }
 
     public void SpinWheel()
     {
-        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest wi�kszy od zera"
-         * ~w moim przypakdu currentRound < ROUNDS_LIMIT
+        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest większy od zera"
+         * ~w moim przypadku currentRound < ROUNDS_LIMIT
          * imo to powinno by� sprawdzane przy po odpowiedzi na pytanie,
          * zamiast �adowa� scene losowania tylko �eby zn�w �adowa� podsumowanie
          */
