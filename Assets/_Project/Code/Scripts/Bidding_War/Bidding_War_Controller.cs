@@ -30,7 +30,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     //wartość przycisku= wartość o jaką drużyna *przebija stawkę*
     //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej. 
     public List<Button> bidButtons;
-    public Button VBButton;
+    public Button vbButton;
     public Button exitButton;
     /*
     ///make it so each event removes itself by using the id
@@ -92,7 +92,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         bidButtons[3].onClick.AddListener(delegate { Bid(400); });
         bidButtons[4].onClick.AddListener(delegate { Bid(500); });
         bidButtons[5].onClick.AddListener(delegate { Bid(1000); });
-        VBButton.onClick.AddListener(delegate { Va_Banque(); });
+        vbButton.onClick.AddListener(delegate { Va_Banque(); });
         exitButton.onClick.AddListener(delegate { Exit_To_Lobby(); });
     }
 
