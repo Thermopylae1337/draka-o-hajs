@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,7 @@ public class Wheel : MonoBehaviour
     [SerializeField] private float velocity = 0f;
     [SerializeField] private readonly int numberOfSegments = 31;       // Ilo�� segment�w ko�a
 
-    [SerializeField] private readonly GameObject segmentPrefab;              // Prefab pojedynczego segmentu
+    [SerializeField] private GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
     public delegate void WheelStoppedHandler(int wynik);
     public event WheelStoppedHandler OnWheelStopped;
@@ -89,12 +90,13 @@ public class Wheel : MonoBehaviour
         }
     }
 
-    public void SpinWheel()
+    [Rpc(SendTo.NotMe)]
+    public void SpinWheelRpc(int velocity)
     {
         if (!spinning)
         {
             spinning = true;
-            velocity = Random.Range(1000, 4000);
+            this.velocity = velocity;
         }
     }
 

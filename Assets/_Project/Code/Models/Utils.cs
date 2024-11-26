@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Networking.Transport.Error;
 using UnityEngine;
 
 public static class Utils

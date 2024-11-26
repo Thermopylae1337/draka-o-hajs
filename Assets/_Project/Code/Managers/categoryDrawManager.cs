@@ -1,7 +1,8 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class CategoryDrawManager : MonoBehaviour
+public class CategoryDrawManager : NetworkBehaviour
 {
     private int currentRound = 0;
     private Wheel wheel;
@@ -69,6 +70,8 @@ public class CategoryDrawManager : MonoBehaviour
             roundDisplayText.text = "Runda: " + currentRound;
             // WyświetlPytanie(category)
         }
+
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
     private void AwardBiddingWinners(Team team, string categoryName)
@@ -96,7 +99,7 @@ public class CategoryDrawManager : MonoBehaviour
          */
         if (currentRound < Utils.ROUNDS_LIMIT)
         {
-            wheel.SpinWheel();
+            wheel.SpinWheelRpc(Random.Range(1000, 4000));
         }
     }
 }

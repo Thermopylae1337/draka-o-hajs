@@ -26,9 +26,19 @@ public class LobbyController : NetworkBehaviour
     {
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
+        startButton.onClick.AddListener(OnStartGame);
 
         startButton.interactable = false;
         OnSelfJoin();
+    }
+
+    public void OnStartGame()
+    {
+        if (IsHost)
+        {
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
+        }
     }
 
     public void OnSelfJoin()
