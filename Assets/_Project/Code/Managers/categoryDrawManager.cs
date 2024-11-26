@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -72,7 +71,7 @@ public class CategoryDrawManager : MonoBehaviour
         }
     }
 
-    void AwardBiddingWinners(Team team, String categoryName)
+    private void AwardBiddingWinners(Team team, string categoryName)
     {
         if (categoryName.Equals("Czarna Skrzynka"))
         {

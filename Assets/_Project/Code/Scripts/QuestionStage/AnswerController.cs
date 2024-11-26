@@ -1,12 +1,9 @@
 using System.Collections;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class AnswerController : NetworkBehaviour
 {
     public TMP_InputField answerInput;
@@ -44,15 +41,9 @@ public class AnswerController : NetworkBehaviour
             StartRoundServerRpc();
         }
 
-        if (Utils.CurrentTeam == winner)
-        {
-            feedbackText.text = "Jesteś graczem ktory wygrał licytacje";
-        }
-
-        else
-        {
-            feedbackText.text = "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
-        }
+        feedbackText.text = Utils.CurrentTeam == winner
+            ? "Jesteś graczem ktory wygrał licytacje"
+            : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
     }
 
     private IEnumerator StartCountdown()
@@ -63,11 +54,12 @@ public class AnswerController : NetworkBehaviour
             ShowCurrentTimeRpc(_timeRemaining);
             yield return null;
         }
+
         if (_timeRemaining <= 0)
         {
             SetItemsInteractivity(false);
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
-            StartCoroutine(ChangeScene("Lobby", 4));
+            _ = StartCoroutine(ChangeScene("Lobby", 4));
         }
     }
 
@@ -104,19 +96,13 @@ public class AnswerController : NetworkBehaviour
     private void SendFeedbackToClientsRpc(string feedback)
     {
         feedbackText.text = feedback;
-        StartCoroutine(ChangeScene("Lobby", 4));
+        _ = StartCoroutine(ChangeScene("Lobby", 4));
     }
 
-    public void AskForHint()
-    {
-        UseHintNotifyServerRpc();
-    }
+    public void AskForHint() => UseHintNotifyServerRpc();
 
     [ServerRpc(RequireOwnership = false)]
-    private void UseHintNotifyServerRpc()
-    {
-        ShowHintRpc(currentQuestion);
-    }
+    private void UseHintNotifyServerRpc() => ShowHintRpc(currentQuestion);
 
     [Rpc(SendTo.ClientsAndHost)]
     private void ShowHintRpc(Question question)
@@ -130,7 +116,9 @@ public class AnswerController : NetworkBehaviour
     private void SetHintMode(bool active)
     {
         if (active)
+        {
             SetButtonsDefaultColor();
+        }
 
         answerInput.gameObject.SetActive(!active);
 
@@ -157,7 +145,7 @@ public class AnswerController : NetworkBehaviour
     private IEnumerator ChangeScene(string sceneName, float time)
     {
         yield return new WaitForSeconds(time);
-        NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        _ = NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
     private void SetItemsInteractivity(bool set)
@@ -202,7 +190,7 @@ public class AnswerController : NetworkBehaviour
             _timeRemaining = 30f;
             AnsweringModeRpc(winner);
             SetHintMode(false);
-            StartCoroutine(StartCountdown());
+            _ = StartCoroutine(StartCountdown());
         }
         else
         {
@@ -211,10 +199,7 @@ public class AnswerController : NetworkBehaviour
         }
     }
     [Rpc(SendTo.ClientsAndHost)]
-    private void ShowCurrentTimeRpc(float timeRemaining)
-    {
-        timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
-    }
+    private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
 
     [Rpc(SendTo.ClientsAndHost)]
     private void AnsweringModeRpc(Team winner)
@@ -223,8 +208,5 @@ public class AnswerController : NetworkBehaviour
         {
             SetItemsInteractivity(true);
         }
-    }
-    private void Update()
-    {
     }
 }
