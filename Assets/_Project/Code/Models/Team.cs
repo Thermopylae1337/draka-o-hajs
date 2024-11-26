@@ -77,10 +77,7 @@ public class Team : INetworkSerializable
     public int Bid
     {
         get => bid;
-        set
-        {
-            bid = value;
-        }
+        set => bid = value;
     }
     public int ID
     {
@@ -155,7 +152,7 @@ public class Team : INetworkSerializable
         get => badges.AsReadOnly();
         set => badges = value.ToList();
     }
-    public void Raise_Bid(int amount)
+    public void RaiseBid(int amount)
     {
         if (money > amount)
         {
@@ -163,7 +160,7 @@ public class Team : INetworkSerializable
             bid += amount;
         }
     }
-    public void Reset_Bid()
+    public void ResetBid()
     {
         //dodałem funkcję reset bid żeby można było np zrobić odznakę "zakończ licytację z jakąśtam kwotą na końcu"
         bid = 0;

@@ -15,60 +15,52 @@ public class LobbyController : NetworkBehaviour
     public Button readyButton;
 
     //adding this for the purposes of testing the bidding war, thus the unorthodox formatting (for easier deletion)
-    public Button BiddingWarButton;
-    public NetworkManager NetMan;
-    public string Team_Name;
-    public int default_balance_value = 10000;
-    public List<string> Remaining_Teams = new List<string> { "zieloni", "żółci", "niebiescy" };
-    public List<Team> Teams = new List<Team>();
-
+    public Button biddingWarButton; 
+    public string teamName; 
+    public List<string> remainingTeams = new(){ "zieloni", "żółci", "niebiescy" };
+    public List<Team> teams = new();
 
     [Rpc(SendTo.Server)]
-    public void Add_TeamRpc(ulong id)
+    public void AddTeamRpc(ulong id)
     {
         //na razie nie sprawdza czy wystarczy drużyn, po prostu liczy że ich wystarczy
-        if (Remaining_Teams.Count > 0)
+        if (remainingTeams.Count > 0)
         {
-            Teams.Add(new Team(Remaining_Teams[0], (int)id));
-            Remaining_Teams.RemoveAt(0);
-            Update_Team_ListRpc(new ListOfTeams(Teams));
+            teams.Add(new Team(remainingTeams[0], (int)id));
+            remainingTeams.RemoveAt(0);
+            UpdateTeamListRpc(new ListOfTeams(teams));
         }
     }
 
     [Rpc(SendTo.NotServer)]
-    public void Update_Team_ListRpc(ListOfTeams LoT)
+    public void UpdateTeamListRpc(ListOfTeams LoT)
     {
-        Teams = LoT.list;
+        teams = LoT.list;
     }
-    public void Load_BW_Host()
+    public void LoadBWHost()
     {
         if (IsHost)
         {
-            List<Team> lot = new List<Team>();
-            lot = this.Teams;
-            Load_BWRpc();
+            LoadBWRpc();
         }
     }
-
 
     [Rpc(SendTo.Everyone)]
-    public void Load_BWRpc()
+    public void LoadBWRpc()
     {
-        General_Game_Data.Teams = Teams;
-        General_Game_Data._is_host = IsHost;
-        General_Game_Data.ID = NetMan.LocalClientId;
+        General_Game_Data.teams = teams;
         if (IsHost)
         {
-            NetMan.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
         }
     }
 
     [Rpc(SendTo.NotServer)]
-    public void Receive_Team_Info_Rpc(ulong recipient_id, string Team_Name)
+    public void ReceiveTeamInfoRpc(ulong recipient_id, string Team_Name)
     {
-        if (NetMan.LocalClientId == recipient_id)
+        if  (NetworkManager.Singleton.LocalClientId == recipient_id)
         {
-            this.Team_Name = Team_Name;
+            this.teamName = Team_Name;
         }
     }
     //end, check out Start() too
@@ -84,13 +76,10 @@ public class LobbyController : NetworkBehaviour
 
     private void Start()
     {
-        //to delete after testing start
-        NetMan = this.NetworkManager;
-        General_Game_Data.NetMan = NetMan;
-        BiddingWarButton.onClick.AddListener(Load_BW_Host);
+        //to delete after testing start 
+        biddingWarButton.onClick.AddListener(LoadBWHost);
 
-        Add_TeamRpc(NetMan.LocalClientId);
-
+        AddTeamRpc(NetworkManager.Singleton.LocalClientId);
 
         //to delete after testing  end
         readyButtonImage = readyButton.GetComponent<Image>();

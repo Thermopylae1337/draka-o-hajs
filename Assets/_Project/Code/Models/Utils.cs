@@ -9,7 +9,7 @@ public static class Utils
     public const int START_MONEY = 10000;
     public const string TEAM_DEFAULT_NAME = "New Team";
     public const int ROUNDS_LIMIT = 7;
-
+    
     // Serialization helpers
     public static List<Y> NetworkSerializeList<T, Y>(BufferSerializer<T> serializer, List<Y> list) where T : IReaderWriter
     {
