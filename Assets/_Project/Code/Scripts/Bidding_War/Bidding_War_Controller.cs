@@ -20,12 +20,12 @@ public class Bidding_War_Controller : NetworkBehaviour
     float timeGiven = 5;
     int winningTeamID = 0;
     int winningBidAmount = 0;
-    bool hasSetUp = false;  
+    bool hasSetUp = false;
     bool gameOngoing = false;
     //przyciski kolejno mają wartość: 100,200,300,400,500,1000zł
     //no i va banque
     //wartość przycisku= wartość o jaką drużyna *przebija stawkę*
-    //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej. 
+    //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej.
     public List<Button> bidButtons;
     public Button vbButton;
     public Button exitButton;
@@ -53,7 +53,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-        teams = General_Game_Data.teams;
+        teams = GameController.Instance.Teams.Value;
         if (!NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.StartClient();
@@ -104,7 +104,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             teamNamesText[i].text = teams[i].Colour;
             i += 1;
         }
-        
+
         while (i < teamNamesText.Count)
         {
             Destroy(teamNamesText[i]);
@@ -165,13 +165,13 @@ public class Bidding_War_Controller : NetworkBehaviour
         {
             int difference = winningBidAmount - teams[(int)NetworkManager.Singleton.LocalClientId].Bid;
 
-            bidButtonText[0].text += "(" + (difference + 100).ToString() + ")";
-            bidButtonText[1].text += "(" + (difference + 200).ToString() + ")";
-            bidButtonText[2].text += "(" + (difference + 300).ToString() + ")";
-            bidButtonText[3].text += "(" + (difference + 400).ToString() + ")";
-            bidButtonText[4].text += "(" + (difference + 500).ToString() + ")";
-            bidButtonText[5].text += "(" + (difference + 1000).ToString() + ")";
-        } 
+            bidButtonText[0].text += "(" + ( difference + 100 ).ToString() + ")";
+            bidButtonText[1].text += "(" + ( difference + 200 ).ToString() + ")";
+            bidButtonText[2].text += "(" + ( difference + 300 ).ToString() + ")";
+            bidButtonText[3].text += "(" + ( difference + 400 ).ToString() + ")";
+            bidButtonText[4].text += "(" + ( difference + 500 ).ToString() + ")";
+            bidButtonText[5].text += "(" + ( difference + 1000 ).ToString() + ")";
+        }
     }
     public void VaBanque()
     {
@@ -192,7 +192,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     {
         int team_id = (int)teamid;
         int difference = winningBidAmount + amount - teams[team_id].Bid;
-        if ((teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount) || (teams[team_id].Money >= difference && winningBidAmount == 500))
+        if (( teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount ) || ( teams[team_id].Money >= difference && winningBidAmount == 500 ))
         {
             winningBidAmount += amount;
             UpdateBidsRpc(team_id, difference, winningBidAmount, team_id);
@@ -226,7 +226,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         {
             if (winningBidAmount != 500)
             {
-                timerText.text = (timeGiven - (Time.time - timer)).ToString();
+                timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();
                 if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 
@@ -261,4 +261,3 @@ public class Bidding_War_Controller : NetworkBehaviour
         //na razie team_id nie jest na nic potrzebne ale jest na później żeby można było w następnej scenie stwierdzić kto wygrał licytację
     }
 }
-

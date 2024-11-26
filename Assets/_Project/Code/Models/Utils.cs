@@ -11,7 +11,7 @@ public static class Utils
     public const int START_MONEY = 10000;
     public const string TEAM_DEFAULT_NAME = "New Team";
     public const int ROUNDS_LIMIT = 7;
-    
+
     // Serialization helpers
     public static List<Y> NetworkSerializeList<T, Y>(BufferSerializer<T> serializer, List<Y> list) where T : IReaderWriter
     {
@@ -20,6 +20,15 @@ public static class Utils
         serializer.SerializeValue(ref listSerialized);
 
         return serializer.IsWriter ? JsonConvert.DeserializeObject<List<Y>>(listSerialized) : null;
+    }
+
+    public static Dictionary<Y, Z> NetworkSerializeDictionary<T, Y, Z>(BufferSerializer<T> serializer, Dictionary<Y, Z> dict) where T : IReaderWriter
+    {
+        string dictSerialized = serializer.IsReader ? "" : JsonConvert.SerializeObject(dict);
+
+        serializer.SerializeValue(ref dictSerialized);
+
+        return serializer.IsWriter ? JsonConvert.DeserializeObject<Dictionary<Y, Z>>(dictSerialized) : null;
     }
 
     public static Team CurrentTeam { get; private set; }

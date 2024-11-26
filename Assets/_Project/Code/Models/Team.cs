@@ -6,7 +6,7 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Team : INetworkSerializable
+public class Team : INetworkSerializable, IEquatable<Team>
 {
     private int money = Utils.START_MONEY;
     private int clues = 0;
@@ -73,7 +73,7 @@ public class Team : INetworkSerializable
             money = value;
         }
     }
- 
+
     public int Bid
     {
         get => bid;
@@ -87,7 +87,7 @@ public class Team : INetworkSerializable
     {
         get => colour;
     }
- 
+
     public int Clues
     {
         get => clues;
@@ -101,7 +101,7 @@ public class Team : INetworkSerializable
             clues = value;
         }
     }
- 
+
     public int CluesUsed
     {
         get => cluesUsed;
@@ -187,4 +187,6 @@ public class Team : INetworkSerializable
         _ = Utils.NetworkSerializeList(serializer, powerUps);
         _ = Utils.NetworkSerializeList(serializer, badges);
     }
+
+    public bool Equals(Team team) => money == team.money && clues == team.clues && cluesUsed == team.cluesUsed && blackBoxes == team.blackBoxes && inactiveRounds == team.inactiveRounds && EqualityComparer<List<string>>.Default.Equals(powerUps, team.powerUps) && EqualityComparer<List<string>>.Default.Equals(badges, team.badges) && name == team.name && bid == team.bid && id == team.id && colour == team.colour;
 }

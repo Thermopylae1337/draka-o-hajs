@@ -1,9 +1,10 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 
-public class Category : INetworkSerializable
+public class Category : INetworkSerializable, IEquatable<Category>
 {
     [JsonProperty("nazwa")]
     public string Name => name;
@@ -73,4 +74,6 @@ public class Category : INetworkSerializable
 
         _ = Utils.NetworkSerializeList(serializer, questionList);
     }
+
+    public bool Equals(Category category) => name == category.name;
 }

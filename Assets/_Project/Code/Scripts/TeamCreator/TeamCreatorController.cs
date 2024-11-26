@@ -44,13 +44,16 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
 
     private void StartGame()
     {
-
-        _ = MainMenuController.lobbyType switch
+        switch (MainMenuController.lobbyType)
         {
-            LobbyTypeEnum.Host => NetworkManager.Singleton.StartHost(),
-            LobbyTypeEnum.Join => NetworkManager.Singleton.StartClient(),
-            _ => throw new System.Exception("Lobby type not selected"),
-        };
-        _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+            case LobbyTypeEnum.Host:
+                GameController.Instance.StartHost();
+                break;
+            case LobbyTypeEnum.Join:
+                GameController.Instance.StartClient();
+                break;
+            default:
+                break;
+        }
     }
 }
