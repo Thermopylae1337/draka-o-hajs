@@ -2,10 +2,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Networking.Transport.Error;
 using UnityEngine;
 
 public static class Utils
 {
+    public const int QUESTIONS_AMOUNT = 8;
     public const int START_MONEY = 10000;
     public const string TEAM_DEFAULT_NAME = "New Team";
     public const int ROUNDS_LIMIT = 7;

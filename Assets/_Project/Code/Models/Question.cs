@@ -9,8 +9,7 @@ public class Question : INetworkSerializable
 
     [JsonProperty("tresc")]
     public string Content { get => content; private set => content = value; }
-    [JsonProperty("poprawneOdpowiedzi", Order = 2)]
-    private readonly List<string> correctAnswers;
+
     [JsonProperty("podpowiedzi", Order = 3)]
     private readonly List<string> answerChoices;
     private static readonly Random _random = new();
@@ -34,14 +33,17 @@ public class Question : INetworkSerializable
         }
     }
 
-    public Question(string content, List<string> correctAnswers, List<string> falseAnswers)
+    [field: JsonProperty("poprawneOdpowiedzi", Order = 2)]
+    public List<string> CorrectAnswers { get; }
+
+    public Question(string content, List<string> correctAnswers, List<string> answerChoices)
     {
         Content = content;
-        this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
-        answerChoices = falseAnswers.Count == 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : falseAnswers;
+        CorrectAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
+        this.answerChoices = answerChoices.Count != 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : answerChoices;
     }
 
-    public bool IsCorrect(string answer) => correctAnswers.Contains(answer.Trim().ToLower());
+    public bool IsCorrect(string answer) => CorrectAnswers.Contains(answer.Trim().ToLower());
 
     public void Serialize(string path)
     {
@@ -68,7 +70,7 @@ public class Question : INetworkSerializable
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref content);
-        _ = Utils.NetworkSerializeList(serializer, correctAnswers);
+        _ = Utils.NetworkSerializeList(serializer, CorrectAnswers);
         _ = Utils.NetworkSerializeList(serializer, answerChoices);
     }
 }

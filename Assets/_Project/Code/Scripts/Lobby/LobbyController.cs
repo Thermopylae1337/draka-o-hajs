@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,9 +14,9 @@ public class LobbyController : NetworkBehaviour
     public Button readyButton;
 
     //adding this for the purposes of testing the bidding war, thus the unorthodox formatting (for easier deletion)
-    public Button biddingWarButton; 
-    public string teamName; 
-    public List<string> remainingTeams = new(){ "zieloni", "żółci", "niebiescy" };
+    public Button biddingWarButton;
+    public string teamName;
+    public List<string> remainingTeams = new() { "zieloni", "żółci", "niebiescy" };
     public List<Team> teams = new();
 
     [Rpc(SendTo.Server)]
@@ -58,7 +57,7 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.NotServer)]
     public void ReceiveTeamInfoRpc(ulong recipient_id, string Team_Name)
     {
-        if  (NetworkManager.Singleton.LocalClientId == recipient_id)
+        if (NetworkManager.Singleton.LocalClientId == recipient_id)
         {
             this.teamName = Team_Name;
         }
@@ -69,14 +68,14 @@ public class LobbyController : NetworkBehaviour
     private Image readyButtonImage;
     private bool selfReady = false;
     private readonly Dictionary<ulong, (bool, Transform, Team)> playerList = new();  // For each user i will store if he is ready and his text on playerListGameObject
- 
+
 
     private Color readyColor = Color.green;
-    private Color notReadyColor = Color.red; 
+    private Color notReadyColor = Color.red;
 
     private void Start()
     {
-        //to delete after testing start 
+        //to delete after testing start
         biddingWarButton.onClick.AddListener(LoadBWHost);
 
         AddTeamRpc(NetworkManager.Singleton.LocalClientId);
@@ -84,8 +83,18 @@ public class LobbyController : NetworkBehaviour
         //to delete after testing  end
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
+        startButton.onClick.AddListener(OnStartGame);
         startButton.interactable = false;
         OnSelfJoin();
+    }
+
+    public void OnStartGame()
+    {
+        if (IsHost)
+        {
+            NetworkManager.Singleton.StartHost();
+            NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
+        }
     }
 
     public void OnSelfJoin()

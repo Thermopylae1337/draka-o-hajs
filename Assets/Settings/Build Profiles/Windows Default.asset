@@ -18,12 +18,10 @@ MonoBehaviour:
   m_PlatformId: 4e3c793746204150860bf175a9a41a05
   m_PlatformBuildProfile:
     rid: 8500523967411650728
-  m_OverrideGlobalSceneList: 0
+  m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Startup.unity
-  - m_enabled: 1
-    m_path: Assets/_Project/Scenes/Category draw.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Summary.unity
   - m_enabled: 1
@@ -32,6 +30,10 @@ MonoBehaviour:
     m_path: Assets/_Project/Scenes/MainMenu.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Leaderboard.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/CategoryDraw.unity
+  - m_enabled: 1
+    m_path: Assets/_Project/Scenes/QuestionStage.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Lobby.unity
   - m_enabled: 1
