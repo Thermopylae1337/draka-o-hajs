@@ -1,15 +1,10 @@
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-
 
 public class LobbyController : NetworkBehaviour
 {
@@ -33,6 +28,11 @@ public class LobbyController : NetworkBehaviour
         _ = NetworkManager.SceneManager.LoadScene("BiddingWar", LoadSceneMode.Single);
     }
 
+    void Awake()
+    {
+        GameController.Instance.teams.OnValueChanged += (_, current) => RefreshPlayerList(current);
+    }
+
     private void Start()
     {
         //to delete after testing start
@@ -43,25 +43,6 @@ public class LobbyController : NetworkBehaviour
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
         startButton.onClick.AddListener(StartGame);
         startButton.interactable = false;
-
-        GameController.Instance.Teams.OnValueChanged += (_, current) =>
-            {
-                Debug.Log("Teams changed");
-
-                if (!GameController.Instance.Teams.Value.Contains(Utils.CurrentTeam))
-                {
-                    GameController.Instance.Teams.Value.Add(Utils.CurrentTeam);
-                    GameController.Instance.Teams.Value = GameController.Instance.Teams.Value; // Trigger update
-                    return;
-                }
-
-                RefreshPlayerList();
-            };
-        Debug.Log("Teams changed");
-
-        TeamListModel value = GameController.Instance.Teams.Value;
-        GameController.Instance.Teams.Value = value; // Trigger update
-        RefreshPlayerList();
     }
 
     private void StartGame()
@@ -69,11 +50,11 @@ public class LobbyController : NetworkBehaviour
         NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
     }
 
-    private void RefreshPlayerList()
+    private void RefreshPlayerList(List<Team> teams)
     {
         Debug.Log("Refreshing player list");
 
-        foreach (Team team in GameController.Instance.Teams.Value)
+        foreach (Team team in teams)
         {
             (bool ready, Transform tile) currentTeamTile;
             if (!playerTiles.ContainsKey(team.Name))
@@ -96,9 +77,9 @@ public class LobbyController : NetworkBehaviour
     private void BroadcastPlayerReadySetRpc(bool ready, Team team)
     {
         playerTiles[team.Name] = (ready, playerTiles[team.Name].tile);
-        RefreshPlayerList();
+        RefreshPlayerList(GameController.Instance.teams.Value);
 
-        if (NetworkManager.Singleton.IsHost)
+        if (IsHost)
         {
             startButton.interactable = playerTiles.All(pair => pair.Value.ready) && playerTiles.Count > 1;
         }

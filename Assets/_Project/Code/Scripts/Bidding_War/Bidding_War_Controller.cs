@@ -53,7 +53,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-        teams = GameController.Instance.Teams.Value;
+        teams = GameController.Instance.teams.Value;
         if (!NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.StartClient();

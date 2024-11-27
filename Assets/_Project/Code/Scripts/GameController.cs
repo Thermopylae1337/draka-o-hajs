@@ -17,11 +17,11 @@ public class GameController : NetworkBehaviour
     public static GameController Instance;
 #pragma warning restore IDE1006 // Naming Styles
 
-    [SerializeField] private NetworkVariable<TeamListModel> _teams = new();
     // [SerializeField] private NetworkVariable<Question> _question = new();
     // [SerializeField] private NetworkVariable<Category> _category = new();
 
-    public NetworkVariable<TeamListModel> Teams => _teams;
+    public readonly NetworkVariable<List<Team>> teams = new(new());
+
     // public NetworkVariable<Question> Question { get => _question; }
     // public NetworkVariable<Category> Category { get => _category; }
 
@@ -31,20 +31,40 @@ public class GameController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         if (IsHost)
         {
-            _teams.Value = new TeamListModel() { Utils.CurrentTeam };
+            NetworkManager.OnClientConnectedCallback += OnClientConnectedRpc;
+
+            teams.Value = new()
+            {
+                Utils.CurrentTeam
+            };
+
+            bool asdf = teams.CheckDirtyState();
             _ = NetworkManager.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
         }
-        // else
-        // {
-        //     _teams.Value.Add(Utils.CurrentTeam);
-        //     _teams.Value = _teams.Value;
-        //     SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-        // }
+        else
+        {
+            SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+        }
     }
 
     [Rpc(SendTo.Everyone)]
+    private void OnClientConnectedRpc(ulong clientId) => AddTeamToServerRpc(Utils.CurrentTeam);
+
+    [Rpc(SendTo.Everyone)]
+    private void AddTeamToServerRpc(Team currentTeam)
+    {
+        if (IsHost && teams.Value.All(team => team.Name != currentTeam.Name))
+        {
+            teams.Value.Add(currentTeam);
+            _ = teams.CheckDirtyState();
+        }
+    }
+
+    [Rpc(SendTo.Server)]
     public void StartGameRpc()
     {
         _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
