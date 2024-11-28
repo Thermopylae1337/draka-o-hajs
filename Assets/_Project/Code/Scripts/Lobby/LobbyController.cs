@@ -54,7 +54,7 @@ public class LobbyController : NetworkBehaviour
             AddPlayerToListRpc(clientId);
         }
 
-        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Team>().teamName.Value = TeamCreatorController.chosenTeamName;
+        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().teamName.Value = TeamCreatorController.chosenTeamName;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -69,7 +69,7 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost, RequireOwnership = false)]
     void AddPlayerToListRpc(ulong clientId)
     {
-        NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<Team>().teamName.OnValueChanged = (FixedString64Bytes oldName, FixedString64Bytes newName) => AddPlayerToList(clientId);
+        NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>().teamName.OnValueChanged = (FixedString64Bytes oldName, FixedString64Bytes newName) => AddPlayerToList(clientId);
         AddPlayerToList(clientId);
     }
 
@@ -87,8 +87,8 @@ public class LobbyController : NetworkBehaviour
         }
 
         NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        playerListEntry.GetComponent<TextMeshProUGUI>().text = playerObject.GetComponent<Team>().teamName.Value.ToString();
-        playerObject.name = playerObject.GetComponent<Team>().teamName.Value.ToString();
+        playerListEntry.GetComponent<TextMeshProUGUI>().text = playerObject.GetComponent<TeamManager>().teamName.Value.ToString();
+        playerObject.name = playerObject.GetComponent<TeamManager>().teamName.Value.ToString();
         SetPlayerReady(false, clientId);
     }
 

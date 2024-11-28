@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
-public class TeamListModel : List<Team>, INetworkSerializable, IEquatable<TeamListModel>
+public class TeamListModel : List<TeamManager>, INetworkSerializable, IEquatable<TeamListModel>
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public TeamListModel(List<Team> lot) : base(lot)
+    public TeamListModel(List<TeamManager> lot) : base(lot)
     {
     }
 

@@ -9,7 +9,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Team : NetworkBehaviour
+public class TeamManager : NetworkBehaviour
 {
     [SerializeField]
     private int money = Utils.START_MONEY;
@@ -158,9 +158,9 @@ public class Team : NetworkBehaviour
         File.WriteAllText(path, jsonString);
     }
 
-    public static Team Deserialize(string path)
+    public static TeamManager Deserialize(string path)
     {
         string jsonFromFile = File.ReadAllText(path);
-        return JsonUtility.FromJson<Team>(jsonFromFile);
+        return JsonUtility.FromJson<TeamManager>(jsonFromFile);
     }
 }

@@ -11,11 +11,10 @@ using System.Collections.ObjectModel;
 using Unity.VisualScripting;
 using System;
 
-public class GameController : NetworkBehaviour
+public class GameManager : NetworkBehaviour
 {
-#pragma warning disable IDE1006 // Naming Styles
-    public static GameController Instance;
-#pragma warning restore IDE1006 // Naming Styles
+    private static GameManager _instance;
+    public GameManager Instance => _instance;
 
     // [SerializeField] private NetworkVariable<Question> _question = new();
     // [SerializeField] private NetworkVariable<Category> _category = new();
@@ -41,7 +40,7 @@ public class GameController : NetworkBehaviour
             return;
         }
 
-        Instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
     }
 }

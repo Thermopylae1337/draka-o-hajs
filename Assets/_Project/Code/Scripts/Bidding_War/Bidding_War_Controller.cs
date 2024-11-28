@@ -13,7 +13,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     public List<TextMeshProUGUI> teamBalanceText;
     public List<TextMeshProUGUI> bidButtonText;
     public TextMeshProUGUI timerText;
-    public List<Team> teams;
+    public List<TeamManager> teams;
     public TextMeshProUGUI totalBidText;
     int totalBid;
     float timer;
@@ -53,7 +53,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-        teams = new List<Team>();
+        teams = new List<TeamManager>();
         _ = !NetworkManager.Singleton.IsHost ? NetworkManager.Singleton.StartClient() : NetworkManager.Singleton.StartHost();
 
         if (teams.Count < 4)
@@ -244,7 +244,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
-        foreach (Team t in teams)
+        foreach (TeamManager t in teams)
         {
             t.ResetBid();
         }
