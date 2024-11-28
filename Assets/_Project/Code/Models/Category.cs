@@ -10,22 +10,22 @@ public class Category : INetworkSerializable, IEquatable<Category>
     public string Name => name;
 
     [JsonProperty("pytania", Order = 2)]
-    public List<Question> questionList;
+    public List<Question> questionList = new();
 
     private static readonly System.Random _random = new();
-    private string name;
+    private string name = string.Empty;
 
-    public Category(string name)
-    {
-        this.name = name;
-        questionList = new List<Question>();
-    }
+    public Category(string name) => this.name = name;
 
     [JsonConstructor]
     public Category(string nazwa, List<Question> list)
     {
         name = nazwa;
         questionList = list;
+    }
+
+    public Category()
+    {
     }
 
     public void AddQuestionToList(Question question)

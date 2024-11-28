@@ -11,7 +11,7 @@ public class Question : INetworkSerializable, IEquatable<Question>
     public string Content { get => content; private set => content = value; }
 
     [JsonProperty("podpowiedzi", Order = 3)]
-    private readonly List<string> answerChoices;
+    private readonly List<string> answerChoices = new();
     private string content;
     private static readonly Random _random = new();
 

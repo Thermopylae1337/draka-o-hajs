@@ -15,12 +15,8 @@ public class GameManager : NetworkBehaviour
 {
     private static GameManager _instance;
     public GameManager Instance => _instance;
-
-    // [SerializeField] private NetworkVariable<Question> _question = new();
-    // [SerializeField] private NetworkVariable<Category> _category = new();
-
-    // public NetworkVariable<Question> Question { get => _question; }
-    // public NetworkVariable<Category> Category { get => _category; }
+    public NetworkVariable<Question> Question { get; } = new();
+    public NetworkVariable<Category> Category { get; } = new();
 
     [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()

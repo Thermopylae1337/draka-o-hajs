@@ -33,6 +33,8 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/CategoryDraw.unity
   - m_enabled: 1
+    m_path: Assets/_Project/Scenes/Bidding_War.unity
+  - m_enabled: 1
     m_path: Assets/_Project/Scenes/QuestionStage.unity
   - m_enabled: 1
     m_path: Assets/_Project/Scenes/Lobby.unity

@@ -62,7 +62,7 @@ public class LobbyController : NetworkBehaviour
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
+            _ = NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
         }
     }
 
