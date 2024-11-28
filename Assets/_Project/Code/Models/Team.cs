@@ -6,57 +6,30 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Team : INetworkSerializable, IEquatable<Team>
+public class Team : MonoBehaviour, INetworkSerializable, IEquatable<Team>
 {
+    [SerializeField]
     private int money = Utils.START_MONEY;
+    [SerializeField]
     private int clues = 0;
+    [SerializeField]
     private int cluesUsed = 0;
+    [SerializeField]
     private int blackBoxes = 0;
+    [SerializeField]
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
+    [SerializeField]
     private List<string> powerUps = new(); //deprecated?
+    [SerializeField]
     private List<string> badges = new();
-    private string name;
+    [SerializeField]
+    private string teamName = Utils.TEAM_DEFAULT_NAME;
     private int bid = 0;
-    private int id;
+    [SerializeField]
     private string colour;
-    public Team() : this(Utils.TEAM_DEFAULT_NAME)
-    {
-    }
-
-    public Team(string name = "New Team") => Name = name;
-
-    public Team(string name, int money, int clues, int cluesUsed, int blackBoxes, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
-    {
-        Money = money;
-        Clues = clues;
-        CluesUsed = cluesUsed;
-        BlackBoxes = blackBoxes;
-        InactiveRounds = inactiveRounds;
-        this.badges = badges;
-        this.powerUps = powerUps;
-    }
-    //new constructors that add colour and id so as to not break the rest of the project
-    public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges, string colour) : this(name)
-    {
-        Money = money;
-        CluesUsed = cluesUsed;
-        InactiveRounds = inactiveRounds;
-        this.badges = badges;
-        this.powerUps = powerUps;
-        this.colour = colour;
-    }
-
-    public Team(string colour, int id) : this()
-    {
-        money = Utils.START_MONEY;
-        this.id = id;
-
-        this.powerUps = new List<string>();
-        this.colour = colour;
-    }
 
     //gettery i settery
-    public string Name { get => name; set => name = value; }
+    public string TeamName { get => teamName; set => teamName = value; }
 
     public int Money
     {
@@ -78,10 +51,6 @@ public class Team : INetworkSerializable, IEquatable<Team>
     {
         get => bid;
         set => bid = value;
-    }
-    public int ID
-    {
-        get => id;
     }
     public string Colour
     {
@@ -179,7 +148,7 @@ public class Team : INetworkSerializable, IEquatable<Team>
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
-        serializer.SerializeValue(ref name);
+        serializer.SerializeValue(ref teamName);
         serializer.SerializeValue(ref money);
         serializer.SerializeValue(ref cluesUsed);
         serializer.SerializeValue(ref inactiveRounds);
@@ -188,5 +157,9 @@ public class Team : INetworkSerializable, IEquatable<Team>
         _ = Utils.NetworkSerializeList(serializer, badges);
     }
 
-    public bool Equals(Team team) => money == team.money && clues == team.clues && cluesUsed == team.cluesUsed && blackBoxes == team.blackBoxes && inactiveRounds == team.inactiveRounds && EqualityComparer<List<string>>.Default.Equals(powerUps, team.powerUps) && EqualityComparer<List<string>>.Default.Equals(badges, team.badges) && name == team.name && bid == team.bid && id == team.id && colour == team.colour;
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+    public bool Equals(Team team) => money == team.money && clues == team.clues && cluesUsed == team.cluesUsed && blackBoxes == team.blackBoxes && inactiveRounds == team.inactiveRounds && EqualityComparer<List<string>>.Default.Equals(powerUps, team.powerUps) && EqualityComparer<List<string>>.Default.Equals(badges, team.badges) && teamName == team.teamName && bid == team.bid && colour == team.colour;
 }

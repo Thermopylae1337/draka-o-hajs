@@ -20,54 +20,16 @@ public class GameController : NetworkBehaviour
     // [SerializeField] private NetworkVariable<Question> _question = new();
     // [SerializeField] private NetworkVariable<Category> _category = new();
 
-    public readonly NetworkVariable<List<Team>> teams = new(new());
-
     // public NetworkVariable<Question> Question { get => _question; }
     // public NetworkVariable<Category> Category { get => _category; }
 
-    public void StartHost() => _ = NetworkManager.Singleton.StartHost();
-
-    public void StartClient() => _ = NetworkManager.Singleton.StartClient();
-
-    public override void OnNetworkSpawn()
-    {
-        base.OnNetworkSpawn();
-
-        if (IsHost)
-        {
-            NetworkManager.OnClientConnectedCallback += OnClientConnectedRpc;
-
-            teams.Value = new()
-            {
-                Utils.CurrentTeam
-            };
-
-            bool asdf = teams.CheckDirtyState();
-            _ = NetworkManager.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-        }
-        else
-        {
-            SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-        }
-    }
-
-    [Rpc(SendTo.Everyone)]
-    private void OnClientConnectedRpc(ulong clientId) => AddTeamToServerRpc(Utils.CurrentTeam);
-
-    [Rpc(SendTo.Everyone)]
-    private void AddTeamToServerRpc(Team currentTeam)
-    {
-        if (IsHost && teams.Value.All(team => team.Name != currentTeam.Name))
-        {
-            teams.Value.Add(currentTeam);
-            _ = teams.CheckDirtyState();
-        }
-    }
-
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()
     {
-        _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
+        if (NetworkManager.Singleton.IsHost)
+        {
+            _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
+        }
     }
 
     private void Awake()

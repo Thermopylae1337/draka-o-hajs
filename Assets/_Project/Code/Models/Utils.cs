@@ -30,41 +30,4 @@ public static class Utils
 
         return serializer.IsWriter ? JsonConvert.DeserializeObject<Dictionary<Y, Z>>(dictSerialized) : null;
     }
-
-    public static Team CurrentTeam { get; private set; }
-
-    public static void LoadTeamFromDisk()
-    {
-        // Load team from disk
-        if (CurrentTeam == null)
-        {
-            try
-            {
-                CurrentTeam = Team.Deserialize("team.json");
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error loading team from disk: " + e.Message);
-                Debug.LogWarning("Creating new team");
-                CurrentTeam = new Team();
-            }
-        }
-        else
-        {
-            throw new Exception("Team already loaded");
-        }
-    }
-
-    public static void SaveTeamToDisk()
-    {
-        // Save team to disk
-        if (CurrentTeam != null)
-        {
-            CurrentTeam.Serialize("team.json");
-        }
-        else
-        {
-            throw new Exception("Team not loaded");
-        }
-    }
 }

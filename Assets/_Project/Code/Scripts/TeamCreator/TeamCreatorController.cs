@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class TeamCreatorController : MonoBehaviour // dodac back to main menu
+public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
     public Button returnButton;
@@ -28,7 +28,7 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
             //dodanie zapisu, odczytu teamu?
             // jakis check na zakazane słowa? XDD
             inputField.interactable = false;
-            Utils.CurrentTeam.Name = userInput;
+            // NetworkManager.Singleton.ConnectedClients[].PlayerObject = userInput;
             StartGame();
         }
 
@@ -47,10 +47,12 @@ public class TeamCreatorController : MonoBehaviour // dodac back to main menu
         switch (MainMenuController.lobbyType)
         {
             case LobbyTypeEnum.Host:
-                GameController.Instance.StartHost();
+                _ = NetworkManager.StartHost();
+                _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             case LobbyTypeEnum.Join:
-                GameController.Instance.StartClient();
+                _ = NetworkManager.StartClient();
+                SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             default:
                 break;
