@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -30,16 +33,9 @@ public class LobbyController : NetworkBehaviour
     private void Awake()
     {
         NetworkManager.Singleton.OnClientConnectedCallback += AddPlayerToListRpc;
-        NetworkManager.Singleton.OnClientDisconnectCallback += RemovePlayerFromListRpc;
 
-        if (NetworkManager.Singleton.IsHost)
-        {
-            // NetworkObject.Spawn();
-        }
-    }
+        // NetworkManager.Singleton.OnClientDisconnectCallback += RemovePlayerFromListRpc;
 
-    private void Start()
-    {
         //to delete after testing start
         biddingWarButton.onClick.AddListener(LoadBWHostRpc);
 
@@ -47,20 +43,18 @@ public class LobbyController : NetworkBehaviour
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
         startButton.onClick.AddListener(StartGameRpc);
-        startButton.interactable = false;
-
-        if (NetworkManager.Singleton.IsHost)
-        {
-            AddPlayerToList(NetworkManager.Singleton.LocalClientId);
-        }
     }
 
-    public override void OnDestroy()
+    private void Start()
     {
-        base.OnDestroy();
+        startButton.interactable = false;
 
-        NetworkManager.Singleton.OnClientConnectedCallback -= AddPlayerToListRpc;
-        NetworkManager.Singleton.OnClientDisconnectCallback -= RemovePlayerFromListRpc;
+        foreach (ulong clientId in NetworkManager.Singleton.ConnectedClientsIds)
+        {
+            AddPlayerToListRpc(clientId);
+        }
+
+        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<Team>().teamName.Value = TeamCreatorController.chosenTeamName;
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -72,18 +66,29 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
+    [Rpc(SendTo.ClientsAndHost, RequireOwnership = false)]
     void AddPlayerToListRpc(ulong clientId)
     {
+        NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject.GetComponent<Team>().teamName.OnValueChanged = (FixedString64Bytes oldName, FixedString64Bytes newName) => AddPlayerToList(clientId);
         AddPlayerToList(clientId);
     }
 
     void AddPlayerToList(ulong clientId)
     {
-        GameObject playerListEntry = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
-        playerTiles[clientId] = (false, playerListEntry.transform);
+        GameObject playerListEntry;
+        if (!playerTiles.ContainsKey(clientId))
+        {
+            playerListEntry = Instantiate(playerListEntryPrefab, playerListGameObject.transform);
+            playerTiles[clientId] = (false, playerListEntry.transform);
+        }
+        else
+        {
+            playerListEntry = playerTiles[clientId].tile.gameObject;
+        }
+
         NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[clientId].PlayerObject;
-        playerListEntry.GetComponentInChildren<TextMeshProUGUI>().text = playerObject.GetComponent<Team>().TeamName;
+        playerListEntry.GetComponent<TextMeshProUGUI>().text = playerObject.GetComponent<Team>().teamName.Value.ToString();
+        playerObject.name = playerObject.GetComponent<Team>().teamName.Value.ToString();
         SetPlayerReady(false, clientId);
     }
 
@@ -102,7 +107,7 @@ public class LobbyController : NetworkBehaviour
 
     void SetPlayerReady(bool ready, ulong clientId)
     {
-        playerTiles[clientId].tile.GetComponentInChildren<TextMeshProUGUI>().color = ready ? readyColor : notReadyColor;
+        playerTiles[clientId].tile.GetComponent<TextMeshProUGUI>().color = ready ? readyColor : notReadyColor;
         playerTiles[clientId] = (ready, playerTiles[clientId].tile);
 
         if (clientId == NetworkManager.Singleton.LocalClientId)

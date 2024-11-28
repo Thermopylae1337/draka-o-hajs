@@ -3,33 +3,51 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Team : MonoBehaviour, INetworkSerializable, IEquatable<Team>
+public class Team : NetworkBehaviour
 {
     [SerializeField]
     private int money = Utils.START_MONEY;
+
     [SerializeField]
     private int clues = 0;
+
     [SerializeField]
     private int cluesUsed = 0;
+
     [SerializeField]
     private int blackBoxes = 0;
+
     [SerializeField]
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
+
     [SerializeField]
     private List<string> powerUps = new(); //deprecated?
+
     [SerializeField]
     private List<string> badges = new();
+
     [SerializeField]
-    private string teamName = Utils.TEAM_DEFAULT_NAME;
+    public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
+
+    [SerializeField]
+    private string TeamName => teamName.Value.ToString();
+
     private int bid = 0;
+
     [SerializeField]
     private string colour;
 
     //gettery i settery
-    public string TeamName { get => teamName; set => teamName = value; }
+    public void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     public int Money
     {
@@ -145,21 +163,4 @@ public class Team : MonoBehaviour, INetworkSerializable, IEquatable<Team>
         string jsonFromFile = File.ReadAllText(path);
         return JsonUtility.FromJson<Team>(jsonFromFile);
     }
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref teamName);
-        serializer.SerializeValue(ref money);
-        serializer.SerializeValue(ref cluesUsed);
-        serializer.SerializeValue(ref inactiveRounds);
-
-        _ = Utils.NetworkSerializeList(serializer, powerUps);
-        _ = Utils.NetworkSerializeList(serializer, badges);
-    }
-
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
-    public bool Equals(Team team) => money == team.money && clues == team.clues && cluesUsed == team.cluesUsed && blackBoxes == team.blackBoxes && inactiveRounds == team.inactiveRounds && EqualityComparer<List<string>>.Default.Equals(powerUps, team.powerUps) && EqualityComparer<List<string>>.Default.Equals(badges, team.badges) && teamName == team.teamName && bid == team.bid && colour == team.colour;
 }

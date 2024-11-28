@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
 {
     public TMP_InputField inputField;
+    public static string chosenTeamName;
     public Button returnButton;
     public Button submitButton;
 
@@ -28,7 +29,7 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
             //dodanie zapisu, odczytu teamu?
             // jakis check na zakazane słowa? XDD
             inputField.interactable = false;
-            // NetworkManager.Singleton.ConnectedClients[].PlayerObject = userInput;
+            chosenTeamName = userInput;
             StartGame();
         }
 
@@ -48,11 +49,12 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         {
             case LobbyTypeEnum.Host:
                 _ = NetworkManager.StartHost();
+                NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
                 _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             case LobbyTypeEnum.Join:
                 _ = NetworkManager.StartClient();
-                SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+                // SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             default:
                 break;
