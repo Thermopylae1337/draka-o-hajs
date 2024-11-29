@@ -16,7 +16,7 @@ public class AnswerController : NetworkBehaviour
     public Button useHintsButton;
 
     private Button[] answerButtons;
-    public static Team winner;
+    public static ulong winner = 0;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
     private bool _isAnswerChecked;
@@ -41,7 +41,7 @@ public class AnswerController : NetworkBehaviour
             StartRoundServerRpc();
         }
 
-        feedbackText.text = Utils.CurrentTeam == winner
+        feedbackText.text = 1 == winner
             ? "Jesteś graczem ktory wygrał licytacje"
             : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
     }
@@ -202,9 +202,9 @@ public class AnswerController : NetworkBehaviour
     private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void AnsweringModeRpc(Team winner)
+    private void AnsweringModeRpc(ulong winner)
     {
-        if (Utils.CurrentTeam == winner)
+        if (1 == winner)
         {
             SetItemsInteractivity(true);
         }

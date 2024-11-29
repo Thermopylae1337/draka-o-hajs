@@ -3,60 +3,51 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Team : INetworkSerializable
+public class TeamManager : NetworkBehaviour
 {
+    [SerializeField]
     private int money = Utils.START_MONEY;
+
+    [SerializeField]
     private int clues = 0;
+
+    [SerializeField]
     private int cluesUsed = 0;
+
+    [SerializeField]
     private int blackBoxes = 0;
+
+    [SerializeField]
     private int inactiveRounds = 0; //licznik rund bierności w licytacji
+
+    [SerializeField]
     private List<string> powerUps = new(); //deprecated?
+
+    [SerializeField]
     private List<string> badges = new();
-    private string name;
+
+    [SerializeField]
+    public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
+
+    [SerializeField]
+    private string TeamName => teamName.Value.ToString();
+
     private int bid = 0;
-    private int id;
+
+    [SerializeField]
     private string colour;
-    public Team() : this(Utils.TEAM_DEFAULT_NAME)
-    {
-    }
-
-    public Team(string name = "New Team") => Name = name;
-
-    public Team(string name, int money, int clues, int cluesUsed, int blackBoxes, int inactiveRounds, List<string> powerUps, List<string> badges) : this(name)
-    {
-        Money = money;
-        Clues = clues;
-        CluesUsed = cluesUsed;
-        BlackBoxes = blackBoxes;
-        InactiveRounds = inactiveRounds;
-        this.badges = badges;
-        this.powerUps = powerUps;
-    }
-    //new constructors that add colour and id so as to not break the rest of the project
-    public Team(string name, int money, int cluesUsed, int inactiveRounds, List<string> powerUps, List<string> badges, string colour) : this(name)
-    {
-        Money = money;
-        CluesUsed = cluesUsed;
-        InactiveRounds = inactiveRounds;
-        this.badges = badges;
-        this.powerUps = powerUps;
-        this.colour = colour;
-    }
-
-    public Team(string colour, int id) : this()
-    {
-        money = Utils.START_MONEY;
-        this.id = id;
-
-        this.powerUps = new List<string>();
-        this.colour = colour;
-    }
 
     //gettery i settery
-    public string Name { get => name; set => name = value; }
+    public void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     public int Money
     {
@@ -73,21 +64,17 @@ public class Team : INetworkSerializable
             money = value;
         }
     }
- 
+
     public int Bid
     {
         get => bid;
         set => bid = value;
     }
-    public int ID
-    {
-        get => id;
-    }
     public string Colour
     {
         get => colour;
     }
- 
+
     public int Clues
     {
         get => clues;
@@ -101,7 +88,7 @@ public class Team : INetworkSerializable
             clues = value;
         }
     }
- 
+
     public int CluesUsed
     {
         get => cluesUsed;
@@ -171,20 +158,9 @@ public class Team : INetworkSerializable
         File.WriteAllText(path, jsonString);
     }
 
-    public static Team Deserialize(string path)
+    public static TeamManager Deserialize(string path)
     {
         string jsonFromFile = File.ReadAllText(path);
-        return JsonUtility.FromJson<Team>(jsonFromFile);
-    }
-
-    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-    {
-        serializer.SerializeValue(ref name);
-        serializer.SerializeValue(ref money);
-        serializer.SerializeValue(ref cluesUsed);
-        serializer.SerializeValue(ref inactiveRounds);
-
-        _ = Utils.NetworkSerializeList(serializer, powerUps);
-        _ = Utils.NetworkSerializeList(serializer, badges);
+        return JsonUtility.FromJson<TeamManager>(jsonFromFile);
     }
 }

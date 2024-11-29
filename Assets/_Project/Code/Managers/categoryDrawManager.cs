@@ -74,7 +74,7 @@ public class CategoryDrawManager : NetworkBehaviour
         _ = NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
-    private void AwardBiddingWinners(Team team, string categoryName)
+    private void AwardBiddingWinners(TeamManager team, string categoryName)
     {
         if (categoryName.Equals("Czarna Skrzynka"))
         {

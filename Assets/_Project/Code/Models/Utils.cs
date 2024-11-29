@@ -11,7 +11,7 @@ public static class Utils
     public const int START_MONEY = 10000;
     public const string TEAM_DEFAULT_NAME = "New Team";
     public const int ROUNDS_LIMIT = 7;
-    
+
     // Serialization helpers
     public static List<Y> NetworkSerializeList<T, Y>(BufferSerializer<T> serializer, List<Y> list) where T : IReaderWriter
     {
@@ -22,40 +22,12 @@ public static class Utils
         return serializer.IsWriter ? JsonConvert.DeserializeObject<List<Y>>(listSerialized) : null;
     }
 
-    public static Team CurrentTeam { get; private set; }
-
-    public static void LoadTeamFromDisk()
+    public static Dictionary<Y, Z> NetworkSerializeDictionary<T, Y, Z>(BufferSerializer<T> serializer, Dictionary<Y, Z> dict) where T : IReaderWriter
     {
-        // Load team from disk
-        if (CurrentTeam == null)
-        {
-            try
-            {
-                CurrentTeam = Team.Deserialize("team.json");
-            }
-            catch (Exception e)
-            {
-                Debug.LogWarning("Error loading team from disk: " + e.Message);
-                Debug.LogWarning("Creating new team");
-                CurrentTeam = new Team();
-            }
-        }
-        else
-        {
-            throw new Exception("Team already loaded");
-        }
-    }
+        string dictSerialized = serializer.IsReader ? "" : JsonConvert.SerializeObject(dict);
 
-    public static void SaveTeamToDisk()
-    {
-        // Save team to disk
-        if (CurrentTeam != null)
-        {
-            CurrentTeam.Serialize("team.json");
-        }
-        else
-        {
-            throw new Exception("Team not loaded");
-        }
+        serializer.SerializeValue(ref dictSerialized);
+
+        return serializer.IsWriter ? JsonConvert.DeserializeObject<Dictionary<Y, Z>>(dictSerialized) : null;
     }
 }

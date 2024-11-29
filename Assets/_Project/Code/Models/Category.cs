@@ -1,30 +1,31 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 
-public class Category : INetworkSerializable
+public class Category : INetworkSerializable, IEquatable<Category>
 {
     [JsonProperty("nazwa")]
     public string Name => name;
 
     [JsonProperty("pytania", Order = 2)]
-    public List<Question> questionList;
+    public List<Question> questionList = new();
 
     private static readonly System.Random _random = new();
-    private string name;
+    private string name = string.Empty;
 
-    public Category(string name)
-    {
-        this.name = name;
-        questionList = new List<Question>();
-    }
+    public Category(string name) => this.name = name;
 
     [JsonConstructor]
     public Category(string nazwa, List<Question> list)
     {
         name = nazwa;
         questionList = list;
+    }
+
+    public Category()
+    {
     }
 
     public void AddQuestionToList(Question question)
@@ -73,4 +74,6 @@ public class Category : INetworkSerializable
 
         _ = Utils.NetworkSerializeList(serializer, questionList);
     }
+
+    public bool Equals(Category category) => name == category.name;
 }

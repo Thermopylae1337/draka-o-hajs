@@ -21,7 +21,7 @@ public class Panel : MonoBehaviour
         moneyObj.transform.localScale = new Vector2(scale, scale);
     }
 
-    public void Initialize(Team team)
+    public void Initialize(TeamManager team)
     {
         /*
         string teamName = team.name;

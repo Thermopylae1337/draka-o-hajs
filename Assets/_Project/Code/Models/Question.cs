@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using Unity.Netcode;
 
-public class Question : INetworkSerializable
+public class Question : INetworkSerializable, IEquatable<Question>
 {
 
     [JsonProperty("tresc")]
     public string Content { get => content; private set => content = value; }
 
     [JsonProperty("podpowiedzi", Order = 3)]
-    private readonly List<string> answerChoices;
-    private static readonly Random _random = new();
+    private readonly List<string> answerChoices = new();
     private string content;
+    private static readonly Random _random = new();
 
     public string[] Hints
     {
@@ -41,6 +41,10 @@ public class Question : INetworkSerializable
         Content = content;
         CorrectAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
         this.answerChoices = answerChoices.Count != 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : answerChoices;
+    }
+
+    public Question()
+    {
     }
 
     public bool IsCorrect(string answer) => CorrectAnswers.Contains(answer.Trim().ToLower());
@@ -73,4 +77,5 @@ public class Question : INetworkSerializable
         _ = Utils.NetworkSerializeList(serializer, CorrectAnswers);
         _ = Utils.NetworkSerializeList(serializer, answerChoices);
     }
+    public bool Equals(Question question) => content == question.content;
 }
