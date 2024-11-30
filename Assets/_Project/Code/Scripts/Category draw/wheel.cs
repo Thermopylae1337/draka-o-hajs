@@ -8,13 +8,15 @@ public class Wheel : MonoBehaviour
     private float delta, angleStep, angleStepRad;
 
     [SerializeField] private bool spinning = false;
-    [SerializeField] private float velocity = 0f;
     [SerializeField] private readonly int numberOfSegments = 31;       // Ilo�� segment�w ko�a
 
     [SerializeField] private GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
     public delegate void WheelStoppedHandler(int wynik);
     public event WheelStoppedHandler OnWheelStopped;
+
+    private float targetAngle;
+    private float angle = 0.0f;
 
     private readonly string[] categories = new string[]       // temp
     {
@@ -65,22 +67,18 @@ public class Wheel : MonoBehaviour
 
         if (spinning)
         {
-            velocity = Mathf.Lerp(velocity, -50, delta / 2);             // Wytracanie  pr�sko�ci
-            transform.Rotate(new Vector3(0, 0, -velocity) * delta);
+            angle = Mathf.Lerp(angle, targetAngle, 1 * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
-            if (velocity < 0.5f)
+            if (Mathf.Abs(angle - targetAngle) < 0.1f)
             {
-                // Zatrzymanie ko�a
-                velocity = 0.0f;
                 spinning = false;
 
                 // Indeks wylosowanej kategorii
-                float correctedAngle = transform.transform.eulerAngles.z + ( angleStep * 0.5f );
+                float correctedAngle = targetAngle + ( angleStep * 0.5f );
                 int wynik = (int)( Mathf.Round(correctedAngle / angleStep) % numberOfSegments ) - 1;
                 if (wynik < 0)
-                {
                     wynik = numberOfSegments - 1;    // dla ostatniej kategorii wynik = 0 - 1
-                }
 
                 Debug.Log(wynik.ToString());
                 Debug.Log("Kategoria: " + categories[wynik]);
@@ -90,13 +88,12 @@ public class Wheel : MonoBehaviour
         }
     }
 
-    [Rpc(SendTo.NotMe)]
-    public void SpinWheelRpc(int velocity)
+    public void SpinWheel(float angle)
     {
         if (!spinning)
         {
             spinning = true;
-            this.velocity = velocity;
+            targetAngle = angle;
         }
     }
 

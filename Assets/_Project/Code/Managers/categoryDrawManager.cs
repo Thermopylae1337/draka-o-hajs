@@ -49,6 +49,8 @@ public class CategoryDrawManager : NetworkBehaviour
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
 
+
+
         wheel.OnWheelStopped += HandleWheelStopped;
     }
 
@@ -90,16 +92,14 @@ public class CategoryDrawManager : NetworkBehaviour
         }
     }
 
-    public void SpinWheel()
+    public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
+
+    [Rpc(SendTo.Everyone)]
+    void SpinWheelRpc(float angle)
     {
-        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest większy od zera"
-         * ~w moim przypadku currentRound < ROUNDS_LIMIT
-         * imo to powinno by� sprawdzane przy po odpowiedzi na pytanie,
-         * zamiast �adowa� scene losowania tylko �eby zn�w �adowa� podsumowanie
-         */
         if (currentRound < Utils.ROUNDS_LIMIT)
         {
-            wheel.SpinWheelRpc(Random.Range(1000, 4000));
+            wheel.SpinWheel(angle);
         }
     }
 }
