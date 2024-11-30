@@ -15,6 +15,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     public TextMeshProUGUI timerText;
     public List<TeamManager> teams;
     public TextMeshProUGUI totalBidText;
+    private NetworkObject playerObj;
     int totalBid;
     float timer;
     float timeGiven = 5;
@@ -54,7 +55,21 @@ public class Bidding_War_Controller : NetworkBehaviour
     void Start()
     {
         teams = new List<TeamManager>();
-        _ = !NetworkManager.Singleton.IsHost ? NetworkManager.Singleton.StartClient() : NetworkManager.Singleton.StartHost();
+        for (ulong j = 0; j < 4; j++)
+        {
+            try
+            {
+                playerObj = NetworkManager.Singleton.ConnectedClients[j].PlayerObject;
+            }
+            catch
+            {
+                break;
+            }
+
+            teams.Add(playerObj.GetComponent("TeamManager") as TeamManager);
+        }
+
+       // _ = !NetworkManager.Singleton.IsHost ? NetworkManager.Singleton.StartClient() : NetworkManager.Singleton.StartHost();
 
         if (teams.Count < 4)
         {
