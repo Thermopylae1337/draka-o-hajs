@@ -137,7 +137,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             totalBid = teams.Count * 500;
             totalBidText.text = totalBid.ToString();
         }
-
+        hasSetUp = true;
         gameOngoing = true;
     }
 
@@ -253,6 +253,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Sell(int team_id)
     {
+        timer = 0;
         SellRpc(team_id);
     }
 
