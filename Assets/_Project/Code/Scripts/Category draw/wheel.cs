@@ -2,13 +2,14 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+using static Utils;
 
 public class Wheel : MonoBehaviour
 {
     private float delta, angleStep, angleStepRad;
 
     [SerializeField] private bool spinning = false;
-    [SerializeField] private readonly int numberOfSegments = 31;       // Ilo�� segment�w ko�a
+    private readonly int numberOfSegments = 29;       // Ilosc segmentow kola
 
     [SerializeField] private GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
@@ -18,40 +19,6 @@ public class Wheel : MonoBehaviour
     private float targetAngle;
     private float angle = 0.0f;
 
-    private readonly string[] categories = new string[]       // temp
-    {
-        "Czarna Skrzynka",
-        "Geografia",
-        "Historia",
-        "Sztuka i Literatura",
-        "Nauka i Technologia",
-        "Film i Telewizja",
-        "Muzyka",
-        "Sport",
-        "Kulinarne Przepisy",
-        "Wynalazki i Odkrycia",
-        "Mitologia",
-        "Języki i Idiomy",
-        "Zwierz�ta",
-        "Miejsca i Zabytki",
-        "Trendy i Popkultura",
-        "Ciekawe Fakty",
-        "Legendy",
-        "Psychologia",
-        "Ekologia",
-        "Gry i Zagadki",
-        "Techniki Przetrwania",
-        "Podróże",
-        "Sztuki Walki",
-        "Gospodarka",
-        "Edukacja",
-        "Technologia",
-        "Motoryzacja",
-        "Fizyka",
-        "Chemia",
-        "Biologia",
-        "Astronomia"
-    };
 
     private void Start()
     {
@@ -81,7 +48,7 @@ public class Wheel : MonoBehaviour
                     wynik = numberOfSegments - 1;    // dla ostatniej kategorii wynik = 0 - 1
 
                 Debug.Log(wynik.ToString());
-                Debug.Log("Kategoria: " + categories[wynik]);
+                Debug.Log("Kategoria: " + CATEGORY_NAMES[wynik]);
 
                 OnWheelStopped?.Invoke(wynik);
             }
@@ -93,7 +60,7 @@ public class Wheel : MonoBehaviour
         if (!spinning)
         {
             spinning = true;
-            targetAngle = angle;
+            targetAngle = angle+this.angle;
         }
     }
 
@@ -110,30 +77,31 @@ public class Wheel : MonoBehaviour
             Image segmentImage = segment.GetComponent<Image>();
             segmentImage.fillAmount = 1f / numberOfSegments; // Rozmiar wycinka
 
-            // Kolor segmentu na podstawie warto�ci hue
-            float hue = (float)i / numberOfSegments;
-            Color segmentColor = Color.HSVToRGB(hue, 0.8f, 1f);
-            segmentImage.color = segmentColor;
+            if (i%2 == 0)
+                segmentImage.color = new Color(48f / 255f, 152f / 255f, 223f / 255f, 1f);
 
             // Obr�t tekstu na wycinku
             TextMeshProUGUI textComponent = segment.GetComponentInChildren<TextMeshProUGUI>(); // Pobranie komponentu tekstowego
             textComponent.rectTransform.localRotation = Quaternion.Euler(0, 0, ( -angleStep * 0.5f ) - 90f);
 
             // Pozycja tekstu na wycinku
-            float d = 4 * 50 * Mathf.Sin(angleStepRad / 2) / ( 3 * angleStepRad );    // odległość środka koła
+            float d = 4 * 36 * Mathf.Sin(angleStepRad / 2) / ( 3 * angleStepRad );    // odległość środka koła
             // Ewentualnie d = r / 2 -> lepiej wykorzystuje miejsce
             float x = -d * Mathf.Sin(angleStepRad * 0.5f);
             float y = -d * Mathf.Cos(angleStepRad * 0.5f);
             textComponent.rectTransform.localPosition = new Vector2(x, y);
 
-            // Czarna kategoria czarnej skrzynki
-            if (categories[i] == "Czarna Skrzynka")
+            if (CATEGORY_NAMES[i] == "Czarna skrzynka")
             {
-                //textComponent.color = Color.white;    //to jeżeli napisy będą domy�lnie czarne
                 segmentImage.color = Color.black;
+                textComponent.color = Color.white;
+            }
+            else if (CATEGORY_NAMES[i] == "Podpowiedź")
+            {
+                segmentImage.color = new Color(1f, 231f / 255f, 13f / 255f, 1f);  //yellow
             }
 
-            textComponent.text = categories[i];
+            textComponent.text = CATEGORY_NAMES[i];
             textComponent.text += i;
         }
     }

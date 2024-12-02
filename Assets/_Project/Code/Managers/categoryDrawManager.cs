@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using static Utils;
 
 public class CategoryDrawManager : NetworkBehaviour
 {
@@ -8,63 +9,34 @@ public class CategoryDrawManager : NetworkBehaviour
     private Wheel wheel;
     private TMP_Text categoryDisplayText;
     private TMP_Text roundDisplayText;
-    private readonly string[] categories = new string[]       // temp
-    {
-        "Czarna Skrzynka",
-        "Geografia",
-        "Historia",
-        "Sztuka i Literatura",
-        "Nauka i Technologia",
-        "Film i Telewizja",
-        "Muzyka",
-        "Sport",
-        "Kulinarne Przepisy",
-        "Wynalazki i Odkrycia",
-        "Mitologia",
-        "Języki i Idiomy",
-        "Zwierzęta",
-        "Miejsca i Zabytki",
-        "Trendy i Popkultura",
-        "Ciekawe Fakty",
-        "Legendy",
-        "Psychologia",
-        "Ekologia",
-        "Gry i Zagadki",
-        "Techniki Przetrwania",
-        "Podróże",
-        "Sztuki Walki",
-        "Gospodarka",
-        "Edukacja",
-        "Technologia",
-        "Motoryzacja",
-        "Fizyka",
-        "Chemia",
-        "Biologia",
-        "Astronomia"
-    };
+    private GameManager gameManager;
+    private CategoryList categoryList;
 
     private void Start()
     {
+        if (IsHost)
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            categoryList = CategoryList.Deserialize("Assets/_Project/Code/Models/questions450.json");
+        }
+
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
-
-
 
         wheel.OnWheelStopped += HandleWheelStopped;
     }
 
     private void HandleWheelStopped(int result)
     {
-        string category = categories[result];
-        categoryDisplayText.text = "Wylosowano: " + category;
-        if (categories[result] == "Czarna Skrzynka")
+        categoryDisplayText.text = "Wylosowano: " + CATEGORY_NAMES[result];
+        gameManager.Category.Value = categoryList.FindCategory(CATEGORY_NAMES[result]);
+
+        if (CATEGORY_NAMES[result] == "Czarna skrzynka")
         {
-            // CzarnaSkrzynka()
         }
-        else if (categories[result] == "Podpowiedź")
+        else if (CATEGORY_NAMES[result] == "Podpowiedź")
         {
-            // drużyna.podpowiedzi++ or sth;
         }
         else
         {
@@ -73,9 +45,10 @@ public class CategoryDrawManager : NetworkBehaviour
             // WyświetlPytanie(category)
         }
 
-        _ = NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("Bidding_War", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
+    /*      chyba Kuba to dodal, ale to chyba miało być w licytacji
     private void AwardBiddingWinners(TeamManager team, string categoryName)
     {
         if (categoryName.Equals("Czarna Skrzynka"))
@@ -88,9 +61,11 @@ public class CategoryDrawManager : NetworkBehaviour
         }
         else //wylosowano kategorie pytaniowa
         {
+
             //todo tutaj wywolac metode rozpoczynajaca etap pytania
         }
     }
+    */
 
     public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
 

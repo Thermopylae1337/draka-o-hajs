@@ -1,0 +1,2391 @@
+{
+  "listaKategorii": [
+    { //anatomia i medycyna - 18
+      "nazwa": "anatomia i medycyna",
+      "pytania": [
+        {
+          "tresc": "Jak nazywamy proces pojawiania się pęcherzyków powietrza między komórkami włosa?",
+          "poprawneOdpowiedzi": [ "Siwienie", "Proces siwienia", "Siwienie włosa" ],
+          "podpowiedzi": [ "Siwienie", "Łupież", "Pigmentacja", "Kołtun" ]
+        },
+        {
+          "tresc": "Jak nazywają się komórki zębinotwórcze",
+          "poprawneOdpowiedzi": [ "odontoblasty" ],
+          "podpowiedzi": [ "odontoblasty", "odontofrakcje", "odontotidia", "odontoklasty" ]
+        },
+        {
+          "tresc": "Jak nazywa się mniejsza z kości podudzia?",
+          "poprawneOdpowiedzi": [ "Strzałka", "Kość strzałkowa", "Strzałka (kość podudzia)" ],
+          "podpowiedzi": [ "Kość strzałkowa", "Kość łódeczkowata", "Kość skokowa", "Kość klinowata" ]
+        },
+        {
+          "tresc": "Jaką nazwę nosi podłoże trzonu paznokcia?",
+          "poprawneOdpowiedzi": [ "macierz" ],
+          "podpowiedzi": [ "macierz", "płytka", "korzeń", "obłączek" ]
+        },
+		    {
+          "tresc": "Ile par chromosomów ma przeciętny człowiek?",
+          "poprawneOdpowiedzi": ["23", "23 pary", "dwadzieścia trzy", "dwadzieścia trzy pary"],
+          "podpowiedzi": ["23", "10", "160", "12"]
+        },
+        {
+          "tresc": "Który gruczoł produkuje insulinę?",
+          "poprawneOdpowiedzi": ["Trzustka", "trzustka"],
+          "podpowiedzi": ["Trzustka", "Tarczyca", "Grasica", "Nadnercza"]
+        },
+        {
+          "tresc": "Na jaką chorobę opracowano pierwszą skuteczną szczepionkę?",
+          "poprawneOdpowiedzi": [ "Ospa", "ospa", "ospa prawdziwa", "Ospa prawdziwa" ],
+          "podpowiedzi": [ "Ospa", "Polio", "Grypa", "Odra" ]
+        },
+        {
+          "tresc": "Jak potocznie nazywa się nagromadzenia tkanki chłonnej występujące w okolicy gardła?",
+          "poprawneOdpowiedzi": [ "Migdałki" ],
+          "podpowiedzi": [ "Migdałki", "Tarczyca", "Węzły chłonne", "Gruczoły limfatyczne" ]
+        },
+        {
+          "tresc": "Jak nazywa się nauka o budowie, funkcjach i chorobach wątroby?",
+          "poprawneOdpowiedzi": [ "Hepatologia" ],
+          "podpowiedzi": [ "Hepatologia", "Semejologia", "Hematologia", "Otiatria" ]
+        },
+        {
+          "tresc": "Które mięśnie są odpowiedzialne za powstawanie tak zwanej gęsiej skórki?",
+          "poprawneOdpowiedzi": [ "Mięśnie przywłosowe", "Przywłosowe" ],
+          "podpowiedzi": [ "Mięśnie przywłosowe", "Mięśnie naramienne", "Mięśnie szkieletowe", "Mięśnie grzbietowe" ]
+        },
+        {
+          "tresc": "Jak nazywają się gruczoły wydzielające adrenalinę?",
+          "poprawneOdpowiedzi": [ "Nadnercza", "Gruczoły nadnerczowe", "Nadnercze" ],
+          "podpowiedzi": [ "Nadnercza", "Trzustka", "Tarczyca", "Grasica" ]
+        },
+        {
+          "tresc": "Jak nazywa się pofałdowana chrząstka otoczona skórnym płatem, stanowiąca część ucha zewnętrznego?",
+          "poprawneOdpowiedzi": [ "Małżowina" ],
+          "podpowiedzi": [ "Małżowina", "Kowadełko", "Twardówka", "Ślimacznica" ]
+        },
+        {
+          "tresc": "Ile rodzajów zębów występuje u dorosłego człowieka?",
+          "poprawneOdpowiedzi": [ "Cztery", "4" ],
+          "podpowiedzi": [ "Cztery", "Dwa", "Jeden", "Pięć" ]
+        },
+        {
+          "tresc": "Jak nazywa się mocna błona łącznotkankowa, pokrywająca kości?",
+          "poprawneOdpowiedzi": [ "kostna", "błona kostna" ],
+          "podpowiedzi": [ "Błona kostna", "Błona maziowa", "Błona łącząca", "Błona wapniowa" ]
+        },
+        {
+          "tresc": "Który hormon jest odpowiedzialny za rozwój pierwotnych i wtórnych cech płciowych męskich?",
+          "poprawneOdpowiedzi": [ "testosteron" ],
+          "podpowiedzi": [ "Testosteron", "Estrogen", "Progesteron", "Lutropina" ]
+        },
+        {
+          "tresc": "Według nieprawdziwego, lecz uporczywie powtarzanego mitu, nazwa \"cesarskie cięcie\" wzieła się od historycznego władcy, który miał przyjść na świat tą drogą. O kogo chodzi?",
+          "poprawneOdpowiedzi": [ "o Juliusza Cezara", "Juliusz Cezar", "Juliusza Cezara" ],
+          "podpowiedzi": [ "o Juliusza Cezara", "o Nerona, cesarza Rzymu", "o cara Piotra Wielkiego", "o cesarza Francuzów Napoleona Bonaparte" ]
+        },
+        {
+          "tresc": "Prowitaminą dla której witaminy jest beta-karoten?",
+          "poprawneOdpowiedzi": [ "witamina A", "A" ],
+          "podpowiedzi": [ "Witamina A", "Witamina K", "Witamina C", "Witamina D" ]
+        },
+        {
+          "tresc": "Które substancje są wydzielane przez gruczoły dokrewne?",
+          "poprawneOdpowiedzi": [ "Hormony" ],
+          "podpowiedzi": [ "Hormony", "Krwinki", "Sole", "Cukry" ]
+        }
+      ]
+    },
+    { //astronomia - 16
+      "nazwa": "astronomia",
+      "pytania": [
+        {
+          "tresc": "Który związek chemiczny stanowi aż 95% atmosfery Marsa",
+          "poprawneOdpowiedzi": [ "CO2", "Dwutlenek węgla" ],
+          "podpowiedzi": [ "Dwutlenek węgla (CO2)", "Tlen (O2)", "Azot (N2)", "Metan (CH4)" ]
+        },
+        {
+          "tresc": "W którym polskim mieście znajduje się planetarium im. Mikołaja Kopernika, będące jednym z największych i najstarszych planetariów w Polsce?",
+          "poprawneOdpowiedzi": [ "Chorzów", "Miasto Chorzów", "Planetarium w Chorzowie" ],
+          "podpowiedzi": [ "Chorzów", "Toruń", "Warszawa", "Opole" ]
+        },
+        {
+          "tresc": "Które dwa pierwiastki stanowią razem 99% składu Jowisza?",
+          "poprawneOdpowiedzi": [ "Wodór i hel", "Hel i wodór", "H i He", "He i H", "Wodór, hel", "Wodór hel", "Hel wodór" ],
+          "podpowiedzi": [ "Wodór i hel", "Azot i neon", "Węgiel i hel", "Hel i neon" ]
+        },
+        {
+          "tresc": "Które z planet naszego Układu nie mają księżyców?",
+          "poprawneOdpowiedzi": [ "Merkury i Wenus", "Wenus i Merkury", "Merkury, Wenus", "Wenus, Merkury", "Merkury Wenus", "Wenus Merkury" ],
+          "podpowiedzi": [ "Merkury i Wenus", "Mars i Ziemia", "Jowisz i Saturn", "Uran i Neptun" ]
+        },
+		    {
+          "tresc": "Jak nazywa się najbliższa Drodze Mlecznej galaktyka spiralna?",
+          "poprawneOdpowiedzi": ["Andromeda", "Galaktyka Andromedy", "galaktyka Andromedy"],
+          "podpowiedzi": ["Andromeda", "Hercules", "Ursa", "Orion"]
+        },
+        {
+          "tresc": "Jaka jest nazwa gwiazdozbioru powszechnie znanego jako 'Wielka Niedźwiedzica'?",
+          "poprawneOdpowiedzi": ["Ursa Major", "ursa major"],
+          "podpowiedzi": ["Ursa Major", "Canis Major", "Cygnus Major", "Leo Major"]
+        },
+        {
+          "tresc": "Która planeta w naszym Układzie Słonecznym ma księżyc o nazwie Phobos, który znajduje się w podobnej odległości od planety jak Chicago od Londynu?",
+          "poprawneOdpowiedzi": [ "Mars", "mars" ],
+          "podpowiedzi": [ "Mars", "Wenus", "Jowisz", "Uran" ]
+        },
+        {
+          "tresc": "Jak brzmi inna nazwa teleskopu zwierciadlanego?",
+          "poprawneOdpowiedzi": [ "Reflektor", "Teleskop reflektorowy" ],
+          "podpowiedzi": [ "Reflektor", "Refaktor", "Rekonwersor", "Refraktor" ]
+        },
+        {
+          "tresc": "Kto dokonał pierwszego pomiaru promienia Ziemi?",
+          "poprawneOdpowiedzi": [ "Eratostenes" ],
+          "podpowiedzi": [ "Eratostenes", "Kopernik", "Galileusz", "Ptolemeusz" ]
+        },
+        {
+          "tresc": "Jak inaczej nazywa się planetoidy?",
+          "poprawneOdpowiedzi": [ "Asteroidy" ],
+          "podpowiedzi": [ "Asteroidy", "Meteory", "Meteoryty", "Komety" ]
+        },
+        {
+          "tresc": "Wokół której planety krążą księżyce: Io, Europa, Ganimedes i Kallisto?",
+          "poprawneOdpowiedzi": [ "Jowisz" ],
+          "podpowiedzi": [ "Jowisz", "Saturn", "Uran", "Mars" ]
+        },
+        {
+          "tresc": "Księżycem której planety jest odkryty w 1966 r. Janus?",
+          "poprawneOdpowiedzi": [ "Saturn" ],
+          "podpowiedzi": [ "Saturn", "Jowisz", "Mars", "Uran" ]
+        },
+        {
+          "tresc": "Która z planet Układu Słonecznego jest większa od Jowisza?",
+          "poprawneOdpowiedzi": [ "Żadna", "żadna", "Nie ma takiej", "nie ma takiej" ],
+          "podpowiedzi": [ "Saturn", "Neptun", "Żadna", "Uran" ]
+        },
+        {
+          "tresc": "Jak ogólnie nazywamy widoczne z Ziemi jasne obszary na powierzchni Księżyca?",
+          "poprawneOdpowiedzi": [ "lądy", "Lądy" ],
+          "podpowiedzi": [ "lądy", "morza", "kratery", "równiny" ]
+        },
+        {
+          "tresc": "Jak się nazywa gwiazdozbiór, którego siedem najjaśniejszych gwiazd tworzy Wielki Wóz?",
+          "poprawneOdpowiedzi": [ "Wielka Niedźwiedzica" ],
+          "podpowiedzi": [ "Wielka Niedźwiedzica", "Orion", "Krzyż Południa", "Mała Niedźwiedzica" ]
+        },
+        {
+          "tresc": "W który znak zodiaku wstępuje Słońce z początkiem zimy?",
+          "poprawneOdpowiedzi": [ "Koziorożec", "w Koziorożca", "w znak Koziorożca" ],
+          "podpowiedzi": [ "Koziorożec", "Wodnik", "Strzelec", "Skorpion" ]
+        }
+      ]
+    },
+    { //biologia - 15
+      "nazwa": "biologia",
+      "pytania": [
+        {
+          "tresc": "Która roślina przez całe swoje dochodzące do 100 lat życie wydaje tylko dwa liście?",
+          "poprawneOdpowiedzi": [ "Welwiczja", "Welwiczja przedziwna" ],
+          "podpowiedzi": [ "Welwiczja", "Rhipsalis", "Aloe", "Euphorbia" ]
+        },
+        {
+          "tresc": "Ile kręgów szyjnych mają ssaki, z wyjątkiem szczerbaków?",
+          "poprawneOdpowiedzi": [ "siedem", "7" ],
+          "podpowiedzi": [ "siedem", "dwa", "osiem", "dwanaście" ]
+        },
+        {
+          "tresc": "Jak nazywa się nauka zajmująca się badaniem owadów?",
+          "poprawneOdpowiedzi": [ "Entomologia", "entomologia" ],
+          "podpowiedzi": [ "Entomologia", "Limakologia", "Zoologia", "Hortologia" ]
+        },
+        {
+          "tresc": "Ile serc mają dżdżownice?",
+          "poprawneOdpowiedzi": [ "5", "pięć" ],
+          "podpowiedzi": [ "5", "1", "0", "3" ]
+        },
+        {
+          "tresc": "Z jakiej rośliny pozyskuje się trującą rycynę?",
+          "poprawneOdpowiedzi": [ "Rącznik pospolity", "rącznik pospolity" ],
+          "podpowiedzi": [ "Rącznik pospolity", "Konwalia majowa", "Szalej", "Barszcz Mantegazziego" ]
+        },
+        {
+          "tresc": "Który pierwiastek rośliny motylkowe pobierają z atmosfery za pośrednictwem bakterii brodawkowych?",
+          "poprawneOdpowiedzi": [ "Azot", "N" ],
+          "podpowiedzi": [ "Azot", "Tlen", "Węgiel", "Fosfor" ]
+        },
+        {
+          "tresc": "Jak nazywa się jedna z połówek podwojonego chromosomu?",
+          "poprawneOdpowiedzi": [ "Chromatyda" ],
+          "podpowiedzi": [ "Chromatyda", "Subson", "Chromokaria", "Subchromosom" ]
+        },
+        {
+          "tresc": "Jak nazywa się beztlenowy sposób oddychania?",
+          "poprawneOdpowiedzi": [ "Fermentacja" ],
+          "podpowiedzi": [ "Fermentacja", "Perforacja", "Bifurkacja", "Sedymentacja" ]
+        },
+        {
+          "tresc": "Jak nazywa się nauka zajmująca się badaniem rozwoju zarodkowego organizmów żywych?",
+          "poprawneOdpowiedzi": [ "Embriologia" ],
+          "podpowiedzi": [ "Embriologia", "Endologia", "Embriomikrologia", "Endomikrologia" ]
+        },
+        {
+          "tresc": "Jaką nazwę noszą hormony regulujące przejawy wzrostu i rozwoju starszych roślin?",
+          "poprawneOdpowiedzi": [ "Auksyny" ],
+          "podpowiedzi": [ "Auksyny", "Fitomony", "Fitosterole", "Fitoceny" ]
+        },
+        {
+          "tresc": "Który gatunek ssaka łasicowatego znany jest też pod nazwą jaźwiec?",
+          "poprawneOdpowiedzi": [ "Borsuk", "borsuk" ],
+          "podpowiedzi": [ "Borsuk", "Kuna", "Łasica", "Gronostaj" ]
+        },
+        {
+          "tresc": "W którym kraju występuje tuatara, reliktowy gatunek gada?",
+          "poprawneOdpowiedzi": [ "Nowa Zelandia", "nowa zelandia" ],
+          "podpowiedzi": [ "Nowa Zelandia", "Meksyk", "Boliwia", "Kanada" ]
+        },
+        {
+          "tresc": "Z kory którego drzewa szyje się ubrania?",
+          "poprawneOdpowiedzi": [ "Figowiec", "figowiec" ],
+          "podpowiedzi": [ "Figowiec", "Sagowiec", "Bananowiec", "Baobab" ]
+        },
+        {
+          "tresc": "Jak nazywa się mięsisty, nieparzysty narząd ruchu ślimaków?",
+          "poprawneOdpowiedzi": [ "noga", "nogi" ],
+          "podpowiedzi": [ "noga", "muszla", "ogon", "stopa" ]
+        },
+        {
+          "tresc": "Do której gromady stawonogów należą kleszcze?",
+          "poprawneOdpowiedzi": [ "pajęczaki", "arachnida" ],
+          "podpowiedzi": [ "Pajęczaki", "Wije", "Skorupiaki", "Owady" ]
+        }
+      ]
+    },
+    { //chemia - 11
+      "nazwa": "chemia",
+      "pytania": [
+        {
+          "tresc": "Jakim symbolem jest oznaczana liczba masowa?",
+          "poprawneOdpowiedzi": [ "A", "Symbol A", "Liczba masowa A", "A - liczba masowa", "Symbol liczby masowej: A", "litera A", "literą A" ],
+          "podpowiedzi": [ "A", "G", "L", "M" ]
+        },
+        {
+          "tresc": "Jak nazywa się zabarwiona na fioletowo odmiana kwarcu?",
+          "poprawneOdpowiedzi": [ "Ametyst" ],
+          "podpowiedzi": [ "Ametyst", "Lazuryt", "Agat", "Karneol" ]
+        },
+        {
+          "tresc": "Czym należy nasycić wodę, aby otrzymać wodę sodową?",
+          "poprawneOdpowiedzi": [ "Dwutlenek węgla", "CO2", "Gaz węglowy" ],
+          "podpowiedzi": [ "Dwutlenek węgla", "Amoniak", "Tlen", "Azot" ]
+        },
+		    {
+          "tresc": "Który pierwiastek chemiczny ma symbol Pa?",
+          "poprawneOdpowiedzi": ["Protaktyn", "protaktyn"],
+          "podpowiedzi": ["Protaktyn", "Potas", "Platyna", "Pallad"]
+        },
+        {
+          "tresc": "Jaki kolor smugi pozostawia hematyt po zarysowaniu na chropowatej powierzchni?",
+          "poprawneOdpowiedzi": ["Czerwony", "czerwony"],
+          "podpowiedzi": ["Czerwony", "Czarny", "Biały", "Zielony"]
+        },
+        {
+          "tresc": "Jaki jest najcięższy pierwiastek, który może powstać w wyniku syntezy jądrowej w gwiazdach?",
+          "poprawneOdpowiedzi": ["Żelazo", "Fe"],
+          "podpowiedzi": ["Żelazo", "Miedź", "Złoto", "Nikiel"]
+        },
+        {
+          "tresc": "Jaki pierwiastek zbombardowali Otto Hahn, Lise Meitner i Fritz Strassman, aby odkryć proces rozszczepienia jądra atomu?",
+          "poprawneOdpowiedzi": [ "Uran", "uran", "U" ],
+          "podpowiedzi": [ "Uran", "Platyna", "Neptun", "Tor" ]
+        },
+        {
+          "tresc": "Jaką nazwę nosi stop rtęci z jednym lub kilkoma metalami?",
+          "poprawneOdpowiedzi": [ "Amalgamat" ],
+          "podpowiedzi": [ "Amalgamat", "Tombak", "Mosiądz", "Cunifer" ]
+        },
+        {
+          "tresc": "Jakiego koloru jest gazowy chlor?",
+          "poprawneOdpowiedzi": [ "Zielony", "Żółtozielony", "Żółto-zielony", "Żółto zielony", "Żółty" ],
+          "podpowiedzi": [ "Zielony", "Niebieski", "Bezbarwny", "Brązowy" ]
+        },
+        {
+          "tresc": "Który z pierwiastków z grupy litowców wykazuje najmniejszą reaktywność?",
+          "poprawneOdpowiedzi": [ "Lit", "lit", "Li" ],
+          "podpowiedzi": [ "Lit", "Sód", "Neodym", "Hafn" ]
+        },
+        {
+          "tresc": "Jak nazywa się węglowodór o wzorze sumarycznym C2H6?",
+          "poprawneOdpowiedzi": [ "etan" ],
+          "podpowiedzi": [ "etan", "propan", "buten", "etyn" ]
+        }
+      ]
+    },
+    { //czasy współczesne - 20
+      "nazwa": "czasy współczesne",
+      "pytania": [
+        {
+          "tresc": "Jaka jest najczęściej używana przeglądarka internetowa w 2023 roku?",
+          "poprawneOdpowiedzi": ["Google Chrome", "chrome", "Chrome", "google chrome"],
+          "podpowiedzi": ["Google Chrome", "Mozilla Firefox", "Microsoft Edge", "Safari"]
+        },
+        {
+          "tresc": "Jak nazywała się bomba atomowa zrzucona na Nagasaki?",
+          "poprawneOdpowiedzi": ["Fat Man", "fat man"],
+          "podpowiedzi": ["Fat Man", "Big Boy", "Bonnie Lad", "Chunky Joe"]
+        },
+        {
+          "tresc": "Jaka międzynarodowa organizacja powstała w 1945 roku?",
+          "poprawneOdpowiedzi": ["Organizacja Narodów Zjednoczonych", "ONZ", "onz"],
+          "podpowiedzi": ["Organizacja Narodów Zjednoczonych", "Unia Europejska", "Liga Narodów", "Interpol"]
+        },
+        {
+          "tresc": "Którego miasta dzielnicami są Bałuty i Chojny?",
+          "poprawneOdpowiedzi": ["Łódź", "miasto Łódź"],
+          "podpowiedzi": ["Łódź", "Warszawa", "Kraków", "Gdańsk"]
+        },
+        {
+          "tresc": "Jaki język urzędowy obowiązuje w Senegalu?",
+          "poprawneOdpowiedzi": ["Francuski", "francuski", "Język francuski", "język francuski"],
+          "podpowiedzi": ["Francuski", "Angielski", "Hiszpański", "Włoski"]
+        },
+        {
+          "tresc": "Kto został prezydentem Stanów Zjednoczonych w 2021 roku?",
+          "poprawneOdpowiedzi": ["Joe Biden", "Biden"],
+          "podpowiedzi": ["Joe Biden", "Donald Trump", "Barack Obama", "Hillary Clinton"]
+        },
+        {
+          "tresc": "W którym roku Wielka Brytania opuściła Unię Europejską?",
+          "poprawneOdpowiedzi": ["2020"],
+          "podpowiedzi": ["2020", "2019", "2021", "2018"]
+        },
+        {
+          "tresc": "Jaka jest stolica Kanady?",
+          "poprawneOdpowiedzi": ["Ottawa", "ottawa"],
+          "podpowiedzi": ["Ottawa", "Toronto", "Vancouver", "Montreal"]
+        },
+        {
+          "tresc": "Kto zdobył Oscara za najlepszy film w 2022 roku?",
+          "poprawneOdpowiedzi": ["CODA"],
+          "podpowiedzi": ["CODA", "Belfast", "Dune", "West Side Story"]
+        },
+        {
+          "tresc": "Jaki kraj jest największym producentem ropy naftowej na świecie?",
+          "poprawneOdpowiedzi": ["Stany Zjednoczone", "USA"],
+          "podpowiedzi": ["Stany Zjednoczone", "Arabia Saudyjska", "Rosja", "Kanada"]
+        },
+        {
+          "tresc": "Jaka jest jednostka monetarna Japonii?",
+          "poprawneOdpowiedzi": ["Jen", "jen", "JPY"],
+          "podpowiedzi": ["Jen", "Yuan", "Won", "Rupia"]
+        },
+        {
+          "tresc": "Jakie miasto jest siedzibą Parlamentu Europejskiego?",
+          "poprawneOdpowiedzi": ["Strasburg", "strasburg"],
+          "podpowiedzi": ["Strasburg", "Bruksela", "Paryż", "Berlin"]
+        },
+        {
+          "tresc": "W którym roku doszło do zamachu na World Trade Center?",
+          "poprawneOdpowiedzi": ["2001"],
+          "podpowiedzi": ["2001", "1999", "2003", "1997"]
+        },
+        {
+          "tresc": "Kto jest autorem teorii względności?",
+          "poprawneOdpowiedzi": ["Albert Einstein", "Einstein"],
+          "podpowiedzi": ["Albert Einstein", "Isaac Newton", "Nikola Tesla", "Galileo Galilei"]
+        },
+        {
+          "tresc": "W którym roku odbyła się pierwsza misja na Księżyc?",
+          "poprawneOdpowiedzi": ["1969"],
+          "podpowiedzi": ["1969", "1971", "1965", "1973"]
+        },
+        {
+          "tresc": "Jak nazywa się obecna kanclerz Niemiec (stan na 2023 rok)?",
+          "poprawneOdpowiedzi": ["Olaf Scholz", "Scholz"],
+          "podpowiedzi": ["Olaf Scholz", "Angela Merkel", "Frank-Walter Steinmeier", "Heiko Maas"]
+        },
+        {
+          "tresc": "Jakie państwo jako pierwsze zalegalizowało marihuanę do celów rekreacyjnych?",
+          "poprawneOdpowiedzi": ["Urugwaj", "urugwaj"],
+          "podpowiedzi": ["Urugwaj", "Kanada", "Holandia", "Meksyk"]
+        },
+        {
+          "tresc": "Która firma stała się pierwszą firmą wartą bilion dolarów?",
+          "poprawneOdpowiedzi": ["Apple", "apple"],
+          "podpowiedzi": ["Apple", "Microsoft", "Amazon", "Google"]
+        },
+        {
+          "tresc": "Jakie miasto jest gospodarzem siedziby NATO?",
+          "poprawneOdpowiedzi": ["Bruksela", "bruksela"],
+          "podpowiedzi": ["Bruksela", "Paryż", "Waszyngton", "Berlin"]
+        },
+        {
+          "tresc": "Kto wygrał Eurowizję w 2023 roku?",
+          "poprawneOdpowiedzi": ["Loreen", "Szwecja"],
+          "podpowiedzi": ["Loreen", "Käärijä", "Marco Mengoni", "Blanca Paloma"]
+        }
+      ]
+    },
+    { //film - 20
+      "nazwa": "film",
+      "pytania": [
+        {
+          "tresc": "Z którego kraju pochodzi reżyser Nikita Michałkow?",
+          "poprawneOdpowiedzi": [ "Z Rosji", "Rosja", "jest Rosjaninem" ],
+          "podpowiedzi": [ "Z Rosji", "Z Ukrainy", "Z Polski", "Z Kazachstanu" ]
+        },
+        {
+          "tresc": "W której europejskiej stolicy powstała słynna wytwórnia filmowa Barrandov?",
+          "poprawneOdpowiedzi": [ "Praga", "W Pradze" ],
+          "podpowiedzi": [ "W Pradze", "W Budapeszcie", "W Bratysławie", "W Zagrzebie" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko odtwórczyni głównej roli w filmie pt. \"Księżna Łowicka\" z 1934 r.?",
+          "poprawneOdpowiedzi": [ "Jadwiga Smosarska" ],
+          "podpowiedzi": [ "Jadwiga Smosarska", "Helena Modrzejewska", "Maria Malicka", "Danuta Szaflarska" ]
+        },
+		    {
+        "tresc": "Kto grał rolę Luke'a Skywalkera w Gwiezdnych wojnach?",
+        "poprawneOdpowiedzi": ["Mark Hamill", "mark hamill", "Hamill"],
+        "podpowiedzi": ["Mark Hamill", "Harrison Ford", "John Daniels", "James Earl Jones"]
+        },
+        {
+          "tresc": "W którym roku Lista Schindlera miała swoją premierę kinową?",
+          "poprawneOdpowiedzi": ["1993", "rok 1993"],
+          "podpowiedzi": ["1993", "1989", "1997", "2001"]
+        },
+        {
+          "tresc": "Kto wyreżyserował film Władca Pierścieni: Dwie wieże?",
+          "poprawneOdpowiedzi": [ "Peter Jackson", "jackson", "Jackson" ],
+          "podpowiedzi": [ "Peter Jackson", "Steven Spielberg", "Woody Allen", "Martin Scorsese" ]
+        },
+        {
+          "tresc": "Kto wcielił się w rolę Petroniusza w filmie pt. \"Quo Vadis\" Jerzego Kawalerowicza?",
+          "poprawneOdpowiedzi": [ "Bogustaw Linda" ],
+          "podpowiedzi": [ "Bogustaw Linda", "Paweł Deląg", "Jerzy Trela", "Michał Bajor" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko reżysera filmu pt. \"Sara\"?",
+          "poprawneOdpowiedzi": [ "Maciej Ślesicki" ],
+          "podpowiedzi": [ "Maciej Ślesicki", "Roman Polański", "Andrzej Wajda", "Krzysztof Kieślowski" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko odtwórcy roli Hana Solo w filmie pt. \"Gwiezdne wojny\"?",
+          "poprawneOdpowiedzi": [ "Harrison Ford" ],
+          "podpowiedzi": [ "Harrison Ford", "Mark Hamill", "George Lucas", "Billy Dee Williams" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko reżysera filmu pt. \"Człowiek z żelaza\"?",
+          "poprawneOdpowiedzi": [ "Andrzej Wajda", "Wajda" ],
+          "podpowiedzi": [ "Andrzej Wajda", "Roman Polański", "Krzysztof Kieślowski", "Jerzy Kawalerowicz" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko odtwórcy roli Tomka w \"Krótkim filmie o miłości\" Krzysztofa Kieślowskiego?",
+          "poprawneOdpowiedzi": [ "Olaf Lubaszenko", "Lubaszenko" ],
+          "podpowiedzi": [ "Olaf Lubaszenko", "Piotr Machalica", "Maciej Stuhr", "Krzysztof Pieczyński" ]
+        },
+        {
+          "tresc": "Jak nazywa się odtwórca roli majora Hubala z filmu Bogdana Poręby?",
+          "poprawneOdpowiedzi": [ "Ryszard Filipski", "Filipski", "R. Filipski" ],
+          "podpowiedzi": [ "Ryszard Filipski", "Jan Englert", "Wojciech Pszoniak", "Marek Kondrat" ]
+        },
+        {
+          "tresc": "Czego nie robią chłopaki w tytule filmu Olafa Lubaszenki?",
+          "poprawneOdpowiedzi": [ "Nie płaczą", "nie płaczą", "Nie płaczą.", "nie płaczą." ],
+          "podpowiedzi": [ "Nie płaczą", "Nie kłamią", "Nie walczą", "Nie krzyczą" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko odtwórcy roli Jamesa Bonda w filmie pt. 'Żyj i pozwól umrzeć'?",
+          "poprawneOdpowiedzi": [ "Roger Moore", "roger moore" ],
+          "podpowiedzi": [ "Roger Moore", "Sean Connery", "Daniel Craig", "George Lazenby" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko aktora, który grał główną rolę w filmie pt. 'Truman Show'?",
+          "poprawneOdpowiedzi": [ "Jim Carrey", "jim carrey" ],
+          "podpowiedzi": [ "Jim Carrey", "Tom Hanks", "Robin Williams", "Bruce Willis" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko odtwórczyni głównej roli kobiecej w filmie pt. 'Batman'?",
+          "poprawneOdpowiedzi": [ "Kim Basinger", "kim basinger" ],
+          "podpowiedzi": [ "Kim Basinger", "Michelle Pfeiffer", "Nicole Kidman", "Uma Thurman" ]
+        },
+        {
+          "tresc": "Kto zagrał rolę Oleńki w \"Potopie\" Jerzego Hoffmana?",
+          "poprawneOdpowiedzi": [ "Małgorzata Braunek", "Braunek" ],
+          "podpowiedzi": [ "Małgorzata Braunek", "Magdalena Zawadzka", "Izabella Scorupco", "Barbara Brylska" ]
+        },
+        {
+          "tresc": "Jak nazywa się reżyser komedii pt. \"Vabank\"?",
+          "poprawneOdpowiedzi": [ "Juliusz Machulski", "Machulski" ],
+          "podpowiedzi": [ "Juliusz Machulski", "Jerzy Hoffman", "Andrzej Wajda", "Krzysztof Kieślowski" ]
+        },
+        {
+          "tresc": "W których kraju znajduje się słynne studio filmowe Cinecitta?",
+          "poprawneOdpowiedzi": [ "Włochy", "We Włoszech" ],
+          "podpowiedzi": [ "Włochy", "Francja", "Hiszpania", "Niemcy" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko odtwórczyni roli Mady Müller, bogatej panny w \"Ziemi obiecanej\"?",
+          "poprawneOdpowiedzi": [ "Dykiel" ],
+          "podpowiedzi": [ "Dykiel", "Seniuk", "Wiśniewska", "Janda" ]
+        }
+      ]
+    },
+    { //filozofia i religie - 18
+      "nazwa": "filozofia i religie",
+      "pytania": [
+        {
+          "tresc": "Jak w kalendarzu liturgicznym nazywa się trzy dni: Wielki Czwartek, Piątek i Sobotę?",
+          "poprawneOdpowiedzi": [ "Triduum Paschalne", "Święte Triduum", "Paschalne Triduum" ],
+          "podpowiedzi": [ "Triduum Paschalne", "Epifania", "Pentekost", "Septuaginta" ]
+        },
+        {
+          "tresc": "Jakie imię przyjął kardynał Roncalli, gdy został papieżem w 1958 r.?",
+          "poprawneOdpowiedzi": [ "Jan XXIII", "Jan dwudziesty trzeci", "Jan 23" ],
+          "podpowiedzi": [ "Jan XXIII", "Paweł VI", "Pius XII", "Benedykt XVI" ]
+        },
+        {
+          "tresc": "Jakie imię nosił pierwszy arcykapłan żydowski?",
+          "poprawneOdpowiedzi": [ "Aaron" ],
+          "podpowiedzi": [ "Aaron", "Lewi", "Mojżesz", "Abraham" ]
+        },
+		    {
+        "tresc": "Jak nazywa się pierwszy miesiąc roku w kalendarzu islamskim?",
+        "poprawneOdpowiedzi": ["Muharram", "muharram"],
+        "podpowiedzi": ["Muharram", "Ramadan", "Shawwal", "Jumada"]
+        },
+        {
+          "tresc": "Który słynny filozof powiedział: 'Jest tylko jedno dobro: wiedza, i jedno zło: ignorancja'?",
+          "poprawneOdpowiedzi": ["Sokrates", "sokrates"],
+          "podpowiedzi": ["Sokrates", "Thomas Hobbes", "Jean-Paul Sartre", "Ludwig Wittgenstein"]
+        },
+        {
+          "tresc": "Jak nazywa się hinduskie święto dziewięciu nocy?",
+          "poprawneOdpowiedzi": [ "Navaratri", "navaratri" ],
+          "podpowiedzi": [ "Navaratri", "Holi", "Diwali", "Dusshera" ]
+        },
+        {
+          "tresc": "Dokąd uciekła święta Rodzina na wieść o zamiarach Heroda?",
+          "poprawneOdpowiedzi": [ "Do Egiptu", "Egipt" ],
+          "podpowiedzi": [ "Do Egiptu", "Do Betlejem", "Do Jerozolimy", "Do Nazaretu" ]
+        },
+        {
+          "tresc": "Ile sakramentów uznaje kościół ewangelicko-augsburski?",
+          "poprawneOdpowiedzi": [ "dwa", "2" ],
+          "podpowiedzi": [ "dwa", "pięć", "trzy", "cztery" ]
+        },
+        {
+          "tresc": "Jak w chrześcijaństwie zachodnim nazywa się msze adwentowe ku czci Najświętszej Marii Panny?",
+          "poprawneOdpowiedzi": [ "Roraty" ],
+          "podpowiedzi": [ "Roraty", "Msze Wigilli", "Laudes", "Rekolekcje" ]
+        },
+        {
+          "tresc": "Jakie imię nosił filistyński olbrzym pokonany przez Dawida?",
+          "poprawneOdpowiedzi": [ "Goliat" ],
+          "podpowiedzi": [ "Goliat", "Polifem", "Hanan", "Sygariusz" ]
+        },
+        {
+          "tresc": "Jak nazywała się brama świątyni, przy której siedział chory uzdrowiony przez św. Piotra?",
+          "poprawneOdpowiedzi": [ "Piękna", "Brama Piękna" ],
+          "podpowiedzi": [ "Piękna", "Prozelicka", "Kapłańska", "Złota" ]
+        },
+        {
+          "tresc": "Jakie imię nosił polski święty o nazwisku Bobola?",
+          "poprawneOdpowiedzi": [ "Andrzej", "Andrzej Bobola", "Święty Andrzej Bobola" ],
+          "podpowiedzi": [ "Andrzej", "Krzysztof", "Mikołaj", "Stefan" ]
+        },
+        {
+          "tresc": "Jakie imię nosiła żona Michaiła Gorbaczowa?",
+          "poprawneOdpowiedzi": [ "Raisa" ],
+          "podpowiedzi": [ "Raisa", "Irina", "Nina", "Tatiana" ]
+        },
+        {
+          "tresc": "Kto według Biblii był ojcem króla Salomona?",
+          "poprawneOdpowiedzi": [ "Dawid" ],
+          "podpowiedzi": [ "Dawid", "Izaak", "Daniel", "Laban" ]
+        },
+        {
+          "tresc": "Jakie imię nosiła żona Zachariasza, która w podeszłym wieku urodziła mu syna?",
+          "poprawneOdpowiedzi": [ "Elżbieta" ],
+          "podpowiedzi": [ "Elżbieta", "Marta", "Weronika", "Debora" ]
+        },
+        {
+          "tresc": "Co oznacza imię Budda?",
+          "poprawneOdpowiedzi": [ "Oświecony" ],
+          "podpowiedzi": [ "Oświecony", "Łagodny", "Czcigodny", "Wykształcony" ]
+        },
+        {
+          "tresc": "W którym wieku prorok Mahomet zapoczątkował Islam?",
+          "poprawneOdpowiedzi": [ "VII", "7", "siódmy", "w VII", "w 7", "w siódmym", "w VII wieku", "w 7 wieku", "w siódmym wieku" ],
+          "podpowiedzi": [ "VII", "VI", "IX", "VIII" ]
+        },
+		{
+  "tresc": "Kim według Biblii był Izaak dla Abrahama?",
+  "poprawneOdpowiedzi": ["syn", "Syn", "Synem", "był synem"],
+  "podpowiedzi": ["syn", "brat", "ojciec", "wnuk"]
+}
+      ]
+    }, 
+    { //fizyka - 15
+      "nazwa": "fizyka",
+      "pytania": [
+        {
+          "tresc": "Jak nazywamy przejście cieczy w stan lotny poniżej temperatury wrzenia?",
+          "poprawneOdpowiedzi": [ "Parowanie", "Proces parowania" ],
+          "podpowiedzi": [ "Parowanie", "Skraplanie", "Sublimacja", "Topnienie" ]
+        },
+        {
+          "tresc": "Który uczony wprowadził do fizyki pojęcie pędu?",
+          "poprawneOdpowiedzi": [ "Isaac Newton", "Newton" ],
+          "podpowiedzi": [ "Isaac Newton", "Albert Einstein", "Galileusz", "Arystoteles" ]
+        },
+		    {
+			    "tresc": "Jak nazywa się jednostka strumienia magnetycznego w układzie SI?",
+			    "poprawneOdpowiedzi": ["Weber", "Wb", "weber"],
+			    "podpowiedzi": ["Weber", "Tesla", "Henr", "Farad"]
+		    },
+		    {
+        "tresc": "W jakiej temperaturze skale Celsjusza i Fahrenheita pokrywają się?",
+        "poprawneOdpowiedzi": ["-40", "minus czterdzieści", "minus 40", "- 40"],
+        "podpowiedzi": ["-40", "0", "16", "64"]
+        },
+        {
+          "tresc": "Jak nazywa się proces zaniku cząstki i antycząstki w wyniku przemiany ich masy w energię?",
+          "poprawneOdpowiedzi": [ "Anihilacja" ],
+          "podpowiedzi": [ "Anihilacja", "Fuzja", "Rozpad radioaktywny", "Wzbudzenie kwantowe" ]
+        },
+        {
+          "tresc": "Jak w fizyce określa się ciało obdarzone masą, którego rozmiary można zaniedbać?",
+          "poprawneOdpowiedzi": [ "Punkt materialny", "Materialny punkt" ],
+          "podpowiedzi": [ "Punkt materialny", "Punkt urojony", "Punkt bezwzględny", "Punkt osobliwy" ]
+        },
+        {
+          "tresc": "Jak w elektrotechnice nazywa się izolowany przewód nawinięty na korpusie?",
+          "poprawneOdpowiedzi": [ "Cewka" ],
+          "podpowiedzi": [ "Cewka", "Ogniwo", "Dioda", "Supron" ]
+        },
+        {
+          "tresc": "Jak nazywa się zjawisko, polegające na skłonności ciał materialnych do wzajemnego przyciągania się?",
+          "poprawneOdpowiedzi": [ "Grawitacja", "g" ],
+          "podpowiedzi": [ "Grawitacja", "Magnetyzm", "Siła odpychu", "Elektrostatyka" ]
+        },
+        {
+          "tresc": "Jak zmienia się w czasie przyspieszenie ciała w ruchu prostoliniowym jednostajnie opóźnionym?",
+          "poprawneOdpowiedzi": [ "Jest stałe", "Nie zmienia się" ],
+          "podpowiedzi": [ "Jest stałe", "Zwiększa się", "Zmniejsza się", "Zmniejsza się nieregularnie" ]
+        },
+        {
+          "tresc": "Jaki jest sumaryczny ładunek dipola elektrycznego?",
+          "poprawneOdpowiedzi": [ "Zero", "0" ],
+          "podpowiedzi": [ "Zero", "Dodatni", "Ujemny", "Niezdefiniowany" ]
+        },
+        {
+          "tresc": "Która wielkość fizyczna jest miarą bezwładności ciała?",
+          "poprawneOdpowiedzi": [ "Masa" ],
+          "podpowiedzi": [ "Masa", "Pęd", "Popęd", "Grawitacja" ]
+        },
+        {
+          "tresc": "Która z zasad dynamiki Newtona nazywana jest inaczej zasadą bezwładności?",
+          "poprawneOdpowiedzi": [ "Pierwsza", "I", "I zasada", "Pierwsza zasada", "Pierwsza zasada dynamiki Newtona", "I zasada dynamiki Newtona" ],
+          "podpowiedzi": [ "Pierwsza", "Druga", "Trzecia", "Nie ma więcej XD" ]
+        },
+        {
+          "tresc": "Jakim terminem określa się zakłocenia w rozmieszczeniu atomów w sieci krystalicznej?",
+          "poprawneOdpowiedzi": [ "Defekty" ],
+          "podpowiedzi": [ "Defekty", "Dyfrakcja", "Intruzja", "Inkluzja" ]
+        },
+		{
+  "tresc": "Który uczony jako pierwszy otrzymał Nagrodę Nobla z dziedziny fizyki?",
+  "poprawneOdpowiedzi": ["Wilhelm Conrad Röntgen", "Wilhelm Röntgen", "Conrad Röntgen", "Röntgen", "Wilhelm Conrad Rontgen", "Wilhelm Rontgen", "Conrad Rontgen", "Rontgen"],
+  "podpowiedzi": ["Wilhelm Conrad Röntgen", "Albert Einstein", "Niels Bohr", "Ernest Rutherford"]
+},
+{
+  "tresc": "Ile procent wynosi maksymalna wilgotność względna powietrza w danej temperaturze?",
+  "poprawneOdpowiedzi": ["100", "100%"],
+  "podpowiedzi": ["100%", "75%", "90%", "50%"]
+}
+
+      ]
+    },
+    { //geografia - 18
+      "nazwa": "geografia",
+      "pytania": [
+        {
+          "tresc": "Jaką nazwę nosi jezioro śródlądowe o największym w świecie zasoleniu?",
+          "poprawneOdpowiedzi": [ "Morze Martwe", "Dead Sea", "Morze Martwe (Dead Sea)", "Jezioro Morze Martwe", "Najbardziej zasolone jezioro - Morze Martwe" ],
+          "podpowiedzi": [ "Morze Martwe", "Morze Kaspijskie", "Jezioro Bajkał", "Jezioro Wiktorii" ]
+        },
+        {
+          "tresc": "Na którym kontynencie jest najwięcej jezior?",
+          "poprawneOdpowiedzi": [ "Ameryka Północna", "Na kontynencie Ameryki Północnej", "Ameryka Północna - najwięcej jezior", "Kontynent Ameryki Północnej", "Ameryka Północna (najwięcej jezior)", "Ameryka Płn" ],
+          "podpowiedzi": [ "Ameryka Północna", "Europa", "Azja", "Afryka" ]
+        },
+        {
+          "tresc": "Jak nazywa się stolica amerykańskiego stanu Kolorado?",
+          "poprawneOdpowiedzi": [ "Denver", "Miasto Denver", "Denver - stolica Kolorado" ],
+          "podpowiedzi": [ "Denver", "Austin", "Phoenix", "Sacramento" ]
+        },
+        {
+          "tresc": "W którym państwie leży góra Ararat?",
+          "poprawneOdpowiedzi": [ "Turcja", "W Turcji" ],
+          "podpowiedzi": [ "Turcja", "Iran", "Armenia", "Gruzja" ]
+        },
+        {
+          "tresc": "W którym mieście znajduje się kopalnia węgla brunatnego \"Turów\"?",
+          "poprawneOdpowiedzi": [ "Bogatynia" ],
+          "podpowiedzi": [ "Bogatynia", "Legnica", "Zgorzelec", "Świdnica" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwa stolicy Libanu?",
+          "poprawneOdpowiedzi": [ "Bejrut" ],
+          "podpowiedzi": [ "Bejrut", "Kair", "Damaszek", "Amman" ]
+        },
+        {
+          "tresc": "W którym województwie leży Biała Podlaska?",
+          "poprawneOdpowiedzi": [ "Lubelskie", "W Lubelskim", "W województwie Lubelskim", "Lubelskim" ],
+          "podpowiedzi": [ "Lubelskie", "Podlaskie", "Mazowieckie", "Warmińsko-Mazurskie" ]
+        },
+        {
+          "tresc": "Jak nazywa się oficjalna waluta Nepalu?",
+          "poprawneOdpowiedzi": [ "Rupia", "Rupia Nepalska" ],
+          "podpowiedzi": [ "rupia", "funt", "bat", "rupia" ]
+        },
+        {
+          "tresc": "Jaką nazwę nosi jednostka monetarna Łotwy?",
+          "poprawneOdpowiedzi": [ "euro", "EUR" ],
+          "podpowiedzi": [ "euro", "łat", "lit", "marka łotewska" ]
+        },
+        {
+          "tresc": "Jak nazywa się stolica Sudanu?",
+          "poprawneOdpowiedzi": ["Chartum", "chartum"],
+          "podpowiedzi": ["Chartum", "Luskana", "Pretoria", "Dżuba"]
+        },
+        {
+          "tresc": "Na której wyspie leży Republika Sri Lanki?",
+          "poprawneOdpowiedzi": ["Cejlon", "cejlon"],
+          "podpowiedzi": ["Cejlon", "Hainan", "Sokotra", "Mindoro"]
+        },
+        {
+          "tresc": "Na terenie którego państwa leżą Góry Domeyki?",
+          "poprawneOdpowiedzi": [ "Chile", "chile" ],
+          "podpowiedzi": [ "Chile", "Australia", "Mongolia", "Lesotho" ]
+        },
+        {
+          "tresc": "W którym województwie leży Kędzierzyn-Koźle?",
+          "poprawneOdpowiedzi": [ "W województwie opolskim", "W opolskim", "opolskim" ],
+          "podpowiedzi": [ "W opolskim", "W śląskim", "W dolnośląskim", "W małopolskim" ]
+        },
+        {
+          "tresc": "Jak nazywa się najwyższe wzniesienie na obszarach pojezierzy polskich",
+          "poprawneOdpowiedzi": [ "Wieżyca" ],
+          "podpowiedzi": [ "Wieżyca", "Wzgórze Świętej Anny", "Góra Gradowa", "Góra Zamkowa" ]
+        },
+        {
+          "tresc": "Nad którym morzem leży rosyjski port Władywostok?",
+          "poprawneOdpowiedzi": [ "Morze Japońskie" ],
+          "podpowiedzi": [ "Morze Japońskie", "Morze Filipińskie", "Morze Chińskie", "Morze Ochockie" ]
+        },
+        {
+          "tresc": "Jak nazywa się największy półwysep w Europie?",
+          "poprawneOdpowiedzi": [ "Półwysep Skandynawski", "Skandynawski", "Skandynawia" ],
+          "podpowiedzi": [ "Półwysep Skandynawski", "Półwysep Iberyjski", "Półwysep Apeniński", "Półwysep Bałkański" ]
+        },
+        {
+          "tresc": "Dopływem której rzeki jest Barycz?",
+          "poprawneOdpowiedzi": [ "Odra", "odra", "Odry", "odry" ],
+          "podpowiedzi": [ "Odra", "Wisła", "Warta", "San" ]
+        },
+        {
+          "tresc": "Jak nazywa się największe nizinne uzdrowisko, znane z tężni soli?",
+          "poprawneOdpowiedzi": [ "Ciechocinek" ],
+          "podpowiedzi": [ "Ciechocinek", "Krynica-Zdrój", "Busko-Zdrój", "Polanica-Zdrój" ]
+        }
+      ]
+    },
+    { //historia - 21
+      "nazwa": "historia",
+      "pytania": [
+        {
+          "tresc": "Do której dynastii należał wygnany z Anglii w 1688 r. Jakub II?",
+          "poprawneOdpowiedzi": [ "Stuartowie", "do Stuartów", "dynastia Stuartów", "do dynastii Stuartów", "Stuart", "do Stuart", "ród Stuartów", "do rodu Stuartów", "rodzina Stuartów", "do rodziny Stuartów" ],
+          "podpowiedzi": [ "Stuartowie", "Windsorowie", "Plantageneci", "Tudorowie" ]
+        },
+        {
+          "tresc": "W którym kraju panowała dynastia Kapetyngów?",
+          "poprawneOdpowiedzi": [ "Francja", "We Francji", "Królestwo Francji", "Państwo Francja", "Dynastia Kapetyngów we Francji" ],
+          "podpowiedzi": [ "Francja", "Marchia Wschodnia", "Longobardia", "Bawaria" ]
+        },
+        {
+          "tresc": "Ile lat Józef Piłsudski był prezydentem II RP?",
+          "poprawneOdpowiedzi": [ "0", "zero", "w ogóle", "w ogóle nie był" ],
+          "podpowiedzi": [ "0", "9", "5", "4" ]
+        },
+        {
+          "tresc": "Jak nazywał się polski minister spraw zagranicznych, urzędujący w latach 1932 - 1939?",
+          "poprawneOdpowiedzi": [ "Józef Beck", "Beck" ],
+          "podpowiedzi": [ "Józef Beck", "Stanisław Wojciechowski", "Władysław Sikorski", "Ignacy Mościcki" ]
+        },
+        {
+          "tresc": "W którym mieście podpisano traktat kończący Wielką Wojnę Północną w 1721 r.?",
+          "poprawneOdpowiedzi": [ "Nystad", "Pokój w Nystad" ],
+          "podpowiedzi": [ "Nystad", "Kopenhaga", "Uppsala", "Sankt Petersburg" ]
+        },
+        {
+          "tresc": "Władcą którego z państw prekolumbijskiej Ameryki był Montezuma II?",
+          "poprawneOdpowiedzi": ["Azteków", "azteków", "Aztekowie"],
+          "podpowiedzi": ["Azteków", "Majów", "Inków", "Olmeków"]
+        },
+        {
+          "tresc": "Który polityk otrzymał w 2002 r. Pokojową Nagrodę Nobla?",
+          "poprawneOdpowiedzi": ["Jimmy Carter", "jimmy carter", "Carter"],
+          "podpowiedzi": ["Jimmy Carter", "Kofi Annan", "Kim Dae-jung", "Lech Wałęsa"]
+        },
+        {
+          "tresc": "Pod jaką nazwą przeszedł do historii edykt tolerancyjny cesarza Konstantyna?",
+          "poprawneOdpowiedzi": [ "Edykt mediolański", "edykt mediolański", "Ed. mediolański" ],
+          "podpowiedzi": [ "Edykt mediolański", "Pismo konstantyńskie", "Listy rzymskie", "Traktat florencki" ]
+        },
+        {
+          "tresc": "Jakie imię nosi święty, który w V wieku ewangelizował Irlandię?",
+          "poprawneOdpowiedzi": [ "Święty Patryk", "Patryk" ],
+          "podpowiedzi": [ "Święty Patryk", "Święty Paweł", "Święty Jerzy", "Święty Benedykt" ]
+        },
+        {
+          "tresc": "Pod jakim pseudonimem zasłynął w historii ksiądz Piotr Powęski?",
+          "poprawneOdpowiedzi": [ "Piotr Skarga", "Skarga Piotr" ],
+          "podpowiedzi": [ "Piotr Skarga", "Wysocki", "Pater A.", "Pawęża" ]
+        },
+        {
+          "tresc": "Jak nazwano konfederację, która dążyła do obalenia reform Sejmu Wielkiego?",
+          "poprawneOdpowiedzi": [ "Konfederacja Targowicka", "Targowicka", "Targowica" ],
+          "podpowiedzi": [ "Targowicka", "Barska", "Warszawska", "Sandomierska" ]
+        },
+        {
+          "tresc": "Jakie imię nosił następca cesarzowej Marii Teresy?",
+          "poprawneOdpowiedzi": [ "Józef 2", "Józef II" ],
+          "podpowiedzi": [ "Józef II", "Franciszek I", "Karol VI", "Leopold II" ]
+        },
+        {
+          "tresc": "Która dynastia królów polskich władała także Litwą, Czechami i Węgrami?",
+          "poprawneOdpowiedzi": [ "Dynastia Jagiellonów", "Jagiellonowie", "Jagiellonów", "Jagielonów" ],
+          "podpowiedzi": [ "Dynastia Jagiellonów", "Dynastia Wazów", "Dynastia Andegawenów", "Dynastia Habsburgów" ]
+        },
+        {
+          "tresc": "W którym wieku panował król pruski Fryderyk II Wielki?",
+          "poprawneOdpowiedzi": [ "w XVIII wieku", "w 18 wieku", "w osiemnastym wieku", "osiemnasty wiek", "18 wiek", "XVIII wiek" ],
+          "podpowiedzi": [ "w XVIII weiku", "w XIII weiku", "w XIV weiku", "w XIX weiku" ]
+        },
+        {
+          "tresc": "W którym wieku rządził Rosją Iwan IV Groźny?",
+          "poprawneOdpowiedzi": [ "w XVI wieku", "w 16 wieku", "w szesnastym wieku", "szesnasty wiek", "16 wiek", "XVI wiek" ],
+          "podpowiedzi": [ "w XVI wieku", "W XIV wieku", "w XV wieku", "w XIII wieku" ]
+        },
+        {
+          "tresc": "Którym krajem władał Stefan Batory przed koronacją w Polsce?",
+          "poprawneOdpowiedzi": [ "Siedmiogród", "Księstwo Siedmiogrodu" ],
+          "podpowiedzi": [ "Siedmiogród", "Węgry", "Litwa", "Czechy" ]
+        },
+        {
+          "tresc": "Jak nazywał się wielki wezyr turecki, który dowodził oblężeniem Wiednia w 1683 roku?",
+          "poprawneOdpowiedzi": [ "Kara Mustafa", "Mustafa", "Wezyr Kara Mustafa" ],
+          "podpowiedzi": [ "Kara Mustafa", "Sulejman Wspaniały", "Ibrahim Pasza", "Mehmet IV" ]
+        },
+        {
+          "tresc": "Jaki przydomek zyskał Henryk II, książę śląski poległy pod Legnicą w 1241 r.?",
+          "poprawneOdpowiedzi": [ "Pobożny", "pobożny" ],
+          "podpowiedzi": [ "Pobożny", "Waleczny", "Święty", "Sprawiedliwy" ]
+        },
+        {
+          "tresc": "Której dzielnicy Warszawy bohatersko bronił generał Józef Sowiński w 1831 r. ?",
+          "poprawneOdpowiedzi": [ "Wola", "Woli", "Dzielnicy Woli" ],
+          "podpowiedzi": [ "Wola", "Praga", "Żoliborz", "Mokotów" ]
+        },
+        {
+          "tresc": "W którym wieku powstał Statut Łaskiego, zbiór praw, ustaw i przywilejów szlacheckich?",
+          "poprawneOdpowiedzi": [ "XVI", "16", "szesnastym", "w XVI", "w 16", "w szesnastym", "w XVI wieku", "w 16 wieku", "w szesnastym wieku" ],
+          "podpowiedzi": [ "XVI", "XV", "XIII", "XIV" ]
+        },
+        {
+          "tresc": "Jak nazywał się król szwedzki panujący w latach 1682-1718?",
+          "poprawneOdpowiedzi": [ "Karol XII" ],
+          "podpowiedzi": [ "Karol XII", "Karol X Gustaw", "Karol XI", "Gustaw II Adolf" ]
+        }
+      ]
+    },
+    { //język polski - 15
+      "nazwa": "język polski",
+      "pytania": [
+        {
+          "tresc": "Za pomocą jakiego przyrostka tworzymy od nazwisk męskich zakończonych na \"g\" nazwiska córek?",
+          "poprawneOdpowiedzi": [ "-anka lub -żanka", "anka lub żanka" ],
+          "podpowiedzi": [ "-anka lub -żanka", "-ówna lub -ówka", "-inka lub -ynka", "-ina lub -yna" ]
+        },
+        {
+          "tresc": "Jak nazywa się głoska dźwięczna, otwarta, mogąca tworzyć sylabę?",
+          "poprawneOdpowiedzi": [ "samogłoska" ],
+          "podpowiedzi": [ "Samogłoska", "Półsamogołoska", "Spółgłoska wargowa", "Spółgłoska sonorna" ]
+        },
+        {
+          "tresc": "Jaką częścią mowy są wyrazy niesamodzielne 'niech', 'czy' i 'nie'?",
+          "poprawneOdpowiedzi": [ "Partykuły", "partykuły" ],
+          "podpowiedzi": [ "Partykuły", "Zaimki", "Przyimki", "Przysłówki" ]
+        },
+        {
+          "tresc": "Kto napisał powieść 'Pan Tadeusz'?",
+          "poprawneOdpowiedzi": [ "Adam Mickiewicz", "Mickiewicz", "adam mickiewicz" ],
+          "podpowiedzi": [ "Adam Mickiewicz", "Henryk Sienkiewicz", "Bolesław Prus", "Maria Dąbrowska" ]
+        },
+        {
+          "tresc": "Jak nazywa się forma poetycka składająca się z 14 wersów?",
+          "poprawneOdpowiedzi": [ "Sonet", "sonet" ],
+          "podpowiedzi": [ "Sonet", "Haiku", "Limeryk", "Elegia" ]
+        },
+        {
+          "tresc": "Którą częścią mowy są wyrazy: ach! halo! hej!",
+          "poprawneOdpowiedzi": [ "Wykrzyknik" ],
+          "podpowiedzi": [ "Wykrzyknik", "Partykuła", "Imiesłów", "Rzeczownik" ]
+        },
+        {
+          "tresc": "Ile jest samogłosek ustnych w języku polskim?",
+          "poprawneOdpowiedzi": [ "6", "sześć" ],
+          "podpowiedzi": [ "6", "8", "9", "3" ]
+        },
+        {
+          "tresc": "Jak brzmi dopełniacz liczby mnogiej rzeczownika: remiza?",
+          "poprawneOdpowiedzi": [ "Remiz" ],
+          "podpowiedzi": [ "Remiz", "Remis", "Remizów", "Remizji" ]
+        },
+        {
+          "tresc": "Jak nazywamy zestawienie wyrazó, których znaczenie jest przeciwne, sprzeczne?",
+          "poprawneOdpowiedzi": [ "oksymoron" ],
+          "podpowiedzi": [ "Oksymoron", "Antonimy", "Pleonazm", "Antyteza" ]
+        },
+        {
+          "tresc": "Na jakie pytania odpowiada narzędnik?",
+          "poprawneOdpowiedzi": [ "Kim? Czym?", "kim? czym?", "Kim, czym?", "kim, czym?" ],
+          "podpowiedzi": [ "Kim? Czym?", "Kogo? Czego?", "Komu? Czemu?", "Kogo? Co?" ]
+        },
+        {
+          "tresc": "Który wyraz w zdaniu: \"Kot jest zwierzęciem domowym\" to podmiot?",
+          "poprawneOdpowiedzi": [ "Kot" ],
+          "podpowiedzi": [ "Kot", "jest", "zwierzęciem", "domowym" ]
+        },
+        {
+          "tresc": "Jak nazywamy przypadek polskiej deklinacji odpowiadający na pytania: o kim? o czym?",
+          "poprawneOdpowiedzi": [ "Miejscownik" ],
+          "podpowiedzi": [ "Miejscownik", "Dopełniacz", "Narzędnik", "Celownik" ]
+        },
+        {
+          "tresc": "Jak nazywamy wyrazy należące do jednej rodziny wyrazów?",
+          "poprawneOdpowiedzi": [ "Wyrazy pokrewne" ],
+          "podpowiedzi": [ "Wyrazy pokrewne", "Synonimi", "Homonimy", "Wyrazy bliskoznaczne" ]
+        },
+		{
+  "tresc": "Jak określamy wyrazy mające przeciwstawne znaczenie?",
+  "poprawneOdpowiedzi": ["Antonimy", "antonimy"],
+  "podpowiedzi": ["Antonimy", "Synonimy", "Homofony", "Neologizmy"]
+},
+{
+  "tresc": "Który wyraz w zdaniu: 'Ania lubi być chwalona' jest imiesłowem?",
+  "poprawneOdpowiedzi": ["chwalona"],
+  "podpowiedzi": ["chwalona", "Ania", "lubi", "żaden"]
+}
+      ]
+    },
+    { //kulinaria - 15
+      "nazwa": "kulinaria",
+      "pytania": [
+        {
+          "tresc": "Jaki rodzaj potrawy nosi nazwę minestrone?",
+          "poprawneOdpowiedzi": [ "Zupa", "Zupa włoska" ],
+          "podpowiedzi": [ "Zupa", "Makaron", "Sałatka", "Gulasz" ]
+        },
+        {
+          "tresc": "Który owoc nadaje smak i aromat likierowi curacao?",
+          "poprawneOdpowiedzi": [ "pomarańcza" ],
+          "podpowiedzi": [ "pomarańcza", "limonka", "mandarynka", "grejpfrut" ]
+        },
+		    {
+          "tresc": "Jaką barwę ma łagodny likier cynamonowy parfait-amour?",
+          "poprawneOdpowiedzi": [ "fioletowy", "barwę fioletową", "ma barwę fioletową" ],
+          "podpowiedzi": [ "fioletowy", "czerwony", "niebieski", "brązowy" ]
+        },
+        {
+          "tresc": "Co to jest foie gras?",
+          "poprawneOdpowiedzi": ["Pasztet z wątróbki", "pasztet z wątróbki", "Foie gras"],
+          "podpowiedzi": ["Pasztet z wątróbki", "Zupa rybna", "Rodzaj sera", "Ciasto z owocami"]
+        },
+        {
+          "tresc": "Jakim rodzajem mięsa jest 'filet mignon'?",
+          "poprawneOdpowiedzi": ["Wołowina", "wołowina", "wołowe"],
+          "podpowiedzi": ["Wołowina", "Wieprzowina", "Jagnięcina", "Drób"]
+        },
+        {
+          "tresc": "Który z tych składników jest tradycyjnie używany do przygotowania pesto?",
+          "poprawneOdpowiedzi": [ "Bazylia", "bazylia" ],
+          "podpowiedzi": [ "Bazylia", "Pietruszka", "Kolendra", "Lubczyk" ]
+        },
+        {
+          "tresc": "Jak - od miejscowości na Łotwie - nazywa się mocny likier kminkowy?",
+          "poprawneOdpowiedzi": [ "Alasz" ],
+          "podpowiedzi": [ "Alasz", "Altvater", "Alkermes", "Angostura" ]
+        },
+        {
+          "tresc": "Które warzywo jest podstawowym składnikiem sałatki Waldorf?",
+          "poprawneOdpowiedzi": [ "Seler" ],
+          "podpowiedzi": [ "Seler", "Cykoria", "Bakłażan", "Brokuły" ]
+        },
+        {
+          "tresc": "Jaką nazwę, pochodzącą od nazwiska uczonego nosi angielska grochówka z ziemniakami i ryżem?",
+          "poprawneOdpowiedzi": [ "Zupa rumfordzka" ],
+          "podpowiedzi": [ "Zupa rumdordzka", "Zupa smithsońska", "Zupa johnsońska", "Zupa gordońska" ]
+        },
+        {
+          "tresc": "Jak nazywamy zabieg wprowadzenia do mięsa paseczków słoniny, aby pieczeń była soczysta?",
+          "poprawneOdpowiedzi": [ "Szpikowanie", "Larding" ],
+          "podpowiedzi": [ "Szpikowanie", "Szwajcarowanie", "Nadziewanie", "Rosółowanie" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodzą wina mozelskie?",
+          "poprawneOdpowiedzi": [ "Z Niemiec", "Niemiec", "Niemcy" ],
+          "podpowiedzi": [ "Z Niemiec", "Z Włoch", "Z Francji", "Z Hiszpani" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwa kaszy lub mączki wytwarzanej z bulw manioku?",
+          "poprawneOdpowiedzi": [ "Tapioka" ],
+          "podpowiedzi": [ "Tapioka", "Tarhonya", "Tarator", "Tahina" ]
+        },
+        {
+          "tresc": "Z którego kraju wywodzą się gatunki herbaty madras i assam?",
+          "poprawneOdpowiedzi": [ "Indie" ],
+          "podpowiedzi": [ "Indie", "Chiny", "Sri Lanka", "Japonia" ]
+        },
+		{
+			"tresc": "Ile lat dojrzewa wino Beaujolais Nouveau?",
+			"poprawneOdpowiedzi": ["0", "zero", "zero lat"],
+			"podpowiedzi": ["0", "1", "5", "10"]
+		},
+		{
+  "tresc": "Jak nazywamy ciemne, drobne, aromatyczne rodzynki pochodzące z Grecji?",
+  "poprawneOdpowiedzi": ["Koryntki", "koryntki"],
+  "podpowiedzi": ["Koryntki", "Sultanki", "Bakaliowe", "Kalifornijskie"]
+}
+      ]
+    },
+    { //literatura - 19
+      "nazwa": "literatura",
+      "pytania": [
+        {
+          "tresc": "Jak miała na imię wyimaginowana ukochana Don Kichota?",
+          "poprawneOdpowiedzi": [ "Dulcynea", "Dulcynea z Toboso", "Dulcynea del Toboso" ],
+          "podpowiedzi": [ "Dulcynea", "Angelika", "Beatrycze", "Rozalinda" ]
+        },
+        {
+          "tresc": "W którym dramacie Juliusza Słowackiego występuje Goplana?",
+          "poprawneOdpowiedzi": [ "Balladyna" ],
+          "podpowiedzi": [ "Balladyna", "Kordian", "Maria Stuart", "Horsztyński" ]
+        },
+        {
+          "tresc": "Jak miała na imię panna de la Mole, bohaterka powieści Stendhala pt. \"Czerwone i czarne\"?",
+          "poprawneOdpowiedzi": [ "Matylda", "Mathilde", "Matylda de la Mole", "Mathilde de la Mole" ],
+          "podpowiedzi": [ "Mathilde", "Louise", "Sophie", "Caroline" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko autora książek pt. \"Cesarz\" i \"Wojna futbolowa\"",
+          "poprawneOdpowiedzi": [ "Kapuściński", "Ryszard Kapuściński" ],
+          "podpowiedzi": [ "Kapuściński", "Konwicki", "Grotowski", "Gombrowicz" ]
+        },
+        {
+          "tresc": "W którym azjatyckim kraju urodził się Rudyard Kipling, autor \"Księgi dżungli\" ?",
+          "poprawneOdpowiedzi": [ "Indie", "W Indiach" ],
+          "podpowiedzi": [ "W Indiach", "W Nepalu", "W Pakistanie", "Na Sri Lance" ]
+        },
+        {
+          "tresc": "Jak nazywał się bohater powieści \"Przeminęło z Wiatrem\", przystojny brunet zakochany w Scarlett?",
+          "poprawneOdpowiedzi": [ "Rhett Butler" ],
+          "podpowiedzi": [ "Rhett Butler", "Ashley Wilkes", "Gerald O'Hara", "Frank Kennedy" ]
+        },
+        {
+          "tresc": "Jak ma na imię bohaterka \"Granicy\" Zofii Nałkowskiej, uwiedziona przez Zezona?",
+          "poprawneOdpowiedzi": [ "Justyna" ],
+          "podpowiedzi": [ "Justyna", "Elżbieta", "Mieczysława", "Irena" ]
+        },
+        {
+          "tresc": "Jaki jest tytuł powieści, która opowiada historię podróży na Marsa, napisanej przez Ray’a Bradbury’ego?",
+          "poprawneOdpowiedzi": ["Marsjańskie opowieści", "marsjańskie opowieści"],
+          "podpowiedzi": [ "Marsjańskie opowieści", "Czerwoni wędrowcy", "Wojna o Marsa", "Odyseja marsjańska"]
+        },
+        {
+          "tresc": "W jakim dziele Fiodora Dostojewskiego główny bohater, Rodion Raskolnikow, popełnia morderstwo i zmaga się z poczuciem winy?",
+          "poprawneOdpowiedzi": ["Zbrodnia i kara", "zbrodnia i kara"],
+          "podpowiedzi": ["Zbrodnia i kara", "Idiota", "Biesy", "Bracia Karamazow"]
+        },
+        {
+          "tresc": "Kto jest autorem powieści „Wojna i pokój”, której akcja rozgrywa się w czasie wojen napoleońskich?",
+          "poprawneOdpowiedzi": [ "Lew Tołstoj", "tołstoj", "Tołstoj" ],
+          "podpowiedzi": [ "Lew Tołstoj", "Fiodor Dostojewski", "Anton Czechow", "Boris Pasternak" ]
+        },
+        {
+          "tresc": "Jakie imiona nosi para legendarnych protoplastów rodu Bohatyrowiczów w powieści Orzeszkowej?",
+          "poprawneOdpowiedzi": [ "Jan i Cecylia", "Cecylia i Jan" ],
+          "podpowiedzi": [ "Jan i Cecylia", "Benedykt i Emilia", "Szymon i Jadwiga", "Witold i Leonia" ]
+        },
+        {
+          "tresc": "Jak nazywano agentkę kardynała Richelieu w powieści \"Trzej Muszkieterowie\"?",
+          "poprawneOdpowiedzi": [ "Milady de Winter", "hrabina de La Fere", "hrabina de La Fère", "Milady", "Anne de Breuil" ],
+          "podpowiedzi": [ "Milady de Winter", "Constance Bonacieux", "Madame de Chevreuse", "Louise de La Vallière" ]
+        },
+        {
+          "tresc": "W którym mieście zmarł Jan Kochanowski?",
+          "poprawneOdpowiedzi": [ "Lublin", "W Lublinie" ],
+          "podpowiedzi": [ "W Lublinie", "W Czarnolesie", "W Sycynie", "W Zwoleniu" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodzi gatunek poetycki 'Haiku'?",
+          "poprawneOdpowiedzi": [ "Japonia", "japonia", "Japan", "japan" ],
+          "podpowiedzi": [ "Japonia", "Chiny", "Korea Południowa", "Wietnam" ]
+        },
+        {
+          "tresc": "Bohaterem której powieści Żeromskiego jest Rafał Olbromski?",
+          "poprawneOdpowiedzi": [ "Popioły" ],
+          "podpowiedzi": [ "Popioły", "Granica", "Przedwiośnie", "Ludzie bezdomni" ]
+        },
+        {
+          "tresc": "Jak ma na imię Bohun, bohater \"Ogniem i mieczem\"?",
+          "poprawneOdpowiedzi": [ "Jurko" ],
+          "podpowiedzi": [ "Jurko", "Iwan", "Misza", "Sasza" ]
+        },
+        {
+          "tresc": "Jakie psy występują w tytule powieści Waldemara Łysiaka?",
+          "poprawneOdpowiedzi": [ "milczące", "milczące psy" ],
+          "podpowiedzi": [ "milczące", "dzikie", "wściekłe", "złe" ]
+        },
+        {
+          "tresc": "Jakie imię przybrał Gustaw, główna postać dramatu pt. \"Dziady\"?",
+          "poprawneOdpowiedzi": [ "Konrad" ],
+          "podpowiedzi": [ "Kondrad", "Kordian", "Tadeusz", "Juliusz" ]
+        },
+		{
+  "tresc": "Jak brzmi nazwisko autora dramatu pt. 'Uciekła mi przepióreczka'?",
+  "poprawneOdpowiedzi": ["Żeromski", "żeromski"],
+  "podpowiedzi": ["Żeromski", "Sienkiewicz", "Reymont", "Orzeszkowa"]
+},
+{
+  "tresc": "Jak nazywa się zbiór stu nowel autorstwa Giovanniego Boccaccio?",
+  "poprawneOdpowiedzi": ["Dekameron", "dekameron"],
+  "podpowiedzi": ["Dekameron", "Boska Komedia", "Canterbury Tales", "Sonety Krymskie"]
+}
+      ]
+    },
+    { //matematyka - 16
+      "nazwa": "matematyka",
+      "pytania": [
+        {
+          "tresc": "Które twierdzenie matematyczne mówi, że suma kwadratów długości przyprostokątnych w trójkącie prostokątnym jest równa kwadratowi długości przeciwprostokątnej?",
+          "poprawneOdpowiedzi": [ "Twierdzenie Pitagorasa", "Twierdzenie Pitagorasa o trójkącie prostokątnym", "Pitagoras", "Twierdzenie Pitagorasa w geometrii", "Pitagorasa" ],
+          "podpowiedzi": [ "Twierdzenie Pitagorasa", "Twierdzenie Talesa", "Twierdzenie Pascala", "Twierdzenie Euklidesa" ]
+        },
+        {
+          "tresc": "Jakim przedrostkiem określamy 1/10 podstawowej jednostki miary?",
+          "poprawneOdpowiedzi": [ "decy-", "decy", "Przedrostek decy-", "decy (1/10 jednostki)", "przedrostek decy" ],
+          "podpowiedzi": [ "decy-", "mili-", "centy-", "deka-" ]
+        },
+        {
+          "tresc": "W którym wieku rozwiązano problem kwadratury koła?",
+          "poprawneOdpowiedzi": [ "Nie rozwiązano", "W żadnym" ],
+          "podpowiedzi": [ "Nie rozwiązano", "XIX wiek", "XVIII wiek", "XX wiek" ]
+        },
+        {
+          "tresc": "Jak nazywa się najstarsza i jedna z podstawowych metod numerycznych stosowanych do przybliżania miejsc zerowych funkcji, której zasadą jest iteracyjne przybliżanie rozwiązania?",
+          "poprawneOdpowiedzi": ["Metoda Newtona-Raphsona", "newtona-raphsona", "Newton-Raphson"],
+          "podpowiedzi": ["Metoda Newtona-Raphsona", "Metoda Eulera", "Metoda Gaussa-Seidela", "Metoda Monte Carlo"]
+        },
+        {
+          "tresc": "Jak nazywa się ciąg liczb, który jest rozwiązaniem równania rekurencyjnego an = an-1 + an-2 z warunkami początkowymi a0 = 0 i a1 = 1, gdzie każda liczba jest sumą dwóch poprzednich?",
+          "poprawneOdpowiedzi": ["Ciąg Fibonacciego", "fibonacciego", "ciąg Fibonacciego"],
+          "podpowiedzi": ["Ciąg Fibonacciego", "Ciąg arytmetyczny", "Ciąg geometryczny", "Ciąg harmoniczny"]
+        },
+        {
+          "tresc": "Jak nazywa się metoda numeryczna, która polega na dzieleniu przedziału, w którym funkcja zmienia znak, na mniejsze części, w celu znalezienia miejsca zerowego funkcji?",
+          "poprawneOdpowiedzi": [ "Metoda bisekcji", "bisekcji" ],
+          "podpowiedzi": [ "Metoda bisekcji", "Metoda trapezów", "Metoda Newtona", "Metoda gradientu" ]
+        },
+        {
+          "tresc": "W jakim zakresie zmienia się wartość funkcji sinus i cosinus?",
+          "poprawneOdpowiedzi": [ "od -1 do 1", "<-1,1>", "-1 1" ],
+          "podpowiedzi": [ "od -1 do 1", "od 0 do pi", "od zera do dwa pi", "od -pi do pi" ]
+        },
+        {
+          "tresc": "Ile kwintali liczy tona?",
+          "poprawneOdpowiedzi": [ "10 kwintali", "10", "dziesięć", "dziesięć kwinatli" ],
+          "podpowiedzi": [ "10", "100", "1000", "1000000" ]
+        },
+        {
+          "tresc": "Proszę wymienić pierwszą liczbę pierwszą?",
+          "poprawneOdpowiedzi": [ "2", "dwa" ],
+          "podpowiedzi": [ "2", "1", "0", "3" ]
+        },
+        {
+          "tresc": "Jak nazywają się wzory wiążące funkcje trygonometryczne z funkcją wykładniczą zmiennej zespolonej?",
+          "poprawneOdpowiedzi": [ "wzory Eulera" ],
+          "podpowiedzi": [ "wzory Eulera", "wzory Pascala", "wzory Galoisa", "wzory Kartezjusza" ]
+        },
+        {
+          "tresc": "Jak nazywamy kwadratową macierz liczbową, której wyznacznik jest równy zero?",
+          "poprawneOdpowiedzi": [ "Macierz osobliwa", "osobliwa" ],
+          "podpowiedzi": [ "Macierz osobliwa", "Macierz rzekoma", "Macierz zerowa", "Macierz pusta" ]
+        },
+        {
+          "tresc": "Która z brył geometrycznych nazywana bywa konusem?",
+          "poprawneOdpowiedzi": [ "Stożek", "stożek" ],
+          "podpowiedzi": [ "Stożek", "Walec", "Kula", "Sześcian" ]
+        },
+        {
+          "tresc": "Ile wynosi promień koła, jeżeli długość jego obwodu jest równa 10 pi?",
+          "poprawneOdpowiedzi": [ "5", "pięć" ],
+          "podpowiedzi": [ "5", "10", "5 pi", "10 pi" ]
+        },
+        {
+          "tresc": "Ile kop liczy mendel tuzinów?",
+          "poprawneOdpowiedzi": [ "3", "trzy" ],
+          "podpowiedzi": [ "3", "2", "4", "6" ]
+        },
+        {
+          "tresc": "Ile punktów wspólnych ma okrąg i sieczna okręgu?",
+          "poprawneOdpowiedzi": [ "2", "dwa" ],
+          "podpowiedzi": [ "2", "1", "3", "0" ]
+        },
+        {
+          "tresc": "Jak nazywamy liczbę, od której podczas odejmowania odejmje się drugą liczbę?",
+          "poprawneOdpowiedzi": [ "Odjemna" ],
+          "podpowiedzi": [ "Odjemna", "Odejmowana", "Duferencja", "Subtrahend" ]
+        }
+      ]
+    },
+    { //motoryzacja - 14
+      "nazwa": "motoryzacja",
+      "pytania": [
+        {
+          "tresc": "Z którego kraju pochodzi firma samochodowa Volvo?",
+          "poprawneOdpowiedzi": [ "Ze Szwecji", "Szwecja", "Pochodzi ze Szwecji", "Firma jest ze Szwecji", "Szwedzka firma" ],
+          "podpowiedzi": [ "Szwecja", "Niemcy", "Japonia", "Włochy" ]
+        },
+        {
+          "tresc": "W którym państwie rozpoczęto produkcję motocykli BIMOTA?",
+          "poprawneOdpowiedzi": [ "Włochy", "Italia", "We Włoszech", "Państwo Włochy", "Italy" ],
+          "podpowiedzi": [ "Włochy", "Japonia", "Niemcy", "USA" ]
+        },
+        {
+          "tresc": "Samochody obywatele którego państwa noszą oznakowanie CH?",
+          "poprawneOdpowiedzi": [ "Szwajcaria", "Konfederacja Szwajcarska", "Szwajcaria (CH)", "Państwo Szwajcaria", "CH - Szwajcaria" ],
+          "podpowiedzi": [ "Szwajcaria", "Chorwacja", "Szwecja", "Chiny" ]
+        },
+        {
+          "tresc": "Samochody obywateli którego państwa noszą oznakowanie B?",
+          "poprawneOdpowiedzi": [ "Belgia", "obywateli Belgii", "samochody Belgii", "samochody obywateli Belgii" ],
+          "podpowiedzi": [ "Belgia", "Brazylia", "Białoruś", "Bułgaria" ]
+        },
+        {
+          "tresc": "Na licencji której firmy produkowano w ZSRR samochody Żiguli?",
+          "poprawneOdpowiedzi": [ "Fiat", "Fiat 124" ],
+          "podpowiedzi": [ "Fiat", "Volkswagen", "Renault", "Peugeot" ]
+        },
+        {
+          "tresc": "Jak miał na imię założyciel firmy Opel?",
+          "poprawneOdpowiedzi": [ "Adam", "Adam Opel" ],
+          "podpowiedzi": [ "Adam Opel", "Karl Opel", "Heinrich Opel", "Wilhelm Opel" ]
+        },
+        {
+          "tresc": "Jaki typ silnika napędza pojazdy, w których wykorzystywana jest technologia zapłonu samoczynnego, a nie iskrowego?",
+          "poprawneOdpowiedzi": ["Silnik wysokoprężny", "wysokoprężny", "Diesel"],
+          "podpowiedzi": ["Silnik wysokoprężny (diesel)", "Silnik benzynowy", "Silnik gazowy (LPG)", "Silnik elektryczny"]
+        },
+        {
+          "tresc": "W jaki sposób nazywa się system elektroniczny w samochodach, który pozwala na automatyczne dostosowanie prędkości pojazdu w zależności od odległości od innych pojazdów?",
+          "poprawneOdpowiedzi": ["Adaptacyjny tempomat", "adaptacyjny tempomat"],
+          "podpowiedzi": ["Adaptacyjny tempomat", "System monitorowania martwego pola", "Asystent jazdy w korku", "Automatyczny system awaryjnego hamowania"]
+        },
+        {
+          "tresc": "Jakie oznaczenie posiada samochód, którego napęd obejmuje tylko przednią oś?",
+          "poprawneOdpowiedzi": [ "FWD", "fwd", "Front-Wheel Drive" ],
+          "podpowiedzi": [ "FWD (Front-Wheel Drive)", "AWD (All-Wheel Drive)", "RWD (Rear-Wheel Drive)", "4WD (Four-Wheel Drive)" ]
+        },
+        {
+          "tresc": "Na licencji której firmy produkowano w Rumunii samochody Dacia?",
+          "poprawneOdpowiedzi": [ "Renault", "renault" ],
+          "podpowiedzi": [ "Renault", "Peugeot", "Fiat", "Volkswagen" ]
+        },
+        {
+          "tresc": "Jak miał na imię założyciel firmy Ford?",
+          "poprawneOdpowiedzi": [ "Henry", "henry" ],
+          "podpowiedzi": [ "Henry", "John", "Thomas", "Edward" ]
+        },
+        {
+          "tresc": "Którego dnia przypada \"Dzień bez Samochodu\", w Polsce obchodzony pod patronatem Ministerswa Klimatu i Środowiska?",
+          "poprawneOdpowiedzi": [ "22 września", "dwudziestydrugi września" ],
+          "podpowiedzi": [ "22 września", "22 kwietnia", "21 marca", "1 maja" ]
+        },
+        {
+          "tresc": "Jakie oznaczenie (literę i numer ma najdłuższa polska autostrada?",
+          "poprawneOdpowiedzi": [ "A4" ],
+          "podpowiedzi": [ "A4", "A1", "A2", "A8" ]
+        },
+        {
+          "tresc": "Jakiej marki są następujące modele aut terenowych: Wrangler i Cherokee?",
+          "poprawneOdpowiedzi": [ "Jeep" ],
+          "podpowiedzi": [ "Jeep", "Ford", "Toyota", "Land Rover" ]
+        }
+      ]
+    },
+    { //muzyka klasyczna - 13
+      "nazwa": "muzyka klasyczna",
+      "pytania": [
+        {
+          "tresc": "Jak nazywa się słynny hiszpański tenor, który był jednym z Trzech Tenorów obok Luciano Pavarottiego i Plácido Domingo?",
+          "poprawneOdpowiedzi": [ "José Carreras", "Carreras", "Jose Carreras" ],
+          "podpowiedzi": [ "José Carreras", "Andrea Bocelli", "Jonas Kaufmann", "Roberto Alagna" ]
+        },
+        {
+          "tresc": "W którym amerykańskim mieście toczy się zasadnicza akcja musicalu \"Hair?\"",
+          "poprawneOdpowiedzi": [ "Nowy York" ],
+          "podpowiedzi": [ "Nowy York", "San Francisco", "Los Angeles", "Chicago" ]
+        },
+        {
+          "tresc": "W którym kraju toczy się akcja operetki pt. 'Polska krew' Oskara Nedbala?",
+          "poprawneOdpowiedzi": ["Polska", "polska"],
+          "podpowiedzi": ["Polska", "Francja", "Austro-Węgry", "Szwajcaria"]
+        },
+        {
+          "tresc": "Jak nazywa się kompozycja Wolfganga Amadeusza Mozarta, w której pojawia się motyw „długo oczekiwanego” ślubu w tradycji operowej?",
+          "poprawneOdpowiedzi": ["Wesele Figara", "wesele Figara", "Figaro"],
+          "podpowiedzi": ["Wesele Figara", "Ślub Figara", "Wesele Don Giovanniego", "Wesele królewskie"]
+        },
+        {
+          "tresc": "Kto skomponował 'Stworzenie świata' – utwór będący jednym z najważniejszych dzieł barokowej muzyki oratoryjnej?",
+          "poprawneOdpowiedzi": [ "Joseph Haydn", "haydn", "Haydn" ],
+          "podpowiedzi": [ "Joseph Haydn", "Johann Sebastian Bach", "Georg Friedrich Handel", "Ludwig van Beethoven" ]
+        },
+        {
+          "tresc": "Jak nazywamy popularny dęty instrument jazzowy o zmiennej długości rury?",
+          "poprawneOdpowiedzi": [ "Puzon" ],
+          "podpowiedzi": [ "Puzon", "Trąbka", "Saksofon", "Tuba" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodzi słynna śpiewaczka Montserrat Caballe?",
+          "poprawneOdpowiedzi": [ "Hiszpania", "Z Hiszpanii", "Hiszpanii" ],
+          "podpowiedzi": [ "Hiszpania", "Włochy", "Portugalia", "Francja" ]
+        },
+        {
+          "tresc": "W którym kraju Europy harfa stała się instrumentem i symbolem narodowym?",
+          "poprawneOdpowiedzi": [ "Irlandia" ],
+          "podpowiedzi": [ "Irlandia", "Grecja", "Walia", "Szkocja" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko kompozytora operetki pt. \"Zemsta Nietoperza\"?",
+          "poprawneOdpowiedzi": [ "Johann Strauss", "Strauss", "Johann Strauss II" ],
+          "podpowiedzi": [ "Johann Strauss", "Franz Lehár", "Giuseppe Verdi", "Wolfgang Amadeus Mozart" ]
+        },
+        {
+          "tresc": "Jak nazywa się urządzenie służące do wskazywania tempa utworu?",
+          "poprawneOdpowiedzi": [ "metronom" ],
+          "podpowiedzi": [ "Metronom", "Rezonator", "Dynamometr", "Arytmometr" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko kompozytora tetralogii \"Pierścień Nibelunga\" i opery \"Śpiewacy norymberscy\"?",
+          "poprawneOdpowiedzi": [ "Wagner", "Richard Wagner" ],
+          "podpowiedzi": [ "Richard Wagner", "Franz Schubert", "Johannes Brahms", "Ludwig van Beethoven" ]
+        },
+        {
+          "tresc": "Jakiej narodowości był słynny kompozytor Bela Bartok?",
+          "poprawneOdpowiedzi": [ "Węgierskiej", "Węgrem", "Węgry", "był Węgrem" ],
+          "podpowiedzi": [ "Węgierskiej", "Polskiej", "Czeskiej", "Niemieckiej" ]
+        },
+        {
+          "tresc": "Pod jaką nazwą znana jest pieść \"Va, pensiero\" z trzeciego aktu opery \"Nabucco\" Giuseppe Verdiego?",
+          "poprawneOdpowiedzi": [ "Pieśń niewolników" ],
+          "podpowiedzi": [ "Pieśń niewolników", "Chór Hebrajczyków", "Hymn wolności", "Pieśń nadziei" ]
+        }
+      ]
+    },
+    { //muzyka rozrywkowa - 17
+      "nazwa": "muzyka rozrywkowa",
+      "pytania": [
+        {
+          "tresc": "Który artysta wylansował przebój 'Au, sza, la, la, la, la mam dwie lewe ręce...?",
+          "poprawneOdpowiedzi": [ "Ireneusz Dudek", "Dudek", "Ireneusz", "Shakin' Dudi", "Shakin Dudi", "Shakin" ],
+          "podpowiedzi": [ "Ireneusz Dudek", "Zbigniew Wodecki", "Krzysztof Krawczyk", "Ryszard Rynkowski" ]
+        },
+        {
+          "tresc": "Z jakiego kraju pochodzi zespół A-ha?",
+          "poprawneOdpowiedzi": [ "Norwegia" ],
+          "podpowiedzi": [ "Norwegia", "Szwecja", "Dania", "Finlandia" ]
+        },
+        {
+          "tresc": "Które miejsce zajęła Edyta Górniak na Konkursie Eurowizji w 1994 r.?",
+          "poprawneOdpowiedzi": [ "2", "drugie" ],
+          "podpowiedzi": [ "drugie", "piąte", "trzecie", "nie zakwalifikowała się do finału" ]
+        },
+		    {
+          "tresc": "Która z wymienionych piosenkarek zdobyła najwięcej nagród Grammy?",
+          "poprawneOdpowiedzi": ["Beyonce", "Beyoncé", "beyonce"],
+          "podpowiedzi": ["Beyonce", "Adele", "Taylor Swift", "Madonna"]
+        },
+        {
+          "tresc": "Który zespół nagrał album „The Dark Side of the Moon”?",
+          "poprawneOdpowiedzi": ["Pink Floyd", "pink floyd", "Floyd"],
+          "podpowiedzi": ["Pink Floyd", "The Rolling Stones", "Led Zeppelin", "Queen"]
+        },
+        {
+          "tresc": "Kto był pierwszym artystą, który wystąpił na koncercie na żywo na całej planecie, transmitowanym na wszystkie kontynenty?",
+          "poprawneOdpowiedzi": [ "Queen", "queen" ],
+          "podpowiedzi": [ "Queen", "Michael Jackson", "U2", "Paul McCartney" ]
+        },
+        {
+          "tresc": "Który zespół wylansował w 2002 r. przebój pt. \"Tango straconych\"?",
+          "poprawneOdpowiedzi": [ "Ich Troje" ],
+          "podpowiedzi": [ "Ich Troje", "Wilki", "Kult", "Perfect" ]
+        },
+        {
+          "tresc": "Która piosenkarka wylansowała przebój \"Nie dla mnie sznur samochodów\"?",
+          "poprawneOdpowiedzi": [ "Krystyna Konarska", "Konarska" ],
+          "podpowiedzi": [ "Krystyna Konarska", "Anna Jantar", "Edyta Górniak", "Maryla Rodowicz" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko lidera i wokalisty zespołu \"The Cure\"?",
+          "poprawneOdpowiedzi": [ "Robert Smith" ],
+          "podpowiedzi": [ "Robert Smith", "Robert Johnson", "Steve Harris", "Michael Hutchence" ]
+        },
+        {
+          "tresc": "Który z uczestników pierwszej edycji \"IDOLA\" wylansował przebój pt. \"Spełni się\"?",
+          "poprawneOdpowiedzi": [ "Tomek Makowiecki", "Makowiecki", "Tomasz Makowiecki" ],
+          "podpowiedzi": [ "Tomasz Makowiecki", "Szymon Wydra", "Ewelina FLinta", "Alicja Janosz" ]
+        },
+        {
+          "tresc": "Który zespół wylansował w 1998 r. przebój pt. \"Mamona\"?",
+          "poprawneOdpowiedzi": [ "Zespół Republika", "Republika" ],
+          "podpowiedzi": [ "Republika", "T.Love", "Perfect", "Kult" ]
+        },
+        {
+          "tresc": "Który zespół wypromował utwór \"California Dreamin\" w 1966 r.?",
+          "poprawneOdpowiedzi": [ "The Mamas and The Papas" ],
+          "podpowiedzi": [ "The Mamas and The Papas", "The Byrds", "The Beach Boys", "The Doors" ]
+        },
+        {
+          "tresc": "Jak nazywa się niemiecki duet, popularny w latach 80-tych, który wystąpił w programie Bar?",
+          "poprawneOdpowiedzi": [ "Modern Talking" ],
+          "podpowiedzi": [ "Modern Talking", "Milli Vanilli", "Snap!", "The Twins" ]
+        },
+        {
+          "tresc": "Jakiej narodowości jest mistrz muzyki elektronicznej Vangelis?",
+          "poprawneOdpowiedzi": [ "Jest grekiem", "Narodowości greckiej", "Greckiej", "Grecja" ],
+          "podpowiedzi": [ "Greckiej", "Hiszpańskiej", "Włoskiej", "Francuskiej" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodzi saksofonista i kompozytor Jan Garbarek?",
+          "poprawneOdpowiedzi": [ "Norwegia", "Kraj Norwegia", "Norweg" ],
+          "podpowiedzi": [ "Norwegia", "Polska", "Dania", "Finlandia" ]
+        },
+        {
+          "tresc": "Która wokalistka wylansowała przebój pt. 'Whenever, wherever'?",
+          "poprawneOdpowiedzi": [ "Shakira" ],
+          "podpowiedzi": [ "Shakira", "Beyonce", "Adele", "Rihanna" ]
+        },
+        {
+          "tresc": "Z którym aktorem Justyna Steczkowska nagrała płytę pt. 'Mów do mnie jeszcze'?",
+          "poprawneOdpowiedzi": [ "Paweł Deląg" ],
+          "podpowiedzi": [ "Paweł Deląg", "Bogusław Linda", "Piotr Adamczyk", "Marek Kondrat" ]
+        },
+        {
+          "tresc": "Jakie imię nosi dziewczyna z piosenki zespołu Łzy, która: \"...dawno już tutaj nie mieszka\"?",
+          "poprawneOdpowiedzi": [ "Agnieszka", "agnieszka", "Agnieszka.", "agnieszka." ],
+          "podpowiedzi": [ "Agnieszka", "Ewa", "Ania", "Kasia" ]
+        }
+      ]
+    },
+    { //piłka nożna - 17
+      "nazwa": "piłka nożna",
+      "pytania": [
+        {
+          "tresc": "Ile bramek zdobyła reprezentacja Francji broniąc tytułu mistrza świata w 2002 r.?",
+          "poprawneOdpowiedzi": [ "0", "Zero" ],
+          "podpowiedzi": [ "0", "1", "2", "3" ]
+        },
+        {
+          "tresc": "Jakim wynikiem bramkowym zakończył się mecz Dania - Polska w listopadzie 2002 r.?",
+          "poprawneOdpowiedzi": [ "2:0", "2:0 dla Danii", "2 0 dla Danii", "dwa zero", "dwa zero dla Danii", "2 dla Danii 0 dla Polski", "2 Dania 0 Polska", "dwa Dania zero Polska", "dwa dla Danii 0 dla Polski" ],
+          "podpowiedzi": [ "2:0", "0:1", "3:1", "1:2" ]
+        },
+        {
+          "tresc": "Ile bramek samobójczych padło podczas Mundialu 2002?",
+          "poprawneOdpowiedzi": [ "trzy", "3", "3 bramki samobójcze", "trzy bramki samobójcze" ],
+          "podpowiedzi": [ "trzy", "dwie", "cztery", "pięć" ]
+        },
+        {
+          "tresc": "Na którym miejscu zakończyła jesienny sezon ekstraklasy w 2002 r. Legia Warszawa?",
+          "poprawneOdpowiedzi": [ "3", "trzecim", "na miejscu trzecim", "na miejscu 3", "na trzecim miejscu", "na 3 miejscu" ],
+          "podpowiedzi": [ "3", "1", "2", "4" ]
+        },
+        {
+          "tresc": "Z którego miasta pochodzi klub Bundesligi TSV 1860?",
+          "poprawneOdpowiedzi": ["Monachium", "monachium"],
+          "podpowiedzi": ["Monachium", "Berlin", "Frankfurt", "Hamburg"]
+        },
+        {
+          "tresc": "Który klub wygrał najwięcej edycji Ligi Mistrzów UEFA?",
+          "poprawneOdpowiedzi": ["Real Madryt", "real madryt", "Real"],
+          "podpowiedzi": ["Real Madryt", "Manchester City", "Juventus", "Ajax Amsterdam"]
+        },
+        {
+          "tresc": "Która drużyna wygrała Mistrzostwa Świata w Piłce Nożnej w 1982 roku?",
+          "poprawneOdpowiedzi": [ "Włochy", "włochy" ],
+          "podpowiedzi": [ "Włochy", "Brazylia", "RFN", "Argentyna" ]
+        },
+        {
+          "tresc": "Jakim wynikiem bramkowym zakończył się mecz Polska - Stany Zjednoczone na Mundialu 2002?",
+          "poprawneOdpowiedzi": [ "3:1", "3:1 dla Polski", "3 1", "3 1 dla Polski", "trzy jeden", "trzy jednen dla Polski", "trzy dla Polski jeden dla Stanów Zjednoczonych", "3 Polska 1 Stany Zjednoczone", "3 Polska 1 Stany", "3 Polska 1 USA", "trzy dla Polski jeden dla Stanów", "trzy dla Polski jeden dla USA", "3 dla Polski 1 dla Stanów", "3 dla Polski 1 dla USA" ],
+          "podpowiedzi": [ "3:1", "4:1", "2:3", "1:2" ]
+        },
+        {
+          "tresc": "Reprezentacja którego kraju wygrała pierwsze oficjalne Mistrzostwa Europy?",
+          "poprawneOdpowiedzi": [ "Włochy", "Reprezentacja Włoch", "Włoch" ],
+          "podpowiedzi": [ "Włochy", "Hiszpania", "ZSRR", "Francja" ]
+        },
+        {
+          "tresc": "Z którego miasta pochodzi Arka, drużyna zdobywców Pucharu Polski w 1979 r.?",
+          "poprawneOdpowiedzi": [ "Gdynia", "z Gdyni" ],
+          "podpowiedzi": [ "Gdynia", "Gdańsk", "Sopot", "Szczecin" ]
+        },
+        {
+          "tresc": "Ile czerwonych kartek pokazał sędzia w meczu Armenia - Polska w 2001 r.?",
+          "poprawneOdpowiedzi": [ "4", "Cztery", "4 kartki", "4 czerwone kartki", "cztery kartki", "cztery czerwone kartki" ],
+          "podpowiedzi": [ "4", "3", "1", "0" ]
+        },
+        {
+          "tresc": "Jakim wynikiem zakończył się mecz Polska - Francja w finałach mistrzostw świata w 1982 r.?",
+          "poprawneOdpowiedzi": [ "3:2", "3:2 dla Polski", "3 2", "3 2 dla Polski", "trzy dwa", "trzy dwa dla Polski", "trzy dla Polski dwa dla Francji", "3 Polska 2 Francja" ],
+          "podpowiedzi": [ "3:2", "4:1", "1:3", "2:1" ]
+        },
+        {
+          "tresc": "Która drużyna jako pierwsza zdobyła Puchar Polski?",
+          "poprawneOdpowiedzi": [ "Wisła Kraków" ],
+          "podpowiedzi": [ "Wisła Kraków", "Polonia Warszawa", "Pogoń Lwów", "Cracovia" ]
+        },
+        {
+          "tresc": "Ile meczy rozegrano podczas Mundialu 2002 r.?",
+          "poprawneOdpowiedzi": [ "64", "sześćdziesiąt cztery", "64 mecze", "sześćdziesiąt cztery mecze" ],
+          "podpowiedzi": [ "64", "48", "32", "72" ]
+        },
+        {
+          "tresc": "Jakim wynikiem bramkowym zakończył się mecz Niemcy - Arabia Saudyjska na Mundialu 2002?",
+          "poprawneOdpowiedzi": [ "8:0", "8-0", "8 0" ],
+          "podpowiedzi": [ "8:0", "7:1", "5:0", "6:2" ]
+        },
+        {
+          "tresc": "Jaką nazwę nosi nagroda dla króla strzelcó przyznawana podczas Mistrzostw Świata?",
+          "poprawneOdpowiedzi": [ "Złoty but" ],
+          "podpowiedzi": [ "Złoty But", "Złota Piłka", "Puchar Strzelców", "Złote korki" ]
+        },
+        {
+          "tresc": "Ile drużyn nie musiało walczyć o prawo do udziału w Mundialu 2002?",
+          "poprawneOdpowiedzi": [ "3", "trzy" ],
+          "podpowiedzi": [ "3", "2", "5", "1" ]
+        }
+      ]
+    },
+    { //polityka i gospodarka - 18
+      "nazwa": "polityka i gospodarka",
+      "pytania": [
+        {
+          "tresc": "W którym roku Michaił Gorbaczow otrzymał pokojową Nagrodę Nobla?",
+          "poprawneOdpowiedzi": [ "1990", "Rok 1990", "W 1990", "1990 rok", "W roku 1990" ],
+          "podpowiedzi": [ "1990", "1989", "1991", "1992" ]
+        },
+        {
+          "tresc": "Który kraj zaanektowały Chiny w 1950 r.?",
+          "poprawneOdpowiedzi": [ "Tybet", "Kraj Tybet", "Region Tybet", "Tybet w 1950", "Tybet został zaanektowany przez Chiny" ],
+          "podpowiedzi": [ "Tybet", "Mongolia", "Korea Północna", "Wietnam" ]
+        },
+        {
+          "tresc": "Który amerykański prezydent zrezygnował z urzędu w 1974 roku po aferze Watergate?",
+          "poprawneOdpowiedzi": [ "Nixon", "Richard Nixon" ],
+          "podpowiedzi": [ "Nixon", "Ford", "Kennedy", "Johnson" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko Przewodniczącego Rady Państwa PRL w latach 1972-1985?",
+          "poprawneOdpowiedzi": [ "Jaruzelski", "Wojciech Jaruzelski", "Jaruzelski Wojciech" ],
+          "podpowiedzi": [ "Jaruzelski", "Kania", "Cyrankiewicz", "Pińkowski" ]
+        },
+        {
+          "tresc": "W którym roku uchwalono obowiązującą obecnie Konstytucję III RP?",
+          "poprawneOdpowiedzi": [ "1997", "rok 1997", "w roku 1997" ],
+          "podpowiedzi": [ "1997", "1989", "1791", "1952" ]
+        },
+        {
+          "tresc": "Kto jest autorem słynnego dzieła „O państwie”?",
+          "poprawneOdpowiedzi": ["Cyceron", "cyceron"],
+          "podpowiedzi": ["Cyceron", "Platon", "Arystoteles", "Machiavelli"]
+        },
+        {
+          "tresc": "Który kraj jest największą gospodarką świata?",
+          "poprawneOdpowiedzi": ["USA", "usa", "Stany Zjednoczone"],
+          "podpowiedzi": ["USA", "Chiny", "Niemcy", "Japonia"]
+        },
+        {
+          "tresc": "W którym roku odbył się tzw. „Wielki Kryzys”?",
+          "poprawneOdpowiedzi": ["1929", "rok 1929"],
+          "podpowiedzi": ["1929", "1918", "1939", "1945"]
+        },
+        {
+          "tresc": "Kto był premierem rządu III RP od lipca 1992 r. do października 1993 r.?",
+          "poprawneOdpowiedzi": [ "Hanna Suchocka" ],
+          "podpowiedzi": [ "Hanna Suchocka", "Tadeusz Mazowiecki", "Waldemar Pawlak", "Jan Krzysztof Bielecki" ]
+        },
+        {
+          "tresc": "Jak brzmi potoczna nazwa procesu przekształceń systemu komunistycznego w ZSRR w latach 1985-1991?",
+          "poprawneOdpowiedzi": [ "Perestrojka" ],
+          "podpowiedzi": [ "Perestrojka", "Głasnost", "Detente", "Wielka Przemiana" ]
+        },
+        {
+          "tresc": "Ministrem spraw zagranicznych którego kraju, w latach 1998-2005, jest Joschka Fischer?",
+          "poprawneOdpowiedzi": [ "Niemiec", "Ministrem Niemiec" ],
+          "podpowiedzi": [ "Niemiec", "Rosji", "Austrii", "Holandii" ]
+        },
+        {
+          "tresc": "Prezydentem którego państwa był Vytautas Landsbergis?",
+          "poprawneOdpowiedzi": [ "Litwa", "na Litwie", "Litwy" ],
+          "podpowiedzi": [ "Litwa", "Łotwa", "Estonia", "Białoruś" ]
+        },
+        {
+          "tresc": "Kim był z zawodu Ernesto Che Guevara, rewolucjonista latynoamerykański?",
+          "poprawneOdpowiedzi": [ "Lekarzem", "lekarzem", "Doktorem", "doktor" ],
+          "podpowiedzi": [ "Lekarzem", "Nauczycielem", "Inżynierem", "Pisarzem" ]
+        },
+        {
+          "tresc": "Który polityk otrzymał w 2002 r. Pokojową Nagrodę Nobla?",
+          "poprawneOdpowiedzi": [ "Jimmy Carter", "Carter" ],
+          "podpowiedzi": [ "Jimmy Carter", "Romano Prodi", "Władimir Putin", "Gueneter Verheugen" ]
+        },
+        {
+          "tresc": "Który kraj Unii Europejskiej ukarano sankcjami w efekcie demokratycznych wyborów w 1999 r.?",
+          "poprawneOdpowiedzi": [ "Austria" ],
+          "podpowiedzi": [ "Austria", "Węgry", "Grecja", "Polska" ]
+        },
+        {
+          "tresc": "Kim z wykształcenia jest Bronisław Geremek?",
+          "poprawneOdpowiedzi": [ "Historykiem", "Historyk" ],
+          "podpowiedzi": [ "Historykiem", "Prawnikiem", "Ekonomistą", "Filozofem" ]
+        },
+        {
+          "tresc": "W którym mieście znajduje się siedziba Rady Europy?",
+          "poprawneOdpowiedzi": [ "Strasburg", "w Strasburgu" ],
+          "podpowiedzi": [ "Strasburg", "Bruksela", "Genewa", "Paryż" ]
+        },
+		{
+  "tresc": "W którym roku powstała partia o nazwie Sojusz Lewicy Demokratycznej?",
+  "poprawneOdpowiedzi": ["1999", "rok 1999"],
+  "podpowiedzi": ["1999", "1998", "2000", "1997"]
+}
+      ]
+    },
+    { //popkultura - 20
+      "nazwa": "popkultura",
+      "pytania": [
+        {
+          "tresc": "Który film zdobył Oscara za najlepszy film w 2020 roku?",
+          "poprawneOdpowiedzi": ["Parasite", "parasite"],
+          "podpowiedzi": ["Parasite", "Joker", "1917", "Once Upon a Time in Hollywood"]
+        },
+        {
+          "tresc": "Które czasopismo po raz pierwszy nadało tytuł „Osoby Roku” w 1927 roku?",
+          "poprawneOdpowiedzi": ["Time", "time"],
+          "podpowiedzi": ["Time", "Newsweek", "National Geographic", "The Economist"]
+        },
+        {
+          "tresc": "Która książka jest najczęściej tłumaczoną literaturą piękną na świecie?",
+          "poprawneOdpowiedzi": ["Mały Książę", "mały książę", "Le Petit Prince"],
+          "podpowiedzi": ["Mały Książę", "Don Kichot", "Harry Potter i Kamień Filozoficzny", "Obcy"]
+        },
+        {
+          "tresc": "Kto znalazł się na okładce i rozkładówce pierwszego w historii numeru \"Playboya\"?",
+          "poprawneOdpowiedzi": ["Marilyn Monroe", "Monroe"],
+          "podpowiedzi": ["Marilyn Monroe", "Liz Taylor", "Brigitte Bardot", "Pamela Anderson"]
+        },
+        {
+          "tresc": "Jaki zespół wydał album \"Abbey Road\"?",
+          "poprawneOdpowiedzi": ["The Beatles", "Beatles"],
+          "podpowiedzi": ["The Beatles", "The Rolling Stones", "The Who", "Pink Floyd"]
+        },
+        {
+          "tresc": "Która piosenkarka jest znana z hitu \"Like a Virgin\"?",
+          "poprawneOdpowiedzi": ["Madonna"],
+          "podpowiedzi": ["Madonna", "Cher", "Whitney Houston", "Celine Dion"]
+        },
+        {
+          "tresc": "Jak nazywa się twórca komiksu \"Spider-Man\"?",
+          "poprawneOdpowiedzi": ["Stan Lee", "Lee", "Steve Ditko", "Ditko"],
+          "podpowiedzi": ["Stan Lee", "Jack Kirby", "Bob Kane", "Steve Ditko"]
+        },
+        {
+          "tresc": "Kto jest autorem książki \"Harry Potter i Kamień Filozoficzny\"?",
+          "poprawneOdpowiedzi": ["J.K. Rowling", "Rowling", "J K Rowling", "JK Rowling", "J. K. Rowling"],
+          "podpowiedzi": ["J.K. Rowling", "Stephen King", "J.R.R. Tolkien", "George R.R. Martin"]
+        },
+        {
+          "tresc": "Który film z 1994 roku opowiada historię Forresta Gumpa?",
+          "poprawneOdpowiedzi": ["Forrest Gump"],
+          "podpowiedzi": ["Forrest Gump", "The Shawshank Redemption", "Pulp Fiction", "Braveheart"]
+        },
+        {
+          "tresc": "Która aktorka zagrała główną rolę w filmie \"Pretty Woman\"?",
+          "poprawneOdpowiedzi": ["Julia Roberts", "Roberts"],
+          "podpowiedzi": ["Julia Roberts", "Sandra Bullock", "Meg Ryan", "Nicole Kidman"]
+        },
+        {
+          "tresc": "Jaki tytuł nosi pierwszy album Michaela Jacksona, który zdobył nagrodę Grammy za Album Roku?",
+          "poprawneOdpowiedzi": ["Thriller"],
+          "podpowiedzi": ["Thriller", "Bad", "Off the Wall", "Dangerous"]
+        },
+        {
+          "tresc": "Który serial telewizyjny jest najdłużej emitowanym sitcomem w historii?",
+          "poprawneOdpowiedzi": ["The Simpsons", "Simpsons"],
+          "podpowiedzi": ["The Simpsons", "Friends", "Seinfeld", "The Office"]
+        },
+        {
+          "tresc": "Która aktorka wcieliła się w rolę Katniss Everdeen w serii filmów \"Igrzyska Śmierci\"?",
+          "poprawneOdpowiedzi": ["Jennifer Lawrence", "Lawrence"],
+          "podpowiedzi": ["Jennifer Lawrence", "Emma Watson", "Kristen Stewart", "Scarlett Johansson"]
+        },
+        {
+          "tresc": "Który film z serii \"James Bond\" był pierwszym z udziałem Daniela Craiga?",
+          "poprawneOdpowiedzi": ["Casino Royale"],
+          "podpowiedzi": ["Casino Royale", "Quantum of Solace", "Skyfall", "Spectre"]
+        },
+        {
+          "tresc": "Kto napisał powieść \"Władca Pierścieni\"?",
+          "poprawneOdpowiedzi": ["J.R.R. Tolkien", "Tolkien", "J. R. R. Tolkien", "JRR Tolkien", "J R R Tolkien"],
+          "podpowiedzi": ["J.R.R. Tolkien", "George R.R. Martin", "C.S. Lewis", "J.K. Rowling"]
+        },
+        {
+          "tresc": "Która piosenka zespołu Queen stała się hymnem stadionowym, śpiewanym przez tłumy na wydarzeniach sportowych?",
+          "poprawneOdpowiedzi": ["We Will Rock You", "We Are the Champions"],
+          "podpowiedzi": ["We Will Rock You", "Bohemian Rhapsody", "Another One Bites the Dust", "We Are the Champions"]
+        },
+        {
+          "tresc": "Jak nazywa się kultowy reżyser filmów takich jak \"Pulp Fiction\" i \"Kill Bill\"?",
+          "poprawneOdpowiedzi": ["Quentin Tarantino", "Tarantino"],
+          "podpowiedzi": ["Quentin Tarantino", "Martin Scorsese", "Steven Spielberg", "Francis Ford Coppola"]
+        },
+        {
+          "tresc": "Który zespół muzyczny jest odpowiedzialny za album \"The Dark Side of the Moon\"?",
+          "poprawneOdpowiedzi": ["Pink Floyd"],
+          "podpowiedzi": ["Pink Floyd", "Led Zeppelin", "The Beatles", "The Rolling Stones"]
+        },
+        {
+          "tresc": "Która książka George'a Orwella przedstawia dystopijną przyszłość kontrolowaną przez Wielkiego Brata?",
+          "poprawneOdpowiedzi": ["1984"],
+          "podpowiedzi": ["1984", "Folwark zwierzęcy", "Brave New World", "Fahrenheit 451"]
+        },
+        {
+          "tresc": "Kto jest autorem serii książek \"Pieśń Lodu i Ognia\", na której oparty jest serial \"Gra o Tron\"?",
+          "poprawneOdpowiedzi": ["George R.R. Martin", "Martin", "George R. R. Martin", "George R R Martin", "George RR Martin"],
+          "podpowiedzi": ["George R.R. Martin", "J.R.R. Tolkien", "Brandon Sanderson", "Patrick Rothfuss"]
+        }
+      ]
+    },
+    { //przysłowia i cytaty - 14
+      "nazwa": "przysłowia i cytaty",
+      "pytania": [
+        {
+          "tresc": "Po czym według przysłowia poznaje się drzewo?",
+          "poprawneOdpowiedzi": [ "Po owocach", "Owocach", "Po owocu" ],
+          "podpowiedzi": [ "Po owocach", "Po liściach", "Po korze", "Po gałęziach" ]
+        },
+        {
+          "tresc": "Proszę dokończyć przysłowie: Woda czyści żołądek, a piwo...",
+          "poprawneOdpowiedzi": [ "kieszeń" ],
+          "podpowiedzi": [ "kieszeń", "serce raduje", "piwo to moje paliwo", "rozsądek" ]
+        },
+        {
+          "tresc": "Proszę dokończyć przysłowie: \"Nie ma lepszego leku jak gorzałka...\"",
+          "poprawneOdpowiedzi": [ "po mleku" ],
+          "podpowiedzi": [ "po mleku", "w starszym wieku", "na fleku", "w człowieku" ]
+        },
+        {
+          "tresc": "Proszę dokończyć przysłowie: \"U Polaka co w sercu to na...\"",
+          "poprawneOdpowiedzi": [ "języku", "na języku" ],
+          "podpowiedzi": [ "języku", "stole", "talerzu", "twarzy" ]
+        },
+        {
+          "tresc": "Czyjej skóry słucha ten, kto nie słucha ojca i matki?",
+          "poprawneOdpowiedzi": [ "Psiej skóry", "Psiej" ],
+          "podpowiedzi": [ "Psiej skóry", "Swojej skóry", "Cudzej skóry", "Oślej skóry" ]
+        },
+        {
+          "tresc": "Jaki ptak według przysłowia własne gniazdo kala?",
+          "poprawneOdpowiedzi": ["Zły", "zły"],
+          "podpowiedzi": ["Zły", "Mądry", "Dumny", "Piękny"]
+        },
+        {
+          "tresc": "W jaki kamień klnie według porzekadła ten, kto bardzo złorzeczy?",
+          "poprawneOdpowiedzi": [ "Żywy" ],
+          "podpowiedzi": [ "Żywy", "Młyński", "Szlachetny", "Nagrobny" ]
+        },
+        {
+          "tresc": "Proszę dokończyć przysłowie: \"Co wieś, to inna...\"",
+          "poprawneOdpowiedzi": [ "pieśń" ],
+          "podpowiedzi": [ "pieśń", "wieść", "religia", "plotka" ]
+        },
+        {
+          "tresc": "Ilu groszy nie warta według przysłowia panienka, która jest uparta?",
+          "poprawneOdpowiedzi": [ "3", "3 groszy", "trzech", "trzy", "trzech groszy" ],
+          "podpowiedzi": [ "3 groszy", "2 groszy", "4 groszy", "1 grosza" ]
+        },
+        {
+          "tresc": "Proszę dokończyć przysłowie: Jaki korzeń taka nać, taka córka jaka ...?",
+          "poprawneOdpowiedzi": [ "mać", "jaka mać" ],
+          "podpowiedzi": [ "mać", "matka", "nać", "klacz" ]
+        },
+        {
+          "tresc": "Czego - według przysłowia - nie wszystkim bydlętom dała natura?",
+          "poprawneOdpowiedzi": [ "rogi" ],
+          "podpowiedzi": [ "Rogi", "Nogi", "Skrzydła", "Kolce" ]
+        },
+        {
+          "tresc": "Co - według przysłowia - mówi mucha, która siadła na wole?",
+          "poprawneOdpowiedzi": [ "Orzemy" ],
+          "podpowiedzi": [ "Orzemy", "Jedziemy", "Ryczymy", "Bodziemy" ]
+        },
+        {
+          "tresc": "Co - według przysłowia - mówi mucha, która siadła na wole?",
+          "poprawneOdpowiedzi": [ "Orzemy" ],
+          "podpowiedzi": [ "Orzemy", "Jedziemy", "Ryczymy", "Bodziemy" ]
+        },
+        {
+          "tresc": "\"Ociec, prać\" - ten kultowy już cytat z Sienkiewicza wykorzystano w początkach lat 90. w reklamie proszku do prania. Który bohater zadaje to pytanie w \"Potopie\"?",
+          "poprawneOdpowiedzi": [ "Kosma Kiemlicz", "Kosma" ],
+          "podpowiedzi": [ "Kosma Kiemlicz", "Damian Kiemlicz", "Ketling", "Roch Kowalski" ]
+        },
+        {
+          "tresc": "Która ryba w znanym powiedzeniu wije się zręcznie i sprytnie?",
+          "poprawneOdpowiedzi": [ "piskorz" ],
+          "podpowiedzi": [ "Piskorz", "Węgorz", "Pstrąg", "Troć" ]
+        }
+      ]
+    },
+    { //rozmaitości - 16
+      "nazwa": "rozmaitości",
+      "pytania": [
+        {
+          "tresc": "Które z państw skandynawskich nie przystąpiło do Unii Europejskiej?",
+          "poprawneOdpowiedzi": [ "Norwegia", "Królestwo Norwegii", "Norwegia nie przystąpiła", "Państwo Norwegia", "Norway" ],
+          "podpowiedzi": [ "Norwegia", "Szwecja", "Dania", "Finlandia" ]
+        },
+        {
+          "tresc": "Jaką nazwę nosi egipski obelisk ustawiony w nowojorskim Central Parku?",
+          "poprawneOdpowiedzi": [ "Igła Kleopatry", "Cleopatra's Needle", "Igła Kleopatry w Central Parku", "Cleopatra’s Needle in Central Park" ],
+          "podpowiedzi": [ "Igła Kleopatry", "Nos Kleopatry", "Perła Kleopatry", "Sztylet Kleopatry" ]
+        },
+        {
+          "tresc": "Jachty żaglowe którego państwa noszą oznakowanie ESA?",
+          "poprawneOdpowiedzi": [ "Santo Domingo" ],
+          "podpowiedzi": [ "Santo Domingo", "Caracas", "Meksyk", "Santiago" ]
+        },
+        {
+          "tresc": "W którym mieście znajduje się najstarszy uniwersytet półkuli zachodniej?",
+          "poprawneOdpowiedzi": [ "Salwador" ],
+          "podpowiedzi": [ "Salwador", "Hiszpania", "Estonia", "Seszele" ]
+        },
+        {
+          "tresc": "W którym mieście można zwiedzić Rotundę Jeffersona?",
+          "poprawneOdpowiedzi": [ "Waszyngton", "W Waszyngtonie" ],
+          "podpowiedzi": [ "Waszyngton", "Nowy Jork", "Filadelfia", "Boston" ]
+        },
+        {
+          "tresc": "Jak brzmi imię wróżki z legendy o królu Arturze?",
+          "poprawneOdpowiedzi": [ "Morgana", "Morgana le Fay" ],
+          "podpowiedzi": [ "Morgana", "Ginewra", "Jennefer", "Boudikka" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodzi rumba?",
+          "poprawneOdpowiedzi": [ "Kuba" ],
+          "podpowiedzi": [ "Kuba", "Dominikana", "Portoryko", "Hiszpania" ]
+        },
+        {
+          "tresc": "Jak nazywał się najsłynniejszy \"rogacz\" czasów mitycznych, mąż pięknej Heleny?",
+          "poprawneOdpowiedzi": [ "Menelaos" ],
+          "podpowiedzi": [ "Menelaos", "Odys", "Diomedes", "Agamemnon" ]
+        },
+        {
+          "tresc": "W którym mieście znajduje się teatr i opera: Teatro Amazonas?",
+          "poprawneOdpowiedzi": [ "W Manaus", "Manaus" ],
+          "podpowiedzi": [ "Manaus", "Rio de Janeiro", "São Paulo", "Brasília" ]
+        },
+        {
+          "tresc": "Jak nazywała się córka bogini Demeter, porwana przez Hadesa?",
+          "poprawneOdpowiedzi": [ "Kora", "Persefona" ],
+          "podpowiedzi": [ "Kora", "Artemida", "Melpomena", "Nemezis" ]
+        },
+        {
+          "tresc": "Jak nazywała się matka Dionizosa, boga wina?",
+          "poprawneOdpowiedzi": [ "Semele" ],
+          "podpowiedzi": [ "Semele", "Selene", "Melissa", "Salmakis" ]
+        },
+        {
+          "tresc": "Jak nazywała się królowa Kartaginy, porzucona przez Eneasza?",
+          "poprawneOdpowiedzi": [ "Dido" ],
+          "podpowiedzi": [ "Dido", "Dirke", "Doris", "Driope" ]
+        },
+        {
+          "tresc": "Jak nazywa się w mitologii hinduskiej bogini czasu i śmierci?",
+          "poprawneOdpowiedzi": [ "Kali" ],
+          "podpowiedzi": [ "Kali", "Lakshmi", "Saraswati", "Durga" ]
+        },
+        {
+          "tresc": "W którym kraju znajduje się megalityczne sanktuarium Stonehenge?",
+          "poprawneOdpowiedzi": [ "Anglia", "Wielka Brytania", "Zjednoczone Królestwo" ],
+          "podpowiedzi": [ "Anglia", "Francja", "Hiszpania", "Niemcy" ]
+        },
+        {
+          "tresc": "Nad którą rzeką znajduje się najsłynniejszy francuski kompleks zamków?",
+          "poprawneOdpowiedzi": [ "Loara", "nad Loarą" ],
+          "podpowiedzi": [ "Loara", "Sekwana", "Rodan", "Garonna" ]
+        },
+      ]
+    },
+    { //seriale - 15
+      "nazwa": "seriale",
+      "pytania": [
+        {
+          "tresc": "Z którego kraju przyjechali do Kiepskich krewni?",
+          "poprawneOdpowiedzi": [ "Kazachstan", "Z Kazachstanu" ],
+          "podpowiedzi": [ "Z Kazachstanu", "Z Niemiec", "Z Rosji", "Z Uzbekistanu" ]
+        },
+        {
+          "tresc": "Co w języku polskim oznacza imię psa Szarik z serialu „Czterej pancerni i pies”?",
+          "poprawneOdpowiedzi": ["Kuleczka", "kuleczka"],
+          "podpowiedzi": ["Kuleczka", "Gwiazdka", "Zapałka", "Szary"]
+        },
+        {
+          "tresc": "Co zjedli Boczek i Walduś Kiepski, co sprawiło ich grę na fortepianie?",
+          "poprawneOdpowiedzi": ["Serce Chopina", "serce chopina"],
+          "podpowiedzi": ["Serce Chopina", "Wątroba Chopina", "Muzyczne fasolki", "Mózg Chopina"]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko aktorki, która w serialu „Janosik” wcieliła się w rolę Maryny?",
+          "poprawneOdpowiedzi": [ "Ewa Lemańska", "ewa lemańska", "lemańska" ],
+          "podpowiedzi": [ "Ewa Lemańska", "Ewa Mirowska", "Gabriela Muskała", "Izabela Olszewska" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko postaci, w którą wcielił się Witold Pyrkosz w  „Czterech pancernych”?",
+          "poprawneOdpowiedzi": [ "Wichura" ],
+          "podpowiedzi": [ "Wichura", "Kwiatkowski", "Jankowski", "Michałowski" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko aktorki, która wcieliła się w role Sowieckiego robota Katiusza Kałasznikow?",
+          "poprawneOdpowiedzi": [ "Joanna Brodzik" ],
+          "podpowiedzi": [ "Joanna Brodzik", "Karolina Gruszka", "Magdalena Boczarska", "Agnieszka Dygant" ]
+        },
+        {
+          "tresc": "Gzie pracuje na codzień Tadeusz Norek z serialu pt. \"Miodowe lata\"?",
+          "poprawneOdpowiedzi": [ "Kanalarz", "pracuje w kanałach", "w kanałach", "pracownik kanalizacyjny" ],
+          "podpowiedzi": [ "W kanałach", "W fabryce", "W sklepie spożywczym", "W urzędzie skarbowym" ]
+        },
+        {
+          "tresc": "Podczas jakiej uroczystości pojmano Janosika?",
+          "poprawneOdpowiedzi": [ "podczas ślubu", "ślub", "podczas wasnego ślubu" ],
+          "podpowiedzi": [ "Podczas ślubu", "Podczas Chrztu", "Podczas Urodzin", "Podczas Festynu" ]
+        },
+        {
+          "tresc": "Jak według Kiepskich nazywa się dziesiąta muza?",
+          "poprawneOdpowiedzi": [ "Komercja" ],
+          "podpowiedzi": [ "Komercja", "Browaria", "Kasiora", "Chałtura" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko aktorki, która gra Halinę Kiepską?",
+          "poprawneOdpowiedzi": [ "Marzena Kipiel-Sztuka" ],
+          "podpowiedzi": [ "Marzena Kipiel-Sztuka", "Marzena Trybała", "Krystyna Feldman", "Hanna Bakuła" ]
+        },
+        {
+          "tresc": "Jak nazywa się witamina produkowana przez Ferdynanda Kiepskiego?",
+          "poprawneOdpowiedzi": [ "Witamina G", "G" ],
+          "podpowiedzi": [ "Witamina G", "Witamina H", "Witamina W", "Witamina P" ]
+        },
+        {
+          "tresc": "Co było w worku Dziadka Mroza w serialu pt. \"Świat według Kiepskich\"?",
+          "poprawneOdpowiedzi": [ "komuna" ],
+          "podpowiedzi": [ "Komuna", "Podatki", "Podarki", "Zaklęcia" ]
+        },
+        {
+          "tresc": "Jak naprawdę nazywał się Kunicki z serialu pt. \"Kariera Nikodema Dyzmy\"?",
+          "poprawneOdpowiedzi": [ "Leon Kunicki", "Leon" ],
+          "podpowiedzi": [ "Leon Kunicki", "Bronisław Pawlik", "Kazimierz Fabisiak", "Adam Nowak" ]
+        },
+        {
+          "tresc": "W jaki sposób Ferdek Kiepski zyskał sobie nieśmiertelność?",
+          "poprawneOdpowiedzi": [ "wygrał w karty", "wygrał w karty ze śmiercią" ],
+          "podpowiedzi": [ "Wygrał w karty ze śmiercią", "Przekupił śmierć piwem", "Dołączył do kultu śmierci", "Sprzedał swoją dusze" ]
+        }
+      ]
+    },
+    { //sport - 14
+      "nazwa": "sport",
+      "pytania": [
+        {
+          "tresc": "W którym mieście rozegrano pierwsze zimowe igrzyska olimpijskie?",
+          "poprawneOdpowiedzi": [ "Chamonix", "Chamonix-Mont-Blanc" ],
+          "podpowiedzi": [ "Chamonix", "Sankt Moritz", "Lake Placid", "Innsbruck" ]
+        },
+        {
+          "tresc": "W której dyscyplinie sportu używany jest czekan?",
+          "poprawneOdpowiedzi": [ "Wspinaczka wysokogórska", "Alpinizm" ],
+          "podpowiedzi": [ "Wspinaczka wysokogórska", "Narciarstwo alpejskie", "Trekking", "Skialpinizm" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko mistrza świata w trójskoku z 1983 r.?",
+          "poprawneOdpowiedzi": [ "Zdzisław Hoffman" ],
+          "podpowiedzi": [ "Zdzisław Hoffman", "Karol Hoffman", "Józef Szmidt", "Edward Sarul" ]
+        },
+        {
+          "tresc": "Jak brzmi imię i nazwisko węgierskiego boksera, trzykrotnego złotego medalisty olimpijskiego?",
+          "poprawneOdpowiedzi": [ "Laszlo Papp", "laszlo papp", "Papp" ],
+          "podpowiedzi": [ "Laszlo Papp", "Zoltan Halmay", "Karsh Kiraly", "Sandor Kocsis" ]
+        },
+        {
+          "tresc": "W którym mieście rozegrano zawody jeździeckie na olimpiadzie w 1956 r.?",
+          "poprawneOdpowiedzi": [ "Stockholmie", "Stochholm", "W Stockholmie" ],
+          "podpowiedzi": [ "W Stockholmie", "W Rzymie", "W Melbourne", "W Moskwie" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko mistrza Polski w rzucie oszczepem w latach 1951-61?",
+          "poprawneOdpowiedzi": [ "Janusz Sidło" ],
+          "podpowiedzi": [ "Janusz Sidło", "Kazimierz Matusiak", "Marian Misiak", "Zbigniew JAsiński" ]
+        },
+        {
+          "tresc": "W której dyscyplinie sportu Leszek Drogosz wywalczył medal olimpijski?",
+          "poprawneOdpowiedzi": [ "W boksie", "Boks" ],
+          "podpowiedzi": [ "W Boksie", "w Judo", "W Wioślarstwie", "W Podnoszeniu ciężarów" ]
+        },
+        {
+          "tresc": "Ile konkurencji obejmował program IX Zimowych Igrzysk Olimpijskich?",
+          "poprawneOdpowiedzi": [ "34", "Trzydzieści cztery" ],
+          "podpowiedzi": [ "34", "30", "39", "37" ]
+        },
+        {
+          "tresc": "Które państwo reprezentował Henri Saint-Cyr, czterokrotny mistrz olimpijski w ujeżdzeniu?",
+          "poprawneOdpowiedzi": [ "Szwecja" ],
+          "podpowiedzi": [ "Szwecja", "Francja", "Szwajcaria", "Belgia" ]
+        },
+        {
+          "tresc": "W którym roku Wojciech Fortuna zdobył złoty medal olimpijski w konkursie skoków narciarskich?",
+          "poprawneOdpowiedzi": [ "1972", "w 1972" ],
+          "podpowiedzi": [ "w 1972", "w 1968", "w 1976", "w 1980" ]
+        },
+        {
+          "tresc": "Jak potocznie nazywamy łyżwy używane do jazdy szybkiej?",
+          "poprawneOdpowiedzi": [ "panczeny", "panczen" ],
+          "podpowiedzi": [ "panczeny", "hokejówki", "figurowe", "rolki" ]
+        },
+        {
+          "tresc": "Ilu Polaków brało udział w wyścigu kolarskim Tour de France w 2001 r.?",
+          "poprawneOdpowiedzi": [ "dwóch", "2" ],
+          "podpowiedzi": [ "dwóch", "jeden", "trzech", "żaden" ]
+        },
+        {
+          "tresc": "Jaki medal przywieźli z Mistrzostw świata w 1987 r. Leszek Kucharski i Andrzej Grubba?",
+          "poprawneOdpowiedzi": [ "Brązowy", "Medal brązowy" ],
+          "podpowiedzi": [ "Brązowy", "Złoty", "Srebny", "Nie zdobyli medalu" ]
+        },
+        {
+          "tresc": "W której dyscyplinie reprezentacja polska zdobyła pierwszy srebrny medal olimpijski?",
+          "poprawneOdpowiedzi": [ "Kolarstwo", "w kolarstwie" ],
+          "podpowiedzi": [ "Kolarstwo", "Lekkoatletyka", "Jeździectwo", "Szermierka" ]
+        }
+      ]
+    },
+    { //sztuka - 16
+      "nazwa": "sztuka",
+      "pytania": [
+        {
+          "tresc": "W którym państwie znajduje się muzeum Escorial?",
+          "poprawneOdpowiedzi": [ "Hiszpania", "W Hiszpanii", "Królestwo Hiszpanii", "Państwo Hiszpania", "Escorial w Hiszpanii" ],
+          "podpowiedzi": [ "Hiszpania", "Portugalia", "Włochy", "Francja" ]
+        },
+        {
+          "tresc": "W której ze stolic znajduje się Muzeum Wiktorii i Alberta?",
+          "poprawneOdpowiedzi": [ "Londyn", "W Londynie", "Stolica Londyn", "Miasto Londyn", "Londyn - stolica" ],
+          "podpowiedzi": [ "Londyn", "Paryż", "Berlin", "Madryt" ]
+        },
+        {
+          "tresc": "Z którym kierunkiem w sztuce związany jest Pierre-Auguste Renoir?",
+          "poprawneOdpowiedzi": [ "Impresjonizm" ],
+          "podpowiedzi": [ "Impresjonizm", "Postmodernizm", "Secesja", "Ekspresjonizm" ]
+        },
+        {
+          "tresc": "Kto namalował \"Mona Lisę\"?",
+          "poprawneOdpowiedzi": ["Leonardo da Vinci", "leonardo da vinci", "Da Vinci"],
+          "podpowiedzi": ["Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso", "Rembrandt"]
+        },
+        {
+          "tresc": "W jakim stylu tworzył Claude Monet?",
+          "poprawneOdpowiedzi": ["Impresjonizm", "impresjonizm"],
+          "podpowiedzi": ["Impresjonizm", "Barok", "Ekspresjonizm", "Surrealizm"]
+        },
+        {
+          "tresc": "Jak nazywa się najsłynniejsza rzeźba Michała Anioła?",
+          "poprawneOdpowiedzi": [ "Dawid", "dawid" ],
+          "podpowiedzi": [ "Dawid", "Wenus z Milo", "Pietà", "Apollo z Belwederu" ]
+        },
+        {
+          "tresc": "W której europejsckiej stolicy znajduje się \"Albertina\" światowej sławy kolekcja rysunków?",
+          "poprawneOdpowiedzi": [ "W Wiedniu", "Wiedeń" ],
+          "podpowiedzi": [ "W Wiedniu", "W Berlinie", "W Pradze", "W Paryżu" ]
+        },
+        {
+          "tresc": "Ilu mężczyzn asystuje nagiej kobiecie na obrazie Maneta pt. \"Śniadannie na trawie\"?",
+          "poprawneOdpowiedzi": [ "Dwóch", "Dwa", "2" ],
+          "podpowiedzi": [ "Dwóch", "Trzech", "Czterech", "Jeden" ]
+        },
+        {
+          "tresc": "Jak w sztuce sakralnej nazywamy symboliczny rodowód Chrystusa w postaci drzewa?",
+          "poprawneOdpowiedzi": [ "Drzewo Jessego", "Jessego" ],
+          "podpowiedzi": [ "Drzewo Jessego", "Drabina jakubowa", "Drzewo rajskie", "Drzewo wszechświata" ]
+        },
+        {
+          "tresc": "Bukranion to motyw dekoracyjny w kształcie czaszki. Którego zwierzęcia?",
+          "poprawneOdpowiedzi": [ "Byka", "Czaszki byka" ],
+          "podpowiedzi": [ "Byka", "Jelenia", "Lwa", "Konia" ]
+        },
+        {
+          "tresc": "Jak brzmi nazwisko autora rzeźby pt. 'Żelazne organy'?",
+          "poprawneOdpowiedzi": [ "Hasior" ],
+          "podpowiedzi": [ "Hasior", "Dunikowski", "Abakanowicz", "Zamoyski" ]
+        },
+        {
+          "tresc": "Co oznacza słowo 'pinxit', umieszczane często przy podpisie malarza?",
+          "poprawneOdpowiedzi": [ "namalował" ],
+          "podpowiedzi": [ "namalował", "sprzedał", "odebrał", "zamówił" ]
+        },
+        {
+          "tresc": "Z którego kraju pochodził malarz Diego Velazque?",
+          "poprawneOdpowiedzi": [ "Hiszpania", "Z Hiszpanii", "Z Hiszpani" ],
+          "podpowiedzi": [ "Z Hiszpanii", "Z Portugalii", "Z Francji", "Z Włoch" ]
+        },
+        {
+          "tresc": "Jaką osobliwość można dojrzeć na głowie Mojżesza, rzeźby dłuta Michała Anioła?",
+          "poprawneOdpowiedzi": [ "rogi" ],
+          "podpowiedzi": [ "rogi", "korona", "mitra", "aureola" ]
+        },
+        {
+          "tresc": "W którym muzeum znajduje się obecnie posąg Wenus z Milo?",
+          "poprawneOdpowiedzi": [ "Luwr", "Louvre", "W Luwrze", "Luwrze" ],
+          "podpowiedzi": [ "W Luwrze", "W muzeum Brytyjskim", "W muzeum Watykańskim", "W muzeum Pergamońskim" ]
+        },
+        {
+          "tresc": "W którym greckim porządku architektonicznym żłobkowane kolumny mają wolutowe głowice?",
+          "poprawneOdpowiedzi": [ "Joński", "w Jońskim" ],
+          "podpowiedzi": [ "W Jońskim", "W Doryckim", "W Korynckim", "W Toskańskim" ]
+        },
+        {
+          "tresc": "Który styl sztuki nazywano inaczej Art Nouveau?",
+          "poprawneOdpowiedzi": [ "Secesja" ],
+          "podpowiedzi": [ "Secesja", "Rokoko", "Impresjonizm", "Barok" ]
+        }
+      ]
+    },
+    { //technologie - 20
+      "nazwa": "technologie",
+      "pytania": [
+        {
+          "tresc": "Jaka technologia blockchain została wykorzystana jako pierwsza do stworzenia smart kontraktów?",
+          "poprawneOdpowiedzi": ["Ethereum", "Eth"],
+          "podpowiedzi": ["Ethereum", "Bitcoin", "Cardano", "Polkadot"]
+        },
+        {
+          "tresc": "W którym kraju uruchomiono pierwszą sieć 5G na skalę krajową?",
+          "poprawneOdpowiedzi": ["Korea Południowa", "Republika Korei"],
+          "podpowiedzi": ["Korea Południowa", "Chiny", "Stany Zjednoczone", "Japonia"]
+        },
+        {
+          "tresc": "Kto wprowadził technologię AI o nazwie GPT-3?",
+          "poprawneOdpowiedzi": ["OpenAI", "open ai"],
+          "podpowiedzi": ["OpenAI", "Google", "IBM", "Microsoft"]
+        },
+        {
+          "tresc": "Jak nazywa się architektura chipów opracowana przez firmę ARM, stosowana w nowoczesnych urządzeniach mobilnych?",
+          "poprawneOdpowiedzi": ["ARM Cortex", "Cortex"],
+          "podpowiedzi": ["ARM Cortex", "Snapdragon", "Exynos", "Ryzen"]
+        },
+        {
+          "tresc": "Podaj nazwę standardu komunikacji bezprzewodowej używanego w technologii IoT do komunikacji o niskim zużyciu energii.",
+          "poprawneOdpowiedzi": ["Zigbee"],
+          "podpowiedzi": ["Zigbee", "Wi-Fi", "Bluetooth", "NFC"]
+        },
+        {
+          "tresc": "Jak nazywa się główny element komputera odpowiedzialny za wykonywanie instrukcji programów?",
+          "poprawneOdpowiedzi": ["Procesor", "CPU"],
+          "podpowiedzi": ["Procesor", "GPU", "RAM", "Dysk SSD"]
+        },
+        {
+          "tresc": "Który rodzaj pamięci komputera jest wykorzystywany do tymczasowego przechowywania danych podczas pracy programów?",
+          "poprawneOdpowiedzi": ["RAM", "Random Access Memory"],
+          "podpowiedzi": ["RAM", "ROM", "SSD", "HDD"]
+        },
+        {
+          "tresc": "Jak nazywa się protokół stosowany do wymiany danych w technologii blockchain?",
+          "poprawneOdpowiedzi": ["P2P", "Peer-to-Peer"],
+          "podpowiedzi": ["P2P", "HTTP", "FTP", "SMTP"]
+        },
+        {
+          "tresc": "Podaj nazwę technologii wykorzystywanej do łączenia wielu dysków twardych w celu zwiększenia niezawodności lub szybkości zapisu danych.",
+          "poprawneOdpowiedzi": ["RAID"],
+          "podpowiedzi": ["RAID", "SSD", "NAS", "HDD"]
+        },
+        {
+          "tresc": "Jaki język programowania jest najczęściej używany do analizy danych i tworzenia modeli uczenia maszynowego?",
+          "poprawneOdpowiedzi": ["Python"],
+          "podpowiedzi": ["Python", "R", "Java", "C++"]
+        },
+        {
+          "tresc": "Który protokół internetowy stosuje się obecnie do zapewnienia większej liczby adresów IP?",
+          "poprawneOdpowiedzi": ["IPv6"],
+          "podpowiedzi": ["IPv6", "IPv4", "IPX", "TCP"]
+        },
+        {
+          "tresc": "Podaj nazwę firmy będącej liderem w rozwoju technologii procesorów kwantowych.",
+          "poprawneOdpowiedzi": ["IBM", "International Business Machines"],
+          "podpowiedzi": ["IBM", "Google", "Intel", "Microsoft"]
+        },
+        {
+          "tresc": "Jak nazywa się technologia ekranów w smartfonach, która zapewnia lepszą jakość obrazu i mniejsze zużycie energii?",
+          "poprawneOdpowiedzi": ["OLED", "Organic Light Emitting Diode"],
+          "podpowiedzi": ["OLED", "LCD", "LED", "Plazma"]
+        },
+        {
+          "tresc": "Jak nazywa się technologia stosowana do zasilania bezprzewodowego urządzeń mobilnych?",
+          "poprawneOdpowiedzi": ["Qi"],
+          "podpowiedzi": ["Qi", "NFC", "Bluetooth", "Zigbee"]
+        },
+        {
+          "tresc": "Kto jako pierwszy wprowadził komercyjny system płatności za pomocą rozpoznawania twarzy?",
+          "poprawneOdpowiedzi": ["Alibaba"],
+          "podpowiedzi": ["Alibaba", "Amazon", "Apple", "Google"]
+        },
+		{
+          "tresc": "W którym roku wynaleziono drukarkę 3D?",
+          "poprawneOdpowiedzi": ["1984"],
+          "podpowiedzi": ["1984", "1990", "2000", "2010"]
+        },
+        {
+          "tresc": "Kto wprowadził na rynek pierwszy zestaw VR?",
+          "poprawneOdpowiedzi": ["Oculus"],
+          "podpowiedzi": ["Oculus", "Sony", "HTC", "Samsung"]
+        },
+        {
+          "tresc": "Jak nazywa się technologia umożliwiająca komunikację między urządzeniami poprzez pola elektromagnetyczne?",
+          "poprawneOdpowiedzi": ["NFC"],
+          "podpowiedzi": ["NFC", "Bluetooth", "Wi-Fi", "Zigbee"]
+        },
+        {
+          "tresc": "W którym roku zaprezentowano pierwszy iPhone?",
+          "poprawneOdpowiedzi": ["2007"],
+          "podpowiedzi": ["2007", "2005", "2010", "2012"]
+        },
+        {
+          "tresc": "Jak nazywa się technologia umożliwiająca autonomiczne poruszanie się pojazdów?",
+          "poprawneOdpowiedzi": ["Autopilot"],
+          "podpowiedzi": ["Autopilot", "Cruise Control", "Drive Assist", "Lane Keeping"]
+        }
+      ]
+    },
+    { //wędkarstwo - 17
+      "nazwa": "wędkarstwo",
+      "pytania": [
+        {
+          "tresc": "Ile wynosi wymiar ochronny głowacicy?",
+          "poprawneOdpowiedzi": [ "70cm", "70 cm", "70 centymetrów" ],
+          "podpowiedzi": [ "70cm", "20cm", "35cm", "50cm" ]
+        },
+        {
+          "tresc": "Jaka jest maksymalna, regulaminowa średnica przerębli w wędkarstwie podlodowym?",
+          "poprawneOdpowiedzi": [ "20 cm", "20 centymetrów", "Maksymalna średnica to 20 cm", "20 cm średnicy", "Regulaminowa średnica to 20 cm", "20cm" ],
+          "podpowiedzi": [ "20 cm", "25 cm", "30 cm", "35 cm" ]
+        },
+        {
+          "tresc": "Co przechowywano zwykle w sadzyku?",
+          "poprawneOdpowiedzi": [ "Ryby", "Żywe ryby", "Ryby na przynętę", "Świeże ryby", "Ryby w sadzyku" ],
+          "podpowiedzi": [ "Ryby", "Zboże", "Warzywa", "Narzędzia" ]
+        },
+        {
+          "tresc": "Jak tradycyjnie nazywamy wędzisko uzyskane ze sklejenia kilku prętów?",
+          "poprawneOdpowiedzi": [ "Klejonka", "Wędzisko klejone", "Klejonka wędziskowa" ],
+          "podpowiedzi": [ "Klejonka", "Wiązanka", "Prętówka", "Składanka" ]
+        },
+        {
+          "tresc": "Jak nazywamy urządzenie regulujące siłę potrzebną do wysnucia żyłki z kołowrotka?",
+          "poprawneOdpowiedzi": [ "Hamulec", "Hamulec kołowrotka", "Regulator siły hamulca" ],
+          "podpowiedzi": [ "Hamulec", "Opornik", "Zasuwa", "Zastawka" ]
+        },
+        {
+          "tresc": "Jak nazywamy małą płetwę w tylnej części grzebietu typową dla ryb łososiowatych?",
+          "poprawneOdpowiedzi": [ "Płetwa tłuszczowa" ],
+          "podpowiedzi": [ "Płetwa tłuszczowa", "Płetwa kostna", "Płetwa ogonowa", "Płetwa grzbietowa" ]
+        },
+        {
+          "tresc": "Ile sztuk amura białego wolno zabrać z łowiska niekomercyjnego w ciągu doby?",
+          "poprawneOdpowiedzi": [ "Trzy", "3", "Trzy sztuki" ],
+          "podpowiedzi": [ "Trzy", "Ani jednej", "Dowolną ilość", "Dwanaście" ]
+        },
+        {
+          "tresc": "Czego zamiast żyłki używa się w wyczynowym wędkarstwie mychowym?",
+          "poprawneOdpowiedzi": [ "Sznur", "Linka", "Plecionka", "Linka stylonowa", "Sznur muchowy" ],
+          "podpowiedzi": [ "Sznur muchowy", "Linka wędkarska", "Wędka bambusowa", "Przewód fluorokarbonowy" ]
+        },
+        {
+          "tresc": "Jak nazywa się metoda połowu, w której używa się sztucznej przynęty przypominającej owada?",
+          "poprawneOdpowiedzi": [ "Muchówka", "muchówka", "Fly fishing", "fly fishing" ],
+          "podpowiedzi": [ "Muchówka", "Spinning", "Gruntówka", "Trolling" ]
+        },
+        {
+          "tresc": "Ile haczyków maksymalnie może mieć sztuczna przynęta?",
+          "poprawneOdpowiedzi": [ "Trzy", "3", "Trzy haczyki" ],
+          "podpowiedzi": [ "Trzy", "Sześć", "Jednen", "Cztery" ]
+        },
+        {
+          "tresc": "Z którego kontynentu pochodzą sprowadzone do Polski pstrąg tęczowy i źródlany?",
+          "poprawneOdpowiedzi": [ "Ameryka Północna", "Z Ameryki Północnej" ],
+          "podpowiedzi": [ "Ameryka Północna", "Afryka", "Australia", "Ameryka Południowa" ]
+        },
+        {
+          "tresc": "Jaka jest minimalna, regulaminowa długość wędziska obowiązująca w Polsce?",
+          "poprawneOdpowiedzi": [ "30 cm", "trzydzieści centymetrów", "30 centymetrów", "trzydzieści cm" ],
+          "podpowiedzi": [ "30 cm", "0 cm", "60 cm", "40 cm" ]
+        },
+        {
+          "tresc": "Ile wynosi wymiar ochronny bolenia?",
+          "poprawneOdpowiedzi": [ "40 cm", "40 centymetrów", "40cm", "czterdzieści centymetrów" ],
+          "podpowiedzi": [ "40 cm", "25 cm", "60 cm", "50 cm" ]
+        },
+        {
+          "tresc": "Ile sztuk siei wolno zabrać z łowiska niekomercyjnego w ciągu doby?",
+          "poprawneOdpowiedzi": [ "4", "cztery" ],
+          "podpowiedzi": [ "4", "5", "10", "3" ]
+        },
+        {
+          "tresc": "Ile sztucznych much maksymalnie można stosować na jednej wędce?",
+          "poprawneOdpowiedzi": [ "2", "Dwie", "Dwa" ],
+          "podpowiedzi": [ "2", "1", "3", "Nie ma ograniczenia" ]
+        },
+		{
+  "tresc": "Ile wynosi wymiar ochronny babki szczupłej?",
+  "poprawneOdpowiedzi": ["Nie ma wymiaru ochronnego", "brak wymiaru ochronnego", "Nie ma wymiaru", "brak wymiaru", "Nie posiada wymiaru ochronnego", "Nie ustalono wymiaru ochronnego"],
+  "podpowiedzi": ["Nie ma wymiaru ochronnego", "5 cm", "10 cm", "15 cm"]
+},
+{
+  "tresc": "Co dzieje się z węgorzami po odbyciu tarła?",
+  "poprawneOdpowiedzi": ["umierają", "giną"],
+  "podpowiedzi": ["umierają", "wracają do rzek", "przestają migrować", "rozmnażają się ponownie"]
+}
+      ]
+    }
+
+  ]
+}

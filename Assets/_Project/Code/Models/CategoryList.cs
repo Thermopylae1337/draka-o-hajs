@@ -10,7 +10,8 @@ public class CategoryList
 
     public CategoryList(List<Category> list) => categoryList = list;
 
-    public List<Question> FindCategory(string name)
+    //public List<Question> FindCategory(string name)
+    public Category FindCategory(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -21,7 +22,8 @@ public class CategoryList
         {
             if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
             {
-                return item.questionList;
+                //return item.questionList;
+                return item;
             }
         }
 
