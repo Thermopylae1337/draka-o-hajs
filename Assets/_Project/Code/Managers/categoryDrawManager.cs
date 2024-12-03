@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -29,19 +30,22 @@ public class CategoryDrawManager : NetworkBehaviour
 
     private void HandleWheelStopped(int result)
     {
-        categoryDisplayText.text = "Wylosowano: " + CATEGORY_NAMES[result];
-        gameManager.Category.Value = categoryList.FindCategory(CATEGORY_NAMES[result]);
+        result = 15;
+        categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
 
-        if (CATEGORY_NAMES[result] == "Czarna skrzynka")
+        if (categoryNames[result] == "Czarna skrzynka")
         {
+            gameManager.Category.Value = new Category("Czarna skrzynka",new System.Collections.Generic.List<Question>());
         }
-        else if (CATEGORY_NAMES[result] == "Podpowiedź")
+        else if (categoryNames[result] == "Podpowiedź")
         {
+            gameManager.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
         }
         else
         {
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
+            gameManager.Category.Value = categoryList.FindCategory(categoryNames[result]);
             // WyświetlPytanie(category)
         }
 

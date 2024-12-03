@@ -72,7 +72,7 @@ public class TeamManager : NetworkBehaviour
     }
     public string Colour
     {
-        get => colour;
+        get => TeamName;
     }
 
     public int Clues
@@ -141,7 +141,7 @@ public class TeamManager : NetworkBehaviour
     }
     public void RaiseBid(int amount)
     {
-        if (money > amount)
+        if (money >= amount)
         {
             money -= amount;
             bid += amount;

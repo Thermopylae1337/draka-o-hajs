@@ -13,8 +13,11 @@ public class Bidding_War_Controller : NetworkBehaviour
     public List<TextMeshProUGUI> teamBalanceText;
     public List<TextMeshProUGUI> bidButtonText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI categoryNameText;
     public List<TeamManager> teams;
+    private GameManager gameManager;
     public TextMeshProUGUI totalBidText;
+    private NetworkObject playerObj;
     int totalBid;
     float timer;
     float timeGiven = 5;
@@ -54,12 +57,15 @@ public class Bidding_War_Controller : NetworkBehaviour
     void Start()
     {
         teams = new List<TeamManager>();
-        _ = !NetworkManager.Singleton.IsHost ? NetworkManager.Singleton.StartClient() : NetworkManager.Singleton.StartHost();
+        foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients) {
+            playerObj = NetworkManager.Singleton.ConnectedClients[client.Key].PlayerObject;
+            teams.Add(playerObj.GetComponent("TeamManager") as TeamManager);
+        }
 
         if (teams.Count < 4)
         {
             totalBidText.transform.position = teamBalanceText[teams.Count].transform.position;
-            totalBidText.text = "aaaaa";
+            totalBidText.text = "Loading...";
         }
 
         int i = teams.Count;
@@ -71,7 +77,10 @@ public class Bidding_War_Controller : NetworkBehaviour
             i += 1;
         }
 
-        Setup(); ;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        categoryNameText.text = gameManager.Category.Value.Name;
+        timerText.text = "5";
+        Setup();
         AddListeners();
     }
 
@@ -123,6 +132,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             totalBidText.text = totalBid.ToString();
         }
 
+        hasSetUp = true;
         gameOngoing = true;
     }
 
@@ -238,6 +248,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Sell(int team_id)
     {
+        timer = 0;
         SellRpc(team_id);
     }
 

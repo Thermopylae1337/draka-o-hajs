@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour
     private static GameManager _instance;
     public GameManager Instance => _instance;
     public NetworkVariable<Question> Question { get; } = new();
-    public NetworkVariable<Category> Category { get; } = new();
+    public NetworkVariable<Category> Category { get;} = new();
 
     [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()

@@ -31,7 +31,7 @@ public static class Utils
         return serializer.IsWriter ? JsonConvert.DeserializeObject<Dictionary<Y, Z>>(dictSerialized) : null;
     }
 
-    public static readonly string[] CATEGORY_NAMES = new string[]
+    public static readonly string[] categoryNames = new string[]
     {
         "Czarna skrzynka",
         "Anatomia i medycyna",
