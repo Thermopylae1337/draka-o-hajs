@@ -16,7 +16,6 @@ public class AnswerController : NetworkBehaviour
     public Button useHintsButton;
 
     private Button[] answerButtons;
-    public static ulong winner = 0;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
     private bool _isAnswerChecked;
@@ -41,7 +40,7 @@ public class AnswerController : NetworkBehaviour
             StartRoundServerRpc();
         }
 
-        feedbackText.text = 1 == winner
+        feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
             ? "Jesteś graczem ktory wygrał licytacje"
             : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
     }
@@ -176,7 +175,7 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SetCategoryServerRpc()
     {
-        category = Category.Deserialize("Assets/_Project/Code/Models/Historia.json");
+        category = GameManager.Instance.Category.Value;
         currentQuestion = category.DrawQuestion();
     }
 
@@ -188,7 +187,7 @@ public class AnswerController : NetworkBehaviour
         {
             SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
             _timeRemaining = 30f;
-            AnsweringModeRpc(winner);
+            AnsweringModeRpc();
             SetHintMode(false);
             _ = StartCoroutine(StartCountdown());
         }
@@ -202,9 +201,9 @@ public class AnswerController : NetworkBehaviour
     private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void AnsweringModeRpc(ulong winner)
+    private void AnsweringModeRpc()
     {
-        if (1 == winner)
+        if (NetworkManager.Singleton.LocalClientId == GameManager.Instance.Winner.Value)
         {
             SetItemsInteractivity(true);
         }

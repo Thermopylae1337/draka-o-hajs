@@ -27,7 +27,7 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     private void LoadBWHostRpc()
     {
-        _ = NetworkManager.SceneManager.LoadScene("BiddingWar", LoadSceneMode.Single);
+        _ = NetworkManager.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
     }
 
     private void Awake()

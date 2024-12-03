@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -263,5 +264,17 @@ public class Bidding_War_Controller : NetworkBehaviour
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
         //na razie team_id nie jest na nic potrzebne ale jest na później żeby można było w następnej scenie stwierdzić kto wygrał licytację
+
+        if (IsServer)
+        {
+            GameManager.Instance.Winner.Value = (uint)team_id;
+        }
+
+        StartCoroutine(OpenAnsweringStage());
+    }
+    private IEnumerator OpenAnsweringStage()
+    {
+        yield return new WaitForSeconds(5);
+        NetworkManager.SceneManager.LoadScene("QuestionStage", LoadSceneMode.Single);
     }
 }
