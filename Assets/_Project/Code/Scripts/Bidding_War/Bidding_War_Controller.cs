@@ -265,7 +265,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             GameManager.Instance.Winner.Value = (uint)team_id;
         }
 
-        if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedz")
+        if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
         {
             StartCoroutine(OpenCategoryDraw());
         }
@@ -275,6 +275,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             {
                 PassCurrentBidServerRpc(totalBid);
             }
+
             StartCoroutine(OpenAnsweringStage());
         }
     }
