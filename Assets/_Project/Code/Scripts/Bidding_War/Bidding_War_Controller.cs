@@ -260,6 +260,10 @@ public class Bidding_War_Controller : NetworkBehaviour
         {
             t.ResetBid();
         }
+        if (IsHost)
+        {
+            PassCurrentBidServerRpc(totalBid);
+        }
 
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
@@ -270,11 +274,33 @@ public class Bidding_War_Controller : NetworkBehaviour
             GameManager.Instance.Winner.Value = (uint)team_id;
         }
 
-        StartCoroutine(OpenAnsweringStage());
+        if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedz")
+        {
+            if(IsHost)
+            {
+                GameManager.Instance.CurrentBid.Value = 0;
+            }
+            StartCoroutine(OpenCategoryDraw());
+        }
+        else
+        {
+            StartCoroutine(OpenAnsweringStage());
+        }
     }
     private IEnumerator OpenAnsweringStage()
     {
         yield return new WaitForSeconds(5);
         NetworkManager.SceneManager.LoadScene("QuestionStage", LoadSceneMode.Single);
+    }
+    private IEnumerator OpenCategoryDraw()
+    {
+        yield return new WaitForSeconds(5);
+        NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void PassCurrentBidServerRpc(int currentBid)
+    {
+        GameManager.Instance.CurrentBid.Value += currentBid;
     }
 }

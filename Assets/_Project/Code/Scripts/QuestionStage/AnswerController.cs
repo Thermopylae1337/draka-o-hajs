@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class AnswerController : NetworkBehaviour
 {
+    public TMP_Text totalBid;
     public TMP_InputField answerInput;
     public TMP_Text questionText;
     public TMP_Text feedbackText;
@@ -25,6 +26,7 @@ public class AnswerController : NetworkBehaviour
 
     private void Start()
     {
+        totalBid.text = "Pula pytania: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
         SetHintMode(false);
@@ -58,7 +60,9 @@ public class AnswerController : NetworkBehaviour
         {
             SetItemsInteractivity(false);
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
-            _ = StartCoroutine(ChangeScene("Lobby", 4));
+            _ = currentQuestionIndex < Utils.QUESTIONS_AMOUNT 
+                ?  StartCoroutine(ChangeScene("CategoryDraw", 4)) 
+                :  StartCoroutine(ChangeScene("Summary", 4));
         }
     }
 
@@ -68,6 +72,7 @@ public class AnswerController : NetworkBehaviour
         _isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
         CheckAnswerServerRpc(playerAnswer);
+        NotifyAnswerCheckedServerRpc(playerAnswer);
     }
 
     public void CheckAnswer(string playerAnswer)
@@ -75,6 +80,21 @@ public class AnswerController : NetworkBehaviour
         SetItemsInteractivity(false);
         _isAnswerChecked = true;
         CheckAnswerServerRpc(playerAnswer);
+        NotifyAnswerCheckedServerRpc(playerAnswer);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void NotifyAnswerCheckedServerRpc(string playerAnswer)
+    {
+        _isAnswerChecked = true;
+        CheckAnswerServerRpc(playerAnswer);
+        NotifyClientsAnswerCheckedRpc();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void NotifyClientsAnswerCheckedRpc()
+    {
+        _isAnswerChecked = true;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -82,6 +102,7 @@ public class AnswerController : NetworkBehaviour
     {
         if (currentQuestion.IsCorrect(playerAnswer))
         {
+            GameManager.Instance.CurrentBid.Value = 0;
             SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.");
         }
         else
@@ -94,8 +115,16 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void SendFeedbackToClientsRpc(string feedback)
     {
-        feedbackText.text = feedback;
-        _ = StartCoroutine(ChangeScene("Lobby", 4));
+        if (currentQuestionIndex < Utils.QUESTIONS_AMOUNT)
+        {
+            feedbackText.text = feedback;
+            _ = StartCoroutine(ChangeScene("CategoryDraw", 4));
+        }
+        else
+        {
+            feedbackText.text = feedback;
+            _ = StartCoroutine(ChangeScene("Summary", 4));
+        }
     }
 
     public void AskForHint() => UseHintNotifyServerRpc();
@@ -183,7 +212,7 @@ public class AnswerController : NetworkBehaviour
     private void StartRoundServerRpc()
     {
         currentQuestionIndex++;
-        if (currentQuestionIndex <= Utils.QUESTIONS_AMOUNT)
+        if (currentQuestionIndex < Utils.QUESTIONS_AMOUNT)
         {
             SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
             _timeRemaining = 30f;

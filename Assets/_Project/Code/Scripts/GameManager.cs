@@ -18,10 +18,13 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<Question> Question { get; } = new();
     public NetworkVariable<Category> Category { get;} = new();
     public NetworkVariable<ulong> Winner { get; } = new();
+    public NetworkVariable<int> CurrentBid { get; } = new();
 
     [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()
     {
+        CurrentBid.Value = 0;
+
         if (NetworkManager.Singleton.IsHost)
         {
             _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);
