@@ -260,10 +260,6 @@ public class Bidding_War_Controller : NetworkBehaviour
         {
             t.ResetBid();
         }
-        if (IsHost)
-        {
-            PassCurrentBidServerRpc(totalBid);
-        }
 
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
@@ -276,14 +272,14 @@ public class Bidding_War_Controller : NetworkBehaviour
 
         if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedz")
         {
-            if(IsHost)
-            {
-                GameManager.Instance.CurrentBid.Value = 0;
-            }
             StartCoroutine(OpenCategoryDraw());
         }
         else
         {
+            if (IsHost)
+            {
+                PassCurrentBidServerRpc(totalBid);
+            }
             StartCoroutine(OpenAnsweringStage());
         }
     }

@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Netcode;
 
 public class Question : INetworkSerializable, IEquatable<Question>
@@ -47,8 +48,17 @@ public class Question : INetworkSerializable, IEquatable<Question>
     public Question()
     {
     }
-   
-    public bool IsCorrect(string answer) => CorrectAnswers.Contains(answer.Trim().ToLower());
+
+    public bool IsCorrect(string answer)
+    {
+        return CorrectAnswers.Any(correctAnswer =>
+            string.Equals(
+                correctAnswer.Trim(),
+                answer.Trim(),
+                StringComparison.OrdinalIgnoreCase
+            )
+        );
+    }
 
     public void Serialize(string path)
     {

@@ -20,6 +20,7 @@ public class AnswerController : NetworkBehaviour
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
     private bool _isAnswerChecked;
+    private string[] hints;
 
     public static Category category;
     public Question currentQuestion;
@@ -130,16 +131,19 @@ public class AnswerController : NetworkBehaviour
     public void AskForHint() => UseHintNotifyServerRpc();
 
     [ServerRpc(RequireOwnership = false)]
-    private void UseHintNotifyServerRpc() => ShowHintRpc(currentQuestion);
+    private void UseHintNotifyServerRpc() {
+        hints = currentQuestion.Hints;
+        ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
+    }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void ShowHintRpc(Question question)
+    private void ShowHintRpc(string h1, string h2, string h3, string h4)
     {
         SetHintMode(true);
-        for (int i = 0; i < 4; i++)
-        {
-            answerButtons[i].GetComponentInChildren<TMP_Text>().text = question.Hints[i];
-        }
+        answerButtons[0].GetComponentInChildren<TMP_Text>().text = h1;
+        answerButtons[1].GetComponentInChildren<TMP_Text>().text = h2;
+        answerButtons[2].GetComponentInChildren<TMP_Text>().text = h3;
+        answerButtons[3].GetComponentInChildren<TMP_Text>().text = h4;
     }
     private void SetHintMode(bool active)
     {
