@@ -18,7 +18,6 @@ public class Bidding_War_Controller : NetworkBehaviour
     public List<TeamManager> teams;
     private GameManager gameManager;
     public TextMeshProUGUI totalBidText;
-    private NetworkObject playerObj;
     int totalBid;
     float timer;
     float timeGiven = 5;
@@ -57,11 +56,8 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-        teams = new List<TeamManager>();
-        foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients) {
-            playerObj = NetworkManager.Singleton.ConnectedClients[client.Key].PlayerObject;
-            teams.Add(playerObj.GetComponent("TeamManager") as TeamManager);
-        }
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        teams = gameManager.Teams;
 
         if (teams.Count < 4)
         {
@@ -78,7 +74,6 @@ public class Bidding_War_Controller : NetworkBehaviour
             i += 1;
         }
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         categoryNameText.text = gameManager.Category.Value.Name;
         timerText.text = "5";
         Setup();
@@ -260,6 +255,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         {
             t.ResetBid();
         }
+
         if (IsHost)
         {
             PassCurrentBidServerRpc(totalBid);
@@ -280,6 +276,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             {
                 GameManager.Instance.CurrentBid.Value = 0;
             }
+
             StartCoroutine(OpenCategoryDraw());
         }
         else

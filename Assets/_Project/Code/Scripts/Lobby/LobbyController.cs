@@ -23,6 +23,8 @@ public class LobbyController : NetworkBehaviour
     private readonly Dictionary<ulong, (bool ready, Transform tile)> playerTiles = new();  // For each user i will store if he is ready and his text on playerListGameObject
     private Color readyColor = Color.green;
     private Color notReadyColor = Color.red;
+    private NetworkObject playerObj;
+    private GameManager gameManager;
 
     [Rpc(SendTo.Everyone)]
     private void LoadBWHostRpc()
@@ -60,6 +62,14 @@ public class LobbyController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void StartGameRpc()
     {
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients)
+        {
+            playerObj = NetworkManager.Singleton.ConnectedClients[client.Key].PlayerObject;
+            gameManager.Teams.Add(playerObj.GetComponent("TeamManager") as TeamManager);
+        }
+
         if (NetworkManager.Singleton.IsHost)
         {
             _ = NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
