@@ -16,5 +16,5 @@ public class SummaryManager : MonoBehaviour
         }
     }
 
-    public void ChangeScene() => SceneManager.LoadScene("Lobby");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+    public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
 }

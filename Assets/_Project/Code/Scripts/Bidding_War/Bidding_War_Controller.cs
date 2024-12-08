@@ -75,7 +75,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             i += 1;
         }
 
-        categoryNameText.text = gameManager.Category.Value.Name;
+        categoryNameText.text = gameManager.Category.Value.Name.ToUpper();
         timerText.text = "5";
         Setup();
         AddListeners();

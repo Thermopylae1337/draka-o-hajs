@@ -12,9 +12,12 @@ public class CategoryDrawManager : NetworkBehaviour
     private TMP_Text roundDisplayText;
     private GameManager gameManager;
     private CategoryList categoryList;
+    private float startTime;
+    private bool wheelSpinned;
 
     private void Start()
     {
+        wheelSpinned = false;
         if (IsHost)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -26,6 +29,7 @@ public class CategoryDrawManager : NetworkBehaviour
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
 
         wheel.OnWheelStopped += HandleWheelStopped;
+        startTime=Time.time;
     }
 
     private void HandleWheelStopped(int result)
@@ -69,6 +73,13 @@ public class CategoryDrawManager : NetworkBehaviour
         }
     }
     */
+    private void Update()
+    {
+        if (!wheelSpinned&&IsHost&&Time.time-startTime>2) {
+            wheelSpinned = true;
+            CalculateAngle();
+        }
+    }
 
     public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
 
