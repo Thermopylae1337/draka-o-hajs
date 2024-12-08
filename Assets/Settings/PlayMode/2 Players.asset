@@ -34,6 +34,16 @@ MonoBehaviour:
       m_StreamLogsToMainEditor: 1
       m_LogsColor: {r: 0.3643, g: 0.581, b: 0.8679, a: 1}
       m_Arguments: -screen-fullscreen 0 -screen-width 1024 -screen-height 720
+  - Name: Player 3
+    <CorrespondingNodeId>k__BackingField: Player 3 - Run
+    m_Nodes:
+    - Player 3 - Build
+    - Player 3 - Run
+    m_BuildProfile: {fileID: 11400000, guid: a87d9b665c9e92f498aed8569f544f71, type: 2}
+    advancedConfiguration:
+      m_StreamLogsToMainEditor: 1
+      m_LogsColor: {r: 0.3643, g: 0.581, b: 0.8679, a: 1}
+      m_Arguments: -screen-fullscreen 0 -screen-width 1024 -screen-height 720
   m_RemoteInstances: []
   m_OverridePort: 0
   m_Port: 0

@@ -13,7 +13,7 @@ public class MainMenuController : MonoBehaviour
         ShowPlayerNameDialog();
     }
 
-    public void OnJoinLobby()
+    public void GoToLeaderboard()
     {
         _lobbyType = 1;
         ShowPlayerNameDialog();

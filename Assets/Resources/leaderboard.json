@@ -1,13 +1,11 @@
 {
     "entries": [
-        { "name": "Team Alpha", "score": 250 },
-        { "name": "Team Bravo", "score": 180 },
-        { "name": "Team Charlie", "score": 100 },
-        { "name": "Team Delta", "score": 140 },
-        { "name": "Team Echo2", "score": 120 },
-        { "name": "Team Echo3", "score": 1000 },
-        { "name": "Team Echo4", "score": 150 },
-        { "name": "Team Echo1", "score": 80 },
-        { "name": "Team Echo6", "score": 2000 }
+        { "Name": "Team Alpha", "Score": 250 },
+        {"Name":"Team Beta", "Score": 300},
+        {"Name":"Team Omega ", "Score": 300},
+        {"Name":"Team Sigma", "Score": 500},
+        {"Name":"Team Gamma", "Score": 450},
+        {"Name":"Team Csad", "Score": 5700},
+        {"Name":"Team Gam23ma", "Score": 1000}
     ]
 }
