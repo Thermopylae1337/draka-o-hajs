@@ -36,7 +36,7 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
 
     [SerializeField]
-    private string TeamName => teamName.Value.ToString();
+    public string TeamName => teamName.Value.ToString();
 
     private int bid = 0;
 

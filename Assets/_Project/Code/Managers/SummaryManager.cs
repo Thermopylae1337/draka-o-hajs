@@ -9,7 +9,7 @@ public class SummaryManager : MonoBehaviour
     private void Start()
     {
         //foreach (Team team in listOfTeams)
-        foreach (TeamManager team in new TeamManager[] { new(), new(), new() })     // temp
+        foreach (TeamManager team in GameObject.Find("GameManager").GetComponent<GameManager>().Teams)     // temp
         {
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
             panel.Initialize(team);

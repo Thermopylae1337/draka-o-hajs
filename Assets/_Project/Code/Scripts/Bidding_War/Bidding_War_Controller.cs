@@ -37,6 +37,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     List<Timer> Active_Timers
     public delegate void My_Timer_Delegate(int )
     */
+    private uint _teamsInGame;
 
     public class Timer
     {
@@ -267,7 +268,15 @@ public class Bidding_War_Controller : NetworkBehaviour
 
         if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
         {
-            StartCoroutine(OpenCategoryDraw());
+            teams[team_id].Money -= totalBid;
+            if(IsContinuingGamePossible())
+            {
+                StartCoroutine(OpenSceneWithDelay("CategoryDraw"));
+            }
+            else
+            {
+                StartCoroutine(OpenSceneWithDelay("Summary"));
+            }
         }
         else
         {
@@ -276,23 +285,33 @@ public class Bidding_War_Controller : NetworkBehaviour
                 PassCurrentBidServerRpc(totalBid);
             }
 
-            StartCoroutine(OpenAnsweringStage());
+            StartCoroutine(OpenSceneWithDelay("QuestionStage"));
         }
     }
-    private IEnumerator OpenAnsweringStage()
+    private IEnumerator OpenSceneWithDelay(string name)
     {
         yield return new WaitForSeconds(5);
-        NetworkManager.SceneManager.LoadScene("QuestionStage", LoadSceneMode.Single);
-    }
-    private IEnumerator OpenCategoryDraw()
-    {
-        yield return new WaitForSeconds(5);
-        NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
+        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void PassCurrentBidServerRpc(int currentBid)
     {
         GameManager.Instance.CurrentBid.Value += currentBid;
+    }
+
+    private bool IsContinuingGamePossible()
+    {
+        teams = GameObject.Find("GameManager").GetComponent<GameManager>().Teams;
+        _teamsInGame = 0;
+        foreach (TeamManager team in teams)
+        {
+            if (team.Money >= 500)
+            {
+                _teamsInGame++;
+            }
+        }
+
+        return _teamsInGame >= 2;
     }
 }

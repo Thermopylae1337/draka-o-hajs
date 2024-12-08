@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -24,6 +25,8 @@ public class AnswerController : NetworkBehaviour
 
     public static Category category;
     public Question currentQuestion;
+    private List<TeamManager> _teams;
+    private uint _teamsInGame;
 
     private void Start()
     {
@@ -61,7 +64,7 @@ public class AnswerController : NetworkBehaviour
         {
             SetItemsInteractivity(false);
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
-            _ = currentQuestionIndex < Utils.QUESTIONS_AMOUNT 
+            _ = currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible()
                 ?  StartCoroutine(ChangeScene("CategoryDraw", 4)) 
                 :  StartCoroutine(ChangeScene("Summary", 4));
         }
@@ -103,20 +106,22 @@ public class AnswerController : NetworkBehaviour
     {
         if (currentQuestion.IsCorrect(playerAnswer))
         {
+            GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
-            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.");
+            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
         }
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
-                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}");
+                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
+                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void SendFeedbackToClientsRpc(string feedback)
+    private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing)
     {
-        if (currentQuestionIndex < Utils.QUESTIONS_AMOUNT)
+        if (gameContinuing)
         {
             feedbackText.text = feedback;
             _ = StartCoroutine(ChangeScene("CategoryDraw", 4));
@@ -216,7 +221,7 @@ public class AnswerController : NetworkBehaviour
     private void StartRoundServerRpc()
     {
         currentQuestionIndex++;
-        if (currentQuestionIndex < Utils.QUESTIONS_AMOUNT)
+        if (currentQuestionIndex <= Utils.ROUNDS_LIMIT)
         {
             SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
             _timeRemaining = 30f;
@@ -240,5 +245,19 @@ public class AnswerController : NetworkBehaviour
         {
             SetItemsInteractivity(true);
         }
+    }
+    private bool IsContinuingGamePossible()
+    {
+        _teams = GameObject.Find("GameManager").GetComponent<GameManager>().Teams;
+        _teamsInGame = 0;
+        foreach (TeamManager team in _teams)
+        {
+            if (team.Money >= 500)
+            {
+                _teamsInGame++;
+            }
+        }
+
+        return  _teamsInGame  >=  2;
     }
 }
