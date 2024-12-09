@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Bidding_War_Controller : NetworkBehaviour
+public class BiddingWarController : NetworkBehaviour
 {
     public List<TextMeshProUGUI> teamNamesText;
     public List<TextMeshProUGUI> teamBidText;
@@ -63,7 +63,6 @@ public class Bidding_War_Controller : NetworkBehaviour
         if (teams.Count < 4)
         {
             totalBidText.transform.position = teamBalanceText[teams.Count].transform.position;
-            totalBidText.text = "Loading...";
         }
 
         int i = teams.Count;
@@ -224,9 +223,9 @@ public class Bidding_War_Controller : NetworkBehaviour
 
     void Update()
     {
-        UpdateMoneyStatus();
         if (gameOngoing)
         {
+            UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
                 timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();

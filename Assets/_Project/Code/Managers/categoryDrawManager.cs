@@ -52,7 +52,7 @@ public class CategoryDrawManager : NetworkBehaviour
             // WyświetlPytanie(category)
         }
 
-        _ = NetworkManager.Singleton.SceneManager.LoadScene("Bidding_War", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
     /*      chyba Kuba to dodal, ale to chyba miało być w licytacji

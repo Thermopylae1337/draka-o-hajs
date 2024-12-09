@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/TeamCreator.unity
     guid: a1324ee92f967b141af9de0efd35ab0c
   - enabled: 1
-    path: Assets/_Project/Scenes/Bidding_War.unity
+    path: Assets/_Project/Scenes/BiddingWar.unity
     guid: d8c9739e1df19d34cbb49329d8118df3
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 8b9c7274ce7af724bb41d0ea3eda4fd4, type: 2}
