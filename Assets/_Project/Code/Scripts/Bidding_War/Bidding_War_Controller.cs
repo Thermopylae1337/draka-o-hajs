@@ -121,7 +121,10 @@ public class Bidding_War_Controller : NetworkBehaviour
         int i = 0;
         while (i < teams.Count)
         {
+            if (IsHost) {
             teams[i].RaiseBid(500);
+            }
+
             UpdateMoneyStatusForTeam(i);
             i += 1;
             winningBidAmount = 500;
@@ -132,7 +135,7 @@ public class Bidding_War_Controller : NetworkBehaviour
         hasSetUp = true;
         gameOngoing = true;
     }
-
+    
     public void UpdateMoneyStatusForTeam(int i)
     {
         teamBalanceText[i].text = teams[i].Money.ToString();
@@ -195,7 +198,8 @@ public class Bidding_War_Controller : NetworkBehaviour
         if (( teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount ) || ( teams[team_id].Money >= difference && winningBidAmount == 500 ))
         {
             winningBidAmount += amount;
-            UpdateBidsRpc(team_id, difference, winningBidAmount, team_id);
+            teams[team_id].RaiseBid(difference);
+            UpdateBidsRpc(difference, winningBidAmount, team_id);
             if (teams[team_id].Money == 0)
             {
                 Sell(team_id);
@@ -204,9 +208,8 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void UpdateBidsRpc(int team_id, int difference, int winning_bid, int winning_team_id)
+    public void UpdateBidsRpc(int difference, int winning_bid, int winning_team_id)
     {
-        teams[team_id].RaiseBid(difference);
         totalBid += difference;
         winningBidAmount = winning_bid;
         winningTeamID = winning_team_id;
@@ -221,7 +224,7 @@ public class Bidding_War_Controller : NetworkBehaviour
 
     void Update()
     {
-
+        UpdateMoneyStatus();
         if (gameOngoing)
         {
             if (winningBidAmount != 500)
