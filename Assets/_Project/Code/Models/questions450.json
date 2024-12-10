@@ -1,6 +1,6 @@
 {
   "listaKategorii": [
-    { //anatomia i medycyna - 18
+    {
       "nazwa": "anatomia i medycyna",
       "pytania": [
         {
@@ -9,7 +9,7 @@
           "podpowiedzi": [ "Siwienie", "Łupież", "Pigmentacja", "Kołtun" ]
         },
         {
-          "tresc": "Jak nazywają się komórki zębinotwórcze",
+          "tresc": "Jak nazywają się komórki zębinotwórcze?",
           "poprawneOdpowiedzi": [ "odontoblasty" ],
           "podpowiedzi": [ "odontoblasty", "odontofrakcje", "odontotidia", "odontoklasty" ]
         },
@@ -70,22 +70,22 @@
         },
         {
           "tresc": "Jak nazywa się mocna błona łącznotkankowa, pokrywająca kości?",
-          "poprawneOdpowiedzi": [ "kostna", "błona kostna" ],
+          "poprawneOdpowiedzi": [ "kostna", "błona kostna", "Błona kostna" ],
           "podpowiedzi": [ "Błona kostna", "Błona maziowa", "Błona łącząca", "Błona wapniowa" ]
         },
         {
           "tresc": "Który hormon jest odpowiedzialny za rozwój pierwotnych i wtórnych cech płciowych męskich?",
-          "poprawneOdpowiedzi": [ "testosteron" ],
+          "poprawneOdpowiedzi": [ "testosteron", "Testosteron" ],
           "podpowiedzi": [ "Testosteron", "Estrogen", "Progesteron", "Lutropina" ]
         },
         {
-          "tresc": "Według nieprawdziwego, lecz uporczywie powtarzanego mitu, nazwa \"cesarskie cięcie\" wzieła się od historycznego władcy, który miał przyjść na świat tą drogą. O kogo chodzi?",
+          "tresc": "Według nieprawdziwego, lecz uporczywie powtarzanego mitu, nazwa \"cesarskie cięcie\" wzięła się od historycznego władcy, który miał przyjść na świat tą drogą. O kogo chodzi?",
           "poprawneOdpowiedzi": [ "o Juliusza Cezara", "Juliusz Cezar", "Juliusza Cezara" ],
           "podpowiedzi": [ "o Juliusza Cezara", "o Nerona, cesarza Rzymu", "o cara Piotra Wielkiego", "o cesarza Francuzów Napoleona Bonaparte" ]
         },
         {
           "tresc": "Prowitaminą dla której witaminy jest beta-karoten?",
-          "poprawneOdpowiedzi": [ "witamina A", "A" ],
+          "poprawneOdpowiedzi": [ "witamina A", "A", "Witamina A" ],
           "podpowiedzi": [ "Witamina A", "Witamina K", "Witamina C", "Witamina D" ]
         },
         {
@@ -95,13 +95,13 @@
         }
       ]
     },
-    { //astronomia - 16
+    {
       "nazwa": "astronomia",
       "pytania": [
         {
-          "tresc": "Który związek chemiczny stanowi aż 95% atmosfery Marsa",
+          "tresc": "Który związek chemiczny stanowi aż 95% atmosfery Marsa?",
           "poprawneOdpowiedzi": [ "CO2", "Dwutlenek węgla" ],
-          "podpowiedzi": [ "Dwutlenek węgla (CO2)", "Tlen (O2)", "Azot (N2)", "Metan (CH4)" ]
+          "podpowiedzi": [ "Dwutlenek węgla", "Tlen", "Azot", "Metan" ]
         },
         {
           "tresc": "W którym polskim mieście znajduje się planetarium im. Mikołaja Kopernika, będące jednym z największych i najstarszych planetariów w Polsce?",
@@ -161,7 +161,7 @@
         {
           "tresc": "Która z planet Układu Słonecznego jest większa od Jowisza?",
           "poprawneOdpowiedzi": [ "Żadna", "żadna", "Nie ma takiej", "nie ma takiej" ],
-          "podpowiedzi": [ "Saturn", "Neptun", "Żadna", "Uran" ]
+          "podpowiedzi": [ "Żadna", "Saturn", "Neptun",  "Uran" ]
         },
         {
           "tresc": "Jak ogólnie nazywamy widoczne z Ziemi jasne obszary na powierzchni Księżyca?",
@@ -180,7 +180,7 @@
         }
       ]
     },
-    { //biologia - 15
+    {
       "nazwa": "biologia",
       "pytania": [
         {
@@ -255,12 +255,12 @@
         },
         {
           "tresc": "Do której gromady stawonogów należą kleszcze?",
-          "poprawneOdpowiedzi": [ "pajęczaki", "arachnida" ],
+          "poprawneOdpowiedzi": [ "pajęczaki", "arachnida", "Pajęczaki" ],
           "podpowiedzi": [ "Pajęczaki", "Wije", "Skorupiaki", "Owady" ]
         }
       ]
     },
-    { //chemia - 11
+    {
       "nazwa": "chemia",
       "pytania": [
         {
@@ -320,7 +320,7 @@
         }
       ]
     },
-    { //czasy współczesne - 20
+    {
       "nazwa": "czasy współczesne",
       "pytania": [
         {
@@ -425,7 +425,7 @@
         }
       ]
     },
-    { //film - 20
+    {
       "nazwa": "film",
       "pytania": [
         {
@@ -460,8 +460,8 @@
         },
         {
           "tresc": "Kto wcielił się w rolę Petroniusza w filmie pt. \"Quo Vadis\" Jerzego Kawalerowicza?",
-          "poprawneOdpowiedzi": [ "Bogustaw Linda" ],
-          "podpowiedzi": [ "Bogustaw Linda", "Paweł Deląg", "Jerzy Trela", "Michał Bajor" ]
+          "poprawneOdpowiedzi": [ "Bogusław Linda" ],
+          "podpowiedzi": [ "Bogusław Linda", "Paweł Deląg", "Jerzy Trela", "Michał Bajor" ]
         },
         {
           "tresc": "Jak brzmi nazwisko reżysera filmu pt. \"Sara\"?",
@@ -519,7 +519,7 @@
           "podpowiedzi": [ "Juliusz Machulski", "Jerzy Hoffman", "Andrzej Wajda", "Krzysztof Kieślowski" ]
         },
         {
-          "tresc": "W których kraju znajduje się słynne studio filmowe Cinecitta?",
+          "tresc": "W którym kraju znajduje się słynne studio filmowe Cinecitta?",
           "poprawneOdpowiedzi": [ "Włochy", "We Włoszech" ],
           "podpowiedzi": [ "Włochy", "Francja", "Hiszpania", "Niemcy" ]
         },
@@ -530,7 +530,7 @@
         }
       ]
     },
-    { //filozofia i religie - 18
+    {
       "nazwa": "filozofia i religie",
       "pytania": [
         {
@@ -576,7 +576,7 @@
         {
           "tresc": "Jak w chrześcijaństwie zachodnim nazywa się msze adwentowe ku czci Najświętszej Marii Panny?",
           "poprawneOdpowiedzi": [ "Roraty" ],
-          "podpowiedzi": [ "Roraty", "Msze Wigilli", "Laudes", "Rekolekcje" ]
+          "podpowiedzi": [ "Roraty", "Msze Wigilii", "Laudes", "Rekolekcje" ]
         },
         {
           "tresc": "Jakie imię nosił filistyński olbrzym pokonany przez Dawida?",
@@ -625,7 +625,7 @@
 }
       ]
     }, 
-    { //fizyka - 15
+    {
       "nazwa": "fizyka",
       "pytania": [
         {
@@ -641,7 +641,7 @@
 		    {
 			    "tresc": "Jak nazywa się jednostka strumienia magnetycznego w układzie SI?",
 			    "poprawneOdpowiedzi": ["Weber", "Wb", "weber"],
-			    "podpowiedzi": ["Weber", "Tesla", "Henr", "Farad"]
+			    "podpowiedzi": ["Weber", "Tesla", "Henry", "Farad"]
 		    },
 		    {
         "tresc": "W jakiej temperaturze skale Celsjusza i Fahrenheita pokrywają się?",
@@ -686,7 +686,7 @@
         {
           "tresc": "Która z zasad dynamiki Newtona nazywana jest inaczej zasadą bezwładności?",
           "poprawneOdpowiedzi": [ "Pierwsza", "I", "I zasada", "Pierwsza zasada", "Pierwsza zasada dynamiki Newtona", "I zasada dynamiki Newtona" ],
-          "podpowiedzi": [ "Pierwsza", "Druga", "Trzecia", "Nie ma więcej XD" ]
+          "podpowiedzi": [ "Pierwsza", "Druga", "Trzecia", "Nie ma takiej" ]
         },
         {
           "tresc": "Jakim terminem określa się zakłocenia w rozmieszczeniu atomów w sieci krystalicznej?",
@@ -706,7 +706,7 @@
 
       ]
     },
-    { //geografia - 18
+    {
       "nazwa": "geografia",
       "pytania": [
         {
@@ -746,7 +746,7 @@
         },
         {
           "tresc": "Jak nazywa się oficjalna waluta Nepalu?",
-          "poprawneOdpowiedzi": [ "Rupia", "Rupia Nepalska" ],
+          "poprawneOdpowiedzi": [ "Rupia", "Rupia Nepalska", "rupia" ],
           "podpowiedzi": [ "rupia", "funt", "bat", "rupia" ]
         },
         {
@@ -801,7 +801,7 @@
         }
       ]
     },
-    { //historia - 21
+    {
       "nazwa": "historia",
       "pytania": [
         {
@@ -872,7 +872,7 @@
         {
           "tresc": "W którym wieku panował król pruski Fryderyk II Wielki?",
           "poprawneOdpowiedzi": [ "w XVIII wieku", "w 18 wieku", "w osiemnastym wieku", "osiemnasty wiek", "18 wiek", "XVIII wiek" ],
-          "podpowiedzi": [ "w XVIII weiku", "w XIII weiku", "w XIV weiku", "w XIX weiku" ]
+          "podpowiedzi": [ "w XVIII wieku", "w XIII wieku", "w XIV wieku", "w XIX wieku" ]
         },
         {
           "tresc": "W którym wieku rządził Rosją Iwan IV Groźny?",
@@ -911,7 +911,7 @@
         }
       ]
     },
-    { //język polski - 15
+    {
       "nazwa": "język polski",
       "pytania": [
         {
@@ -921,7 +921,7 @@
         },
         {
           "tresc": "Jak nazywa się głoska dźwięczna, otwarta, mogąca tworzyć sylabę?",
-          "poprawneOdpowiedzi": [ "samogłoska" ],
+          "poprawneOdpowiedzi": [ "samogłoska", "Samogłoska" ],
           "podpowiedzi": [ "Samogłoska", "Półsamogołoska", "Spółgłoska wargowa", "Spółgłoska sonorna" ]
         },
         {
@@ -955,8 +955,8 @@
           "podpowiedzi": [ "Remiz", "Remis", "Remizów", "Remizji" ]
         },
         {
-          "tresc": "Jak nazywamy zestawienie wyrazó, których znaczenie jest przeciwne, sprzeczne?",
-          "poprawneOdpowiedzi": [ "oksymoron" ],
+          "tresc": "Jak nazywamy zestawienie wyrazów, których znaczenie jest przeciwne, sprzeczne?",
+          "poprawneOdpowiedzi": [ "oksymoron", "Oksymoron" ],
           "podpowiedzi": [ "Oksymoron", "Antonimy", "Pleonazm", "Antyteza" ]
         },
         {
@@ -991,7 +991,7 @@
 }
       ]
     },
-    { //kulinaria - 15
+    {
       "nazwa": "kulinaria",
       "pytania": [
         {
@@ -1036,8 +1036,8 @@
         },
         {
           "tresc": "Jaką nazwę, pochodzącą od nazwiska uczonego nosi angielska grochówka z ziemniakami i ryżem?",
-          "poprawneOdpowiedzi": [ "Zupa rumfordzka" ],
-          "podpowiedzi": [ "Zupa rumdordzka", "Zupa smithsońska", "Zupa johnsońska", "Zupa gordońska" ]
+          "poprawneOdpowiedzi": [ "Zupa rumfordzka",  "Zupa rumdordzka" ],
+          "podpowiedzi": [ "Zupa rumfordzka", "Zupa smithsońska", "Zupa johnsońska", "Zupa gordońska" ]
         },
         {
           "tresc": "Jak nazywamy zabieg wprowadzenia do mięsa paseczków słoniny, aby pieczeń była soczysta?",
@@ -1047,7 +1047,7 @@
         {
           "tresc": "Z którego kraju pochodzą wina mozelskie?",
           "poprawneOdpowiedzi": [ "Z Niemiec", "Niemiec", "Niemcy" ],
-          "podpowiedzi": [ "Z Niemiec", "Z Włoch", "Z Francji", "Z Hiszpani" ]
+          "podpowiedzi": [ "Z Niemiec", "Z Włoch", "Z Francji", "Z Hiszpanii" ]
         },
         {
           "tresc": "Jak brzmi nazwa kaszy lub mączki wytwarzanej z bulw manioku?",
@@ -1071,7 +1071,7 @@
 }
       ]
     },
-    { //literatura - 19
+    {
       "nazwa": "literatura",
       "pytania": [
         {
@@ -1162,7 +1162,7 @@
         {
           "tresc": "Jakie imię przybrał Gustaw, główna postać dramatu pt. \"Dziady\"?",
           "poprawneOdpowiedzi": [ "Konrad" ],
-          "podpowiedzi": [ "Kondrad", "Kordian", "Tadeusz", "Juliusz" ]
+          "podpowiedzi": [ "Konrad", "Kordian", "Tadeusz", "Juliusz" ]
         },
 		{
   "tresc": "Jak brzmi nazwisko autora dramatu pt. 'Uciekła mi przepióreczka'?",
@@ -1176,7 +1176,7 @@
 }
       ]
     },
-    { //matematyka - 16
+    {
       "nazwa": "matematyka",
       "pytania": [
         {
@@ -1255,13 +1255,13 @@
           "podpowiedzi": [ "2", "1", "3", "0" ]
         },
         {
-          "tresc": "Jak nazywamy liczbę, od której podczas odejmowania odejmje się drugą liczbę?",
+          "tresc": "Jak nazywamy liczbę, od której podczas odejmowania odejmuje się drugą liczbę?",
           "poprawneOdpowiedzi": [ "Odjemna" ],
           "podpowiedzi": [ "Odjemna", "Odejmowana", "Duferencja", "Subtrahend" ]
         }
       ]
     },
-    { //motoryzacja - 14
+    {
       "nazwa": "motoryzacja",
       "pytania": [
         {
@@ -1297,7 +1297,7 @@
         {
           "tresc": "Jaki typ silnika napędza pojazdy, w których wykorzystywana jest technologia zapłonu samoczynnego, a nie iskrowego?",
           "poprawneOdpowiedzi": ["Silnik wysokoprężny", "wysokoprężny", "Diesel"],
-          "podpowiedzi": ["Silnik wysokoprężny (diesel)", "Silnik benzynowy", "Silnik gazowy (LPG)", "Silnik elektryczny"]
+          "podpowiedzi": ["Silnik wysokoprężny", "Silnik benzynowy", "Silnik gazowy", "Silnik elektryczny"]
         },
         {
           "tresc": "W jaki sposób nazywa się system elektroniczny w samochodach, który pozwala na automatyczne dostosowanie prędkości pojazdu w zależności od odległości od innych pojazdów?",
@@ -1306,7 +1306,7 @@
         },
         {
           "tresc": "Jakie oznaczenie posiada samochód, którego napęd obejmuje tylko przednią oś?",
-          "poprawneOdpowiedzi": [ "FWD", "fwd", "Front-Wheel Drive" ],
+          "poprawneOdpowiedzi": [ "FWD", "fwd", "Front-Wheel Drive", "FWD (Front-Wheel Drive)" ],
           "podpowiedzi": [ "FWD (Front-Wheel Drive)", "AWD (All-Wheel Drive)", "RWD (Rear-Wheel Drive)", "4WD (Four-Wheel Drive)" ]
         },
         {
@@ -1320,12 +1320,12 @@
           "podpowiedzi": [ "Henry", "John", "Thomas", "Edward" ]
         },
         {
-          "tresc": "Którego dnia przypada \"Dzień bez Samochodu\", w Polsce obchodzony pod patronatem Ministerswa Klimatu i Środowiska?",
+          "tresc": "Którego dnia przypada \"Dzień bez Samochodu\", w Polsce obchodzony pod patronatem Ministerstwa Klimatu i Środowiska?",
           "poprawneOdpowiedzi": [ "22 września", "dwudziestydrugi września" ],
           "podpowiedzi": [ "22 września", "22 kwietnia", "21 marca", "1 maja" ]
         },
         {
-          "tresc": "Jakie oznaczenie (literę i numer ma najdłuższa polska autostrada?",
+          "tresc": "Jakie oznaczenie (literę i numer) ma najdłuższa polska autostrada?",
           "poprawneOdpowiedzi": [ "A4" ],
           "podpowiedzi": [ "A4", "A1", "A2", "A8" ]
         },
@@ -1336,7 +1336,7 @@
         }
       ]
     },
-    { //muzyka klasyczna - 13
+    {
       "nazwa": "muzyka klasyczna",
       "pytania": [
         {
@@ -1346,8 +1346,8 @@
         },
         {
           "tresc": "W którym amerykańskim mieście toczy się zasadnicza akcja musicalu \"Hair?\"",
-          "poprawneOdpowiedzi": [ "Nowy York" ],
-          "podpowiedzi": [ "Nowy York", "San Francisco", "Los Angeles", "Chicago" ]
+          "poprawneOdpowiedzi": [ "Nowy York", "New York", "Nowy Jork" ],
+          "podpowiedzi": [ "New York", "San Francisco", "Los Angeles", "Chicago" ]
         },
         {
           "tresc": "W którym kraju toczy się akcja operetki pt. 'Polska krew' Oskara Nedbala?",
@@ -1360,7 +1360,7 @@
           "podpowiedzi": ["Wesele Figara", "Ślub Figara", "Wesele Don Giovanniego", "Wesele królewskie"]
         },
         {
-          "tresc": "Kto skomponował 'Stworzenie świata' – utwór będący jednym z najważniejszych dzieł barokowej muzyki oratoryjnej?",
+          "tresc": "Kto skomponował 'Stworzenie świata' – utwór będący jednym z najważniejszych dzieł klasycznej muzyki oratoryjnej?",
           "poprawneOdpowiedzi": [ "Joseph Haydn", "haydn", "Haydn" ],
           "podpowiedzi": [ "Joseph Haydn", "Johann Sebastian Bach", "Georg Friedrich Handel", "Ludwig van Beethoven" ]
         },
@@ -1386,7 +1386,7 @@
         },
         {
           "tresc": "Jak nazywa się urządzenie służące do wskazywania tempa utworu?",
-          "poprawneOdpowiedzi": [ "metronom" ],
+          "poprawneOdpowiedzi": [ "metronom", "Metronom" ],
           "podpowiedzi": [ "Metronom", "Rezonator", "Dynamometr", "Arytmometr" ]
         },
         {
@@ -1406,7 +1406,7 @@
         }
       ]
     },
-    { //muzyka rozrywkowa - 17
+    {
       "nazwa": "muzyka rozrywkowa",
       "pytania": [
         {
@@ -1457,7 +1457,7 @@
         {
           "tresc": "Który z uczestników pierwszej edycji \"IDOLA\" wylansował przebój pt. \"Spełni się\"?",
           "poprawneOdpowiedzi": [ "Tomek Makowiecki", "Makowiecki", "Tomasz Makowiecki" ],
-          "podpowiedzi": [ "Tomasz Makowiecki", "Szymon Wydra", "Ewelina FLinta", "Alicja Janosz" ]
+          "podpowiedzi": [ "Tomasz Makowiecki", "Szymon Wydra", "Ewelina Flinta", "Alicja Janosz" ]
         },
         {
           "tresc": "Który zespół wylansował w 1998 r. przebój pt. \"Mamona\"?",
@@ -1501,7 +1501,7 @@
         }
       ]
     },
-    { //piłka nożna - 17
+    {
       "nazwa": "piłka nożna",
       "pytania": [
         {
@@ -1580,8 +1580,8 @@
           "podpowiedzi": [ "8:0", "7:1", "5:0", "6:2" ]
         },
         {
-          "tresc": "Jaką nazwę nosi nagroda dla króla strzelcó przyznawana podczas Mistrzostw Świata?",
-          "poprawneOdpowiedzi": [ "Złoty but" ],
+          "tresc": "Jaką nazwę nosi nagroda dla króla strzelców przyznawana podczas Mistrzostw Świata?",
+          "poprawneOdpowiedzi": [ "Złoty but", "Złoty But" ],
           "podpowiedzi": [ "Złoty But", "Złota Piłka", "Puchar Strzelców", "Złote korki" ]
         },
         {
@@ -1591,7 +1591,7 @@
         }
       ]
     },
-    { //polityka i gospodarka - 18
+    {
       "nazwa": "polityka i gospodarka",
       "pytania": [
         {
@@ -1686,7 +1686,7 @@
 }
       ]
     },
-    { //popkultura - 20
+    {
       "nazwa": "popkultura",
       "pytania": [
         {
@@ -1791,7 +1791,7 @@
         }
       ]
     },
-    { //przysłowia i cytaty - 14
+    {
       "nazwa": "przysłowia i cytaty",
       "pytania": [
         {
@@ -1846,13 +1846,8 @@
         },
         {
           "tresc": "Czego - według przysłowia - nie wszystkim bydlętom dała natura?",
-          "poprawneOdpowiedzi": [ "rogi" ],
+          "poprawneOdpowiedzi": [ "rogi", "Rogi" ],
           "podpowiedzi": [ "Rogi", "Nogi", "Skrzydła", "Kolce" ]
-        },
-        {
-          "tresc": "Co - według przysłowia - mówi mucha, która siadła na wole?",
-          "poprawneOdpowiedzi": [ "Orzemy" ],
-          "podpowiedzi": [ "Orzemy", "Jedziemy", "Ryczymy", "Bodziemy" ]
         },
         {
           "tresc": "Co - według przysłowia - mówi mucha, która siadła na wole?",
@@ -1866,12 +1861,12 @@
         },
         {
           "tresc": "Która ryba w znanym powiedzeniu wije się zręcznie i sprytnie?",
-          "poprawneOdpowiedzi": [ "piskorz" ],
+          "poprawneOdpowiedzi": [ "piskorz", "Piskorz" ],
           "podpowiedzi": [ "Piskorz", "Węgorz", "Pstrąg", "Troć" ]
         }
       ]
     },
-    { //rozmaitości - 16
+    {
       "nazwa": "rozmaitości",
       "pytania": [
         {
@@ -1886,14 +1881,14 @@
         },
         {
           "tresc": "Jachty żaglowe którego państwa noszą oznakowanie ESA?",
-          "poprawneOdpowiedzi": [ "Santo Domingo" ],
-          "podpowiedzi": [ "Santo Domingo", "Caracas", "Meksyk", "Santiago" ]
+          "poprawneOdpowiedzi": [ "Salwador" ],
+          "podpowiedzi": [ "Salwador", "Caracas", "Meksyk", "Santiago" ]
         },
         {
-          "tresc": "W którym mieście znajduje się najstarszy uniwersytet półkuli zachodniej?",
-          "poprawneOdpowiedzi": [ "Salwador" ],
-          "podpowiedzi": [ "Salwador", "Hiszpania", "Estonia", "Seszele" ]
-        },
+  "tresc": "W którym mieście znajduje się najstarszy uniwersytet półkuli zachodniej?",
+  "poprawneOdpowiedzi": ["Santo Domingo", "Uniwersytet w Santo Domingo"],
+  "podpowiedzi": ["Santo Domingo", "Lima", "Hawana", "Bogota"]
+},
         {
           "tresc": "W którym mieście można zwiedzić Rotundę Jeffersona?",
           "poprawneOdpowiedzi": [ "Waszyngton", "W Waszyngtonie" ],
@@ -1951,7 +1946,7 @@
         }
       ]
     },
-    { //seriale - 15
+    {
       "nazwa": "seriale",
       "pytania": [
         {
@@ -1985,13 +1980,13 @@
           "podpowiedzi": [ "Joanna Brodzik", "Karolina Gruszka", "Magdalena Boczarska", "Agnieszka Dygant" ]
         },
         {
-          "tresc": "Gzie pracuje na codzień Tadeusz Norek z serialu pt. \"Miodowe lata\"?",
-          "poprawneOdpowiedzi": [ "Kanalarz", "pracuje w kanałach", "w kanałach", "pracownik kanalizacyjny" ],
+          "tresc": "Gdzie pracuje na codzień Tadeusz Norek z serialu pt. \"Miodowe lata\"?",
+          "poprawneOdpowiedzi": [ "Kanalarz", "pracuje w kanałach", "w kanałach", "pracownik kanalizacyjny", "W kanałach" ],
           "podpowiedzi": [ "W kanałach", "W fabryce", "W sklepie spożywczym", "W urzędzie skarbowym" ]
         },
         {
           "tresc": "Podczas jakiej uroczystości pojmano Janosika?",
-          "poprawneOdpowiedzi": [ "podczas ślubu", "ślub", "podczas wasnego ślubu" ],
+          "poprawneOdpowiedzi": [ "podczas ślubu", "ślub", "podczas własnego ślubu", "Podczas ślubu" ],
           "podpowiedzi": [ "Podczas ślubu", "Podczas Chrztu", "Podczas Urodzin", "Podczas Festynu" ]
         },
         {
@@ -2011,7 +2006,7 @@
         },
         {
           "tresc": "Co było w worku Dziadka Mroza w serialu pt. \"Świat według Kiepskich\"?",
-          "poprawneOdpowiedzi": [ "komuna" ],
+          "poprawneOdpowiedzi": [ "komuna", "Komuna" ],
           "podpowiedzi": [ "Komuna", "Podatki", "Podarki", "Zaklęcia" ]
         },
         {
@@ -2021,12 +2016,12 @@
         },
         {
           "tresc": "W jaki sposób Ferdek Kiepski zyskał sobie nieśmiertelność?",
-          "poprawneOdpowiedzi": [ "wygrał w karty", "wygrał w karty ze śmiercią" ],
+          "poprawneOdpowiedzi": [ "wygrał w karty", "wygrał w karty ze śmiercią", "Wygrał w karty ze śmiercią" ],
           "podpowiedzi": [ "Wygrał w karty ze śmiercią", "Przekupił śmierć piwem", "Dołączył do kultu śmierci", "Sprzedał swoją dusze" ]
         }
       ]
     },
-    { //sport - 14
+    {
       "nazwa": "sport",
       "pytania": [
         {
@@ -2057,11 +2052,11 @@
         {
           "tresc": "Jak brzmi nazwisko mistrza Polski w rzucie oszczepem w latach 1951-61?",
           "poprawneOdpowiedzi": [ "Janusz Sidło" ],
-          "podpowiedzi": [ "Janusz Sidło", "Kazimierz Matusiak", "Marian Misiak", "Zbigniew JAsiński" ]
+          "podpowiedzi": [ "Janusz Sidło", "Kazimierz Matusiak", "Marian Misiak", "Zbigniew Jasiński" ]
         },
         {
           "tresc": "W której dyscyplinie sportu Leszek Drogosz wywalczył medal olimpijski?",
-          "poprawneOdpowiedzi": [ "W boksie", "Boks" ],
+          "poprawneOdpowiedzi": [ "W boksie", "Boks", "W Boksie" ],
           "podpowiedzi": [ "W Boksie", "w Judo", "W Wioślarstwie", "W Podnoszeniu ciężarów" ]
         },
         {
@@ -2092,7 +2087,7 @@
         {
           "tresc": "Jaki medal przywieźli z Mistrzostw świata w 1987 r. Leszek Kucharski i Andrzej Grubba?",
           "poprawneOdpowiedzi": [ "Brązowy", "Medal brązowy" ],
-          "podpowiedzi": [ "Brązowy", "Złoty", "Srebny", "Nie zdobyli medalu" ]
+          "podpowiedzi": [ "Brązowy", "Złoty", "Srebrny", "Nie zdobyli medalu" ]
         },
         {
           "tresc": "W której dyscyplinie reprezentacja polska zdobyła pierwszy srebrny medal olimpijski?",
@@ -2101,7 +2096,7 @@
         }
       ]
     },
-    { //sztuka - 16
+    {
       "nazwa": "sztuka",
       "pytania": [
         {
@@ -2165,7 +2160,7 @@
           "podpowiedzi": [ "namalował", "sprzedał", "odebrał", "zamówił" ]
         },
         {
-          "tresc": "Z którego kraju pochodził malarz Diego Velazque?",
+          "tresc": "Z którego kraju pochodził malarz Diego Velázquez?",
           "poprawneOdpowiedzi": [ "Hiszpania", "Z Hiszpanii", "Z Hiszpani" ],
           "podpowiedzi": [ "Z Hiszpanii", "Z Portugalii", "Z Francji", "Z Włoch" ]
         },
@@ -2181,7 +2176,7 @@
         },
         {
           "tresc": "W którym greckim porządku architektonicznym żłobkowane kolumny mają wolutowe głowice?",
-          "poprawneOdpowiedzi": [ "Joński", "w Jońskim" ],
+          "poprawneOdpowiedzi": [ "Joński", "w Jońskim" ,"W Jońskim" ],
           "podpowiedzi": [ "W Jońskim", "W Doryckim", "W Korynckim", "W Toskańskim" ]
         },
         {
@@ -2191,7 +2186,7 @@
         }
       ]
     },
-    { //technologie - 20
+    {
       "nazwa": "technologie",
       "pytania": [
         {
@@ -2296,7 +2291,7 @@
         }
       ]
     },
-    { //wędkarstwo - 17
+    {
       "nazwa": "wędkarstwo",
       "pytania": [
         {
