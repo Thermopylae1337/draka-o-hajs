@@ -48,7 +48,10 @@ public class CategoryDrawManager : NetworkBehaviour
         {
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
-            gameManager.Category.Value = categoryList.FindCategory(categoryNames[result]);
+            if (IsHost)
+            {
+                gameManager.Category.Value = categoryList.FindCategory(categoryNames[result]);
+            }
             // WyświetlPytanie(category)
         }
 
