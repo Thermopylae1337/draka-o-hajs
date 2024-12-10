@@ -254,9 +254,12 @@ public class BiddingWarController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
-        foreach (TeamManager t in teams)
+        if (IsHost)
         {
-            t.ResetBid();
+            foreach (TeamManager team in teams)
+            {
+                team.ResetBid();
+            }
         }
 
         gameOngoing = false;

@@ -156,7 +156,7 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void HintAskRejectionRpc()
     {
-        hintPriceText.text = "Nie stać Ci na podpowiedz";
+        hintPriceText.text = "Nie stać Cię na podpowiedź";
     }
 
     [Rpc(SendTo.ClientsAndHost)]
