@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class AnswerController : NetworkBehaviour
 {
     public TMP_Text totalBid;
+    public TMP_Text hintPriceText;
     public TMP_InputField answerInput;
     public TMP_Text questionText;
     public TMP_Text feedbackText;
@@ -22,6 +24,7 @@ public class AnswerController : NetworkBehaviour
     private float _timeRemaining;
     private bool _isAnswerChecked;
     private string[] hints;
+    private int randomHintPrice;
 
     public static Category category;
     public Question currentQuestion;
@@ -137,8 +140,23 @@ public class AnswerController : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     private void UseHintNotifyServerRpc() {
-        hints = currentQuestion.Hints;
-        ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
+        if(GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money >= randomHintPrice)
+        {
+            GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money -= randomHintPrice;
+            hints = currentQuestion.Hints;
+            ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
+            _timeRemaining = 30f;
+        }
+        else
+        {
+            HintAskRejectionRpc();
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void HintAskRejectionRpc()
+    {
+        hintPriceText.text = "Nie stać Ci na podpowiedz";
     }
 
     [Rpc(SendTo.ClientsAndHost)]
@@ -198,11 +216,12 @@ public class AnswerController : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void SendQuestionToClientRpc(string questionText, int currentQuestionIndex)
+    public void SendQuestionToClientRpc(string questionText, int currentQuestionIndex, float hintPrice)
     {
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         SetItemsInteractivity(false);
         this.questionText.text = questionText;
+        hintPriceText.text = "Cena podpowiedzi: " + Convert.ToString(hintPrice);
         _isAnswerChecked = false;
         roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         feedbackText.text = "";
@@ -223,7 +242,8 @@ public class AnswerController : NetworkBehaviour
         currentQuestionIndex++;
         if (currentQuestionIndex <= Utils.ROUNDS_LIMIT)
         {
-            SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex);
+            randomHintPrice = Convert.ToInt32(Mathf.Round( Convert.ToSingle(UnityEngine.Random.Range(20, 31)) / 100 * GameManager.Instance.CurrentBid.Value  / 100f) * 100f);
+            SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex, randomHintPrice);
             _timeRemaining = 30f;
             AnsweringModeRpc();
             SetHintMode(false);
