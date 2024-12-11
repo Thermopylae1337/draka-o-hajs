@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NUnit.Framework;
 using TMPro;
 using Unity.Netcode;
@@ -21,7 +22,8 @@ public class CategoryDrawManager : NetworkBehaviour
         if (IsHost)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-            categoryList = CategoryList.Deserialize("Assets/_Project/Code/Models/questions450.json");
+            TextAsset categoryAssets = Resources.Load<TextAsset>("questions");
+            categoryList = JsonConvert.DeserializeObject<CategoryList>(categoryAssets.text);
         }
 
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
@@ -29,7 +31,7 @@ public class CategoryDrawManager : NetworkBehaviour
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
 
         wheel.OnWheelStopped += HandleWheelStopped;
-        startTime=Time.time;
+        startTime = Time.time;
     }
 
     private void HandleWheelStopped(int result)
@@ -38,7 +40,7 @@ public class CategoryDrawManager : NetworkBehaviour
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
-            gameManager.Category.Value = new Category("Czarna skrzynka",new System.Collections.Generic.List<Question>());
+            gameManager.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
         }
         else if (categoryNames[result] == "Podpowiedź")
         {
@@ -60,7 +62,8 @@ public class CategoryDrawManager : NetworkBehaviour
 
     private void Update()
     {
-        if (!wheelSpinned&&IsHost&&Time.time-startTime>2) {
+        if (!wheelSpinned && IsHost && Time.time - startTime > 2)
+        {
             wheelSpinned = true;
             CalculateAngle();
         }
