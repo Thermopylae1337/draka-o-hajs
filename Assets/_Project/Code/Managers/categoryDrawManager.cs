@@ -58,24 +58,6 @@ public class CategoryDrawManager : NetworkBehaviour
         _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
-    /*      chyba Kuba to dodal, ale to chyba miało być w licytacji
-    private void AwardBiddingWinners(TeamManager team, string categoryName)
-    {
-        if (categoryName.Equals("Czarna Skrzynka"))
-        {
-            team.BlackBoxes++;
-        }
-        else if (categoryName.Equals("Podpowiedz"))
-        {
-            team.Clues++;
-        }
-        else //wylosowano kategorie pytaniowa
-        {
-
-            //todo tutaj wywolac metode rozpoczynajaca etap pytania
-        }
-    }
-    */
     private void Update()
     {
         if (!wheelSpinned&&IsHost&&Time.time-startTime>2) {

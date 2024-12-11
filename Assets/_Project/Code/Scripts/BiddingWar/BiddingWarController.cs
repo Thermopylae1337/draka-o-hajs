@@ -261,10 +261,9 @@ public class BiddingWarController : NetworkBehaviour
                 team.ResetBid();
             }
         }
-
+        
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
-        //na razie team_id nie jest na nic potrzebne ale jest na później żeby można było w następnej scenie stwierdzić kto wygrał licytację
 
         if (IsServer)
         {
@@ -273,7 +272,15 @@ public class BiddingWarController : NetworkBehaviour
 
         if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
         {
-            teams[team_id].Money -= totalBid;
+            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
+            if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
+            {
+                teams[team_id].BlackBoxes += 1;
+            }
+            else {
+                teams[team_id].Clues += 1;
+            }
+
             if(IsContinuingGamePossible())
             {
                 StartCoroutine(OpenSceneWithDelay("CategoryDraw"));
