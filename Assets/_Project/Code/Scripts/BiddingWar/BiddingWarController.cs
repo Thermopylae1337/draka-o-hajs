@@ -16,7 +16,6 @@ public class BiddingWarController : NetworkBehaviour
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI categoryNameText;
     public List<TeamManager> teams;
-    private GameManager gameManager;
     public TextMeshProUGUI totalBidText;
     int totalBid;
     float timer;
@@ -57,8 +56,7 @@ public class BiddingWarController : NetworkBehaviour
     }
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        teams = gameManager.Teams;
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         if (teams.Count < 4)
         {
@@ -74,7 +72,7 @@ public class BiddingWarController : NetworkBehaviour
             i += 1;
         }
 
-        categoryNameText.text = gameManager.Category.Value.Name.ToUpper();
+        categoryNameText.text = GameManager.Instance.Category.Value.Name.ToUpper();
         timerText.text = "5";
         Setup();
         AddListeners();
@@ -120,8 +118,9 @@ public class BiddingWarController : NetworkBehaviour
         int i = 0;
         while (i < teams.Count)
         {
-            if (IsHost) {
-            teams[i].RaiseBid(500);
+            if (IsHost)
+            {
+                teams[i].RaiseBid(500);
             }
 
             UpdateMoneyStatusForTeam(i);
@@ -134,7 +133,7 @@ public class BiddingWarController : NetworkBehaviour
         hasSetUp = true;
         gameOngoing = true;
     }
-    
+
     public void UpdateMoneyStatusForTeam(int i)
     {
         teamBalanceText[i].text = teams[i].Money.ToString();
@@ -261,7 +260,7 @@ public class BiddingWarController : NetworkBehaviour
                 team.ResetBid();
             }
         }
-        
+
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
 
@@ -277,11 +276,12 @@ public class BiddingWarController : NetworkBehaviour
             {
                 teams[team_id].BlackBoxes += 1;
             }
-            else {
+            else
+            {
                 teams[team_id].Clues += 1;
             }
 
-            if(IsContinuingGamePossible())
+            if (IsContinuingGamePossible())
             {
                 StartCoroutine(OpenSceneWithDelay("CategoryDraw"));
             }
@@ -314,7 +314,8 @@ public class BiddingWarController : NetworkBehaviour
 
     private bool IsContinuingGamePossible()
     {
-        teams = GameObject.Find("GameManager").GetComponent<GameManager>().Teams;
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+
         _teamsInGame = 0;
         foreach (TeamManager team in teams)
         {

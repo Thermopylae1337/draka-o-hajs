@@ -15,9 +15,8 @@ public class GameManager : NetworkBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance => _instance;
-    public List<TeamManager> Teams { get; } = new();
     public NetworkVariable<Question> Question { get; } = new();
-    public NetworkVariable<Category> Category { get;} = new();
+    public NetworkVariable<Category> Category { get; } = new();
     public NetworkVariable<ulong> Winner { get; } = new();
     public NetworkVariable<int> CurrentBid { get; } = new();
 

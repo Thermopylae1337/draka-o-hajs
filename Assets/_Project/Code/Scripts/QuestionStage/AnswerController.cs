@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -68,8 +69,8 @@ public class AnswerController : NetworkBehaviour
             SetItemsInteractivity(false);
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
             _ = currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible()
-                ?  StartCoroutine(ChangeScene("CategoryDraw", 4)) 
-                :  StartCoroutine(ChangeScene("Summary", 4));
+                ? StartCoroutine(ChangeScene("CategoryDraw", 4))
+                : StartCoroutine(ChangeScene("Summary", 4));
         }
     }
 
@@ -109,7 +110,7 @@ public class AnswerController : NetworkBehaviour
     {
         if (currentQuestion.IsCorrect(playerAnswer))
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money += GameManager.Instance.CurrentBid.Value;
+            NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
             SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
         }
@@ -139,10 +140,11 @@ public class AnswerController : NetworkBehaviour
     public void AskForHint() => UseHintNotifyServerRpc();
 
     [ServerRpc(RequireOwnership = false)]
-    private void UseHintNotifyServerRpc() {
-        if(GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money >= randomHintPrice)
+    private void UseHintNotifyServerRpc()
+    {
+        if (NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money >= randomHintPrice)
         {
-            GameObject.Find("GameManager").GetComponent<GameManager>().Teams[(int)GameManager.Instance.Winner.Value].Money -= randomHintPrice;
+            NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money -= randomHintPrice;
             hints = currentQuestion.Hints;
             ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
             _timeRemaining = 30f;
@@ -242,7 +244,7 @@ public class AnswerController : NetworkBehaviour
         currentQuestionIndex++;
         if (currentQuestionIndex <= Utils.ROUNDS_LIMIT)
         {
-            randomHintPrice = Convert.ToInt32(Mathf.Round( Convert.ToSingle(UnityEngine.Random.Range(20, 31)) / 100 * GameManager.Instance.CurrentBid.Value  / 100f) * 100f);
+            randomHintPrice = Convert.ToInt32(Mathf.Round(Convert.ToSingle(UnityEngine.Random.Range(20, 31)) / 100 * GameManager.Instance.CurrentBid.Value / 100f) * 100f);
             SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex, randomHintPrice);
             _timeRemaining = 30f;
             AnsweringModeRpc();
@@ -268,7 +270,7 @@ public class AnswerController : NetworkBehaviour
     }
     private bool IsContinuingGamePossible()
     {
-        _teams = GameObject.Find("GameManager").GetComponent<GameManager>().Teams;
+        _teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
         _teamsInGame = 0;
         foreach (TeamManager team in _teams)
         {
@@ -278,6 +280,6 @@ public class AnswerController : NetworkBehaviour
             }
         }
 
-        return  _teamsInGame  >=  2;
+        return _teamsInGame >= 2;
     }
 }

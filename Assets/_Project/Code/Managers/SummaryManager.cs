@@ -1,17 +1,19 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SummaryManager : MonoBehaviour
+public class SummaryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject panelPrefab;
     [SerializeField] private Transform grid;
 
     private void Start()
     {
-        foreach (TeamManager team in GameObject.Find("GameManager").GetComponent<GameManager>().Teams)
+        foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
+
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
-            panel.Initialize(team);
+            panel.Initialize(teamClient.PlayerObject.GetComponent<TeamManager>());
         }
     }
 

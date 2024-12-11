@@ -67,7 +67,6 @@ public class LobbyController : NetworkBehaviour
         foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients)
         {
             playerObj = NetworkManager.Singleton.ConnectedClients[client.Key].PlayerObject;
-            gameManager.Teams.Add(playerObj.GetComponent("TeamManager") as TeamManager);
         }
 
         if (NetworkManager.Singleton.IsHost)
