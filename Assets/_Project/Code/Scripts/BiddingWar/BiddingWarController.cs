@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -6,13 +7,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Bidding_War_Controller : NetworkBehaviour
+public class BiddingWarController : NetworkBehaviour
 {
     public List<TextMeshProUGUI> teamNamesText;
     public List<TextMeshProUGUI> teamBidText;
     public List<TextMeshProUGUI> teamBalanceText;
     public List<TextMeshProUGUI> bidButtonText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI categoryNameText;
     public List<TeamManager> teams;
     public TextMeshProUGUI totalBidText;
     int totalBid;
@@ -34,6 +36,7 @@ public class Bidding_War_Controller : NetworkBehaviour
     List<Timer> Active_Timers
     public delegate void My_Timer_Delegate(int )
     */
+    private uint _teamsInGame;
 
     public class Timer
     {
@@ -53,13 +56,11 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Start()
     {
-        teams = new List<TeamManager>();
-        _ = !NetworkManager.Singleton.IsHost ? NetworkManager.Singleton.StartClient() : NetworkManager.Singleton.StartHost();
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         if (teams.Count < 4)
         {
             totalBidText.transform.position = teamBalanceText[teams.Count].transform.position;
-            totalBidText.text = "aaaaa";
         }
 
         int i = teams.Count;
@@ -71,7 +72,9 @@ public class Bidding_War_Controller : NetworkBehaviour
             i += 1;
         }
 
-        Setup(); ;
+        categoryNameText.text = GameManager.Instance.Category.Value.Name.ToUpper();
+        timerText.text = "5";
+        Setup();
         AddListeners();
     }
 
@@ -115,7 +118,11 @@ public class Bidding_War_Controller : NetworkBehaviour
         int i = 0;
         while (i < teams.Count)
         {
-            teams[i].RaiseBid(500);
+            if (IsHost)
+            {
+                teams[i].RaiseBid(500);
+            }
+
             UpdateMoneyStatusForTeam(i);
             i += 1;
             winningBidAmount = 500;
@@ -123,6 +130,7 @@ public class Bidding_War_Controller : NetworkBehaviour
             totalBidText.text = totalBid.ToString();
         }
 
+        hasSetUp = true;
         gameOngoing = true;
     }
 
@@ -188,7 +196,8 @@ public class Bidding_War_Controller : NetworkBehaviour
         if (( teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount ) || ( teams[team_id].Money >= difference && winningBidAmount == 500 ))
         {
             winningBidAmount += amount;
-            UpdateBidsRpc(team_id, difference, winningBidAmount, team_id);
+            teams[team_id].RaiseBid(difference);
+            UpdateBidsRpc(difference, winningBidAmount, team_id);
             if (teams[team_id].Money == 0)
             {
                 Sell(team_id);
@@ -197,9 +206,8 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
 
     [Rpc(SendTo.Everyone)]
-    public void UpdateBidsRpc(int team_id, int difference, int winning_bid, int winning_team_id)
+    public void UpdateBidsRpc(int difference, int winning_bid, int winning_team_id)
     {
-        teams[team_id].RaiseBid(difference);
         totalBid += difference;
         winningBidAmount = winning_bid;
         winningTeamID = winning_team_id;
@@ -214,9 +222,9 @@ public class Bidding_War_Controller : NetworkBehaviour
 
     void Update()
     {
-
         if (gameOngoing)
         {
+            UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
                 timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();
@@ -238,19 +246,85 @@ public class Bidding_War_Controller : NetworkBehaviour
     }
     void Sell(int team_id)
     {
+        timer = 0;
         SellRpc(team_id);
     }
 
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
-        foreach (TeamManager t in teams)
+        if (IsHost)
         {
-            t.ResetBid();
+            foreach (TeamManager team in teams)
+            {
+                team.ResetBid();
+            }
         }
 
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
-        //na razie team_id nie jest na nic potrzebne ale jest na później żeby można było w następnej scenie stwierdzić kto wygrał licytację
+
+        if (IsServer)
+        {
+            GameManager.Instance.Winner.Value = (uint)team_id;
+        }
+
+        if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
+        {
+            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
+            if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
+            {
+                teams[team_id].BlackBoxes += 1;
+            }
+            else
+            {
+                teams[team_id].Clues += 1;
+            }
+
+            if (IsContinuingGamePossible())
+            {
+                StartCoroutine(OpenSceneWithDelay("CategoryDraw"));
+            }
+            else
+            {
+                StartCoroutine(OpenSceneWithDelay("Summary"));
+            }
+        }
+        else
+        {
+            if (IsHost)
+            {
+                PassCurrentBidServerRpc(totalBid);
+            }
+
+            StartCoroutine(OpenSceneWithDelay("QuestionStage"));
+        }
+    }
+    private IEnumerator OpenSceneWithDelay(string name)
+    {
+        yield return new WaitForSeconds(5);
+        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void PassCurrentBidServerRpc(int currentBid)
+    {
+        GameManager.Instance.CurrentBid.Value += currentBid;
+    }
+
+    private bool IsContinuingGamePossible()
+    {
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+
+        _teamsInGame = 0;
+        foreach (TeamManager team in teams)
+        {
+            if (team.Money >= 500)
+            {
+                _teamsInGame++;
+            }
+        }
+
+        return _teamsInGame >= 2;
     }
 }

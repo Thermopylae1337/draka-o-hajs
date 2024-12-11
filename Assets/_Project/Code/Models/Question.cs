@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.Netcode;
 
 public class Question : INetworkSerializable, IEquatable<Question>
@@ -12,6 +13,9 @@ public class Question : INetworkSerializable, IEquatable<Question>
 
     [JsonProperty("podpowiedzi", Order = 3)]
     private readonly List<string> answerChoices = new();
+
+    [JsonProperty("poprawneOdpowiedzi", Order = 2)]
+    private List<string> correctAnswers = new();
     private string content;
     private static readonly Random _random = new();
 
@@ -33,13 +37,11 @@ public class Question : INetworkSerializable, IEquatable<Question>
         }
     }
 
-    [field: JsonProperty("poprawneOdpowiedzi", Order = 2)]
-    public List<string> CorrectAnswers { get; }
-
+    public List<string> CorrectAnswers { get=>correctAnswers; }
     public Question(string content, List<string> correctAnswers, List<string> answerChoices)
     {
         Content = content;
-        CorrectAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
+        this.correctAnswers = correctAnswers; // podane jako lista poprawne warianty odpowiedzi
         this.answerChoices = answerChoices.Count != 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : answerChoices;
     }
 
@@ -47,7 +49,16 @@ public class Question : INetworkSerializable, IEquatable<Question>
     {
     }
 
-    public bool IsCorrect(string answer) => CorrectAnswers.Contains(answer.Trim().ToLower());
+    public bool IsCorrect(string answer)
+    {
+        return CorrectAnswers.Any(correctAnswer =>
+            string.Equals(
+                correctAnswer.Trim(),
+                answer.Trim(),
+                StringComparison.OrdinalIgnoreCase
+            )
+        );
+    }
 
     public void Serialize(string path)
     {

@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 276096862}
   - component: {fileID: 276096861}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 400buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1227,7 +1227,7 @@ GameObject:
   - component: {fileID: 448070720}
   - component: {fileID: 448070719}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 300buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1549,11 +1549,15 @@ MonoBehaviour:
   - {fileID: 399117890}
   - {fileID: 1413879594}
   bidButtonText:
-  - {fileID: 1726296337}
-  - {fileID: 1593539204}
-  - {fileID: 341040795}
-  - {fileID: 1422109644}
+  - {fileID: 1555673408}
+  - {fileID: 1442908995}
+  - {fileID: 448070719}
+  - {fileID: 276096861}
+  - {fileID: 981551044}
+  - {fileID: 1220248587}
   timerText: {fileID: 1195921157}
+  categoryNameText: {fileID: 743508352}
+  teams: []
   totalBidText: {fileID: 2107894925}
   bidButtons:
   - {fileID: 1423702031}
@@ -2271,7 +2275,7 @@ GameObject:
   - component: {fileID: 981551045}
   - component: {fileID: 981551044}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 500buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2732,7 +2736,7 @@ GameObject:
   - component: {fileID: 1220248588}
   - component: {fileID: 1220248587}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 1000buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3533,7 +3537,7 @@ GameObject:
   - component: {fileID: 1442908996}
   - component: {fileID: 1442908995}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 200buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3775,7 +3779,7 @@ GameObject:
   - component: {fileID: 1555673409}
   - component: {fileID: 1555673408}
   m_Layer: 5
-  m_Name: Text(TMP)
+  m_Name: 100buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

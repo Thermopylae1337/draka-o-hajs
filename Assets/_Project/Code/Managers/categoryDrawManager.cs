@@ -1,6 +1,8 @@
+using NUnit.Framework;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using static Utils;
 
 public class CategoryDrawManager : NetworkBehaviour
 {
@@ -8,98 +10,70 @@ public class CategoryDrawManager : NetworkBehaviour
     private Wheel wheel;
     private TMP_Text categoryDisplayText;
     private TMP_Text roundDisplayText;
-    private readonly string[] categories = new string[]       // temp
-    {
-        "Czarna Skrzynka",
-        "Geografia",
-        "Historia",
-        "Sztuka i Literatura",
-        "Nauka i Technologia",
-        "Film i Telewizja",
-        "Muzyka",
-        "Sport",
-        "Kulinarne Przepisy",
-        "Wynalazki i Odkrycia",
-        "Mitologia",
-        "Języki i Idiomy",
-        "Zwierzęta",
-        "Miejsca i Zabytki",
-        "Trendy i Popkultura",
-        "Ciekawe Fakty",
-        "Legendy",
-        "Psychologia",
-        "Ekologia",
-        "Gry i Zagadki",
-        "Techniki Przetrwania",
-        "Podróże",
-        "Sztuki Walki",
-        "Gospodarka",
-        "Edukacja",
-        "Technologia",
-        "Motoryzacja",
-        "Fizyka",
-        "Chemia",
-        "Biologia",
-        "Astronomia"
-    };
+    private GameManager gameManager;
+    private CategoryList categoryList;
+    private float startTime;
+    private bool wheelSpinned;
 
     private void Start()
     {
+        wheelSpinned = false;
+        if (IsHost)
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            categoryList = CategoryList.Deserialize("Assets/_Project/Code/Models/questions450.json");
+        }
+
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
 
         wheel.OnWheelStopped += HandleWheelStopped;
+        startTime=Time.time;
     }
 
     private void HandleWheelStopped(int result)
     {
-        string category = categories[result];
-        categoryDisplayText.text = "Wylosowano: " + category;
-        if (categories[result] == "Czarna Skrzynka")
+        categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
+
+        if (categoryNames[result] == "Czarna skrzynka")
         {
-            // CzarnaSkrzynka()
+            gameManager.Category.Value = new Category("Czarna skrzynka",new System.Collections.Generic.List<Question>());
         }
-        else if (categories[result] == "Podpowiedź")
+        else if (categoryNames[result] == "Podpowiedź")
         {
-            // drużyna.podpowiedzi++ or sth;
+            gameManager.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
         }
         else
         {
             currentRound++;
             roundDisplayText.text = "Runda: " + currentRound;
+            if (IsHost)
+            {
+                gameManager.Category.Value = categoryList.FindCategory(categoryNames[result]);
+            }
             // WyświetlPytanie(category)
         }
 
-        _ = NetworkManager.Singleton.SceneManager.LoadScene("QuestionStage", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
-    private void AwardBiddingWinners(TeamManager team, string categoryName)
+    private void Update()
     {
-        if (categoryName.Equals("Czarna Skrzynka"))
-        {
-            team.BlackBoxes++;
-        }
-        else if (categoryName.Equals("Podpowiedz"))
-        {
-            team.Clues++;
-        }
-        else //wylosowano kategorie pytaniowa
-        {
-            //todo tutaj wywolac metode rozpoczynajaca etap pytania
+        if (!wheelSpinned&&IsHost&&Time.time-startTime>2) {
+            wheelSpinned = true;
+            CalculateAngle();
         }
     }
 
-    public void SpinWheel()
+    public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
+
+    [Rpc(SendTo.Everyone)]
+    void SpinWheelRpc(float angle)
     {
-        /* "Zawsze przed losowaniem musi byc sprawdzane, czy licznik ten jest większy od zera"
-         * ~w moim przypadku currentRound < ROUNDS_LIMIT
-         * imo to powinno by� sprawdzane przy po odpowiedzi na pytanie,
-         * zamiast �adowa� scene losowania tylko �eby zn�w �adowa� podsumowanie
-         */
         if (currentRound < Utils.ROUNDS_LIMIT)
         {
-            wheel.SpinWheelRpc(Random.Range(1000, 4000));
+            wheel.SpinWheel(angle);
         }
     }
 }

@@ -1,20 +1,21 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SummaryManager : MonoBehaviour
+public class SummaryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject panelPrefab;
     [SerializeField] private Transform grid;
 
     private void Start()
     {
-        //foreach (Team team in listOfTeams)
-        foreach (TeamManager team in new TeamManager[] { new(), new(), new() })     // temp
+        foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
+
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
-            panel.Initialize(team);
+            panel.Initialize(teamClient.PlayerObject.GetComponent<TeamManager>());
         }
     }
 
-    public void ChangeScene() => SceneManager.LoadScene("Lobby");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+    public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
 }
