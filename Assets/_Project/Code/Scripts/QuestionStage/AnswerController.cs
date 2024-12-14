@@ -1,3 +1,4 @@
+using Assets._Project.Code.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,11 @@ public class AnswerController : NetworkBehaviour
     public GameObject hintButtonsContainer;
     public Button useHintsButton;
 
+    public Image backgroundImage;
+    public Sprite artYellowTeamAnswering;
+    public Sprite artGreenTeamAnswering;
+    public Sprite artBlueTeamAnswering;
+
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
@@ -34,6 +40,7 @@ public class AnswerController : NetworkBehaviour
 
     private void Start()
     {
+        ShowBackgroundImage();
         totalBid.text = "Pula pytania: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
@@ -53,6 +60,24 @@ public class AnswerController : NetworkBehaviour
         feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
             ? "Jesteś graczem ktory wygrał licytacje"
             : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
+    }
+    private void ShowBackgroundImage()
+    {
+        TeamManager _answeringTeam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>();
+        ColourEnum _colour = _answeringTeam.Colour;
+
+        switch (_colour)
+        {
+            case ColourEnum.YELLOW:
+                backgroundImage.sprite = artYellowTeamAnswering;
+                break;
+            case ColourEnum.GREEN:
+                backgroundImage.sprite = artGreenTeamAnswering;
+                break;
+            case ColourEnum.BLUE:
+                backgroundImage.sprite = artBlueTeamAnswering;
+                break;
+        }
     }
 
     private IEnumerator StartCountdown()

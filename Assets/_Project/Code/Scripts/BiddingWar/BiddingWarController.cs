@@ -97,7 +97,7 @@ public class BiddingWarController : NetworkBehaviour
         {
             teamBalanceText[i].text = teams[i].Money.ToString();
             teamBidText[i].text = teams[i].Bid.ToString();
-            teamNamesText[i].text = teams[i].Colour;
+            teamNamesText[i].text = teams[i].Colour.ToString();
             i += 1;
         }
 

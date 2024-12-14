@@ -1,3 +1,4 @@
+using Assets._Project.Code.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,7 +43,7 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> bid = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private string colour;
+    private ColourEnum colour;
 
     //gettery i settery
     public void Awake()
@@ -71,9 +72,9 @@ public class TeamManager : NetworkBehaviour
         get => bid.Value;
         set => bid.Value = value;
     }
-    public string Colour
+    public ColourEnum Colour
     {
-        get => TeamName;
+        get => colour;
     }
 
     public int Clues
