@@ -1,0 +1,105 @@
+{
+    "nazwa": "Historia",
+    "pytania": [
+        {
+            "tresc": "Kto był pierwszym prezydentem Stanów Zjednoczonych?",
+            "poprawneOdpowiedzi": ["george washington"],
+            "podpowiedzi": ["George Washington", "Thomas Jefferson", "Abraham Lincoln", "Theodore Roosevelt"]
+        },
+        {
+            "tresc": "W którym roku zakończyła się II wojna światowa?",
+            "poprawneOdpowiedzi": ["1945"],
+            "podpowiedzi": ["1939", "1941", "1945", "1949"]
+        },
+        {
+            "tresc": "Kiedy upadło Cesarstwo Rzymskie?",
+            "poprawneOdpowiedzi": ["476"],
+            "podpowiedzi": ["476", "1066", "1453", "1492"]
+        },
+        {
+            "tresc": "Kto odkrył Amerykę?",
+            "poprawneOdpowiedzi": ["krzysztof kolumb", "kolumb"],
+            "podpowiedzi": ["Krzysztof Kolumb", "Vasco da Gama", "Ferdynand Magellan", "James Cook"]
+        },
+        {
+            "tresc": "W którym roku wybuchła Rewolucja Francuska?",
+            "poprawneOdpowiedzi": ["1789"],
+            "podpowiedzi": ["1776", "1789", "1804", "1815"]
+        },
+        {
+            "tresc": "Kto był królową Anglii w czasie II wojny światowej?",
+            "poprawneOdpowiedzi": ["elżbieta", "elzbieta"],
+            "podpowiedzi": ["Elżbieta", "Maria", "Anna", "Wiktoria"]
+        },
+        {
+            "tresc": "Jak nazywała się słynna bitwa, w której pokonano Napoleona?",
+            "poprawneOdpowiedzi": ["waterloo"],
+            "podpowiedzi": ["Waterloo", "Lipsk", "Austerlitz", "Borodino"]
+        },
+        {
+            "tresc": "Kto był przywódcą ZSRR podczas II wojny światowej?",
+            "poprawneOdpowiedzi": ["józef stalin", "stalin"],
+            "podpowiedzi": ["Józef Stalin", "Włodzimierz Lenin", "Nikita Chruszczow", "Leonid Breżniew"]
+        },
+        {
+            "tresc": "Kiedy miała miejsce bitwa pod Grunwaldem?",
+            "poprawneOdpowiedzi": ["1410"],
+            "podpowiedzi": ["1410", "1492", "1525", "1683"]
+        },
+        {
+            "tresc": "Kto był królem Francji podczas Rewolucji Francuskiej?",
+            "poprawneOdpowiedzi": ["ludwik xvi"],
+            "podpowiedzi": ["Ludwik XIV", "Ludwik XV", "Ludwik XVI", "Napoleon Bonaparte"]
+        },
+        {
+            "tresc": "Kiedy doszło do zamachu na Johna F. Kennedy'ego?",
+            "poprawneOdpowiedzi": ["1963"],
+            "podpowiedzi": ["1963", "1968", "1972", "1980"]
+        },
+        {
+            "tresc": "Która z wielkich cywilizacji zbudowała Machu Picchu?",
+            "poprawneOdpowiedzi": ["inkowie", "inka"],
+            "podpowiedzi": ["Aztekowie", "Majowie", "Inkowie", "Olmekowie"]
+        },
+        {
+            "tresc": "W którym roku zakończyła się zimna wojna?",
+            "poprawneOdpowiedzi": ["1991"],
+            "podpowiedzi": ["1989", "1990", "1991", "1992"]
+        },
+        {
+            "tresc": "Kto był pierwszym cesarzem Chin?",
+            "poprawneOdpowiedzi": ["qin shi huang", "qin"],
+            "podpowiedzi": ["Qin Shi Huang", "Sun Yat-sen", "Mao Zedong", "Confucius"]
+        },
+        {
+            "tresc": "Kiedy podpisano Konstytucję Stanów Zjednoczonych?",
+            "poprawneOdpowiedzi": ["1787"],
+            "podpowiedzi": ["1776", "1787", "1803", "1812"]
+        },
+        {
+            "tresc": "Kto był pierwszym kanclerzem zjednoczonych Niemiec?",
+            "poprawneOdpowiedzi": ["otto von bismarck", "bismarck"],
+            "podpowiedzi": ["Otto von Bismarck", "Fryderyk Wielki", "Helmut Kohl", "Angela Merkel"]
+        },
+        {
+            "tresc": "W którym roku miała miejsce wojna secesyjna?",
+            "poprawneOdpowiedzi": ["1861", "1865"],
+            "podpowiedzi": ["1861", "1865", "1871", "1914"]
+        },
+        {
+            "tresc": "Jakie imperium zbudowało Koloseum?",
+            "poprawneOdpowiedzi": ["rzym", "cesarstwo rzymskie"],
+            "podpowiedzi": ["Cesarstwo Rzymskie", "Egipt", "Mezopotamia", "Grecja"]
+        },
+        {
+            "tresc": "Kto był ostatnim królem Polski?",
+            "poprawneOdpowiedzi": ["stanisław august poniatowski", "poniatowski"],
+            "podpowiedzi": ["Zygmunt III Waza", "Jan III Sobieski", "Stanisław August Poniatowski", "August II Mocny"]
+        },
+        {
+            "tresc": "Jak nazywał się pierwszy człowiek, który poleciał w kosmos?",
+            "poprawneOdpowiedzi": ["jurij gagarin", "gagarin"],
+            "podpowiedzi": ["Jurij Gagarin", "Neil Armstrong", "Buzz Aldrin", "Alan Shepard"]
+        }
+    ]
+}

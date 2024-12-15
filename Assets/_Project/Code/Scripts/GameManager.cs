@@ -14,17 +14,13 @@ using System;
 public class GameManager : NetworkBehaviour
 {
     private static GameManager _instance;
-    public static GameManager Instance => _instance;
+    public GameManager Instance => _instance;
     public NetworkVariable<Question> Question { get; } = new();
     public NetworkVariable<Category> Category { get; } = new();
-    public NetworkVariable<ulong> Winner { get; } = new();
-    public NetworkVariable<int> CurrentBid { get; } = new();
 
     [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()
     {
-        CurrentBid.Value = 0;
-
         if (NetworkManager.Singleton.IsHost)
         {
             _ = NetworkManager.SceneManager.LoadScene("Wheel", LoadSceneMode.Single);

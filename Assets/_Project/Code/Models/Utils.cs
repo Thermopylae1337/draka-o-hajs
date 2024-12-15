@@ -30,37 +30,4 @@ public static class Utils
 
         return serializer.IsWriter ? JsonConvert.DeserializeObject<Dictionary<Y, Z>>(dictSerialized) : null;
     }
-
-    public static readonly string[] categoryNames = new string[]
-    {
-        "Czarna skrzynka",
-        "Anatomia i medycyna",
-        "Astronomia",
-        "Biologia",
-        "Chemia",
-        "Czasy współczesne",
-        "Film",
-        "Filozofia i religie",
-        "Fizyka",
-        "Geografia",
-        "Historia",
-        "Język polski",
-        "Kulinaria",
-        "Literatura",
-        "Matematyka",
-        "Podpowiedź",
-        "Motoryzacja",
-        "Muzyka klasyczna",
-        "Muzyka rozrywkowa",
-        "Piłka nożna",
-        "Polityka i gospodarka",
-        "Popkultura",
-        "Przysłowia i cytaty",
-        "Rozmaitości",
-        "Seriale",
-        "Sport",
-        "Sztuka",
-        "Technologie",
-        "Wędkarstwo",
-    };
 }

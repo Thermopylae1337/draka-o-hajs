@@ -1,0 +1,11 @@
+{
+    "entries": [
+        { "Name": "Team Alpha", "Score": 250 },
+        {"Name":"Team Beta", "Score": 300},
+        {"Name":"Team Omega ", "Score": 300},
+        {"Name":"Team Sigma", "Score": 500},
+        {"Name":"Team Gamma", "Score": 450},
+        {"Name":"Team Csad", "Score": 5700},
+        {"Name":"Team Gam23ma", "Score": 1000}
+    ]
+}

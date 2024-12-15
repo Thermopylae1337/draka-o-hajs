@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
 using TMPro;
@@ -13,7 +12,7 @@ using UnityEngine;
 public class TeamManager : NetworkBehaviour
 {
     [SerializeField]
-    private NetworkVariable<int> money = new(Utils.START_MONEY, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    private int money = Utils.START_MONEY;
 
     [SerializeField]
     private int clues = 0;
@@ -37,9 +36,9 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
 
     [SerializeField]
-    public string TeamName => teamName.Value.ToString();
+    private string TeamName => teamName.Value.ToString();
 
-    private NetworkVariable<int> bid = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    private int bid = 0;
 
     [SerializeField]
     private string colour;
@@ -52,28 +51,28 @@ public class TeamManager : NetworkBehaviour
 
     public int Money
     {
-        get => money.Value;
+        get => money;
         set
         {
             if (value < 0)
             {
                 Debug.LogWarning("Pieniądze zeszły poniżej zera, zeruje.");
-                money.Value = 0;
+                money = 0;
                 return;
             }
 
-            money.Value = value;
+            money = value;
         }
     }
 
     public int Bid
     {
-        get => bid.Value;
-        set => bid.Value = value;
+        get => bid;
+        set => bid = value;
     }
     public string Colour
     {
-        get => TeamName;
+        get => colour;
     }
 
     public int Clues
@@ -142,16 +141,16 @@ public class TeamManager : NetworkBehaviour
     }
     public void RaiseBid(int amount)
     {
-        if (money.Value >= amount)
+        if (money > amount)
         {
-            money.Value -= amount;
-            bid.Value += amount;
+            money -= amount;
+            bid += amount;
         }
     }
     public void ResetBid()
     {
         //dodałem funkcję reset bid żeby można było np zrobić odznakę "zakończ licytację z jakąśtam kwotą na końcu"
-        bid.Value = 0;
+        bid = 0;
     }
     public void Serialize(string path)
     {
