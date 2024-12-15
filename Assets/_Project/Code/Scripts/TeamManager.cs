@@ -75,6 +75,7 @@ public class TeamManager : NetworkBehaviour
     public ColourEnum Colour
     {
         get => colour;
+        set => colour = value;
     }
 
     public int Clues

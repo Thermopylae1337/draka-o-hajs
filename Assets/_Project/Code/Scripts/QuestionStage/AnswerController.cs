@@ -63,7 +63,7 @@ public class AnswerController : NetworkBehaviour
     }
     private void ShowBackgroundImage()
     {
-        TeamManager _answeringTeam = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>();
+        TeamManager _answeringTeam = NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>();
         ColourEnum _colour = _answeringTeam.Colour;
 
         switch (_colour)
