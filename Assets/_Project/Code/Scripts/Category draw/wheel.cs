@@ -2,22 +2,54 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using static Utils;
 
 public class Wheel : MonoBehaviour
 {
     private float delta, angleStep, angleStepRad;
 
     [SerializeField] private bool spinning = false;
-    private readonly int numberOfSegments = 29;       // Ilosc segmentow kola
+    [SerializeField] private float velocity = 0f;
+    [SerializeField] private readonly int numberOfSegments = 31;       // Ilo�� segment�w ko�a
 
     [SerializeField] private GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
     public delegate void WheelStoppedHandler(int wynik);
     public event WheelStoppedHandler OnWheelStopped;
 
-    private float targetAngle;
-    private float angle = 0.0f;
+    private readonly string[] categories = new string[]       // temp
+    {
+        "Czarna Skrzynka",
+        "Geografia",
+        "Historia",
+        "Sztuka i Literatura",
+        "Nauka i Technologia",
+        "Film i Telewizja",
+        "Muzyka",
+        "Sport",
+        "Kulinarne Przepisy",
+        "Wynalazki i Odkrycia",
+        "Mitologia",
+        "Języki i Idiomy",
+        "Zwierz�ta",
+        "Miejsca i Zabytki",
+        "Trendy i Popkultura",
+        "Ciekawe Fakty",
+        "Legendy",
+        "Psychologia",
+        "Ekologia",
+        "Gry i Zagadki",
+        "Techniki Przetrwania",
+        "Podróże",
+        "Sztuki Walki",
+        "Gospodarka",
+        "Edukacja",
+        "Technologia",
+        "Motoryzacja",
+        "Fizyka",
+        "Chemia",
+        "Biologia",
+        "Astronomia"
+    };
 
     private void Start()
     {
@@ -33,34 +65,38 @@ public class Wheel : MonoBehaviour
 
         if (spinning)
         {
-            angle = Mathf.Lerp(angle, targetAngle, 1 * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            velocity = Mathf.Lerp(velocity, -50, delta / 2);             // Wytracanie  pr�sko�ci
+            transform.Rotate(new Vector3(0, 0, -velocity) * delta);
 
-            if (Mathf.Abs(angle - targetAngle) < 0.1f)
+            if (velocity < 0.5f)
             {
+                // Zatrzymanie ko�a
+                velocity = 0.0f;
                 spinning = false;
 
                 // Indeks wylosowanej kategorii
-                float correctedAngle = targetAngle + ( angleStep * 0.5f );
+                float correctedAngle = transform.transform.eulerAngles.z + ( angleStep * 0.5f );
                 int wynik = (int)( Mathf.Round(correctedAngle / angleStep) % numberOfSegments ) - 1;
-                if (wynik < 0) { 
+                if (wynik < 0)
+                {
                     wynik = numberOfSegments - 1;    // dla ostatniej kategorii wynik = 0 - 1
                 }
 
                 Debug.Log(wynik.ToString());
-                Debug.Log("Kategoria: " + categoryNames[wynik]);
+                Debug.Log("Kategoria: " + categories[wynik]);
 
                 OnWheelStopped?.Invoke(wynik);
             }
         }
     }
 
-    public void SpinWheel(float angle)
+    [Rpc(SendTo.NotMe)]
+    public void SpinWheelRpc(int velocity)
     {
         if (!spinning)
         {
             spinning = true;
-            targetAngle = angle+this.angle;
+            this.velocity = velocity;
         }
     }
 
@@ -77,33 +113,30 @@ public class Wheel : MonoBehaviour
             Image segmentImage = segment.GetComponent<Image>();
             segmentImage.fillAmount = 1f / numberOfSegments; // Rozmiar wycinka
 
-            if (i % 2 == 0)
-            {
-                segmentImage.color = new Color(48f / 255f, 152f / 255f, 223f / 255f, 1f);
-            }
+            // Kolor segmentu na podstawie warto�ci hue
+            float hue = (float)i / numberOfSegments;
+            Color segmentColor = Color.HSVToRGB(hue, 0.8f, 1f);
+            segmentImage.color = segmentColor;
 
             // Obr�t tekstu na wycinku
             TextMeshProUGUI textComponent = segment.GetComponentInChildren<TextMeshProUGUI>(); // Pobranie komponentu tekstowego
             textComponent.rectTransform.localRotation = Quaternion.Euler(0, 0, ( -angleStep * 0.5f ) - 90f);
 
             // Pozycja tekstu na wycinku
-            float d = 4 * 36 * Mathf.Sin(angleStepRad / 2) / ( 3 * angleStepRad );    // odległość środka koła
+            float d = 4 * 50 * Mathf.Sin(angleStepRad / 2) / ( 3 * angleStepRad );    // odległość środka koła
             // Ewentualnie d = r / 2 -> lepiej wykorzystuje miejsce
             float x = -d * Mathf.Sin(angleStepRad * 0.5f);
             float y = -d * Mathf.Cos(angleStepRad * 0.5f);
             textComponent.rectTransform.localPosition = new Vector2(x, y);
 
-            if (categoryNames[i] == "Czarna skrzynka")
+            // Czarna kategoria czarnej skrzynki
+            if (categories[i] == "Czarna Skrzynka")
             {
+                //textComponent.color = Color.white;    //to jeżeli napisy będą domy�lnie czarne
                 segmentImage.color = Color.black;
-                textComponent.color = Color.white;
-            }
-            else if (categoryNames[i] == "Podpowiedź")
-            {
-                segmentImage.color = new Color(1f, 231f / 255f, 13f / 255f, 1f);  //yellow
             }
 
-            textComponent.text = categoryNames[i];
+            textComponent.text = categories[i];
             textComponent.text += i;
         }
     }

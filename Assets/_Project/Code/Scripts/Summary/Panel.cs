@@ -23,16 +23,18 @@ public class Panel : MonoBehaviour
 
     public void Initialize(TeamManager team)
     {
-        string teamName = team.TeamName;
+        /*
+        string teamName = team.name;
         int money = team.Money;
-        //float goodAnswers = team.goodAnswers;
-        //float wrongAnswers = team.wrongAnswers;
-        //float questions = team.goodAnswers + team.wrongAnswers;
-        //int cluesUsed = team.CluesUsed;
+        float goodAnswers = team.goodAnswers;
+        float wrongAnswers = team.wrongAnswers;
+        float questions = team.goodAnswers + team.wrongAnswers;
+        int cluesUsed = team.CluesUsed;
+        */
 
         //temp
-        //string teamName = "Test init team";
-        //int money = 100000;
+        string teamName = "Test init team";
+        int money = 100000;
         float goodAnswers = 3;
         float wrongAnswers = 6;
         float questions = goodAnswers + wrongAnswers;
