@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: df4ef01da1e94694db8639317a4a0037
+guid: 204d8542ec7a03c4b84f9a4511c96e91
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6014977648533951386
-    second: OdpowiedzZieloni_0
+      213: 2395158100669332950
+    second: pointer_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: OdpowiedzZieloni_0
+      name: pointer_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 231
+        height: 262
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 66c283782b1868ca0800000000000000
-      internalID: -6014977648533951386
+      spriteID: 6dd7b4b3a9f4d3120800000000000000
+      internalID: 2395158100669332950
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      OdpowiedzZieloni_0: -6014977648533951386
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -69,7 +69,7 @@ public class CategoryDrawManager : NetworkBehaviour
         }
     }
 
-    public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
+    public void CalculateAngle() => SpinWheelRpc(Random.Range(720, 1440));
 
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)
