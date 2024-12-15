@@ -1,4 +1,26 @@
 {
+    "cSpell.ignorePaths": [
+        "packages-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/{info,lfs,logs,refs,objects}/**",
+        ".git/{index,*refs,*HEAD}",
+        ".vscode",
+        ".vscode-insiders",
+        ".gitignore",
+        "manifest.json",
+        "*.txt",
+        "*.asset",
+        "*.prefab",
+        "*.unity"
+    ],
+    "cSpell.spellCheckOnlyWorkspaceFiles": true,
+    "cSpell.words": [
+        "Netcode",
+        "Newtonsoft",
+        "publiccamel",
+        "UGUI"
+    ],
     "dotnet.defaultSolution": "draka-o-hajs.sln",
     "files.exclude": {
         "**/*.3DS": true,
