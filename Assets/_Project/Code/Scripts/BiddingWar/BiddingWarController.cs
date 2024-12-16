@@ -1,3 +1,4 @@
+using Assets._Project.Code.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,8 @@ public class BiddingWarController : NetworkBehaviour
         {
             teamBalanceText[i].text = teams[i].Money.ToString();
             teamBidText[i].text = teams[i].Bid.ToString();
-            teamNamesText[i].text = teams[i].Colour.ToString();
+            teamNamesText[i].text = teams[i].TeamName.ToString();
+            teamNamesText[i].color = ColorHelper.ToUnityColor(teams[i].Colour);
             i += 1;
         }
 
@@ -262,7 +264,8 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         gameOngoing = false;
-        timerText.text = "Wygrywa drużyna " + teams[team_id].Colour;
+        timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
+        timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
         if (IsServer)
         {
