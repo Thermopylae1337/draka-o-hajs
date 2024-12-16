@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class BiddingWarController : NetworkBehaviour
 {
@@ -38,6 +39,9 @@ public class BiddingWarController : NetworkBehaviour
     public delegate void My_Timer_Delegate(int )
     */
     private uint _teamsInGame;
+
+    public GameObject uderzenieImage;
+    public VideoPlayer uderzenieVideoPlayer;
 
     public class Timer
     {
@@ -267,6 +271,8 @@ public class BiddingWarController : NetworkBehaviour
         timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
         timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
+        ShowVideo();
+
         if (IsServer)
         {
             GameManager.Instance.Winner.Value = (uint)team_id;
@@ -329,5 +335,11 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         return _teamsInGame >= 2;
+    }
+    private void ShowVideo()
+    {
+        _ = new WaitForSeconds(0.5f);
+        uderzenieImage.SetActive(true);
+        uderzenieVideoPlayer.Play();
     }
 }
