@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b7e37e6344c804da0cc39605a47d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BadgesSprites:
+  badgesSprites:
   - {fileID: -855298285791758126, guid: c0b45c55a341d4e4d9c5a3e63950fcda, type: 3}
   - {fileID: 6937817954938267909, guid: 06d5414b336693a43a9f9fc97114d69c, type: 3}
   - {fileID: -6470460504253458178, guid: bbb2f0c25ccacbd43adfeff7db794a13, type: 3}
