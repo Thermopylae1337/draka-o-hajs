@@ -26,7 +26,7 @@ public class TeamManager : NetworkBehaviour
     private int blackBoxes = 0;
 
     [SerializeField]
-    private int inactiveRounds = 0; //licznik rund bierności w licytacji
+    private NetworkVariable<int> inactiveRounds =new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
     [SerializeField]
     private List<string> powerUps = new(); //deprecated?
@@ -44,6 +44,15 @@ public class TeamManager : NetworkBehaviour
 
     [SerializeField]
     private ColourEnum colour;
+
+    [SerializeField]
+    private NetworkVariable<bool> inGame=new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    public bool InGame
+    {
+        get => inGame.Value;
+        set => inGame.Value = value;
+    }
 
     //gettery i settery
     public void Awake()
@@ -120,7 +129,7 @@ public class TeamManager : NetworkBehaviour
     }
     public int InactiveRounds
     {
-        get => inactiveRounds;
+        get => inactiveRounds.Value;
         set
         {
             if (value < 0)
@@ -128,7 +137,7 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Rundy bierności w licytacji nie mogą być na minusie.");
             }
 
-            inactiveRounds = value;
+            inactiveRounds.Value = value;
         }
     }
     public int TotalMoney { get; set; }
