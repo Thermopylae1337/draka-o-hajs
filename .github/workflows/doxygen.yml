@@ -9,13 +9,18 @@ on:
 
 jobs:
   upload-documentation:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
         
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        
+      - name: Debug Paths
+        run: |
+          ls -la ./Docs
+          cat ./Docs/Doxyfile
 
       - name: Create documentation
         uses: mattnotmitt/doxygen-action@v1.9.5
