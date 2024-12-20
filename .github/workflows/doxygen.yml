@@ -20,11 +20,11 @@ jobs:
       - name: Create documentation
         uses: mattnotmitt/doxygen-action@v1.9.5
         with:
-          working-directory: '.draka-o-hajs/Docs'
-          doxyfile-path: '.draka-o-hajs/Docs/Doxyfile'
+          working-directory: './Docs'
+          doxyfile-path: './Docs/Doxyfile'
 
       - name: Deploy to GH Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./Docs/html
+          publish_dir: './Docs/html'
