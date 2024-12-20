@@ -18,6 +18,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
+        
+      - name: Debug Paths
+        run: |
+          ls -la /home/runner/work/draka-o-hajs/draka-o-hajs/Assets
 
       - name: Create documentation
         uses: mattnotmitt/doxygen-action@v1.9.5
