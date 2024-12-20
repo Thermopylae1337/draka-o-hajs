@@ -1,0 +1,48 @@
+name: Build and release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request: # Only for debug purposes
+    branches: [ "main" ]
+
+jobs:
+  Build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      - name: Build project
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build
+          path: build
+          
+      - name: Create Release
+        run: gh release create ${{ github.ref }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
