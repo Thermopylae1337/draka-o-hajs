@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: ["main"]
-  pull_request: # For testing purposes only, delete before pushing to main
-    branches: [ "main" ]
 
 jobs:
   Upload-documentation:
