@@ -1,10 +1,11 @@
 name: Build and release
 
 on:
-  workflow_dispatch:
   push:
     branches: ["main"]
   pull_request: # Only for debug purposes
+    tags:
+      - 'v*'
     branches: [ "main" ]
 
 jobs:
