@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: e160aff2493c1bf4f97ca3c09aacc0e7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - leaderboardPrefab: {fileID: 1421663229479550536, guid: a4c37aa3faa3d2b4b9aa21cdaf4f8241, type: 3}
+  - contentParent: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
