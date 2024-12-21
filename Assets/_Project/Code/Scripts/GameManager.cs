@@ -19,6 +19,7 @@ public class GameManager : NetworkBehaviour
     public NetworkVariable<Category> Category { get; } = new();
     public NetworkVariable<ulong> Winner { get; } = new();
     public NetworkVariable<int> CurrentBid { get; } = new();
+    public NetworkVariable<int> startingTeamCount { get; } = new();
 
     [Rpc(SendTo.ClientsAndHost)]
     public void StartGameRpc()

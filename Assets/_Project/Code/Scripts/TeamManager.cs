@@ -47,7 +47,23 @@ public class TeamManager : NetworkBehaviour
 
     [SerializeField]
     private NetworkVariable<bool> inGame=new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [SerializeField]
+    private NetworkVariable<uint> teamId = new(0, writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
 
+    [SerializeField]
+    private NetworkVariable<uint> networkId = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    public uint NetworkId
+    {
+        get => networkId.Value;
+        set => networkId.Value = value;
+    }
+
+    public uint TeamId
+    {
+        get => teamId.Value;
+        set => teamId.Value = value;
+    }
     public bool InGame
     {
         get => inGame.Value;

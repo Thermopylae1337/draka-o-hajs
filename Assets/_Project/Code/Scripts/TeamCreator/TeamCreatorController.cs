@@ -77,11 +77,22 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
     }
     void RemoveClientHandlers()
     {
-        spinner.SetActive(false);
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (spinner != null) {
+            spinner.SetActive(false);
+        };
         NetworkManager.Singleton.OnClientConnectedCallback -= HandleSuccessClient;
         NetworkManager.Singleton.OnClientDisconnectCallback -= HandleErrorClient;
-        inputField.interactable = true;
-        tMP_InputField.interactable = true;
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (inputField != null)
+        {
+            inputField.interactable = true;
+        }
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (tMP_InputField != null)
+        {
+            tMP_InputField.interactable = true;
+        }
     }
 
     private void StartGame()
@@ -91,7 +102,7 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
             case LobbyTypeEnum.Host:
                 _ = NetworkManager.StartHost();
                 NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
-                _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+                _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single); 
                 break;
             case LobbyTypeEnum.Join:
                 NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipField.GetComponentInChildren<TMP_InputField>().text;
