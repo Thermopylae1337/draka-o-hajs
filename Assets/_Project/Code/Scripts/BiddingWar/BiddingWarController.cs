@@ -37,6 +37,7 @@ public class BiddingWarController : NetworkBehaviour
     //wartość przycisku= wartość o jaką drużyna *przebija stawkę*
     //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej.
     public List<Button> bidButtons;
+    public List<Button> lockOutButtons;
     public Button vbButton;
     public Button exitButton;
     /*
@@ -175,7 +176,7 @@ public class BiddingWarController : NetworkBehaviour
             {
                 t.RaiseBid(500);
             }
-
+            SetupLockOutButtons(t);
             totalBid += 500;
             UpdateMoneyStatusForTeam((int)t.TeamId); 
         } 
@@ -184,6 +185,17 @@ public class BiddingWarController : NetworkBehaviour
         hasSetUp = true;
         gameOngoing = true;
     }
+    public void SetupLockOutButtons(TeamManager team)
+    {
+        if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame)
+        {
+            lockOutButtons[(int)team.Colour].enabled = true;
+            lockOutButtons[(int)team.Colour].image.enabled = true;
+            lockOutButtons[(int)team.Colour].GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+            lockOutButtons[(int)team.Colour].onClick.AddListener(delegate { LockOutBid((int)team.TeamId); });
+        }
+    }
+    
     #endregion setup_functions
     #region updates
     public void UpdateMoneyStatusForTeam(int i)
@@ -235,6 +247,11 @@ public class BiddingWarController : NetworkBehaviour
     }
     #endregion updates
     #region bidding_functions
+    public void LockOutBid(int locked_out_team)
+    {
+        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid-teams[(int) localTeamId].Bid;
+        Bid(amount);
+    }
     public void VaBanque()
     {
         int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
@@ -328,8 +345,11 @@ public class BiddingWarController : NetworkBehaviour
 
         if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
         {
-            GameManager.Instance.CurrentBid.Value = 0;
-            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
+            if (IsHost)
+            {
+                GameManager.Instance.CurrentBid.Value = 0;
+            }
+                //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
             if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
             {
                 teams[team_id].BlackBoxes += 1;
