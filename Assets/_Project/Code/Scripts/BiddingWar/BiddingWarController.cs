@@ -62,16 +62,14 @@ public class BiddingWarController : NetworkBehaviour
     {
         if (IsHost)
         {
-
-
             EndLobbyRpc();
             NetworkManager.Singleton.Shutdown();
-            
+
         }
         else
         {
             DisconnectPlayerRpc(NetworkManager.Singleton.LocalClientId);
-        } 
+        }
 
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
@@ -92,28 +90,30 @@ public class BiddingWarController : NetworkBehaviour
     #region setup_functions
     void Start()
     {
-       
+
         teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         localTeamId = (uint)NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().Colour;
-         
+
         if (teams.Count < GameManager.Instance.startingTeamCount.Value)
         {
 
             //drugi gracz będzie pierwszzy na liście, jeżeli nie ma gracza pierwszego (a więc drugi gracz jest pierwszy na liście)
-            if (localTeamId == 1 && NetworkManager.Singleton.ConnectedClients[0].ClientId!=NetworkManager.Singleton.LocalClientId) { localTeamId = 0; }
+            if (localTeamId == 1 && NetworkManager.Singleton.ConnectedClients[0].ClientId != NetworkManager.Singleton.LocalClientId) { localTeamId = 0; }
             //wyjaśnienie: jeżeli jest mniej graczy niż było na początku, to trzeci gracz zawsze znajdzie się drugi na liście
-            if (localTeamId == 2){
+            if (localTeamId == 2)
+            {
                 localTeamId = 1;
             }
-        } 
-        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().TeamId = localTeamId; 
+        }
+
+        NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().TeamId = localTeamId;
 
         if (teams.Count < 4)
         {
             totalBidText.transform.position = teamBalanceText[GameManager.Instance.startingTeamCount.Value].transform.position;
         }
-        
+
         int i = GameManager.Instance.startingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
@@ -143,18 +143,17 @@ public class BiddingWarController : NetworkBehaviour
 
     void Setup()
     {
-        totalBid= GameManager.Instance.CurrentBid.Value;
+        totalBid = GameManager.Instance.CurrentBid.Value;
         totalBidText.text = totalBid.ToString();
-        
-         
-        foreach( TeamManager team in teams)
+        foreach (TeamManager team in teams)
         {
-            
+
             teamBalanceText[(int)team.Colour].text = team.Money.ToString();
             teamBidText[(int)team.Colour].text = team.Bid.ToString();
             teamNamesText[(int)team.Colour].text = team.TeamName.ToString();
             teamNamesText[(int)team.Colour].color = ColorHelper.ToUnityColor(team.Colour);
         }
+
         int i = GameManager.Instance.startingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
@@ -163,25 +162,27 @@ public class BiddingWarController : NetworkBehaviour
             Destroy(teamBalanceText[i]);
             i += 1;
         }
-         
+
         ResetTimer();
     }
 
     [Rpc(SendTo.Everyone)]
     void SetupStage2Rpc()
     {
-        foreach( TeamManager t in teams)
+        foreach (TeamManager t in teams)
         {
-            if(IsHost && t.InGame)
+            if (IsHost && t.InGame)
             {
                 t.RaiseBid(500);
             }
+
             SetupLockOutButtons(t);
             totalBid += 500;
-            UpdateMoneyStatusForTeam((int)t.TeamId); 
-        } 
+            UpdateMoneyStatusForTeam((int)t.TeamId);
+        }
+
         totalBidText.text = totalBid.ToString();
-        winningBidAmount = 500; 
+        winningBidAmount = 500;
         hasSetUp = true;
         gameOngoing = true;
     }
@@ -195,7 +196,7 @@ public class BiddingWarController : NetworkBehaviour
             lockOutButtons[(int)team.Colour].onClick.AddListener(delegate { LockOutBid((int)team.TeamId); });
         }
     }
-    
+
     #endregion setup_functions
     #region updates
     public void UpdateMoneyStatusForTeam(int i)
@@ -206,11 +207,11 @@ public class BiddingWarController : NetworkBehaviour
 
     public void UpdateMoneyStatus()
     {
-        int i = 0;
-        foreach(TeamManager t in teams) { 
+        foreach (TeamManager t in teams)
+        {
             UpdateMoneyStatusForTeam((int)t.TeamId);
-            
         }
+
         UpdateButtons();
         totalBidText.text = totalBid.ToString();
     }
@@ -249,7 +250,7 @@ public class BiddingWarController : NetworkBehaviour
     #region bidding_functions
     public void LockOutBid(int locked_out_team)
     {
-        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid-teams[(int) localTeamId].Bid;
+        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid;
         Bid(amount);
     }
     public void VaBanque()
@@ -272,7 +273,7 @@ public class BiddingWarController : NetworkBehaviour
         int team_id = (int)teamid;
         int difference = winningBidAmount + amount - teams[team_id].Bid;
         //                                                                                                                    Z powodu wprowadzenia lekkiego opóźnienia, trzeba też sprawdzać czy ktoś o mniejszej liczbie pieniędzy nie zrobił va banque, ten sposób wydaje się rozwiązywać problem
-        if ( teams[team_id].Money >= difference && (teams[team_id].Bid != winningBidAmount  ||  winningBidAmount == 500 ) && !(teams[winningTeamID].Money==0 && teams[winningTeamID].Bid!=0 ))
+        if (teams[team_id].Money >= difference && ( teams[team_id].Bid != winningBidAmount || winningBidAmount == 500 ) && !( teams[winningTeamID].Money == 0 && teams[winningTeamID].Bid != 0 ))
         {
             winningBidAmount += amount;
             teams[team_id].RaiseBid(difference);
@@ -295,7 +296,6 @@ public class BiddingWarController : NetworkBehaviour
         timer = Time.time;
     }
 
-  
     void Sell(int team_id)
     {
         timer = 0;
@@ -313,23 +313,20 @@ public class BiddingWarController : NetworkBehaviour
 
         ShowVideo();
 
-        List<int> teams_warned= CheckForInactivity();
-        if (teams_warned.Count > 0) {
-            StartCoroutine( PunishInactivity(teams_warned,3));
-            scene_change_delay = 16;
+        List<int> teams_warned = CheckForInactivity();
+        if (teams_warned.Count > 0)
+        {
+            _ = StartCoroutine(PunishInactivity(teams_warned, 3));
             //jeżeli warnujemy/karzemy drużyny to potrzebują one dodatkowego czasu żeby to wszystko przeczytać
+            scene_change_delay = 16;
+        }
 
-
-                }
         List<int> losers = CheckForLosers(team_id);
-        if (losers.Count>=0)
+        if (losers.Count >= 0)
         {
             if (scene_change_delay == 16) { scene_change_delay = 23; }
         }
-       //yield return new WaitForSeconds(10f);
-          
-        
-        Debug.Log("post post post");
+
         if (IsHost)
         {
             foreach (TeamManager team in teams)
@@ -349,7 +346,7 @@ public class BiddingWarController : NetworkBehaviour
             {
                 GameManager.Instance.CurrentBid.Value = 0;
             }
-                //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
+            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
             if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
             {
                 teams[team_id].BlackBoxes += 1;
@@ -361,11 +358,11 @@ public class BiddingWarController : NetworkBehaviour
 
             if (IsContinuingGamePossible())
             {
-                StartCoroutine(OpenSceneWithDelay("CategoryDraw",scene_change_delay));
+                _ = StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay));
             }
             else
             {
-                StartCoroutine(OpenSceneWithDelay("Summary",scene_change_delay));
+                _ = StartCoroutine(OpenSceneWithDelay("Summary", scene_change_delay));
             }
         }
         else
@@ -375,9 +372,8 @@ public class BiddingWarController : NetworkBehaviour
                 PassCurrentBidServerRpc(totalBid);
             }
 
-            StartCoroutine(OpenSceneWithDelay("QuestionStage",scene_change_delay));
+            _ = StartCoroutine(OpenSceneWithDelay("QuestionStage", scene_change_delay));
         }
-         
     }
     void Update()
     {
@@ -406,7 +402,7 @@ public class BiddingWarController : NetworkBehaviour
     private IEnumerator OpenSceneWithDelay(string name, int delay)
     {
         yield return new WaitForSeconds(delay);
-        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
+        _ = NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -415,18 +411,17 @@ public class BiddingWarController : NetworkBehaviour
         GameManager.Instance.CurrentBid.Value = currentBid;
     }
 
-
     #region loss_handling
     //IEnumerator
     public List<int> CheckForLosers(int winner_id)
     {
         List<int> losers = new();
-        foreach (TeamManager team in teams )
+        foreach (TeamManager team in teams)
         {
             if (team.InGame)
             {
                 //jeżeli drużyna kończy z <600zł oraz [nie wygrała pytania, lub kategoria nie da jej pieniędzy] to kończy grę (jeżeli się w niej znajduje
-                if (( ( team.Money < 600 ) && ( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) ))
+                if ( team.Money < 600  && ( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) )
                 {
                     losers.Add((int)team.TeamId);
                     if (IsHost)
@@ -435,8 +430,8 @@ public class BiddingWarController : NetworkBehaviour
                     }
                 }
             }
-
         }
+
         return losers;
     }
 
@@ -452,14 +447,15 @@ public class BiddingWarController : NetworkBehaviour
             {
                 if (IsHost)
                 { team.InactiveRounds += 1; }
-                teams_warned.Add((int)team.TeamId); 
+
+                teams_warned.Add((int)team.TeamId);
             }
         }
 
-            return teams_warned;
+        return teams_warned;
     }
 
-    private IEnumerator PunishInactivity(List<int> teams_warned, float delay )
+    private IEnumerator PunishInactivity(List<int> teams_warned, float delay)
     {
         yield return new WaitForSeconds(delay);
         List<int> teams_punished = new();
@@ -472,6 +468,7 @@ public class BiddingWarController : NetworkBehaviour
                 {
                     teams[i].Money -= 500 * teams[i].InactiveRounds;
                 }
+
                 teams_punished.Add(i);
             }
         }
@@ -480,6 +477,7 @@ public class BiddingWarController : NetworkBehaviour
         {
             warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_warned[0]].name + " </color> nie licytowała w tej rundzie! ";
         }
+
         if (teams_warned.Count > 1)
         {
             warningText.text = "Drużyny ";
@@ -487,6 +485,7 @@ public class BiddingWarController : NetworkBehaviour
             {
                 warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
             }
+
             warningText.text += " nie licytowały w tej rundzie! ";
         }
         //karamy
@@ -494,6 +493,7 @@ public class BiddingWarController : NetworkBehaviour
         {
             warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].name + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
         }
+
         if (teams_punished.Count > 1)
         {
             warningText.text = "Drużyny ";
@@ -501,6 +501,7 @@ public class BiddingWarController : NetworkBehaviour
             {
                 warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
             }
+
             warningText.text += " \n zostały ukarane, 500zł za każdą pasywną rundę! ";
         }
     }
@@ -513,7 +514,7 @@ public class BiddingWarController : NetworkBehaviour
         foreach (TeamManager team in teams)
         {
             //tu było >=500 ale drużyna z 500zł nie może przebić stawki więc przegrywa,
-            if (team.Money >500)
+            if (team.Money > 500)
             {
                 _teamsInGame++;
             }
