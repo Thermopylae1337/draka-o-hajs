@@ -177,9 +177,7 @@ public class BiddingWarController : NetworkBehaviour
             }
 
             totalBid += 500;
-            UpdateMoneyStatusForTeam((int)t.TeamId);
-            warningText.text += t.Colour.ToString();
-            punishmentText.text += t.TeamId.ToString();
+            UpdateMoneyStatusForTeam((int)t.TeamId); 
         } 
         totalBidText.text = totalBid.ToString();
         winningBidAmount = 500; 
@@ -256,18 +254,23 @@ public class BiddingWarController : NetworkBehaviour
     {
         int team_id = (int)teamid;
         int difference = winningBidAmount + amount - teams[team_id].Bid;
-        if (( teams[team_id].Money >= difference && teams[team_id].Bid != winningBidAmount ) || ( teams[team_id].Money >= difference && winningBidAmount == 500 ))
+        //                                                                                                                    Z powodu wprowadzenia lekkiego opóźnienia, trzeba też sprawdzać czy ktoś o mniejszej liczbie pieniędzy nie zrobił va banque, ten sposób wydaje się rozwiązywać problem
+        if ( teams[team_id].Money >= difference && (teams[team_id].Bid != winningBidAmount  ||  winningBidAmount == 500 ) && !(teams[winningTeamID].Money==0 && teams[winningTeamID].Bid!=0 ))
         {
             winningBidAmount += amount;
             teams[team_id].RaiseBid(difference);
             UpdateBidsRpc(difference, winningBidAmount, team_id);
             if (teams[team_id].Money == 0)
             {
-                Sell(team_id);
+                //przy niewywoływaniu Sell() wszystko było ok, tak samo jest teraz przy wprowadzeniu lekkiego, praktycznie niezauważalnego opóźnienia
+                //zgaduję że NetworkVariable team.bid nie jest updatowany dostatecznie szybko i przez to updatebids rpc nie updatowało?
+                //wydaje się to być dziwne ale takie zachowanie było tylko wtedy gdy to host va banqueował więc wydaje mi się być prawdopodobne 
+                //note: 0.001f jest już za krótkim czasem
+                timer = Time.time - timeGiven + 0.01f;
+                //Sell(team_id);
             }
         }
     }
-
     #endregion bidding_functions
 
     public void ResetTimer()
@@ -389,7 +392,7 @@ public class BiddingWarController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PassCurrentBidServerRpc(int currentBid)
     {
-        GameManager.Instance.CurrentBid.Value += currentBid;
+        GameManager.Instance.CurrentBid.Value = currentBid;
     }
 
 

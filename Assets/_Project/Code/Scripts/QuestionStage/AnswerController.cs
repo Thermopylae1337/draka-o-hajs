@@ -144,6 +144,11 @@ public class AnswerController : NetworkBehaviour
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
                 $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
                 currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
+            if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
+            {
+                //dodane po to, żeby nie sprawdzać na początku każdej rundy licytacji kto ma <600zł
+                _teams[(int)GameManager.Instance.Winner.Value].InGame = false;
+            }
         }
     }
 
