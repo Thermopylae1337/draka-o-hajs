@@ -171,13 +171,16 @@ public class BiddingWarController : NetworkBehaviour
     {
         foreach (TeamManager t in teams)
         {
-            if (IsHost && t.InGame)
+            if (t.InGame)
             {
-                t.RaiseBid(500);
+                SetupLockOutButtons(t);
+                totalBid += 500;
+                if (IsHost)
+                {
+                    t.RaiseBid(500);
+                }
             }
-
-            SetupLockOutButtons(t);
-            totalBid += 500;
+           
             UpdateMoneyStatusForTeam((int)t.TeamId);
         }
 
@@ -284,7 +287,7 @@ public class BiddingWarController : NetworkBehaviour
                 //zgaduję że NetworkVariable team.bid nie jest updatowany dostatecznie szybko i przez to updatebids rpc nie updatowało?
                 //wydaje się to być dziwne ale takie zachowanie było tylko wtedy gdy to host va banqueował więc wydaje mi się być prawdopodobne 
                 //note: 0.001f jest już za krótkim czasem
-                timer = Time.time - timeGiven + 0.01f;
+                timer = Time.time - timeGiven + 0.06f;
                 //Sell(team_id);
             }
         }
@@ -367,12 +370,12 @@ public class BiddingWarController : NetworkBehaviour
         }
         else
         {
-            if (IsHost)
-            {
-                PassCurrentBidServerRpc(totalBid);
-            }
-
             _ = StartCoroutine(OpenSceneWithDelay("QuestionStage", scene_change_delay));
+        }
+
+        if (IsHost)
+        {
+            PassCurrentBidServerRpc(totalBid);
         }
     }
     void Update()
@@ -421,7 +424,7 @@ public class BiddingWarController : NetworkBehaviour
             if (team.InGame)
             {
                 //jeżeli drużyna kończy z <600zł oraz [nie wygrała pytania, lub kategoria nie da jej pieniędzy] to kończy grę (jeżeli się w niej znajduje
-                if ( team.Money < 600  && ( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) )
+                if (( team.Money < 600  && ( team.TeamId != winner_id )) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) )
                 {
                     losers.Add((int)team.TeamId);
                     if (IsHost)
@@ -491,7 +494,7 @@ public class BiddingWarController : NetworkBehaviour
         //karamy
         if (teams_punished.Count == 1)
         {
-            warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].name + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
+            punishmentText.text = "Drużyna <color=" + teams[teams_punished[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].name + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
         }
 
         if (teams_punished.Count > 1)
@@ -499,10 +502,10 @@ public class BiddingWarController : NetworkBehaviour
             warningText.text = "Drużyny ";
             foreach (int i in teams_punished)
             {
-                warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
+                punishmentText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
             }
 
-            warningText.text += " \n zostały ukarane, 500zł za każdą pasywną rundę! ";
+            punishmentText.text += " \n zostały ukarane, 500zł za każdą pasywną rundę! ";
         }
     }
     #endregion inactivity_handling
