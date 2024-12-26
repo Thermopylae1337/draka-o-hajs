@@ -17,10 +17,10 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> money = new(Utils.START_MONEY, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private int clues = 0;
+    private NetworkVariable<int> clues = new (0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private int cluesUsed = 0;
+    private NetworkVariable<int> cluesUsed = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
     private int blackBoxes = 0;
@@ -105,7 +105,7 @@ public class TeamManager : NetworkBehaviour
 
     public int Clues
     {
-        get => clues;
+        get => clues.Value;
         set
         {
             if (value < 0)
@@ -113,13 +113,13 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Dostępnych wskazówek nie może być mniej niż 0.");
             }
 
-            clues = value;
+            clues.Value = value;
         }
     }
 
     public int CluesUsed
     {
-        get => cluesUsed;
+        get => cluesUsed.Value;
         set
         {
             if (value < 0)
@@ -127,7 +127,7 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
             }
 
-            cluesUsed = value;
+            cluesUsed.Value = value;
         }
     }
     public int BlackBoxes

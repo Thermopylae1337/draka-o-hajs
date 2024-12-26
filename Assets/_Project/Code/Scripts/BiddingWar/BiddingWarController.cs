@@ -90,7 +90,7 @@ public class BiddingWarController : NetworkBehaviour
     #region setup_functions
     void Start()
     {
-
+        
         teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         localTeamId = (uint)NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().Colour;
@@ -144,7 +144,7 @@ public class BiddingWarController : NetworkBehaviour
     void Setup()
     {
         totalBid = GameManager.Instance.CurrentBid.Value;
-        totalBidText.text = totalBid.ToString();
+        totalBidText.text = totalBid.ToString(); 
         foreach (TeamManager team in teams)
         {
 
@@ -170,9 +170,9 @@ public class BiddingWarController : NetworkBehaviour
     void SetupStage2Rpc()
     {
         foreach (TeamManager t in teams)
-        {
+        { 
             if (t.InGame)
-            {
+            { 
                 SetupLockOutButtons(t);
                 totalBid += 500;
                 if (IsHost)
@@ -187,7 +187,7 @@ public class BiddingWarController : NetworkBehaviour
         totalBidText.text = totalBid.ToString();
         winningBidAmount = 500;
         hasSetUp = true;
-        gameOngoing = true;
+        gameOngoing = true; 
     }
     public void SetupLockOutButtons(TeamManager team)
     {
@@ -348,17 +348,16 @@ public class BiddingWarController : NetworkBehaviour
             if (IsHost)
             {
                 GameManager.Instance.CurrentBid.Value = 0;
+                if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
+                {
+                    teams[team_id].BlackBoxes += 1;
+                }
+                else
+                {
+                    teams[team_id].Clues += 1;
+                }
             }
-            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
-            if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
-            {
-                teams[team_id].BlackBoxes += 1;
-            }
-            else
-            {
-                teams[team_id].Clues += 1;
-            }
-
+            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji. 
             if (IsContinuingGamePossible())
             {
                 _ = StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay));
@@ -424,7 +423,7 @@ public class BiddingWarController : NetworkBehaviour
             if (team.InGame)
             {
                 //jeżeli drużyna kończy z <600zł oraz [nie wygrała pytania, lub kategoria nie da jej pieniędzy] to kończy grę (jeżeli się w niej znajduje
-                if (( team.Money < 600  && ( team.TeamId != winner_id )) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) )
+                if ( team.Money < 600  && (( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" )) )
                 {
                     losers.Add((int)team.TeamId);
                     if (IsHost)

@@ -34,7 +34,6 @@ public class CategoryDrawManager : NetworkBehaviour
 
     private void HandleWheelStopped(int result)
     {
-
         categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
 
         if (categoryNames[result] == "Czarna skrzynka")
