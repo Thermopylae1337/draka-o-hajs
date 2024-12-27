@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +16,7 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> money = new(Utils.START_MONEY, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private NetworkVariable<int> clues = new (0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    private NetworkVariable<int> clues = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
     private NetworkVariable<int> cluesUsed = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
@@ -26,7 +25,7 @@ public class TeamManager : NetworkBehaviour
     private int blackBoxes = 0;
 
     [SerializeField]
-    private NetworkVariable<int> inactiveRounds =new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
+    private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
     [SerializeField]
     private List<string> powerUps = new(); //deprecated?
@@ -46,7 +45,7 @@ public class TeamManager : NetworkBehaviour
     private ColourEnum colour;
 
     [SerializeField]
-    private NetworkVariable<bool> inGame=new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    private NetworkVariable<bool> inGame = new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
     [SerializeField]
     private NetworkVariable<uint> teamId = new(0, writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
 

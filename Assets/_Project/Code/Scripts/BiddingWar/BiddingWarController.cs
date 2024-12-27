@@ -90,7 +90,7 @@ public class BiddingWarController : NetworkBehaviour
     #region setup_functions
     void Start()
     {
-        
+
         teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         localTeamId = (uint)NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().Colour;
@@ -144,7 +144,7 @@ public class BiddingWarController : NetworkBehaviour
     void Setup()
     {
         totalBid = GameManager.Instance.CurrentBid.Value;
-        totalBidText.text = totalBid.ToString(); 
+        totalBidText.text = totalBid.ToString();
         foreach (TeamManager team in teams)
         {
 
@@ -170,9 +170,9 @@ public class BiddingWarController : NetworkBehaviour
     void SetupStage2Rpc()
     {
         foreach (TeamManager t in teams)
-        { 
+        {
             if (t.InGame)
-            { 
+            {
                 SetupLockOutButtons(t);
                 totalBid += 500;
                 if (IsHost)
@@ -180,14 +180,14 @@ public class BiddingWarController : NetworkBehaviour
                     t.RaiseBid(500);
                 }
             }
-           
+
             UpdateMoneyStatusForTeam((int)t.TeamId);
         }
 
         totalBidText.text = totalBid.ToString();
         winningBidAmount = 500;
         hasSetUp = true;
-        gameOngoing = true; 
+        gameOngoing = true;
     }
     public void SetupLockOutButtons(TeamManager team)
     {
@@ -285,7 +285,7 @@ public class BiddingWarController : NetworkBehaviour
             {
                 //przy niewywoływaniu Sell() wszystko było ok, tak samo jest teraz przy wprowadzeniu lekkiego, praktycznie niezauważalnego opóźnienia
                 //zgaduję że NetworkVariable team.bid nie jest updatowany dostatecznie szybko i przez to updatebids rpc nie updatowało?
-                //wydaje się to być dziwne ale takie zachowanie było tylko wtedy gdy to host va banqueował więc wydaje mi się być prawdopodobne 
+                //wydaje się to być dziwne ale takie zachowanie było tylko wtedy gdy to host va banqueował więc wydaje mi się być prawdopodobne
                 //note: 0.001f jest już za krótkim czasem
                 timer = Time.time - timeGiven + 0.06f;
                 //Sell(team_id);
@@ -337,7 +337,7 @@ public class BiddingWarController : NetworkBehaviour
                 team.ResetBid();
             }
         }
-        //  yield return new WaitForSeconds(10f);    
+        //  yield return new WaitForSeconds(10f);
         if (IsServer)
         {
             GameManager.Instance.Winner.Value = teams[team_id].NetworkId;
@@ -357,7 +357,7 @@ public class BiddingWarController : NetworkBehaviour
                     teams[team_id].Clues += 1;
                 }
             }
-            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji. 
+            //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
             if (IsContinuingGamePossible())
             {
                 _ = StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay));
@@ -423,7 +423,7 @@ public class BiddingWarController : NetworkBehaviour
             if (team.InGame)
             {
                 //jeżeli drużyna kończy z <600zł oraz [nie wygrała pytania, lub kategoria nie da jej pieniędzy] to kończy grę (jeżeli się w niej znajduje
-                if ( team.Money < 600  && (( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" )) )
+                if (team.Money < 600 && ( ( team.TeamId != winner_id ) || ( GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź" ) ))
                 {
                     losers.Add((int)team.TeamId);
                     if (IsHost)
