@@ -45,6 +45,7 @@ public class GameManager : NetworkBehaviour
     /// Zmienna sieciowa przechowująca aktualną stawkę w grze.
     /// </summary>
     public NetworkVariable<int> CurrentBid { get; } = new();
+    public NetworkVariable<int> startingTeamCount { get; } = new();
 
     /// <summary>
     /// RPC uruchamiający grę. Wywoływany na kliencie i serwerze.
