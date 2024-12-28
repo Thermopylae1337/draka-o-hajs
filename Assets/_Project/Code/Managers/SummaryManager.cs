@@ -17,33 +17,50 @@ public class SummaryManager : NetworkBehaviour
             TeamManager team = teamClient.PlayerObject.GetComponent<TeamManager>();
 
             //test
-            team.BlackBoxes += 1;
+            team.BlackBoxes = _random.Next(2);
 
-            while (team.BlackBoxes > 0)
+            switch (team.BlackBoxes)
             {
-                team.BlackBoxes--;
+                case 1:
+                    string text = DrawBlackBox(team);
+                    //animacja 1 skrzynki 
+                    break; 
+                case 2:
+                    string text1 = DrawBlackBox(team);
+                    string text2 = DrawBlackBox(team);
 
-                double los = _random.NextDouble();
-
-                if (los < 0.8) // 80% szans na pieniądze
-                {
-                    int money = DrawMoney();
-                    team.Money += money;
-                    Debug.Log($"{ team.name} wylosowala {money}");
-                }
-                else // 20% szans na odznakę
-                {
-                    string badge = DrawBadge();
-                    Debug.Log($"{team.name} wylosowala {badge}");
-                    //team.Badges.
-                }
-                // animacja (otwiera sie skrzynia i na skrzyni pojawia sie tekst co wylosowano) + nazwa druzyny  
-
+                    //animacja 2 skrzynek
+                    break;
+                default:
+                    break;
             }
+
+            team.BlackBoxes = 0;
             
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
             panel.Initialize(team);
             //panel.Initialize(teamClient.PlayerObject.GetComponent<TeamManager>());
+        }
+    }
+
+    private string DrawBlackBox(TeamManager team)
+    {
+        double los = _random.NextDouble();
+
+        if (los < 0.8) // 80% szans na pieniądze
+        {
+            int money = DrawMoney();
+            team.Money += money;
+            Debug.Log($"{team.name} wylosowala {money}");
+            return money.ToString();
+        }
+        else // 20% szans na odznakę
+        {
+            string badge = DrawBadge();
+            Debug.Log($"{team.name} wylosowala {badge}");
+            //team.Badges.Add?
+            return badge;
+            
         }
     }
 
