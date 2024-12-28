@@ -344,6 +344,16 @@ public class BiddingWarController : NetworkBehaviour
             GameManager.Instance.Winner.Value = teams[team_id].NetworkId;
         }
 
+        if (teams[(int)localTeamId].VaBanque == 3)
+        {
+            teams[(int)localTeamId].BadgeList.UnlockBadge("Ryzykanci");
+        }
+
+        if (teams[(int)localTeamId].WonBid == 5)
+        {
+            teams[(int)localTeamId].BadgeList.UnlockBadge("Mistrzowie Aukcji");
+        }
+
         if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka" or "Podpowiedź")
         {
             if (IsHost)
@@ -359,17 +369,20 @@ public class BiddingWarController : NetworkBehaviour
                 }
             }
             //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
-            if (IsContinuingGamePossible())
+            _ = IsContinuingGamePossible() 
+                ?  StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay)) 
+                :  StartCoroutine(OpenSceneWithDelay("Summary", scene_change_delay));
+
+            if (teams[(int)localTeamId].BlackBoxes == 2)
             {
-                _ = StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay));
+                teams[(int)localTeamId].BadgeList.UnlockBadge("Czarni Łowcy");
             }
-            else
-            {
-                _ = StartCoroutine(OpenSceneWithDelay("Summary", scene_change_delay));
-            }
+
+            CheckBadgeUnlockRpc();
         }
         else
         {
+            CheckBadgeUnlockRpc();
             _ = StartCoroutine(OpenSceneWithDelay("QuestionStage", scene_change_delay));
         }
 
@@ -558,5 +571,42 @@ public class BiddingWarController : NetworkBehaviour
     private void CluesIncrementServerRpc(int teamid)
     {
         teams[(int)teamid].Clues++;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void UnlockBadgeRpc(string name, int teamid)
+    {
+        if (teamid == (int)NetworkManager.Singleton.LocalClientId)
+        {
+            teams[(int)GameManager.Instance.Winner.Value].BadgeList.UnlockBadge(name);
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void CheckBadgeUnlockRpc()
+    {
+        if(!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Mistrzowie Aukcji"))
+        {
+            if(teams[(int)NetworkManager.Singleton.LocalClientId].WonBid == 5)
+            {
+                UnlockBadgeRpc("Mistrzowie Aukcji", (int)NetworkManager.Singleton.LocalClientId);
+            }
+        }
+
+        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Ryzykanci"))
+        {
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].VaBanque == 3)
+            {
+                UnlockBadgeRpc("Ryzykanci", (int)NetworkManager.Singleton.LocalClientId);
+            }
+        }
+
+        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Czarni Łowcy"))
+        {
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].BlackBoxes == 2)
+            {
+                UnlockBadgeRpc("Czarni Łowcy", (int)NetworkManager.Singleton.LocalClientId);
+            }
+        }
     }
 }

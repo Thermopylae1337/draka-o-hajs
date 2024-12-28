@@ -33,4 +33,11 @@ public class BadgeList
         Badge badge = FindBadge(name);
         return badge != null;
     }
+    public void UnlockBadge(string name)
+    {
+        if(FindBadge(name) != null)
+        {
+            FindBadge(name).Unlocked = true;
+        }
+    }
 }
