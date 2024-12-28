@@ -1,11 +1,8 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
-using Unity.Mathematics;
-using System.Collections.Generic;
-using JetBrains.Annotations;
 using System.Linq;
+using System;
 
 public class SummaryManager : NetworkBehaviour
 {
@@ -19,6 +16,9 @@ public class SummaryManager : NetworkBehaviour
         {
             TeamManager team = teamClient.PlayerObject.GetComponent<TeamManager>();
 
+            //test
+            team.BlackBoxes += 1;
+
             while (team.BlackBoxes > 0)
             {
                 team.BlackBoxes--;
@@ -29,16 +29,17 @@ public class SummaryManager : NetworkBehaviour
                 {
                     int money = DrawMoney();
                     team.Money += money;
+                    Debug.Log($"{ team.name} wylosowala {money}");
                 }
                 else // 20% szans na odznakę
                 {
                     string badge = DrawBadge();
+                    Debug.Log($"{team.name} wylosowala {badge}");
                     //team.Badges.
                 }
                 // animacja (otwiera sie skrzynia i na skrzyni pojawia sie tekst co wylosowano) + nazwa druzyny  
 
             }
-
             
             Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
             panel.Initialize(team);
@@ -50,7 +51,7 @@ public class SummaryManager : NetworkBehaviour
     {
         int[] progi = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray() ; // progi kwot [1, 500, 1000, .. , 10000]
         double[] szanse = new double[]
-        { 0.08, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.06, 0.06, 0.06, 0.06,0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01}; // Szansa na wylosowanie każdego progu
+        { 0.01 ,0.08, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.06, 0.06, 0.06, 0.06,0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01}; // Szansa na wylosowanie każdego progu
 
         double los = _random.NextDouble();
         double kumulatywnaSzansa = 0.0;
@@ -70,7 +71,7 @@ public class SummaryManager : NetworkBehaviour
     private static string DrawBadge()
     {
         string[] odznaki = new string[] { "Samochód", "Ogórek" };
-        double[] szanse = new double[] { 0.7, 0.3 }; // 70% na samochód, 30% na ogórka
+        double[] szanse = new double[] { 0.2, 0.8 }; // 20% na samochód, 80% na ogórka
 
         double los = _random.NextDouble();
         double kumulatywnaSzansa = 0.0;
