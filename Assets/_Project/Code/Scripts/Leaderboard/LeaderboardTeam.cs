@@ -12,14 +12,10 @@ public class LeaderboardTeam : IComparable<LeaderboardTeam>
     public string Name
     { get { return this.name; } }
     public int Money
-    { get { return this.money; } set { this.money = value; } }
+    { get => money; set => money = value; }
 
     public int CompareTo(LeaderboardTeam other)
     {
-        if (this.Money < other.Money)
-            return 1;
-        else if (this.Money > other.Money)
-            return -1;
-        else return 0;
+        return Money < other.Money ? 1 : Money > other.Money ? -1 : 0;
     }
 }

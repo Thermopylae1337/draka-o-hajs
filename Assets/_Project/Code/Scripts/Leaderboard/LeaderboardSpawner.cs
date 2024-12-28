@@ -14,7 +14,7 @@ public class LeaderboardSpawner : MonoBehaviour
 
     private void GenerateLeaderboard()
     {
-        LeaderboardList leaderboard = new LeaderboardList();
+        LeaderboardList leaderboard = new();
         leaderboard.Deserializuj();
         List<LeaderboardTeam> teams = leaderboard.TeamList;
         teams.Sort();
@@ -28,31 +28,11 @@ public class LeaderboardSpawner : MonoBehaviour
                 TextMeshProUGUI money = leaderboardObject.transform.Find("money").GetComponent<TextMeshProUGUI>();
                 name.text = miejsce+". "+item.Name;
                 money.text = "" + item.Money;
-                if (item.Money > 0)
-                {
-                    money.color = new Color(0.19f, 0.8f, 0.19f);
-                }
-                else
-                {
-                    money.color = new Color(1f, 0f, 0f);
-                }
+                money.color = item.Money > 0 ? new Color(0.19f, 0.8f, 0.19f) : new Color(1f, 0f, 0f);
                 Image background = leaderboardObject.GetComponent<Image>();
-                if (miejsce == 1)
-                {
-                    background.color = new Color(1f, 0.84f, 0f);
-                }
-                else if (miejsce == 2)
-                {
-                    background.color = new Color(0.75f, 0.75f, 0.75f);
-                }
-                else if (miejsce == 3)
-                {
-                    background.color = new Color(0.72f, 0.45f, 0.2f);
-                }
-                else
-                {
-                    background.color = new Color(1f, 1f, 1f, 0.1f);
-                }
+                background.color = miejsce == 1
+                    ? new Color(1f, 0.84f, 0f)
+                    : miejsce == 2 ? new Color(0.75f, 0.75f, 0.75f) : miejsce == 3 ? new Color(0.72f, 0.45f, 0.2f) : new Color(1f, 1f, 1f, 0.1f);
                 miejsce++;
             }
         }
