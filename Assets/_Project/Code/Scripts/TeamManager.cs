@@ -24,14 +24,18 @@ public class TeamManager : NetworkBehaviour
     [SerializeField]
     private int blackBoxes = 0;
 
+    private int wonBid = 0;
+
+    private int questionsAnswered = 0;
+
+    private int questionsAsked = 0;
+
+    private int vaBanque = 0;
+
     [SerializeField]
     private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
-    [SerializeField]
-    private List<string> powerUps = new(); //deprecated?
-
-    [SerializeField]
-    private List<string> badges = new();
+    private BadgeList badgeList = new();
 
     [SerializeField]
     public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
@@ -142,6 +146,29 @@ public class TeamManager : NetworkBehaviour
             blackBoxes = value;
         }
     }
+    public int WonBid
+    {
+        get => wonBid;
+        set => wonBid = value >= 0 ? value : 0;
+    }
+
+    public int QuestionsAnswered
+    {
+        get => questionsAnswered;
+        set => questionsAnswered = value >= 0 ? value : 0;
+    }
+
+    public int QuestionsAsked
+    {
+        get => questionsAsked;
+        set => questionsAsked = value >= 0 ? value : 0;
+    }
+
+    public int VaBanque
+    {
+        get => vaBanque;
+        set => vaBanque = value >= 0 ? value : 0;
+    }
     public int InactiveRounds
     {
         get => inactiveRounds.Value;
@@ -155,16 +182,12 @@ public class TeamManager : NetworkBehaviour
             inactiveRounds.Value = value;
         }
     }
+
     public int TotalMoney { get; set; }
-    public ReadOnlyCollection<string> PowerUps
+    public BadgeList BadgeList
     {
-        get => powerUps.AsReadOnly();
-        set => powerUps = value.ToList();
-    }
-    public ReadOnlyCollection<string> Badges
-    {
-        get => badges.AsReadOnly();
-        set => badges = value.ToList();
+        get => badgeList;
+        set => badgeList = value;
     }
     public void RaiseBid(int amount)
     {

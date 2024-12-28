@@ -258,6 +258,8 @@ public class BiddingWarController : NetworkBehaviour
     public void VaBanque()
     {
         int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
+        teams[(int)localTeamId].VaBanque++; //VaBanque Counter
+        Debug.Log("VaBanque Counter: " + teams[(int)localTeamId].VaBanque);
         Bid(amount);
     }
 
@@ -307,11 +309,21 @@ public class BiddingWarController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
+        if((int)localTeamId == team_id)
+        {
+            teams[team_id].WonBid++;
+            Debug.Log("Wygrana licytacja numer: " + teams[team_id].WonBid);
+        }
 
         int scene_change_delay = defaultSceneChangeDelay;
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
         timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
+
+        if ((int)localTeamId == team_id)
+        {
+            teams[team_id].WonBid++;
+        }
 
         ShowVideo();
 
