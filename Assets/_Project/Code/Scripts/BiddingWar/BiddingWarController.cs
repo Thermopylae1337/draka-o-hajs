@@ -258,8 +258,7 @@ public class BiddingWarController : NetworkBehaviour
     public void VaBanque()
     {
         int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
-        teams[(int)localTeamId].VaBanque++; //VaBanque Counter
-        Debug.Log("VaBanque Counter: " + teams[(int)localTeamId].VaBanque);
+        VaBanqueIncrementServerRpc((int)localTeamId);
         Bid(amount);
     }
 
@@ -309,21 +308,10 @@ public class BiddingWarController : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
-        if((int)localTeamId == team_id)
-        {
-            teams[team_id].WonBid++;
-            Debug.Log("Wygrana licytacja numer: " + teams[team_id].WonBid);
-        }
-
         int scene_change_delay = defaultSceneChangeDelay;
         gameOngoing = false;
         timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
         timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
-
-        if ((int)localTeamId == team_id)
-        {
-            teams[team_id].WonBid++;
-        }
 
         ShowVideo();
 
@@ -343,6 +331,8 @@ public class BiddingWarController : NetworkBehaviour
 
         if (IsHost)
         {
+            WonBidIncrementServerRpc(team_id);
+
             foreach (TeamManager team in teams)
             {
                 team.ResetBid();
@@ -361,11 +351,11 @@ public class BiddingWarController : NetworkBehaviour
                 GameManager.Instance.CurrentBid.Value = 0;
                 if (GameManager.Instance.Category.Value.Name is "Czarna skrzynka")
                 {
-                    teams[team_id].BlackBoxes += 1;
+                    BlackBoxesIncrementServerRpc(team_id);
                 }
                 else
                 {
-                    teams[team_id].Clues += 1;
+                    CluesIncrementServerRpc(team_id);
                 }
             }
             //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
@@ -544,5 +534,29 @@ public class BiddingWarController : NetworkBehaviour
         _ = new WaitForSeconds(0.5f);
         uderzenieImage.SetActive(true);
         uderzenieVideoPlayer.Play();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void WonBidIncrementServerRpc(int teamid)
+    {
+        teams[(int)teamid].WonBid++;
+    }
+
+    [Rpc(SendTo.Server)]
+    private void VaBanqueIncrementServerRpc(int teamid)
+    {
+        teams[(int)teamid].VaBanque++;
+    }
+
+    [Rpc(SendTo.Server)]
+    private void BlackBoxesIncrementServerRpc(int teamid)
+    {
+        teams[(int)teamid].BlackBoxes++;
+    }
+
+    [Rpc(SendTo.Server)]
+    private void CluesIncrementServerRpc(int teamid)
+    {
+        teams[(int)teamid].Clues++;
     }
 }
