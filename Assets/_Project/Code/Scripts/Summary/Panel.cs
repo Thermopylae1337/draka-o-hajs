@@ -1,8 +1,13 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using Assets._Project.Code.Models;
 
 public class Panel : MonoBehaviour
 {
+    [SerializeField]
+    public List<Sprite> panelSprites = new List<Sprite>();              // wsadzać Y, G, B !
     private TMP_Text teamNameObj, moneyObj, accuracyObj, cluesUsedObj;
     private float time = 0.0f;
 
@@ -23,6 +28,13 @@ public class Panel : MonoBehaviour
 
     public void Initialize(TeamManager team)
     {
+        if (team.Colour == ColourEnum.YELLOW)
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zolci");
+        else if (team.Colour == ColourEnum.GREEN)
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zieloni");
+        else
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tebelka_niebiescy");
+        
         string teamName = team.TeamName;
         int money = team.Money;
         //float goodAnswers = team.goodAnswers;

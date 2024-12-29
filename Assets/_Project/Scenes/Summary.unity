@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d5bb874cbac8f4b99fd45a78be0e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   panelPrefab: {fileID: 8550683654744245817, guid: 60ef80129a7a85b458130fcdeace0cf2, type: 3}
   grid: {fileID: 812019875}
 --- !u!4 &1060964348
