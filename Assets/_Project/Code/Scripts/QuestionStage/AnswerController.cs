@@ -166,6 +166,11 @@ public class AnswerController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing)
     {
+        if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
+        {
+            UnlockBadgeRpc("Bankruci");
+        }
+
         if (gameContinuing)
         {
             feedbackText.text = feedback;

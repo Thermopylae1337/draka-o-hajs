@@ -368,6 +368,7 @@ public class BiddingWarController : NetworkBehaviour
                     CluesIncrementServerRpc(team_id);
                 }
             }
+
             //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
             _ = IsContinuingGamePossible() 
                 ?  StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay)) 

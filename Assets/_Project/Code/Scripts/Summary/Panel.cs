@@ -25,24 +25,30 @@ public class Panel : MonoBehaviour
     {
         string teamName = team.TeamName;
         int money = team.Money;
-        //float goodAnswers = team.goodAnswers;
-        //float wrongAnswers = team.wrongAnswers;
-        //float questions = team.goodAnswers + team.wrongAnswers;
-        //int cluesUsed = team.CluesUsed;
+        float goodAnswers = team.QuestionsAnswered;
+        float wrongAnswers = team.QuestionsAsked - team.QuestionsAnswered;
+        float questions = team.QuestionsAsked;
+        int cluesUsed = team.CluesUsed;
 
         //temp
         //string teamName = "Test init team";
         //int money = 100000;
-        float goodAnswers = 3;
-        float wrongAnswers = 6;
-        float questions = goodAnswers + wrongAnswers;
-        int cluesUsed = 5;
+        //float goodAnswers = 3;
+        //float wrongAnswers = 6;
+        //float questions = goodAnswers + wrongAnswers;
+        //int cluesUsed = 5;
 
         teamNameObj.text = teamName;
         moneyObj.text = $"<color=green>{money}</color>pln";
-        accuracyObj.text = $"<size=22>Poprawne odpowiedzi\n</size>" +
+
+        accuracyObj.text = questions == 0 
+            ?  $"<size=22>Poprawne odpowiedzi\n</size>" +
+            $"<size=60><color=red>0%\n</color></size>" +
+            $"<size=18>(0/0)</size>" 
+            :  $"<size=22>Poprawne odpowiedzi\n</size>" +
             $"<size=60><color=red>{Mathf.Round(goodAnswers / questions * 100f)}%\n</color></size>" +
             $"<size=18>({goodAnswers}/{questions})</size>";
+
         cluesUsedObj.text = $"Wykorzystane podpowiedzi\n" +
             $"<size=60><color=orange>{cluesUsed}</size>";
     }

@@ -13,11 +13,11 @@ public class BadgeList
         {
             new("Mistrzowie Aukcji", "Za wygranie przynajmniej 5 licytacji"),
             new("As opowiedzi", "Dla drużyny która ani razu się nie pomyliła przy opowiedzi"),
-            new("Królowie skarbca", "Za przekroczenie ustalonego limitu pieniędzy na koniec gry czyli 15 000 zł."),
+            new("Królowie skarbca", "Za przekroczenie ustalonego limitu pieniędzy na koniec gry czyli 19 000 zł."),
             new("Ryzykanci", "Za odważne przebicie zakładu przeciwników grając 3 razy va banque w trakcie całej rozgrywki."),
-            new("Czas to pieniądz", "Za poprawna opowiedz w maks 3 sekundy"),
+            new("Czas to pieniądz", "Za poprawna opowiedz 27 sekund przed czasem"),
             new("Czarni łowcy", "za wylicytyowanie min 2 czarnych skrzynek"),
-            new("Bankruci", "Stracenie wszystkich pieniedzy w pierwszej rundzie"),
+            new("Bankruci", "VaBanque i odpadniecie z gry przzy pierwszym pytaniu"),
             new("Mistrzowie pomyłek", "Za niepoprawne odpowiedzenie na wszystkie swoje pytania"),
             new("Samodzielni geniusze", "Wygranie gry bez podpowiedzi")
         };
