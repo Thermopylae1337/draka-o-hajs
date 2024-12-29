@@ -33,7 +33,7 @@ public class Panel : MonoBehaviour
         else if (team.Colour == ColourEnum.GREEN)
             GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zieloni");
         else
-            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tebelka_niebiescy");
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_niebiescy");
         
         string teamName = team.TeamName;
         int money = team.Money;
