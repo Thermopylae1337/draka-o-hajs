@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

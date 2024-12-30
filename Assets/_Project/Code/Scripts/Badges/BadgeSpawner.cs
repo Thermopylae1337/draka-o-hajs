@@ -3,9 +3,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+//using UnityEditor;
 
 public class BadgeSpawner : MonoBehaviour
 {
+    [SerializeField]
+    public List<Sprite> badgesSprites = new List<Sprite> ();
+
     public GameObject badgePrefab;
     public Transform contentParent;
     public Sprite basicSprite;
@@ -27,20 +31,20 @@ public class BadgeSpawner : MonoBehaviour
 
     private void Start()
     {
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", basicSprite, false));
+        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[0], true));
+        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[1], false));
+        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[2], true));
+        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[3], false));
+        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[4], true));
+        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[5], true));
+        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[6], true));
+        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[7], false));
+        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[8], true));
+        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[9], false));
+        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[10], true));
+        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[11], true));
+        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[12], true));
+        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[13], false));
         badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", basicSprite, true));
         badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", basicSprite, false));
         badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", basicSprite, true));

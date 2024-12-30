@@ -16,16 +16,16 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> money = new(Utils.START_MONEY, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private int clues = 0;
+    private NetworkVariable<int> clues = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private int cluesUsed = 0;
+    private NetworkVariable<int> cluesUsed = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
     private int blackBoxes = 0;
 
     [SerializeField]
-    private int inactiveRounds = 0; //licznik rund bierności w licytacji
+    private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
     [SerializeField]
     private List<string> powerUps = new(); //deprecated?
@@ -42,7 +42,32 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> bid = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private string colour;
+    private ColourEnum colour;
+
+    [SerializeField]
+    private NetworkVariable<bool> inGame = new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+    [SerializeField]
+    private NetworkVariable<uint> teamId = new(0, writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField]
+    private NetworkVariable<uint> networkId = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    public uint NetworkId
+    {
+        get => networkId.Value;
+        set => networkId.Value = value;
+    }
+
+    public uint TeamId
+    {
+        get => teamId.Value;
+        set => teamId.Value = value;
+    }
+    public bool InGame
+    {
+        get => inGame.Value;
+        set => inGame.Value = value;
+    }
 
     //gettery i settery
     public void Awake()
@@ -71,14 +96,15 @@ public class TeamManager : NetworkBehaviour
         get => bid.Value;
         set => bid.Value = value;
     }
-    public string Colour
+    public ColourEnum Colour
     {
-        get => TeamName;
+        get => colour;
+        set => colour = value;
     }
 
     public int Clues
     {
-        get => clues;
+        get => clues.Value;
         set
         {
             if (value < 0)
@@ -86,13 +112,13 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Dostępnych wskazówek nie może być mniej niż 0.");
             }
 
-            clues = value;
+            clues.Value = value;
         }
     }
 
     public int CluesUsed
     {
-        get => cluesUsed;
+        get => cluesUsed.Value;
         set
         {
             if (value < 0)
@@ -100,7 +126,7 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Zużyte wskazówki nie mogą być na minusie.");
             }
 
-            cluesUsed = value;
+            cluesUsed.Value = value;
         }
     }
     public int BlackBoxes
@@ -118,7 +144,7 @@ public class TeamManager : NetworkBehaviour
     }
     public int InactiveRounds
     {
-        get => inactiveRounds;
+        get => inactiveRounds.Value;
         set
         {
             if (value < 0)
@@ -126,7 +152,7 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Rundy bierności w licytacji nie mogą być na minusie.");
             }
 
-            inactiveRounds = value;
+            inactiveRounds.Value = value;
         }
     }
     public int TotalMoney { get; set; }

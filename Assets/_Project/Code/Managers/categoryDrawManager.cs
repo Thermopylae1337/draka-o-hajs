@@ -11,7 +11,6 @@ public class CategoryDrawManager : NetworkBehaviour
     private Wheel wheel;
     private TMP_Text categoryDisplayText;
     private TMP_Text roundDisplayText;
-    private GameManager gameManager;
     private CategoryList categoryList;
     private float startTime;
     private bool wheelSpinned;
@@ -21,7 +20,6 @@ public class CategoryDrawManager : NetworkBehaviour
         wheelSpinned = false;
         if (IsHost)
         {
-            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
             TextAsset categoryAssets = Resources.Load<TextAsset>("questions");
             categoryList = JsonConvert.DeserializeObject<CategoryList>(categoryAssets.text);
         }
@@ -40,11 +38,17 @@ public class CategoryDrawManager : NetworkBehaviour
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
-            gameManager.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
+            if (IsHost)
+            {
+                GameManager.Instance.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
+            }
         }
         else if (categoryNames[result] == "Podpowiedź")
         {
-            gameManager.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
+            if (IsHost)
+            {
+                GameManager.Instance.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
+            }
         }
         else
         {
@@ -52,7 +56,7 @@ public class CategoryDrawManager : NetworkBehaviour
             roundDisplayText.text = "Runda: " + currentRound;
             if (IsHost)
             {
-                gameManager.Category.Value = categoryList.FindCategory(categoryNames[result]);
+                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]);
             }
             // WyświetlPytanie(category)
         }
@@ -69,7 +73,7 @@ public class CategoryDrawManager : NetworkBehaviour
         }
     }
 
-    public void CalculateAngle() => SpinWheelRpc(Random.Range(500, 1500));
+    public void CalculateAngle() => SpinWheelRpc(Random.Range(720, 1440));
 
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)

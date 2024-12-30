@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -63,6 +64,7 @@ public class LobbyController : NetworkBehaviour
     private void StartGameRpc()
     {
 
+        AddColoursToTeams();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients)
         {
@@ -71,6 +73,11 @@ public class LobbyController : NetworkBehaviour
 
         if (NetworkManager.Singleton.IsHost)
         {
+            gameManager.startingTeamCount.Value = NetworkManager.Singleton.ConnectedClients.Count;
+            foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values)
+            {
+                client.PlayerObject.GetComponent<TeamManager>().NetworkId = (uint)client.ClientId;
+            }
             _ = NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
         }
     }
@@ -99,6 +106,15 @@ public class LobbyController : NetworkBehaviour
         playerListEntry.GetComponent<TextMeshProUGUI>().text = playerObject.GetComponent<TeamManager>().teamName.Value.ToString();
         playerObject.name = playerObject.GetComponent<TeamManager>().teamName.Value.ToString();
         SetPlayerReady(false, clientId);
+    }
+    void AddColoursToTeams()
+    {
+        int i = 0;
+        foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values.ToList())
+        {
+            client.PlayerObject.GetComponent<TeamManager>().Colour = (ColourEnum)i;
+            i++;
+        }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
