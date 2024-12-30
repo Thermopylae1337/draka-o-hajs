@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tabelka_zolci_0: -8491394407009925229
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0e8aa5debefcc3846849f44824309180
+guid: f8146af93f2dcb142a78e89ff53c138e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4355221265660822119
-    second: tabelka_zieloni_0
+      213: 2493858551114802388
+    second: przycisk_join_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tabelka_zieloni_0
+      name: przycisk_join_0
       rect:
         serializedVersion: 2
-        x: 277
-        y: 167
-        width: 526
-        height: 735
+        x: 278
+        y: 464
+        width: 524
+        height: 152
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 762c0f98aaad07c30800000000000000
-      internalID: 4355221265660822119
+      spriteID: 4d4a443a327fb9220800000000000000
+      internalID: 2493858551114802388
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      tabelka_zieloni_0: 4355221265660822119
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
