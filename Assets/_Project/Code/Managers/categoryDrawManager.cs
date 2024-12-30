@@ -57,6 +57,10 @@ public class CategoryDrawManager : NetworkBehaviour
             // WyświetlPytanie(category)
         }
 
+        Invoke("LoadBiddingWar", 3.0f);
+    }
+    private void LoadBiddingWar()
+    {
         _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
