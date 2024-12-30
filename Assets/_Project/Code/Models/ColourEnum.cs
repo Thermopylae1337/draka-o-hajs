@@ -9,9 +9,9 @@ namespace Assets._Project.Code.Models
 {
     public enum ColourEnum
     {
-        YELLOW,
+        BLUE,
         GREEN,
-        BLUE
+        YELLOW
     }
     public static class ColorHelper
     {
