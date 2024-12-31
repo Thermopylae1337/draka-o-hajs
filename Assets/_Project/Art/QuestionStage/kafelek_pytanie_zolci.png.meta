@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      kafelek_pytanie_zolci_0: -8861922736875776980
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

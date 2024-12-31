@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tlo_pytanie_niebiescy_0: 7689810153410939360
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

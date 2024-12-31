@@ -8,6 +8,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using Assets._Project.Code.Models;
+
+//using System;
 
 public class BiddingWarController : NetworkBehaviour
 {
@@ -209,6 +212,9 @@ public class BiddingWarController : NetworkBehaviour
                 Sell(team_id);
             }
         }
+
+        //if (teams[team_id].Colour == ColourEnum.YELLOW)
+        //    throw new Exception();
     }
 
     [Rpc(SendTo.Everyone)]

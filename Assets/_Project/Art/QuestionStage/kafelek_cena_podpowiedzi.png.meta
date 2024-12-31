@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      kafelek_cena_podpowiedzi_0: 3607929227597391596
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

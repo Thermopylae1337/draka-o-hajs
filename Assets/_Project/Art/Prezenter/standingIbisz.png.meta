@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      standingIbisz_0: 3571009962897019135
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

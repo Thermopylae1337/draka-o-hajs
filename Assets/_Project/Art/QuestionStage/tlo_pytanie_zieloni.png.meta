@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tlo_pytanie_zieloni_0: -8946691033453863261
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

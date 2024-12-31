@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      tlo_pytanie_zolci_0: -325719256734956635
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

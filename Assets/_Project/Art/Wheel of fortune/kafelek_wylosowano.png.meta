@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      kafelek_wylosowano_0: -3843023840069578300
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
