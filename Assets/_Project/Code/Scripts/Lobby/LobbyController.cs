@@ -105,11 +105,14 @@ public class LobbyController : NetworkBehaviour
     }
     void AddColoursToTeams()
     {
-        int i = 0;
+        int i = NetworkManager.Singleton.ConnectedClients.Count - 1;
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values.ToList())
         {
-            client.PlayerObject.GetComponent<TeamManager>().Colour = (ColourEnum)i;
-            i++;
+            if (i >= 0)
+            {
+                client.PlayerObject.GetComponent<TeamManager>().Colour = (ColourEnum)i;
+                i--;
+            }
         }
     }
 

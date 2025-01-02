@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using Assets._Project.Code.Models;
 
 //using System;
 
