@@ -239,7 +239,8 @@ public class BiddingWarController : NetworkBehaviour
             UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
-                timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();
+                //timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();
+                timerText.text = (Mathf.Round( (timeGiven - ( Time.time - timer )) * 10 ) / 10).ToString();
                 if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 
