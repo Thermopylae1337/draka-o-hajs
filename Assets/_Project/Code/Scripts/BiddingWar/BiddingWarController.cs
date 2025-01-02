@@ -19,6 +19,7 @@ public class BiddingWarController : NetworkBehaviour
     public List<TextMeshProUGUI> teamBalanceText;
     public List<TextMeshProUGUI> bidButtonText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI winnersText;
     public TextMeshProUGUI categoryNameText;
     public List<TeamManager> teams;
     public TextMeshProUGUI totalBidText;
@@ -275,8 +276,10 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         gameOngoing = false;
-        timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
-        timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
+
+
+        winnersText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
+        winnersText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
         ShowVideo();
 
