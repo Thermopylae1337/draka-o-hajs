@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      przycisk_licytacja_kwota_0: -4442192122462037741
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

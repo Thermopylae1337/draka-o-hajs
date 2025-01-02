@@ -145,25 +145,29 @@ public class AnswerController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void CheckAnswerServerRpc(string playerAnswer)
     {
-        resultImage.gameObject.SetActive(true);
         if (currentQuestion.IsCorrect(playerAnswer))
         {
             NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
-            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
+            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), true);
         }
         else
         {
-            resultImage.sprite = artResultWrong;
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
                 $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
-                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
+                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), false);
         }
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing)
+    private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing, bool correctAnswer)
     {
+        resultImage.gameObject.SetActive(true);
+        if (!correctAnswer)
+        {
+            resultImage.sprite = artResultWrong;
+        }
+
         if (gameContinuing)
         {
             feedbackText.text = feedback;

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 583a06d961028944e8fbfada0bd002da
+guid: d8509be5371968d45adbc01e772d8283
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5801013564159766220
-    second: przycisk_va_banque_0
+      213: 4680532366738452829
+    second: board_podsumowanie_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: przycisk_va_banque_0
+      name: board_podsumowanie_0
       rect:
         serializedVersion: 2
-        x: 155
-        y: 448
-        width: 770
-        height: 184
+        x: 220
+        y: 121
+        width: 1594
+        height: 838
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cce27fcf917518050800000000000000
-      internalID: 5801013564159766220
+      spriteID: d51f927936794f040800000000000000
+      internalID: 4680532366738452829
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      przycisk_va_banque_0: 5801013564159766220
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
