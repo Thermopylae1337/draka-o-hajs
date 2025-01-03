@@ -17,6 +17,7 @@ public class SummaryManager : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI[] boxesText;
     [SerializeField] private VideoPlayer[] boxOpeningVideoPlayer;
     [SerializeField] private RawImage videoCanvas;
+    [SerializeField] private GameObject[] prizesObjects;
 
     private static readonly System.Random _random = new();
     private static readonly string[] _badges = { "Samochód", "Ogórek" };
@@ -24,15 +25,15 @@ public class SummaryManager : NetworkBehaviour
     private static readonly int[] _prizeTiers = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray();
     private static readonly double[] _moneyChances =
     {
-        0.01, 0.08, 0.08, 0.08, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05,
-        0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01
+        0.01, 0.09, 0.09, 0.09, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05,
+        0.03, 0.03, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01
     };
 
     private void Start()
     {
         if (NetworkManager.Singleton?.IsHost == true)
         {
-            StartCoroutine(HandleTeams());
+            _ = StartCoroutine(HandleTeams());
         }
     }
 
@@ -46,9 +47,9 @@ public class SummaryManager : NetworkBehaviour
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
             //test
-            //team.BlackBoxes = _random.Next(4);
-           // Debug.Log(team.name);
-           // Debug.Log(team.BlackBoxes);
+            team.BlackBoxes = _random.Next(4);
+            Debug.Log(team.name);
+            Debug.Log(team.BlackBoxes);
 
             if (team.BlackBoxes > 0)
             {
@@ -98,14 +99,14 @@ public class SummaryManager : NetworkBehaviour
         {
             boxesText[0].text = GetPrizeText(prizes[0]);
             //Debug.Log(boxesText[0].text);
-            StartCoroutine(PlayVideo(0));
+            _ = StartCoroutine(PlayVideo(0));
         }
         else if(prizes.Length == 2)
         {
             boxesText[1].text = GetPrizeText(prizes[0]);
             boxesText[2].text = GetPrizeText(prizes[1]);
-           //Debug.Log(boxesText[1].text +" "+ boxesText[2].text);
-            StartCoroutine(PlayVideo(1));
+            //Debug.Log(boxesText[1].text +" "+ boxesText[2].text);
+            _ = StartCoroutine(PlayVideo(1));
         }
         else
         {
@@ -113,7 +114,7 @@ public class SummaryManager : NetworkBehaviour
             boxesText[4].text = GetPrizeText(prizes[1]);
             boxesText[5].text = GetPrizeText(prizes[2]);
             //Debug.Log(boxesText[3].text + " " + boxesText[4].text + " "+ boxesText[5].text);
-            StartCoroutine(PlayVideo(2));
+            _ = StartCoroutine(PlayVideo(2));
         }
     }
 
@@ -131,7 +132,7 @@ public class SummaryManager : NetworkBehaviour
 
         yield return new WaitForSeconds((float)videoPlayer.length + 0.1f);
 
-        ShowPrizeTexts(index);
+        ShowPrizeObjects(index);
 
         yield return new WaitForSeconds(5f);
 
@@ -139,23 +140,19 @@ public class SummaryManager : NetworkBehaviour
         ReleaseVideoTexture(videoPlayer);
     }
 
-    private void ShowPrizeTexts(int index)
+    private void ShowPrizeObjects(int index)
     {
         if (index == 0)
         {
-            boxesText[0].gameObject.SetActive(true);
+            prizesObjects[0].gameObject.SetActive(true);
         }
         else if (index == 1) 
         {
-            boxesText[1].gameObject.SetActive(true);
-            boxesText[2].gameObject.SetActive(true);
+            prizesObjects[1].gameObject.SetActive(true);
         }
         else
         {
-            boxesText[3].gameObject.SetActive(true);
-            boxesText[4].gameObject.SetActive(true);
-            boxesText[5].gameObject.SetActive(true);
-            
+            prizesObjects[2].gameObject.SetActive(true);
         }
     }
 
@@ -167,9 +164,9 @@ public class SummaryManager : NetworkBehaviour
 
     private void DeactivateAll()
     {
-        foreach (TextMeshProUGUI text in boxesText)
+        foreach (GameObject obiekt in prizesObjects)
         {
-            text.gameObject.SetActive(false);
+            obiekt.gameObject.SetActive(false);
         }
 
         teamDrawingText.gameObject.SetActive(false);
