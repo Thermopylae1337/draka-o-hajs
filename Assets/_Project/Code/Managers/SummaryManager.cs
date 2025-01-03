@@ -46,14 +46,14 @@ public class SummaryManager : NetworkBehaviour
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
             //test
-            team.BlackBoxes = _random.Next(3);
-            Debug.Log(team.name);
-            Debug.Log(team.BlackBoxes);
+            //team.BlackBoxes = _random.Next(4);
+           // Debug.Log(team.name);
+           // Debug.Log(team.BlackBoxes);
 
             if (team.BlackBoxes > 0)
             {
                 CalculatePrizeServerRpc(clientId);
-                
+                // Wait for the prize display to complete before handling the next team
                 yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
             }
 
@@ -97,13 +97,23 @@ public class SummaryManager : NetworkBehaviour
         if (prizes.Length == 1)
         {
             boxesText[0].text = GetPrizeText(prizes[0]);
+            //Debug.Log(boxesText[0].text);
             StartCoroutine(PlayVideo(0));
         }
-        else
+        else if(prizes.Length == 2)
         {
             boxesText[1].text = GetPrizeText(prizes[0]);
             boxesText[2].text = GetPrizeText(prizes[1]);
+           //Debug.Log(boxesText[1].text +" "+ boxesText[2].text);
             StartCoroutine(PlayVideo(1));
+        }
+        else
+        {
+            boxesText[3].text = GetPrizeText(prizes[0]);
+            boxesText[4].text = GetPrizeText(prizes[1]);
+            boxesText[5].text = GetPrizeText(prizes[2]);
+            //Debug.Log(boxesText[3].text + " " + boxesText[4].text + " "+ boxesText[5].text);
+            StartCoroutine(PlayVideo(2));
         }
     }
 
@@ -135,10 +145,17 @@ public class SummaryManager : NetworkBehaviour
         {
             boxesText[0].gameObject.SetActive(true);
         }
-        else
+        else if (index == 1) 
         {
             boxesText[1].gameObject.SetActive(true);
             boxesText[2].gameObject.SetActive(true);
+        }
+        else
+        {
+            boxesText[3].gameObject.SetActive(true);
+            boxesText[4].gameObject.SetActive(true);
+            boxesText[5].gameObject.SetActive(true);
+            
         }
     }
 
