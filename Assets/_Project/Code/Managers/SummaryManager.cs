@@ -7,61 +7,30 @@ using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
+using Assets._Project.Code.Models;
 
 public class SummaryManager : NetworkBehaviour
 {
     [SerializeField] private GameObject panelPrefab;
     [SerializeField] private Transform grid;
-    public TextMeshProUGUI teamDrawingText;
-    public TextMeshProUGUI[] boxesText; // 0 gdy otwarta jest jedna skrzynka ,(1-2)  gdy otwarte są 2 skrzynki 
-    public VideoPlayer[] boxOpeningVideoPlayer; //0-otwieranie jednej skrzynki, 1-otwieranie 2 skrzynek
-    public RawImage videoCanvas;
+    [SerializeField] private TextMeshProUGUI teamDrawingText;
+    [SerializeField] private TextMeshProUGUI[] boxesText;
+    [SerializeField] private VideoPlayer[] boxOpeningVideoPlayer;
+    [SerializeField] private RawImage videoCanvas;
+
     private static readonly System.Random _random = new();
-
-    [Serializable]
-    public struct PrizeData : INetworkSerializable
+    private static readonly string[] _badges = { "Samochód", "Ogórek" };
+    private static readonly double[] _badgeChances = { 0.2, 0.8 };
+    private static readonly int[] _prizeTiers = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray();
+    private static readonly double[] _moneyChances =
     {
-        public string teamName;
-        public int money;
-        public string badge;
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            teamName ??= string.Empty;
-            badge ??= string.Empty;
-
-            serializer.SerializeValue(ref teamName);
-            serializer.SerializeValue(ref money);
-            serializer.SerializeValue(ref badge);
-        }
-    }
-
-    [Serializable]
-    public struct PrizeDataList : INetworkSerializable
-    {
-        public PrizeData[] prizes;
-
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
-        {
-            int count = prizes?.Length ?? 0;
-            serializer.SerializeValue(ref count);
-
-            if (serializer.IsReader)
-            {
-                prizes = new PrizeData[count];
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                prizes[i].NetworkSerialize(serializer);
-            }
-        }
-    }
+        0.01, 0.08, 0.08, 0.08, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05,
+        0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01
+    };
 
     private void Start()
     {
-       
-        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsHost)
+        if (NetworkManager.Singleton?.IsHost == true)
         {
             StartCoroutine(HandleTeams());
         }
@@ -72,10 +41,10 @@ public class SummaryManager : NetworkBehaviour
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
             ulong clientId = teamClient.ClientId;
-     
+
             CalculatePrizeServerRpc(clientId);
 
-            yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
+            yield return new WaitUntil(() => !videoCanvas.gameObject.activeSelf);
 
             CreatePanelClientRpc(clientId);
 
@@ -86,81 +55,73 @@ public class SummaryManager : NetworkBehaviour
     [ClientRpc]
     private void CreatePanelClientRpc(ulong clientId)
     {
-
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-        GameObject panelObject = Instantiate(panelPrefab, grid);
-        Panel panel = panelObject.GetComponent<Panel>();
+        Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
         panel.Initialize(team);
-
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void CalculatePrizeServerRpc(ulong clientId)
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
-        team.BlackBoxes = _random.Next(2, 3); // Randomize between 1 and 2
-        Debug.Log($"Team {team.name} has {team.BlackBoxes} black boxes.");
+
+        team.BlackBoxes = _random.Next(2, 3);
 
         if (team.BlackBoxes > 0)
         {
-            PrizeData[] prizeDatas = new PrizeData[team.BlackBoxes];
-            for (int i = 0; i < team.BlackBoxes; i++)
-            {
-                prizeDatas[i] = DrawBlackBox(team);
-            }
+            PrizeData[] prizes = Enumerable.Range(0, team.BlackBoxes)
+                                   .Select(_ => DrawPrize(team))
+                                   .ToArray();
 
-            PrizeDataList prizeDataList = new() { prizes = prizeDatas };
-            DisplayPrizeClientRpc(prizeDataList);
+            DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
         }
     }
 
     [ClientRpc]
     private void DisplayPrizeClientRpc(PrizeDataList prizeDataList)
     {
-        PrizeData[] prizeList = prizeDataList.prizes;
-        teamDrawingText.text = $"Drużyna {prizeList[0].teamName} losuje czarną skrzynkę:";
+        PrizeData[] prizes = prizeDataList.prizes;
+        teamDrawingText.text = $"Drużyna {prizes[0].teamName} losuje czarną skrzynkę:";
 
-        if (prizeList.Length == 1)
+        if (prizes.Length == 1)
         {
-            boxesText[0].text = prizeList[0].money > 0 ? prizeList[0].money.ToString() : prizeList[0].badge;
-            StartCoroutine(PlayVideo(1));
+            boxesText[0].text = GetPrizeText(prizes[0]);
+            StartCoroutine(PlayVideo(0));
         }
         else
         {
-            boxesText[1].text = prizeList[0].money > 0 ? prizeList[0].money.ToString() : prizeList[0].badge;
-            boxesText[2].text = prizeList[1].money > 0 ? prizeList[1].money.ToString() : prizeList[1].badge;
-            StartCoroutine(PlayVideo(2));
+            boxesText[1].text = GetPrizeText(prizes[0]);
+            boxesText[2].text = GetPrizeText(prizes[1]);
+            StartCoroutine(PlayVideo(1));
         }
     }
 
-    private IEnumerator PlayVideo(int i)
+    private IEnumerator PlayVideo(int index)
     {
-
-        VideoPlayer videoPlayer = ( i == 1 ) ? boxOpeningVideoPlayer[0] : boxOpeningVideoPlayer[1];
-        bool videoFinished = false;
-
-        // Clear the RenderTexture
-        
-        if (videoPlayer.targetTexture != null)
-        {
-            RenderTexture renderTexture = videoPlayer.targetTexture;
-            RenderTexture.active = renderTexture;
-            GL.Clear(true, true, Color.clear);
-            RenderTexture.active = null;
-        }
-
+        VideoPlayer videoPlayer = boxOpeningVideoPlayer[index];
+        ClearVideoTexture(videoPlayer);
         videoCanvas.gameObject.SetActive(true);
+
+        videoPlayer.Prepare();
+        yield return new WaitUntil(() => videoPlayer.isPrepared);
+
         teamDrawingText.gameObject.SetActive(true);
-
-
-
-        videoPlayer.loopPointReached += (vp) => { videoFinished = true; };
         videoPlayer.Play();
 
-        yield return new WaitUntil(() => videoFinished);
+        yield return new WaitForSeconds((float)videoPlayer.length + 0.1f);
 
-        if (i == 1)
+        ShowPrizeTexts(index);
+
+        yield return new WaitForSeconds(5f);
+
+        DeactivateAll();
+        ReleaseVideoTexture(videoPlayer);
+    }
+
+    private void ShowPrizeTexts(int index)
+    {
+        if (index == 0)
         {
             boxesText[0].gameObject.SetActive(true);
         }
@@ -169,17 +130,10 @@ public class SummaryManager : NetworkBehaviour
             boxesText[1].gameObject.SetActive(true);
             boxesText[2].gameObject.SetActive(true);
         }
-
-        yield return new WaitForSeconds(7f);
-        DeactivateAll(); 
-
-        videoPlayer.targetTexture.Release();
-    
     }
 
     private void DeactivateAll()
     {
-
         foreach (TextMeshProUGUI text in boxesText)
         {
             text.gameObject.SetActive(false);
@@ -189,74 +143,62 @@ public class SummaryManager : NetworkBehaviour
         videoCanvas.gameObject.SetActive(false);
     }
 
-    private PrizeData DrawBlackBox(TeamManager team)
+    private PrizeData DrawPrize(TeamManager team)
     {
-        double los = _random.NextDouble();
-        PrizeData prize = new()
-        {
-            teamName = team.name ?? string.Empty,
-            money = 0,
-            badge = string.Empty 
-        };
-
-        if (los < 0.8) 
-        {
-            int money = DrawMoney();
-            team.Money += money;
-            prize.money = money;
-            prize.badge = string.Empty;
-            Debug.Log($"{team.name} won {money}");
-        }
-        else 
-        {
-            string badge = DrawBadge();
-            prize.money = 0; 
-            prize.badge = badge ?? string.Empty;
-            Debug.Log($"{team.name} won {badge}");
-        }
-
-        return prize;
+        bool isMoneyPrize = _random.NextDouble() < 0.8;
+        return isMoneyPrize ? CreateMoneyPrize(team) : CreateBadgePrize(team);
     }
 
-    private static int DrawMoney()
+    private PrizeData CreateMoneyPrize(TeamManager team)
     {
-        int[] progi = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray() ; // progi kwot [1, 500, 1000, .. , 10000]
-        double[] szanse = new double[]
-        { 0.01 ,0.08, 0.08, 0.08, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05, 0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01}; // Szansa na wylosowanie każdego progu
+        int money = DrawFromProbability(_prizeTiers, _moneyChances);
+        team.Money += money;
 
-        double los = _random.NextDouble();
-        double kumulatywnaSzansa = 0.0;
+        return new PrizeData { teamName = team.name, money = money, badge = string.Empty };
+    }
 
-        for (int i = 0; i < progi.Length; i++)
+    private PrizeData CreateBadgePrize(TeamManager team)
+    {
+        string badge = DrawFromProbability(_badges, _badgeChances);
+        return new PrizeData { teamName = team.name, money = 0, badge = badge };
+    }
+
+    private T DrawFromProbability<T>(T[] items, double[] probabilities)
+    {
+        double randomValue = _random.NextDouble();
+        double cumulativeProbability = 0;
+
+        for (int i = 0; i < items.Length; i++)
         {
-            kumulatywnaSzansa += szanse[i];
-            if (los < kumulatywnaSzansa)
+            cumulativeProbability += probabilities[i];
+            if (randomValue <= cumulativeProbability)
             {
-                return progi[i];
+                return items[i];
             }
         }
 
-        return 1; // Domyślna wartość (nigdy nie powinna wystąpić)
+        return items.Last();
     }
 
-    private  string DrawBadge()
+    private string GetPrizeText(PrizeData prize)
     {
-        string[] odznaki = new string[] { "Samochód", "Ogórek" };
-        double[] szanse = new double[] { 0.2, 0.8 }; // 20% na samochód, 80% na ogórka
+        return prize.money > 0 ? prize.money.ToString() : prize.badge;
+    }
 
-        double los = _random.NextDouble();
-        double kumulatywnaSzansa = 0.0;
-
-        for (int i = 0; i < odznaki.Length; i++)
+    private void ClearVideoTexture(VideoPlayer videoPlayer)
+    {
+        if (videoPlayer.targetTexture != null)
         {
-            kumulatywnaSzansa += szanse[i];
-            if (los < kumulatywnaSzansa)
-            {
-                return odznaki[i];
-            }
+            RenderTexture renderTexture = videoPlayer.targetTexture;
+            RenderTexture.active = renderTexture;
+            GL.Clear(true, true, Color.clear);
+            RenderTexture.active = null;
         }
+    }
 
-        return "Ogórek"; // Domyślna wartość (nigdy nie powinna wystąpić)
+    private void ReleaseVideoTexture(VideoPlayer videoPlayer)
+    {
+        videoPlayer.targetTexture?.Release();
     }
 
     public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
