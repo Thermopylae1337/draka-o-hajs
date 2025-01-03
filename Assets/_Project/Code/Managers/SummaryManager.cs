@@ -42,13 +42,24 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
 
-            CalculatePrizeServerRpc(clientId);
+            
+            TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-            yield return new WaitUntil(() => !videoCanvas.gameObject.activeSelf);
+            //test
+            team.BlackBoxes = _random.Next(3);
+            Debug.Log(team.name);
+            Debug.Log(team.BlackBoxes);
+
+            if (team.BlackBoxes > 0)
+            {
+                CalculatePrizeServerRpc(clientId);
+                
+                yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
+            }
 
             CreatePanelClientRpc(clientId);
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -57,7 +68,8 @@ public class SummaryManager : NetworkBehaviour
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-        Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
+        GameObject panelObject = Instantiate(panelPrefab, grid);
+        Panel panel = panelObject.GetComponent<Panel>();
         panel.Initialize(team);
     }
 
@@ -65,17 +77,15 @@ public class SummaryManager : NetworkBehaviour
     private void CalculatePrizeServerRpc(ulong clientId)
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
-        //test (do wuwalenia po zatwierdzeniu)
-        team.BlackBoxes = _random.Next(1, 3);
 
-        if (team.BlackBoxes > 0)
-        {
-            PrizeData[] prizes = Enumerable.Range(0, team.BlackBoxes)
-                                   .Select(_ => DrawPrize(team))
-                                   .ToArray();
+        
+        PrizeData[] prizes = Enumerable.Range(0, team.BlackBoxes)
+                                .Select(_ => DrawPrize(team))
+                                .ToArray();
 
-            DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
-        }
+        HandleBlackBoxBadges(clientId, new PrizeDataList { prizes = prizes });
+        DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
+        
     }
 
     [ClientRpc]
@@ -130,6 +140,12 @@ public class SummaryManager : NetworkBehaviour
             boxesText[1].gameObject.SetActive(true);
             boxesText[2].gameObject.SetActive(true);
         }
+    }
+
+    private void HandleBlackBoxBadges(ulong clientId, PrizeDataList prizeDataList)
+    {
+        
+
     }
 
     private void DeactivateAll()
