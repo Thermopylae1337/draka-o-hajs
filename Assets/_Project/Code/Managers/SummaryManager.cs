@@ -30,11 +30,12 @@ public class SummaryManager : NetworkBehaviour
 
         if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered > 0)
         {
-            UnlockBadge("Mistrzowie pomyłek");
+            UnlockBadge("As opowiedzi");
         }
+
         if (teams[(int)NetworkManager.Singleton.LocalClientId].Money >= 19000)
         {
-            UnlockBadge("Mistrzowie pomyłek");
+            UnlockBadge("Królowie skarbca");
         }
 
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
