@@ -7,7 +7,6 @@ using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 public class SummaryManager : NetworkBehaviour
 {
@@ -19,81 +18,148 @@ public class SummaryManager : NetworkBehaviour
     public RawImage videoCanvas;
     private static readonly System.Random _random = new();
 
-    private void Start()
+    [Serializable]
+    public struct PrizeData : INetworkSerializable
     {
-        StartCoroutine(HandleTeamsWithDelay());
+        public string teamName;
+        public int money;
+        public string badge;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            teamName ??= string.Empty;
+            badge ??= string.Empty;
+
+            serializer.SerializeValue(ref teamName);
+            serializer.SerializeValue(ref money);
+            serializer.SerializeValue(ref badge);
+        }
     }
 
-    private IEnumerator HandleTeamsWithDelay()
+    [Serializable]
+    public struct PrizeDataList : INetworkSerializable
+    {
+        public PrizeData[] prizes;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            int count = prizes?.Length ?? 0;
+            serializer.SerializeValue(ref count);
+
+            if (serializer.IsReader)
+            {
+                prizes = new PrizeData[count];
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                prizes[i].NetworkSerialize(serializer);
+            }
+        }
+    }
+
+    private void Start()
+    {
+       
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsHost)
+        {
+            StartCoroutine(HandleTeams());
+        }
+    }
+
+    private IEnumerator HandleTeams()
     {
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
-            TeamManager team = teamClient.PlayerObject.GetComponent<TeamManager>();
+            ulong clientId = teamClient.ClientId;
+     
+            CalculatePrizeServerRpc(clientId);
 
-            team.BlackBoxes = _random.Next(1, 2);
+            yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
 
-            if (team.BlackBoxes > 0 && team != null)
-            {
+            CreatePanelClientRpc(clientId);
 
-                videoCanvas.gameObject.SetActive(true);
-                teamDrawingText.text = $"Czarną skrzynkę losuje drużyna: {team.name}";
-                teamDrawingText.color = ColorHelper.ToUnityColor(team.Colour);
-                teamDrawingText.gameObject.SetActive(true);
-
-                switch (team.BlackBoxes)
-                {
-                    case 1:
-                        boxesText[0].text = DrawBlackBox(team);
-                        yield return StartCoroutine(PlayVideo(1)); // Play video and wait
-                        break;
-
-                    case 2:
-                        boxesText[1].text = DrawBlackBox(team);
-                        boxesText[2].text = DrawBlackBox(team);
-                        yield return StartCoroutine(PlayVideo(2)); // Play video and wait
-                        break;
-
-                    default:
-                        break;
-                }  
-            }
-
-            DeactivateAll();
-
-            Panel panel = Instantiate(panelPrefab, grid).GetComponent<Panel>();
-            panel.Initialize(team);
-
-            // Optional delay between handling teams
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(3f);
         }
     }
-    private void DeactivateAll()
+
+    [ClientRpc]
+    private void CreatePanelClientRpc(ulong clientId)
     {
 
-        foreach (TextMeshProUGUI text in boxesText)
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+
+        GameObject panelObject = Instantiate(panelPrefab, grid);
+        Panel panel = panelObject.GetComponent<Panel>();
+        panel.Initialize(team);
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CalculatePrizeServerRpc(ulong clientId)
+    {
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+        team.BlackBoxes = _random.Next(2, 3); // Randomize between 1 and 2
+        Debug.Log($"Team {team.name} has {team.BlackBoxes} black boxes.");
+
+        if (team.BlackBoxes > 0)
         {
-             text.gameObject.SetActive(false);  
+            PrizeData[] prizeDatas = new PrizeData[team.BlackBoxes];
+            for (int i = 0; i < team.BlackBoxes; i++)
+            {
+                prizeDatas[i] = DrawBlackBox(team);
+            }
+
+            PrizeDataList prizeDataList = new() { prizes = prizeDatas };
+            DisplayPrizeClientRpc(prizeDataList);
         }
-        
-        videoCanvas.gameObject.SetActive(false);
-        teamDrawingText.gameObject.SetActive(false);
+    }
+
+    [ClientRpc]
+    private void DisplayPrizeClientRpc(PrizeDataList prizeDataList)
+    {
+        PrizeData[] prizeList = prizeDataList.prizes;
+        teamDrawingText.text = $"Drużyna {prizeList[0].teamName} losuje czarną skrzynkę:";
+
+        if (prizeList.Length == 1)
+        {
+            boxesText[0].text = prizeList[0].money > 0 ? prizeList[0].money.ToString() : prizeList[0].badge;
+            StartCoroutine(PlayVideo(1));
+        }
+        else
+        {
+            boxesText[1].text = prizeList[0].money > 0 ? prizeList[0].money.ToString() : prizeList[0].badge;
+            boxesText[2].text = prizeList[1].money > 0 ? prizeList[1].money.ToString() : prizeList[1].badge;
+            StartCoroutine(PlayVideo(2));
+        }
     }
 
     private IEnumerator PlayVideo(int i)
     {
+
         VideoPlayer videoPlayer = ( i == 1 ) ? boxOpeningVideoPlayer[0] : boxOpeningVideoPlayer[1];
         bool videoFinished = false;
 
-        // Subscribe to loopPointReached
-        videoPlayer.loopPointReached += (vp) => { videoFinished = true; };
+        // Clear the RenderTexture
+        
+        if (videoPlayer.targetTexture != null)
+        {
+            RenderTexture renderTexture = videoPlayer.targetTexture;
+            RenderTexture.active = renderTexture;
+            GL.Clear(true, true, Color.clear);
+            RenderTexture.active = null;
+        }
 
-        // Play the video
+        videoCanvas.gameObject.SetActive(true);
+        teamDrawingText.gameObject.SetActive(true);
+
+
+
+        videoPlayer.loopPointReached += (vp) => { videoFinished = true; };
         videoPlayer.Play();
 
-        // Wait for the video to finish
         yield return new WaitUntil(() => videoFinished);
 
-        // After the video ends, display the text
         if (i == 1)
         {
             boxesText[0].gameObject.SetActive(true);
@@ -105,27 +171,51 @@ public class SummaryManager : NetworkBehaviour
         }
 
         yield return new WaitForSeconds(7f);
+        DeactivateAll(); 
+
+        videoPlayer.targetTexture.Release();
+    
     }
 
-    private string DrawBlackBox(TeamManager team)
+    private void DeactivateAll()
+    {
+
+        foreach (TextMeshProUGUI text in boxesText)
+        {
+            text.gameObject.SetActive(false);
+        }
+
+        teamDrawingText.gameObject.SetActive(false);
+        videoCanvas.gameObject.SetActive(false);
+    }
+
+    private PrizeData DrawBlackBox(TeamManager team)
     {
         double los = _random.NextDouble();
+        PrizeData prize = new()
+        {
+            teamName = team.name ?? string.Empty,
+            money = 0,
+            badge = string.Empty 
+        };
 
-        if (los < 0.8) // 80% szans na pieniądze
+        if (los < 0.8) 
         {
             int money = DrawMoney();
             team.Money += money;
-            Debug.Log($"{team.name} wylosowala {money}");
-            return money.ToString();
+            prize.money = money;
+            prize.badge = string.Empty;
+            Debug.Log($"{team.name} won {money}");
         }
-        else // 20% szans na odznakę
+        else 
         {
             string badge = DrawBadge();
-            Debug.Log($"{team.name} wylosowala {badge}");
-            //team.Badges.Add?
-            return badge;
-            
+            prize.money = 0; 
+            prize.badge = badge ?? string.Empty;
+            Debug.Log($"{team.name} won {badge}");
         }
+
+        return prize;
     }
 
     private static int DrawMoney()
