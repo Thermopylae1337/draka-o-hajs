@@ -65,8 +65,8 @@ public class SummaryManager : NetworkBehaviour
     private void CalculatePrizeServerRpc(ulong clientId)
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
-
-        team.BlackBoxes = _random.Next(2, 3);
+        //test (do wuwalenia po zatwierdzeniu)
+        team.BlackBoxes = _random.Next(1, 3);
 
         if (team.BlackBoxes > 0)
         {
