@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,9 +70,14 @@ public class LobbyController : NetworkBehaviour
         {
             playerObj = NetworkManager.Singleton.ConnectedClients[client.Key].PlayerObject;
         }
-        
+
         if (NetworkManager.Singleton.IsHost)
         {
+            gameManager.startingTeamCount.Value = NetworkManager.Singleton.ConnectedClients.Count;
+            foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values)
+            {
+                client.PlayerObject.GetComponent<TeamManager>().NetworkId = (uint)client.ClientId;
+            }
             _ = NetworkManager.SceneManager.LoadScene("CategoryDraw", LoadSceneMode.Single);
         }
     }

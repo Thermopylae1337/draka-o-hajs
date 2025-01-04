@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,6 +51,7 @@ public class AnswerController : NetworkBehaviour
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
         SetHintMode(false);
+        _teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
 
         foreach (Button button in answerButtons)
         {
@@ -60,6 +60,8 @@ public class AnswerController : NetworkBehaviour
 
         if (IsHost)
         {
+            QuestionAskedIncrementServerRpc();
+
             SetCategoryServerRpc();
             StartRoundServerRpc();
         }
@@ -117,7 +119,7 @@ public class AnswerController : NetworkBehaviour
         _isAnswerChecked = true;
         string playerAnswer = answerInput.text.Trim();
         CheckAnswerServerRpc(playerAnswer);
-        NotifyAnswerCheckedServerRpc(playerAnswer);
+        NotifyAnswerCheckedServerRpc();
     }
 
     public void CheckAnswer(string playerAnswer)
@@ -125,14 +127,18 @@ public class AnswerController : NetworkBehaviour
         SetItemsInteractivity(false);
         _isAnswerChecked = true;
         CheckAnswerServerRpc(playerAnswer);
-        NotifyAnswerCheckedServerRpc(playerAnswer);
+        NotifyAnswerCheckedServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void NotifyAnswerCheckedServerRpc(string playerAnswer)
+    private void NotifyAnswerCheckedServerRpc()
     {
+        if(_timeRemaining > 27f)
+        {
+            UnlockBadgeRpc("Czas to pieniądz");
+        }
+
         _isAnswerChecked = true;
-        CheckAnswerServerRpc(playerAnswer);
         NotifyClientsAnswerCheckedRpc();
     }
 
@@ -147,6 +153,11 @@ public class AnswerController : NetworkBehaviour
     {
         if (currentQuestion.IsCorrect(playerAnswer))
         {
+            if(IsHost)
+            {
+                QuestionAnsweredIncrementServerRpc();
+            }
+
             NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
             SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), true);
@@ -154,8 +165,14 @@ public class AnswerController : NetworkBehaviour
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
-                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
+                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}"
                 currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), false);
+
+            if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
+            {
+                //dodane po to, żeby nie sprawdzać na początku każdej rundy licytacji kto ma <600zł
+                _teams[(int)GameManager.Instance.Winner.Value].InGame = false;
+            }
         }
     }
 
@@ -166,6 +183,11 @@ public class AnswerController : NetworkBehaviour
         if (!correctAnswer)
         {
             resultImage.sprite = artResultWrong;
+        }
+
+        if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
+        {
+            UnlockBadgeRpc("Bankruci");
         }
 
         if (gameContinuing)
@@ -187,6 +209,7 @@ public class AnswerController : NetworkBehaviour
     {
         if (NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money >= randomHintPrice)
         {
+            _teams[(int)GameManager.Instance.Winner.Value].CluesUsed++;
             NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money -= randomHintPrice;
             hints = currentQuestion.Hints;
             ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
@@ -314,7 +337,7 @@ public class AnswerController : NetworkBehaviour
     }
     private bool IsContinuingGamePossible()
     {
-        _teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+        
         _teamsInGame = 0;
         foreach (TeamManager team in _teams)
         {
@@ -325,5 +348,26 @@ public class AnswerController : NetworkBehaviour
         }
 
         return _teamsInGame >= 2;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void UnlockBadgeRpc(string name)
+    {
+        if (GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId)
+        {
+            _teams[(int)GameManager.Instance.Winner.Value].BadgeList.UnlockBadge(name);
+        }
+    }
+
+    [Rpc(SendTo.Server)]
+    private void QuestionAnsweredIncrementServerRpc()
+    {
+        _teams[(int)GameManager.Instance.Winner.Value].QuestionsAnswered++;
+    }
+
+    [Rpc(SendTo.Server)]
+    private void QuestionAskedIncrementServerRpc()
+    {
+        _teams[(int)GameManager.Instance.Winner.Value].QuestionsAsked++;
     }
 }

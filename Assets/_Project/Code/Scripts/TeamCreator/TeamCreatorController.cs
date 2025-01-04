@@ -1,4 +1,3 @@
-using Assets._Project.Code.Models;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -77,11 +76,23 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
     }
     void RemoveClientHandlers()
     {
-        spinner.SetActive(false);
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (spinner != null)
+        {
+            spinner.SetActive(false);
+        };
         NetworkManager.Singleton.OnClientConnectedCallback -= HandleSuccessClient;
         NetworkManager.Singleton.OnClientDisconnectCallback -= HandleErrorClient;
-        inputField.interactable = true;
-        tMP_InputField.interactable = true;
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (inputField != null)
+        {
+            inputField.interactable = true;
+        }
+        //dodany if bo wyrzucało errory przy wchodzeniu do lobby
+        if (tMP_InputField != null)
+        {
+            tMP_InputField.interactable = true;
+        }
     }
 
     private void StartGame()

@@ -6,7 +6,7 @@ public class Badge
     public string Name { get; private set; }
 
     [JsonProperty("unlocked")]
-    public bool Unlocked { get; private set; }
+    public bool Unlocked { get; set; }
 
     [JsonProperty("unlockCondition")]
     public string UnlockCondition { get; private set; }
