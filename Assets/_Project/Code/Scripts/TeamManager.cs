@@ -22,16 +22,24 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> cluesUsed = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
-    private int blackBoxes = 0;
+    private NetworkVariable<int> blackBoxes = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField]
+    private NetworkVariable<int> wonBid = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField]
+    private NetworkVariable<int> questionsAnswered = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField]
+    private NetworkVariable<int> questionsAsked = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    [SerializeField]
+    private NetworkVariable<int> vaBanque = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     [SerializeField]
     private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
-    [SerializeField]
-    private List<string> powerUps = new(); //deprecated?
-
-    [SerializeField]
-    private List<string> badges = new();
+    private BadgeList badgeList = new();
 
     [SerializeField]
     public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
@@ -46,6 +54,7 @@ public class TeamManager : NetworkBehaviour
 
     [SerializeField]
     private NetworkVariable<bool> inGame = new(true, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
     [SerializeField]
     private NetworkVariable<uint> teamId = new(0, writePerm: NetworkVariableWritePermission.Owner, readPerm: NetworkVariableReadPermission.Everyone);
 
@@ -131,7 +140,7 @@ public class TeamManager : NetworkBehaviour
     }
     public int BlackBoxes
     {
-        get => blackBoxes;
+        get => blackBoxes.Value;
         set
         {
             if (value < 0)
@@ -139,7 +148,62 @@ public class TeamManager : NetworkBehaviour
                 throw new Exception("Czarne Skrzynki nie mogą być na minusie.");
             }
 
-            blackBoxes = value;
+            blackBoxes.Value = value;
+        }
+    }
+    public int WonBid
+    {
+        get => wonBid.Value;
+        set
+        {
+            if (value < 0)
+            {
+                throw new Exception("WonBid cannot be negative.");
+            }
+
+            wonBid.Value = value;
+        }
+    }
+
+    public int QuestionsAnswered
+    {
+        get => questionsAnswered.Value;
+        set
+        {
+            if (value < 0)
+            {
+                throw new Exception("QuestionsAnswered cannot be negative.");
+            }
+
+            questionsAnswered.Value = value;
+        }
+    }
+
+    public int QuestionsAsked
+    {
+        get => questionsAsked.Value;
+        set
+        {
+            if (value < 0)
+            {
+                throw new Exception("QuestionsAsked cannot be negative.");
+            }
+
+            questionsAsked.Value = value;
+        }
+    }
+
+    public int VaBanque
+    {
+        get => vaBanque.Value;
+        set
+        {
+            if (value < 0)
+            {
+                throw new Exception("VaBanque cannot be negative.");
+            }
+
+            vaBanque.Value = value;
         }
     }
     public int InactiveRounds
@@ -155,16 +219,12 @@ public class TeamManager : NetworkBehaviour
             inactiveRounds.Value = value;
         }
     }
+
     public int TotalMoney { get; set; }
-    public ReadOnlyCollection<string> PowerUps
+    public BadgeList BadgeList
     {
-        get => powerUps.AsReadOnly();
-        set => powerUps = value.ToList();
-    }
-    public ReadOnlyCollection<string> Badges
-    {
-        get => badges.AsReadOnly();
-        set => badges = value.ToList();
+        get => badgeList;
+        set => badgeList = value;
     }
     public void RaiseBid(int amount)
     {

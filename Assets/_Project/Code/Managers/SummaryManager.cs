@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +18,9 @@ public class SummaryManager : NetworkBehaviour
     [SerializeField] private VideoPlayer[] boxOpeningVideoPlayer;
     [SerializeField] private RawImage videoCanvas;
     [SerializeField] private GameObject[] prizesObjects;
+    public List<TeamManager> teams;
+    TeamManager richestTeam;
+    ulong winnerId;
 
     private static readonly System.Random _random = new();
     private static readonly string[] _badges = { "Samochód", "Ogórek" };
@@ -29,6 +34,30 @@ public class SummaryManager : NetworkBehaviour
 
     private void Start()
     {
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+        richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
+        winnerId = richestTeam.OwnerClientId;
+
+        if(NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
+        {
+            UnlockBadge("Samodzielni Geniusze");
+        }
+
+        if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == 0 && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked > 0)
+        {
+            UnlockBadge("Mistrzowie pomyłek");
+        }
+
+        if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered > 0)
+        {
+            UnlockBadge("As opowiedzi");
+        }
+
+        if (teams[(int)NetworkManager.Singleton.LocalClientId].Money >= 19000)
+        {
+            UnlockBadge("Królowie skarbca");
+        }
+
         if (NetworkManager.Singleton?.IsHost == true)
         {
             _ = StartCoroutine(HandleTeams());
@@ -230,4 +259,9 @@ public class SummaryManager : NetworkBehaviour
     }
 
     public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+
+    private void UnlockBadge(string name)
+    {
+        teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge(name);
+    }
 }
