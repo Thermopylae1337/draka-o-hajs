@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using Assets._Project.Code.Models;
+//using Assets._Project.Code.Models;
 
 public class Panel : MonoBehaviour
 {

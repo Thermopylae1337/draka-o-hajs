@@ -16,6 +16,7 @@ public class BiddingWarController : NetworkBehaviour
     public List<TextMeshProUGUI> teamBalanceText;
     public List<TextMeshProUGUI> bidButtonText;
     public TextMeshProUGUI timerText;
+    public TextMeshProUGUI winnersText;
     public TextMeshProUGUI categoryNameText;
     public TextMeshProUGUI warningText;
     public TextMeshProUGUI punishmentText;
@@ -310,8 +311,8 @@ public class BiddingWarController : NetworkBehaviour
     {
         int scene_change_delay = defaultSceneChangeDelay;
         gameOngoing = false;
-        timerText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
-        timerText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
+        winnersText.text = "Wygrywa drużyna " + teams[team_id].TeamName;
+        winnersText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
         ShowVideo();
 
@@ -399,7 +400,7 @@ public class BiddingWarController : NetworkBehaviour
             UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
-                timerText.text = ( timeGiven - ( Time.time - timer ) ).ToString();
+                timerText.text = ( Mathf.Round(( timeGiven - ( Time.time - timer ) ) * 10) / 10 ).ToString();
                 if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 

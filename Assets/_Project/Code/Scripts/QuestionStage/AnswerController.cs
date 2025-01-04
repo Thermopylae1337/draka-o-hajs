@@ -165,7 +165,7 @@ public class AnswerController : NetworkBehaviour
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
-                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}"
+                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
                 currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), false);
 
             if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
