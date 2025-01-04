@@ -1,27 +1,25 @@
 using System;
 using Unity.Netcode;
 
-namespace Assets._Project.Code.Models
+[Serializable]
+public struct PrizeDataList : INetworkSerializable
 {
-    [Serializable]
-    public struct PrizeDataList : INetworkSerializable
+    public PrizeData[] prizes;
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
-        public PrizeData[] prizes;
+        int count = prizes?.Length ?? 0;
+        serializer.SerializeValue(ref count);
 
-        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        if (serializer.IsReader)
         {
-            int count = prizes?.Length ?? 0;
-            serializer.SerializeValue(ref count);
+            prizes = new PrizeData[count];
+        }
 
-            if (serializer.IsReader)
-            {
-                prizes = new PrizeData[count];
-            }
-
-            for (int i = 0; i < count; i++)
-            {
-                prizes[i].NetworkSerialize(serializer);
-            }
+        for (int i = 0; i < count; i++)
+        {
+            prizes[i].NetworkSerialize(serializer);
         }
     }
 }
+

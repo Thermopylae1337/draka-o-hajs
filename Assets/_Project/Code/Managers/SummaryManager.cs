@@ -2,12 +2,10 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using System;
 using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
-using Assets._Project.Code.Models;
 
 public class SummaryManager : NetworkBehaviour
 {
