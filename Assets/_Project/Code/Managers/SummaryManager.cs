@@ -3,11 +3,12 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Linq;
+
 using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class SummaryManager : NetworkBehaviour
 {
@@ -25,7 +26,7 @@ public class SummaryManager : NetworkBehaviour
     private static readonly System.Random _random = new();
     private static readonly string[] _badges = { "Samochód", "Ogórek" };
     private static readonly double[] _badgeChances = { 0.2, 0.8 };
-    private static readonly int[] _prizeTiers = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray();
+    private static readonly int[] _moneyTiers = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray();
     private static readonly double[] _moneyChances =
     {
         0.01, 0.09, 0.09, 0.09, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05,
@@ -34,28 +35,31 @@ public class SummaryManager : NetworkBehaviour
 
     private void Start()
     {
-        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
-        richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
-        winnerId = richestTeam.OwnerClientId;
-
-        if(NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
+        if (NetworkManager != null)
         {
-            UnlockBadge("Samodzielni Geniusze");
-        }
+            teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+            richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
+            winnerId = richestTeam.OwnerClientId;
 
-        if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == 0 && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked > 0)
-        {
-            UnlockBadge("Mistrzowie pomyłek");
-        }
+            if (NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
+            {
+                UnlockBadge("Samodzielni Geniusze");
+            }
 
-        if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered > 0)
-        {
-            UnlockBadge("As opowiedzi");
-        }
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == 0 && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked > 0)
+            {
+                UnlockBadge("Mistrzowie pomyłek");
+            }
 
-        if (teams[(int)NetworkManager.Singleton.LocalClientId].Money >= 19000)
-        {
-            UnlockBadge("Królowie skarbca");
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered > 0)
+            {
+                UnlockBadge("As opowiedzi");
+            }
+
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].Money >= 19000)
+            {
+                UnlockBadge("Królowie skarbca");
+            }
         }
 
         if (NetworkManager.Singleton?.IsHost == true)
@@ -81,7 +85,6 @@ public class SummaryManager : NetworkBehaviour
             if (team.BlackBoxes > 0)
             {
                 CalculatePrizeServerRpc(clientId);
-                // Wait for the prize display to complete before handling the next team
                 yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
             }
 
@@ -185,8 +188,33 @@ public class SummaryManager : NetworkBehaviour
 
     private void HandleBlackBoxBadges(ulong clientId, PrizeDataList prizeDataList)
     {
-        
+        foreach (PrizeData item in prizeDataList.prizes)
+        {
+            if(item.money == 1)
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Symboliczna złotówka");
+            }
 
+            if( item.badge == "Ogórek")
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Łowcy ogórka");
+            }
+
+            if(item.badge == "Samochód")
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Samochód");
+            }
+
+            if( item.money == 5000 && winnerId == clientId)
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 5000zł");
+            }
+
+            if(item.money == 10000 && winnerId == clientId)
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 10000zł");
+            }
+        }
     }
 
     private void DeactivateAll()
@@ -208,7 +236,7 @@ public class SummaryManager : NetworkBehaviour
 
     private PrizeData CreateMoneyPrize(TeamManager team)
     {
-        int money = DrawFromProbability(_prizeTiers, _moneyChances);
+        int money = DrawFromProbability(_moneyTiers, _moneyChances);
         team.Money += money;
 
         return new PrizeData { teamName = team.name, money = money, badge = string.Empty };
