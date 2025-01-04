@@ -172,18 +172,7 @@ public class SummaryManager : NetworkBehaviour
 
     private void ShowPrizeObjects(int index)
     {
-        if (index == 0)
-        {
-            prizesObjects[0].gameObject.SetActive(true);
-        }
-        else if (index == 1) 
-        {
-            prizesObjects[1].gameObject.SetActive(true);
-        }
-        else
-        {
-            prizesObjects[2].gameObject.SetActive(true);
-        }
+        prizesObjects[index].gameObject.SetActive(true);
     }
 
     private void HandleBlackBoxBadges(ulong clientId, PrizeDataList prizeDataList)
