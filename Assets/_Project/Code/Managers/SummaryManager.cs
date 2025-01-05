@@ -3,36 +3,81 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
-using System;
 
+/// <summary>
+/// Klasa zarządzająca etapem podsumowania.
+/// </summary>
 public class SummaryManager : NetworkBehaviour
 {
+    /// <summary>
+    /// Prefab reprezentujący panel podsumowania drużyny.
+    /// </summary>
     [SerializeField] private GameObject panelPrefab;
+    /// <summary>
+    /// Rodzic w hierarchii, w którym będą umieszczane kolejne panele podsumowania.
+    /// </summary>
     [SerializeField] private Transform grid;
+    /// <summary>
+    /// Zmienna informująca o nazwie drużyny losującej czarną skrzynkę.
+    /// </summary>
     [SerializeField] private TextMeshProUGUI teamDrawingText;
+    /// <summary>
+    /// Zmienna przechowywująca listę obiektów tekstowych potrzebnych do wyświetlania nagród z czarnej skrzynki.
+    /// </summary>
     [SerializeField] private TextMeshProUGUI[] boxesText;
+    /// <summary>
+    /// Zmienna przechowywująca listę animacji czarnych skrzynek.
+    /// </summary>
     [SerializeField] private VideoPlayer[] boxOpeningVideoPlayer;
+    /// <summary>
+    /// Zmienna przechowywująca obiekt, na którym wyświetlana jest animacja losowania.
+    /// </summary>
     [SerializeField] private RawImage videoCanvas;
+    /// <summary>
+    /// Zmienna przechowywująca listę obiektów odpowiedzalnych za wyświetlanie tekstu nagród z czarnej skrzynki.
+    /// </summary>
     [SerializeField] private GameObject[] prizesObjects;
     public List<TeamManager> teams;
+    /// <summary>
+    /// Zmienna przechowuwująca dryżynę dysponującą największą kwotą.
+    /// </summary>
     TeamManager richestTeam;
+    /// <summary>
+    /// Zmienna przechowywująca Id zwycięzcy rozgrywki.
+    /// </summary>
     ulong winnerId;
 
+    /// <summary>
+    /// Zmienna wykorzystywana do losowania nagród.
+    /// </summary>
     private static readonly System.Random _random = new();
+    /// <summary>
+    /// Zmienna statyczna przechowywująca możliwe nagrody przedmiotowe.
+    /// </summary>
     private static readonly string[] _badges = { "Samochód", "Ogórek" };
+    /// <summary>
+    /// Zmienna statyczna przechowywująca szanse na nagrody przedmiotowe.
+    /// </summary>
     private static readonly double[] _badgeChances = { 0.2, 0.8 };
+    /// <summary>
+    /// Zmienna statyczna przechowywująca możliwe nagrody pieniężne.
+    /// </summary>
     private static readonly int[] _moneyTiers = Enumerable.Range(0, 21).Select(i => i == 0 ? 1 : i * 500).ToArray();
+    /// <summary>
+    /// Zmienna statyczna przechowywujaca szanse na nagrody pienięzne.
+    /// </summary>
     private static readonly double[] _moneyChances =
     {
         0.01, 0.09, 0.09, 0.09, 0.08, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.05,
         0.03, 0.03, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01
     };
-
+    /// <summary>
+    /// Metoda wywoływana na samym początku włączenia skryptu.
+    /// </summary>
     private void Start()
     {
         if (NetworkManager != null)
@@ -67,7 +112,10 @@ public class SummaryManager : NetworkBehaviour
             _ = StartCoroutine(HandleTeams());
         }
     }
-
+    /// <summary>
+    /// Metoda zajmująca się obsługą drużyn na etapie podusmowania.
+    /// </summary>
+    /// <returns>Zwraca IEnumerator</returns>
     private IEnumerator HandleTeams()
     {
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
@@ -93,7 +141,10 @@ public class SummaryManager : NetworkBehaviour
             yield return new WaitForSeconds(2f);
         }
     }
-
+    /// <summary>
+    /// RPC tworzący i wyświetlający panel podsumowania drużyny.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowywująca ID drużyny.</param>
     [ClientRpc]
     private void CreatePanelClientRpc(ulong clientId)
     {
@@ -103,7 +154,10 @@ public class SummaryManager : NetworkBehaviour
         Panel panel = panelObject.GetComponent<Panel>();
         panel.Initialize(team);
     }
-
+    /// <summary>
+    /// RPC odpowiedzalny za obliczanie i wyświetlanie nagród uzyskanych z czarnych skrzynek przez drużynę. 
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowywująca ID drużyny.</param>
     [ServerRpc(RequireOwnership = false)]
     private void CalculatePrizeServerRpc(ulong clientId)
     {
@@ -118,7 +172,10 @@ public class SummaryManager : NetworkBehaviour
         DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
         
     }
-
+    /// <summary>
+    /// RPC odpowiedzialny za przyporządkowywanie tekstu nagród i odtwarzanie odpowiedniej animacji dla każdego z klientów.
+    /// </summary>
+    /// <param name="prizeDataList">Zmienna przechowująca informację o liście wylosowanych nagród.</param>
     [ClientRpc]
     private void DisplayPrizeClientRpc(PrizeDataList prizeDataList)
     {
@@ -147,7 +204,11 @@ public class SummaryManager : NetworkBehaviour
             _ = StartCoroutine(PlayVideo(2));
         }
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za przygotowanie i wyświetlenie animacji otwierania czarnej skrzynki.
+    /// </summary>
+    /// <param name="index">Zmienna określająca indeks wyświrtlanej animacjii.</param>
+    /// <returns></returns>
     private IEnumerator PlayVideo(int index)
     {
         VideoPlayer videoPlayer = boxOpeningVideoPlayer[index];
@@ -169,12 +230,19 @@ public class SummaryManager : NetworkBehaviour
         DeactivateAll();
         ReleaseVideoTexture(videoPlayer);
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za aktywację obiektów tesktowych biorących udział w animacji.
+    /// </summary>
+    /// <param name="index">Zmienna określająca indeks obiektu.</param>
     private void ShowPrizeObjects(int index)
     {
         prizesObjects[index].gameObject.SetActive(true);
     }
-
+    /// <summary>
+    /// Metoda odpowiadająca za odblokowywanie odznaki pochodzącej z czarnej skrzynki.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowywująca ID drużyny, która ma szansę odblokować odznakę.</param>
+    /// <param name="prizeDataList">Zmienna przechowywująca nagrody wylosowane z czarnych skrzynek.</param>
     private void HandleBlackBoxBadges(ulong clientId, PrizeDataList prizeDataList)
     {
         foreach (PrizeData item in prizeDataList.prizes)
@@ -205,7 +273,9 @@ public class SummaryManager : NetworkBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Metoda zajmująca się deaktywacją obiektów uczestniczących w animacji.
+    /// </summary>
     private void DeactivateAll()
     {
         foreach (GameObject obiekt in prizesObjects)
@@ -216,13 +286,21 @@ public class SummaryManager : NetworkBehaviour
         teamDrawingText.gameObject.SetActive(false);
         videoCanvas.gameObject.SetActive(false);
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za logikę losowania między nagrodą pieniężną a odznaką.
+    /// </summary>
+    /// <param name="team">Zmienna reprezentująca drużynę.</param>
+    /// <returns>Zwraca informacje o nagrodzie jaką wylosowała drużyna.</returns>
     private PrizeData DrawPrize(TeamManager team)
     {
         bool isMoneyPrize = _random.NextDouble() < 0.8;
         return isMoneyPrize ? CreateMoneyPrize(team) : CreateBadgePrize(team);
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za losowanie nagrody w postaci pieniędzy.
+    /// </summary>
+    /// <param name="team">Zmienna reprezentująca drużynę.</param>
+    /// <returns>Zwraca nagrodę w postaci pieniędzy.</returns>
     private PrizeData CreateMoneyPrize(TeamManager team)
     {
         int money = DrawFromProbability(_moneyTiers, _moneyChances);
@@ -230,13 +308,23 @@ public class SummaryManager : NetworkBehaviour
 
         return new PrizeData { teamName = team.name, money = money, badge = string.Empty };
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za losowanie nagrody będącą odznaką.
+    /// </summary>
+    /// <param name="team">Zmienna reprezentująca drużynę.</param>
+    /// <returns>Zwraca nagrodę w postaci odznaki.</returns>
     private PrizeData CreateBadgePrize(TeamManager team)
     {
         string badge = DrawFromProbability(_badges, _badgeChances);
         return new PrizeData { teamName = team.name, money = 0, badge = badge };
     }
-
+    /// <summary>
+    /// Metoda odpowiedzialna za losowanie nagrody z czarnej skrzynki.
+    /// </summary>
+    /// <typeparam name="T">Parametr typu listy nagród.</typeparam>
+    /// <param name="items">Zmienna przechowywująca nagrody.</param>
+    /// <param name="probabilities">Zmienna przechowywująca prawdopodobieństwa wylosowania poszczególnych nagród.</param>
+    /// <returns>Zwraca wylosowaną nagrodę.</returns>
     private T DrawFromProbability<T>(T[] items, double[] probabilities)
     {
         double randomValue = _random.NextDouble();
@@ -253,12 +341,19 @@ public class SummaryManager : NetworkBehaviour
 
         return items.Last();
     }
-
+    /// <summary>
+    /// Metoda zajmująca się logiką generowania tekstu wyświetlanego podczas animacji czarnej skrzynki.
+    /// </summary>
+    /// <param name="prize">Zmienna przechowywująca informację o wylosowanej przez drużynę nagrody.</param>
+    /// <returns>Metoda zwraca tekst jaki ma się pojawić podczas animacji czarnej skrzynki.</returns>
     private string GetPrizeText(PrizeData prize)
     {
         return prize.money > 0 ? prize.money.ToString() : prize.badge;
     }
-
+    /// <summary>
+    /// Metoda zajmująca się oczysczaniem tekstury na której renderowana jest animacja.
+    /// </summary>
+    /// <param name="videoPlayer">Zmienna przechowywująca informację o wyświetlonej animacji.</param>
     private void ClearVideoTexture(VideoPlayer videoPlayer)
     {
         if (videoPlayer.targetTexture != null)
@@ -269,14 +364,22 @@ public class SummaryManager : NetworkBehaviour
             RenderTexture.active = null;
         }
     }
-
+    /// <summary>
+    /// Metoda zwalniająca zasoby sprzętowe używane przez teksturę renderingu.
+    /// </summary>
+    /// <param name="videoPlayer">Zmienna przechowywująca informację o wyświetlonej animacji.</param>
     private void ReleaseVideoTexture(VideoPlayer videoPlayer)
     {
         videoPlayer.targetTexture?.Release();
     }
-
+    /// <summary>
+    /// Metoda pozwalająca na przejście do menu głownego gry.
+    /// </summary>
     public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
-
+    /// <summary>
+    /// Metoda odpowiadająca za odblokowywanie odznaki przez drużynę.
+    /// </summary>
+    /// <param name="name">Zmienna przechowywująca nazwę odblokowywanej odznaki.</param>
     private void UnlockBadge(string name)
     {
         teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge(name);
