@@ -18,7 +18,7 @@ public class SummaryManager : NetworkBehaviour
         richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
         winnerId = richestTeam.OwnerClientId;
 
-        if(NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
+        if (NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
         {
             UnlockBadge("Samodzielni Geniusze");
         }
@@ -46,7 +46,11 @@ public class SummaryManager : NetworkBehaviour
         }
     }
 
-    public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+    public void ChangeScene()
+    {
+        NetworkManager.Shutdown();
+        SceneManager.LoadScene("MainMenu");
+    }   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
 
     private void UnlockBadge(string name)
     {
