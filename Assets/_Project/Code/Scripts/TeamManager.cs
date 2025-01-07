@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SqlTypes;
 using System.IO;
-using System.Linq;
-using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TeamManager : NetworkBehaviour
@@ -239,6 +233,19 @@ public class TeamManager : NetworkBehaviour
         //dodałem funkcję reset bid żeby można było np zrobić odznakę "zakończ licytację z jakąśtam kwotą na końcu"
         bid.Value = 0;
     }
+
+    public void Start()
+    {
+        teamName.OnValueChanged = delegate (FixedString64Bytes oldName, FixedString64Bytes newName)
+        {
+            gameObject.name = newName.ToString();
+        };
+        if (IsOwner)
+        {
+            teamName.Value = TeamCreatorController.chosenTeamName;
+        }
+    }
+
     public void Serialize(string path)
     {
         string jsonString = JsonUtility.ToJson(this);
