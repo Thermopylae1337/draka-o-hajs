@@ -58,6 +58,14 @@ public class AnswerController : NetworkBehaviour
             SetCategoryServerRpc();
             StartRoundServerRpc();
         }
+        //orygianlnie miało to być w SendQuestionToClientRpc ale wtedy wyskakiwał
+        //NullReferenceException: Object reference not set to an instance of an object (dla GameManagera)
+        //ale tylko dla klientów, nie dla hosta, więc najprawdopodobniej GameManager nie był dostatecznie szybko przez nich ładowany
+        //ewentualnie może zawsze widnieć koszt podpowiedzi ale wydaje mi się, że lepiej żeby pokazane było ile drużyna ma podpowiedzi (jeżeli ma)
+        if (_teams[(int)GameManager.Instance.Winner.Value].Clues > 0)
+        {
+            hintPriceText.text = "Liczba podpowiedzi:" + Convert.ToString(_teams[(int)GameManager.Instance.Winner.Value].Clues);
+        }
 
         feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
             ? "Jesteś graczem ktory wygrał licytacje"
@@ -153,7 +161,7 @@ public class AnswerController : NetworkBehaviour
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
-                $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
+                $"Poprawna odpowiedź to: "+currentQuestion.CorrectAnswers[0],
                 currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
             if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
             {
@@ -187,11 +195,19 @@ public class AnswerController : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     private void UseHintNotifyServerRpc()
-    {
-        if (NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money >= randomHintPrice)
+    { 
+        if (NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money >= randomHintPrice || ( _teams[(int)GameManager.Instance.Winner.Value].Clues>0 )  )
         {
-            _teams[(int)GameManager.Instance.Winner.Value].CluesUsed++;
-            NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money -= randomHintPrice;
+            if (_teams[(int)GameManager.Instance.Winner.Value].Clues > 0)
+            {
+                _teams[(int)GameManager.Instance.Winner.Value].Clues -= 1;
+            }
+            else
+            { 
+                NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money -= randomHintPrice;
+            }
+
+             _teams[(int)GameManager.Instance.Winner.Value].CluesUsed++;
             hints = currentQuestion.Hints;
             ShowHintRpc(hints[0], hints[1], hints[2], hints[3]);
             _timeRemaining = 30f;
@@ -216,6 +232,7 @@ public class AnswerController : NetworkBehaviour
         answerButtons[1].GetComponentInChildren<TMP_Text>().text = h2;
         answerButtons[2].GetComponentInChildren<TMP_Text>().text = h3;
         answerButtons[3].GetComponentInChildren<TMP_Text>().text = h4;
+        hintPriceText.text = "";
     }
     private void SetHintMode(bool active)
     {
@@ -224,9 +241,9 @@ public class AnswerController : NetworkBehaviour
             SetButtonsDefaultColor();
         }
 
-        answerInput.gameObject.SetActive(!active);
-
+        answerInput.gameObject.SetActive(!active); 
         hintButtonsContainer.SetActive(active);
+        useHintsButton.gameObject.SetActive(!active);
     }
 
     private void OnSelectButton(Button button)
@@ -269,8 +286,8 @@ public class AnswerController : NetworkBehaviour
     {
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         SetItemsInteractivity(false);
-        this.questionText.text = questionText;
-        hintPriceText.text = "Cena podpowiedzi: " + Convert.ToString(hintPrice);
+        this.questionText.text = questionText; 
+        hintPriceText.text = "Cena podpowiedzi: " + Convert.ToString(hintPrice); 
         _isAnswerChecked = false;
         roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
         feedbackText.text = "";
