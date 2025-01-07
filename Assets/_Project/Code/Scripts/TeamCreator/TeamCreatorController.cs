@@ -63,26 +63,14 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void HandleErrorClient(ulong value)
-    {
-        RemoveClientHandlers();
-        errorMessage.SetActive(true);
-
-    }
-
-    private void HandleSuccessClient(ulong value)
-    {
-        RemoveClientHandlers();
-    }
     void RemoveClientHandlers()
     {
         //dodany if bo wyrzucało errory przy wchodzeniu do lobby
-        if (spinner != null)
+        if (spinner)
         {
             spinner.SetActive(false);
         };
-        NetworkManager.Singleton.OnClientConnectedCallback -= HandleSuccessClient;
-        NetworkManager.Singleton.OnClientDisconnectCallback -= HandleErrorClient;
+
         //dodany if bo wyrzucało errory przy wchodzeniu do lobby
         if (inputField != null)
         {
@@ -100,22 +88,17 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         switch (MainMenuController.lobbyType)
         {
             case LobbyTypeEnum.Host:
-                _ = NetworkManager.StartHost();
-                NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
+                _ = NetworkManager.Singleton.StartHost();
+                // NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
                 _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             case LobbyTypeEnum.Join:
                 NetworkManager.Singleton.GetComponent<UnityTransport>().ConnectionData.Address = ipField.GetComponentInChildren<TMP_InputField>().text;
 
-                NetworkManager.Singleton.OnClientDisconnectCallback += HandleErrorClient;
-                NetworkManager.Singleton.OnClientConnectedCallback += HandleSuccessClient;
-
                 spinner.SetActive(true);
-                bool success = NetworkManager.StartClient();
+                _ = NetworkManager.Singleton.StartClient();
 
-                // SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
-                break;
-            default:
+                _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
         }
     }

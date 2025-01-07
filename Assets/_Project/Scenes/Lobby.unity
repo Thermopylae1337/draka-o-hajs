@@ -2764,6 +2764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   startButton: {fileID: 1255228629}
+  mainMenuButton: {fileID: 345263292}
   readyButton: {fileID: 1129137065}
   biddingWarButton: {fileID: 1210946431}
   playerListGameObject: {fileID: 1311950121}
