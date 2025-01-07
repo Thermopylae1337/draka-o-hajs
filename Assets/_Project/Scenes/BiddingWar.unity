@@ -492,8 +492,8 @@ RectTransform:
   m_Children:
   - {fileID: 568795449}
   - {fileID: 529973598}
-  - {fileID: 353857819}
   - {fileID: 1543739852}
+  - {fileID: 353857819}
   - {fileID: 1313173954}
   - {fileID: 681166877}
   - {fileID: 478939271}
