@@ -60,6 +60,13 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
     {
         returnButton.interactable = false;
         MainMenuController.lobbyType = LobbyTypeEnum.NotSelected;
+
+        // Check if client is running
+        if (NetworkManager.Singleton.IsClient)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -88,8 +95,21 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         switch (MainMenuController.lobbyType)
         {
             case LobbyTypeEnum.Host:
-                _ = NetworkManager.Singleton.StartHost();
-                // NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
+                try
+                {
+                    if (!NetworkManager.Singleton.StartHost())
+                    {
+                        errorMessage.SetActive(true);
+                        return;
+                    }
+                }
+                catch (System.Exception)
+                {
+                    errorMessage.SetActive(true);
+                    return;
+                }
+
+                NetworkManager.Singleton.SceneManager.ActiveSceneSynchronizationEnabled = true;
                 _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
             case LobbyTypeEnum.Join:
@@ -97,8 +117,6 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
 
                 spinner.SetActive(true);
                 _ = NetworkManager.Singleton.StartClient();
-
-                _ = NetworkManager.Singleton.SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
                 break;
         }
     }
