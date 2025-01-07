@@ -16,4 +16,5 @@ public class MainMenuController : MonoBehaviour
         SceneManager.LoadScene("TeamCreator");
     }
     public void LoadBadgesScene() => SceneManager.LoadScene("Badges");
+    public void LoadLeaderboardScene() => SceneManager.LoadScene("Leaderboard");
 }
