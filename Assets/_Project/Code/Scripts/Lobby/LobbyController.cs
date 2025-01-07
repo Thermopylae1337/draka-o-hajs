@@ -112,11 +112,8 @@ public class LobbyController : NetworkBehaviour
         int i = 0;
         foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values.ToList())
         {
-            if (i >= 0)
-            {
-                client.PlayerObject.GetComponent<TeamManager>().Colour = (ColourEnum)i;
-                i++;
-            }
+            client.PlayerObject.GetComponent<TeamManager>().Colour = (ColourEnum)i;
+            i++;
         }
     }
 
