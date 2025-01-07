@@ -490,7 +490,7 @@ public class BiddingWarController : NetworkBehaviour
         //ostrzegamy
         if (teams_warned.Count == 1)
         {
-            warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_warned[0]].name + " </color> nie licytowała w tej rundzie! ";
+            warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_warned[0]].teamName.Value + " </color> nie licytowała w tej rundzie! ";
         }
 
         if (teams_warned.Count > 1)
@@ -498,7 +498,7 @@ public class BiddingWarController : NetworkBehaviour
             warningText.text = "Drużyny ";
             foreach (int i in teams_warned)
             {
-                warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
+                warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].teamName.Value + "</color> ";
             }
 
             warningText.text += " nie licytowały w tej rundzie! ";
@@ -506,7 +506,7 @@ public class BiddingWarController : NetworkBehaviour
         //karamy
         if (teams_punished.Count == 1)
         {
-            punishmentText.text = "Drużyna <color=" + teams[teams_punished[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].name + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
+            punishmentText.text = "Drużyna <color=" + teams[teams_punished[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].teamName.Value + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
         }
 
         if (teams_punished.Count > 1)
@@ -514,7 +514,7 @@ public class BiddingWarController : NetworkBehaviour
             warningText.text = "Drużyny ";
             foreach (int i in teams_punished)
             {
-                punishmentText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
+                punishmentText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].teamName.Value + "</color> ";
             }
 
             punishmentText.text += " \n zostały ukarane, 500zł za każdą pasywną rundę! ";
