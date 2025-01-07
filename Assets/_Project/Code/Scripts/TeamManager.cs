@@ -236,7 +236,14 @@ public class TeamManager : NetworkBehaviour
 
     public void Start()
     {
-        teamName.OnValueChanged = (FixedString64Bytes oldName, FixedString64Bytes newName) => gameObject.name = newName.ToString();
+        teamName.OnValueChanged = delegate (FixedString64Bytes oldName, FixedString64Bytes newName)
+        {
+            gameObject.name = newName.ToString();
+        };
+        if (IsOwner)
+        {
+            teamName.Value = TeamCreatorController.chosenTeamName;
+        }
     }
 
     public void Serialize(string path)
