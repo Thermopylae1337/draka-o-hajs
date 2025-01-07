@@ -1800,6 +1800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   startButton: {fileID: 1255228629}
+  mainMenuButton: {fileID: 345263292}
   readyButton: {fileID: 1129137065}
   playerListGameObject: {fileID: 1311950121}
   playerListEntryPrefab: {fileID: 2058924103618325763, guid: bb5f3d71765d178488fedb7e850414c4, type: 3}

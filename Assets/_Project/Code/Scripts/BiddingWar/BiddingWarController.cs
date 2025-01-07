@@ -58,33 +58,6 @@ public class BiddingWarController : NetworkBehaviour
     }
     #endregion variables
     #region disconnection_handling
-    public void ExitToLobby()
-    {
-        if (IsHost)
-        {
-            EndLobbyRpc();
-            NetworkManager.Singleton.Shutdown();
-
-        }
-        else
-        {
-            DisconnectPlayerRpc(NetworkManager.Singleton.LocalClientId);
-        }
-
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-    }
-    [Rpc(SendTo.Server)]
-    public void DisconnectPlayerRpc(ulong networkid)
-    {
-        NetworkManager.Singleton.DisconnectClient((ulong)networkid);
-
-    }
-    [Rpc(SendTo.NotServer)]
-    public void EndLobbyRpc()
-    {
-        NetworkManager.Singleton.Shutdown();
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-    }
 
     #endregion disconnection_handling
     #region setup_functions
@@ -95,10 +68,9 @@ public class BiddingWarController : NetworkBehaviour
 
         localTeamId = (uint)NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().Colour;
 
-        if (teams.Count < GameManager.Instance.startingTeamCount.Value)
+        if (teams.Count < GameManager.Instance.StartingTeamCount.Value)
         {
-
-            //drugi gracz będzie pierwszzy na liście, jeżeli nie ma gracza pierwszego (a więc drugi gracz jest pierwszy na liście)
+            //drugi gracz będzie pierwszy na liście, jeżeli nie ma gracza pierwszego (a więc drugi gracz jest pierwszy na liście)
             if (localTeamId == 1 && NetworkManager.Singleton.ConnectedClients[0].ClientId != NetworkManager.Singleton.LocalClientId) { localTeamId = 0; }
             //wyjaśnienie: jeżeli jest mniej graczy niż było na początku, to trzeci gracz zawsze znajdzie się drugi na liście
             if (localTeamId == 2)
@@ -111,10 +83,10 @@ public class BiddingWarController : NetworkBehaviour
 
         if (teams.Count < 4)
         {
-            totalBidText.transform.position = teamBalanceText[GameManager.Instance.startingTeamCount.Value].transform.position;
+            totalBidText.transform.position = teamBalanceText[GameManager.Instance.StartingTeamCount.Value].transform.position;
         }
 
-        int i = GameManager.Instance.startingTeamCount.Value;
+        int i = GameManager.Instance.StartingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
             Destroy(teamNamesText[i]);
@@ -129,6 +101,16 @@ public class BiddingWarController : NetworkBehaviour
         AddListeners();
     }
 
+    void OnEnable()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += HandleDisconnection;
+    }
+
+    private void OnDisable()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback -= HandleDisconnection;
+    }
+
     public void AddListeners()
     {
         bidButtons[0].onClick.AddListener(delegate { Bid(100); });
@@ -137,8 +119,24 @@ public class BiddingWarController : NetworkBehaviour
         bidButtons[3].onClick.AddListener(delegate { Bid(400); });
         bidButtons[4].onClick.AddListener(delegate { Bid(500); });
         bidButtons[5].onClick.AddListener(delegate { Bid(1000); });
-        vbButton.onClick.AddListener(delegate { VaBanque(); });
-        exitButton.onClick.AddListener(delegate { ExitToLobby(); });
+        vbButton.onClick.AddListener(VaBanque);
+        exitButton.onClick.AddListener(delegate { NetworkManager.Shutdown(); });
+
+    }
+
+    private void HandleDisconnection(ulong clientId)
+    {
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            return;
+        }
+
+        int disconnectedIndex = teams.FindIndex(team => team.NetworkId == clientId);
+
+        Destroy(teamNamesText[disconnectedIndex]);
+        Destroy(teamBidText[disconnectedIndex]);
+        Destroy(teamBalanceText[disconnectedIndex]);
     }
 
     void Setup()
@@ -154,7 +152,7 @@ public class BiddingWarController : NetworkBehaviour
             teamNamesText[(int)team.Colour].color = ColorHelper.ToUnityColor(team.Colour);
         }
 
-        int i = GameManager.Instance.startingTeamCount.Value;
+        int i = GameManager.Instance.StartingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
             Destroy(teamNamesText[i]);
@@ -371,9 +369,9 @@ public class BiddingWarController : NetworkBehaviour
             }
 
             //teams[team_id].Money -= totalBid; //to chyba nie jest potrzebne, bo pieniądze są na bieżąco pobierane z konta podczas licytacji.
-            _ = IsContinuingGamePossible() 
-                ?  StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay)) 
-                :  StartCoroutine(OpenSceneWithDelay("Summary", scene_change_delay));
+            _ = IsContinuingGamePossible()
+                ? StartCoroutine(OpenSceneWithDelay("CategoryDraw", scene_change_delay))
+                : StartCoroutine(OpenSceneWithDelay("Summary", scene_change_delay));
 
             if (teams[(int)localTeamId].BlackBoxes == 2)
             {
@@ -493,7 +491,7 @@ public class BiddingWarController : NetworkBehaviour
         //ostrzegamy
         if (teams_warned.Count == 1)
         {
-            warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_warned[0]].name + " </color> nie licytowała w tej rundzie! ";
+            warningText.text = "Drużyna <color=" + teams[teams_warned[0]].Colour.ToString().ToLower() + ">" + teams[teams_warned[0]].teamName.Value + " </color> nie licytowała w tej rundzie! ";
         }
 
         if (teams_warned.Count > 1)
@@ -501,7 +499,7 @@ public class BiddingWarController : NetworkBehaviour
             warningText.text = "Drużyny ";
             foreach (int i in teams_warned)
             {
-                warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
+                warningText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].teamName.Value + "</color> ";
             }
 
             warningText.text += " nie licytowały w tej rundzie! ";
@@ -509,7 +507,7 @@ public class BiddingWarController : NetworkBehaviour
         //karamy
         if (teams_punished.Count == 1)
         {
-            punishmentText.text = "Drużyna <color=" + teams[teams_punished[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].name + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
+            punishmentText.text = "Drużyna <color=" + teams[teams_punished[0]].Colour.ToString().ToLower() + ">" + teams[teams_punished[0]].teamName.Value + " </color> została ukarana, 500zł za każdą pasywną rundę! ";
         }
 
         if (teams_punished.Count > 1)
@@ -517,7 +515,7 @@ public class BiddingWarController : NetworkBehaviour
             warningText.text = "Drużyny ";
             foreach (int i in teams_punished)
             {
-                punishmentText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].name + "</color> ";
+                punishmentText.text += "<color=" + teams[i].Colour.ToString().ToLower() + ">" + teams[i].teamName.Value + "</color> ";
             }
 
             punishmentText.text += " \n zostały ukarane, 500zł za każdą pasywną rundę! ";
@@ -587,9 +585,9 @@ public class BiddingWarController : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void CheckBadgeUnlockRpc()
     {
-        if(!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Mistrzowie Aukcji"))
+        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Mistrzowie Aukcji"))
         {
-            if(teams[(int)NetworkManager.Singleton.LocalClientId].WonBid == 5)
+            if (teams[(int)NetworkManager.Singleton.LocalClientId].WonBid == 5)
             {
                 UnlockBadgeRpc("Mistrzowie Aukcji", (int)NetworkManager.Singleton.LocalClientId);
             }
