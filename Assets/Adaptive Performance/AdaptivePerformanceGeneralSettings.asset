@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb0ece14d1f711a4fb9325ca819dee95, type: 3}
+  m_Script: {fileID: 11500000, guid: b5d5bb874cbac8f4b99fd45a78be0e2e, type: 3}
   m_Name: AdaptivePerformanceGeneralSettings
   m_EditorClassIdentifier: 
-  Keys: 01000000
-  Values:
-  - {fileID: 3819658657147724129}
+  ShowTopMostFoldoutHeaderGroup: 1
+  panelPrefab: {fileID: 0}
+  grid: {fileID: 0}
+  teamDrawingText: {fileID: 0}
+  boxesText: []
+  boxOpeningVideoPlayer: []
+  videoCanvas: {fileID: 0}
 --- !u!114 &3819658657147724129
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -24,11 +28,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 179fc3111e144bc4688dca4038b3265d, type: 3}
+  m_Script: {fileID: 11500000, guid: b5d5bb874cbac8f4b99fd45a78be0e2e, type: 3}
   m_Name: Standalone Settings
   m_EditorClassIdentifier: 
-  m_LoaderManagerInstance: {fileID: 7005946530611360888}
-  m_InitManagerOnStart: 0
+  ShowTopMostFoldoutHeaderGroup: 1
+  panelPrefab: {fileID: 0}
+  grid: {fileID: 0}
+  teamDrawingText: {fileID: 0}
+  boxesText: []
+  boxOpeningVideoPlayer: []
+  videoCanvas: {fileID: 0}
 --- !u!114 &7005946530611360888
 MonoBehaviour:
   m_ObjectHideFlags: 2
