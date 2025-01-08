@@ -122,7 +122,7 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
 
-            
+
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
             //test
@@ -155,7 +155,7 @@ public class SummaryManager : NetworkBehaviour
         panel.Initialize(team);
     }
     /// <summary>
-    /// RPC odpowiedzalny za obliczanie i wyświetlanie nagród uzyskanych z czarnych skrzynek przez drużynę. 
+    /// RPC odpowiedzalny za obliczanie i wyświetlanie nagród uzyskanych z czarnych skrzynek przez drużynę.
     /// </summary>
     /// <param name="clientId">Zmienna przechowywująca ID drużyny.</param>
     [ServerRpc(RequireOwnership = false)]
@@ -163,14 +163,14 @@ public class SummaryManager : NetworkBehaviour
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-        
+
         PrizeData[] prizes = Enumerable.Range(0, team.BlackBoxes)
                                 .Select(_ => DrawPrize(team))
                                 .ToArray();
 
         HandleBlackBoxBadges(clientId, new PrizeDataList { prizes = prizes });
         DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
-        
+
     }
     /// <summary>
     /// RPC odpowiedzialny za przyporządkowywanie tekstu nagród i odtwarzanie odpowiedniej animacji dla każdego z klientów.
@@ -188,7 +188,7 @@ public class SummaryManager : NetworkBehaviour
             //Debug.Log(boxesText[0].text);
             _ = StartCoroutine(PlayVideo(0));
         }
-        else if(prizes.Length == 2)
+        else if (prizes.Length == 2)
         {
             boxesText[1].text = GetPrizeText(prizes[0]);
             boxesText[2].text = GetPrizeText(prizes[1]);
@@ -247,27 +247,27 @@ public class SummaryManager : NetworkBehaviour
     {
         foreach (PrizeData item in prizeDataList.prizes)
         {
-            if(item.money == 1)
+            if (item.money == 1)
             {
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Symboliczna złotówka");
             }
 
-            if( item.badge == "Ogórek")
+            if (item.badge == "Ogórek")
             {
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Łowcy ogórka");
             }
 
-            if(item.badge == "Samochód")
+            if (item.badge == "Samochód")
             {
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Samochód");
             }
 
-            if( item.money == 5000 && winnerId == clientId)
+            if (item.money == 5000 && winnerId == clientId)
             {
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 5000zł");
             }
 
-            if(item.money == 10000 && winnerId == clientId)
+            if (item.money == 10000 && winnerId == clientId)
             {
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 10000zł");
             }
@@ -375,7 +375,11 @@ public class SummaryManager : NetworkBehaviour
     /// <summary>
     /// Metoda pozwalająca na przejście do menu głownego gry.
     /// </summary>
-    public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+    public void ChangeScene()
+    {
+        NetworkManager.Shutdown();
+        SceneManager.LoadScene("MainMenu");
+    }   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
     /// <summary>
     /// Metoda odpowiadająca za odblokowywanie odznaki przez drużynę.
     /// </summary>
