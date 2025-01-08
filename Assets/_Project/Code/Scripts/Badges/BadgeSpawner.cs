@@ -5,16 +5,41 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 //using UnityEditor;
 
+/// <summary>
+/// Klasa odpowiedzialna za zarządzanie i tworzenie odznak w grze.
+/// </summary>
 public class BadgeSpawner : MonoBehaviour
 {
+    /// <summary>
+    /// Lista sprite'ów odznak przypisanych w edytorze Unity.
+    /// </summary>
     [SerializeField]
     public List<Sprite> badgesSprites = new List<Sprite> ();
 
+    /// <summary>
+    /// Prefab odznaki, który jest instancjonowany w grze.
+    /// </summary>
     public GameObject badgePrefab;
+    /// <summary>
+    /// Kontener UI, do którego dodawane będą stworzone odznaki.
+    /// </summary>
     public Transform contentParent;
+    /// <summary>
+    /// Domyślny sprite odznaki
+    /// </summary>
     public Sprite basicSprite;
+    /// <summary>
+    /// Tymczasowa klasa odznak.
+    /// </summary>
     public class TemporaryBadgeClass
     {
+        /// <summary>
+        /// Konstruktor kopiujący inicjalizujący wszystkie pola składowe klasy.
+        /// </summary>
+        /// <param name="title">Przechowuje tytuł odznaki.</param>
+        /// <param name="description">Przechowuje opis danej odznaki.</param>
+        /// <param name="sprite"></param>
+        /// <param name="isUnlocked">Przechowuje informacje czy odznaka została odblokowana.</param>
         public TemporaryBadgeClass(string title, string description, Sprite sprite, bool isUnlocked)
         {
             Title = title;
@@ -22,13 +47,28 @@ public class BadgeSpawner : MonoBehaviour
             Sprite = sprite;
             IsUnlocked = isUnlocked;
         }
+        /// <summary>
+        /// Zmienna przechowująca informacje czy odznaka jest odblokowana.
+        /// </summary>
         public bool IsUnlocked { get; }
+        /// <summary>
+        /// Zmienna przechowująca tytuł odznaki.
+        /// </summary>
         public string Title { get; }
+        /// <summary>
+        /// Zmienna przechowująca opis (odblokowania) odznaki.
+        /// </summary>
         public string Description { get; }
         public Sprite Sprite { get; }
     }
+    /// <summary>
+    /// Lista zainicjowana z domyślną wartością null, która będzie przechowywać odznaki.
+    /// </summary>
     public List<TemporaryBadgeClass> badges = new();
 
+    /// <summary>
+    /// Metoda dodająca na starcie kilka odznak do listy.
+    /// </summary>
     private void Start()
     {
         badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[0], true));
@@ -52,6 +92,10 @@ public class BadgeSpawner : MonoBehaviour
         GenerateBadges();
     }
 
+    /// <summary>
+    /// Tworzy odznaki na podstawie danych przechowywanych w liście 'badges'
+    /// Dla każdej odznaki generowany jest obiekt UI (zawierający obrazek, tytuł i opis), a także przypisywane są odpowiednie dane oraz kolory w zależności od stanu odznaki.
+    /// </summary>
     private void GenerateBadges()
     {
         foreach (TemporaryBadgeClass badge in badges)
@@ -71,6 +115,11 @@ public class BadgeSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Dodaje zdarzenia interakcji (hover) do obiektu odznaki, umożliwiając wyświetlanie opisu odznaki podczas najechania myszką (PointerEnter) oraz ukrywanie opisu po jej opuszczeniu (PointerExit).
+    /// </summary>
+    /// <param name="badgeObject">Zmienna reprezentująca obiekt odznaki.</param>
+    /// <param name="badgeDescription">Zmienna opisująca odznaki, które będą wyświetlane podczas najechania na obiekt.</param>
     private void AddHoverEvents(GameObject badgeObject, string badgeDescription)
     {
         EventTrigger trigger = badgeObject.GetComponent<EventTrigger>();
@@ -95,6 +144,10 @@ public class BadgeSpawner : MonoBehaviour
         trigger.triggers.Add(entryExit);
     }
 
+    /// <summary>
+    /// Metoda wyświetlająca opis danej odznaki (np. w jaki sposób ją zdobyć).
+    /// </summary>
+    /// <param name="badgeObject">Obiekt odznaki, którego opis ma zostać pokazany.</param>
     private void ShowDescription(GameObject badgeObject)
     {
         Image badgeDescriptionBackground = badgeObject.transform.Find("BadgeDescriptionBackground").GetComponent<Image>();
@@ -103,6 +156,10 @@ public class BadgeSpawner : MonoBehaviour
         badgeDescription.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Metoda ukrywająca opis danej odznaki.
+    /// </summary>
+    /// <param name="badgeObject">Obiekt odznaki, którego opis ma zostać ukryty.</param>
     private void HideDescription(GameObject badgeObject)
     {
         Image badgeDescriptionBackground = badgeObject.transform.Find("BadgeDescriptionBackground").GetComponent<Image>();

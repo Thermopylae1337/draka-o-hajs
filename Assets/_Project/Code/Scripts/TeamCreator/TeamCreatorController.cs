@@ -6,17 +6,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Klasa zarządzająca procesem tworzenia drużyny oraz logiką sieciową związaną z tworzeniem i zarządzaniem drużynami.
+/// </summary>
 public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
 {
+    /// <summary>
+    /// Obiekt przechowujący pole tekstowe umożliwiające wprowadzenie znaków.
+    /// </summary>
     public TMP_InputField inputField;
+    /// <summary>
+    /// Obiekt reprezentujący koło fortuny w grze, w których zawarte są pytania
+    /// </summary>
     public GameObject spinner;
+    /// <summary>
+    /// Obiekt reprezentujący numer identyfikacyjny pola.
+    /// </summary>
     public GameObject ipField;
+    /// <summary>
+    /// Obiekt reprezentujący błąd w grze.
+    /// </summary>
     public GameObject errorMessage;
+    /// <summary>
+    /// Zmienna statyczna przechowująca nazwę wybranej drużyny.
+    /// </summary>
     public static string chosenTeamName;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk umożliwiający powrót.
+    /// </summary>
     public Button returnButton;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk umożlwiający zatwierdzenie.
+    /// </summary>
     public Button submitButton;
+    /// <summary>
+    /// Obiekt wykorzystywany do przyjmowania tekstu w grze, szczególnie w przypadkach, gdy użytkownik musi wprowadzić dane.
+    /// </summary>
     TMP_InputField tMP_InputField;
 
+    /// <summary>
+    /// Metoda inicjalizująca komponenty i ustawiająca reakcje podczas klikniecia przycisku.
+    /// Konfiguruję pole wejściowe i przyciski oraz decyduję, czy pole identyfikacyjne (IP) jest widoczne na podstawie typu lobby.  
+    /// </summary> 
     private void Start()
     {
         tMP_InputField = ipField.GetComponentInChildren<TMP_InputField>();
@@ -37,6 +68,10 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         }
     }
 
+    /// <summary>
+    ///  Metoda pozwalająca na wprowadzenie nazwy drużyny przez użytkownika.
+    ///  Nastepnie zapisuje nazwę drużyny, dezaktywuje pola wejściowe i uruchamia grę. 
+    /// </summary>
     public void OnInputSubmit()
     {
 
@@ -56,6 +91,9 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         submitButton.interactable = true;
     }
 
+    /// <summary>
+    /// Umożliwia użytkownikowi powrócić do menu po naciśnięciu odpowiedniego przycisku.
+    /// </summary>
     public void OnReturnToMenu()
     {
         returnButton.interactable = false;
@@ -69,6 +107,31 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
 
         SceneManager.LoadScene("MainMenu");
     }
+
+
+    /// <summary>
+    ///  Obsługuje błąd klienta. Usuwa obsługiwane zdarzenia dla klienta i wyświetla komunikat o błędzie.
+    /// </summary>
+    /// <param name="value">Zmienna reprezentująca identyfikator klienta.</param>
+    private void HandleErrorClient(ulong value)
+    {
+        RemoveClientHandlers();
+        errorMessage.SetActive(true);
+
+    }
+
+    /// <summary>
+    ///  Obsługuje sukces połączenia klienta. Usuwa odpowiednie obsługiwane zdarzenia.
+    /// </summary>
+    /// <param name="value">Zmeinna reprezentująca identyfikator klienta, który połączył się pomyślnie.</param>
+    private void HandleSuccessClient(ulong value)
+    {
+        RemoveClientHandlers();
+    }
+    /// <summary>
+    /// Usuwa obsługiwane zdarzenia klienta, przywraca interaktywność pól wejściowych i dezaktywuje spinner.
+    /// Zapewnia, że nie pojawią się błędy przy przejściu do lobby.
+    /// </summary>
 
     void RemoveClientHandlers()
     {
@@ -90,6 +153,10 @@ public class TeamCreatorController : NetworkBehaviour // dodac back to main menu
         }
     }
 
+    /// <summary>
+    /// Inicjuje rozpoczęciu gry w zależności od typu lobby.
+    /// Dla hosta uruchamia serwrt i ładuje scenę lobby,a dla klienta ustawia adres IP, nastepnie rozpoczyna połącznie z serwerem i wyświetla spinner.
+    /// </summary>
     private void StartGame()
     {
         switch (MainMenuController.lobbyType)

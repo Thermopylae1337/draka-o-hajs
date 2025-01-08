@@ -8,24 +8,72 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
+/// <summary>
+/// Klasa zarządzająca bitwą licytacyjną pomiędzy drużynami.
+/// </summary>
 public class BiddingWarController : NetworkBehaviour
 {
     #region variables
+    /// <summary>
+    /// Lista przechowująca nazwy drużyn jako tekst.
+    /// </summary>
     public List<TextMeshProUGUI> teamNamesText;
+    /// <summary>
+    /// Lista przechowująca kwotę licytacji drużyny jako tekst.
+    /// </summary>
     public List<TextMeshProUGUI> teamBidText;
+    /// <summary>
+    /// Lista przechowująca tekst z saldem całkowitym drużyny.
+    /// </summary>
     public List<TextMeshProUGUI> teamBalanceText;
+    /// <summary>
+    /// Lista tekstów wyświetlanych na przyciskach licytacji, umożliwiająca dynamiczną aktualizację wartości ofert na przyciskach.
+    /// </summary>
     public List<TextMeshProUGUI> bidButtonText;
+    /// <summary>
+    /// Obiekt wyświetlający czas w grze.
+    /// </summary>
     public TextMeshProUGUI timerText;
+    /// <summary>
+    /// Obiekt wyświetlający nazwę kategorii.
+    /// </summary>
     public TextMeshProUGUI categoryNameText;
+    /// <summary>
+    /// Obiekt wyświetlający ostrzeżenie.
+    /// </summary>
     public TextMeshProUGUI warningText;
+    /// <summary>
+    /// Obiekt wyświetlający karę za brak aktywności.
+    /// </summary>
     public TextMeshProUGUI punishmentText;
+    /// <summary>
+    /// Lista przechowująca drużyny.
+    /// </summary>
     public List<TeamManager> teams;
+    /// <summary>
+    /// Obiekt wyświetlający ilość pieniedzy w puli.
+    /// </summary>
     public TextMeshProUGUI totalBidText;
+    /// <summary>
+    /// Zmienna ilości pieniedzy w puli.
+    /// </summary>
     int totalBid;
+    /// <summary>
+    /// Zmienna czasomierzu.
+    /// </summary>
     float timer;
+    /// <summary>
+    /// Zmienna czasu, który został dany na udzielenie odpowiedzi.
+    /// </summary>
     float timeGiven = 5f;
 
+    /// <summary>
+    /// Zmienna identyfikatora wygranej drużyny.
+    /// </summary>
     int winningTeamID = 0;
+    /// <summary>
+    /// Enum odpowiadający kolorowy wygranej drużyny.
+    /// </summary>
     ColourEnum winningTeamColour;
     int winningBidAmount = 500;
     bool hasSetUp = false;
@@ -35,20 +83,30 @@ public class BiddingWarController : NetworkBehaviour
     //no i va banque
     //wartość przycisku= wartość o jaką drużyna *przebija stawkę*
     //możnaby też zrobić z każdego przycisku oddzielny var ale imo tak jest ładniej.
+    /// <summary>
+    /// Lista przycisków licytacyjnych z określoną kwotą.
+    /// </summary>
     public List<Button> bidButtons;
     public List<Button> lockOutButtons;
     public Button vbButton;
+    /// <summary>
+    /// Przycisk odpowiadający za wyjście.
+    /// </summary>
     public Button exitButton;
     /*
     ///make it so each event removes itself by using the id
     List<Timer> Active_Timers
     public delegate void My_Timer_Delegate(int )
     */
+    /// <summary>
+    /// Zmienna przechowująca ilość drużyn w grze.
+    /// </summary>
     private uint _teamsInGame;
     //used for storing information about which team this instance of the program represents
     private uint localTeamId;
     public GameObject uderzenieImage;
     public VideoPlayer uderzenieVideoPlayer;
+
 
     public class Timer
     {
@@ -110,6 +168,9 @@ public class BiddingWarController : NetworkBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback -= HandleDisconnection;
     }
 
+    /// <summary>
+    /// Metoda przypisująca określoną wartość pieniędzy do danego przycisku.
+    /// </summary>
     public void AddListeners()
     {
         bidButtons[0].onClick.AddListener(delegate { Bid(100); });
@@ -123,6 +184,10 @@ public class BiddingWarController : NetworkBehaviour
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="clientId"></param>
     private void HandleDisconnection(ulong clientId)
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
@@ -138,6 +203,9 @@ public class BiddingWarController : NetworkBehaviour
         Destroy(teamBalanceText[disconnectedIndex]);
     }
 
+    /// <summary>
+    /// Metoda ustawiająca interfejs do wyświetlania aktualnych informacji o drużynach w trakcie gry.
+    /// </summary>
     void Setup()
     {
         totalBid = GameManager.Instance.CurrentBid.Value;
@@ -163,6 +231,9 @@ public class BiddingWarController : NetworkBehaviour
         ResetTimer();
     }
 
+    /// <summary>
+    /// Metoda RPC przygotowująca etap 2 gry, aktualizując status drużyn, licytacje oraz kwoty pieniędzy.
+    /// </summary>
     [Rpc(SendTo.Everyone)]
     void SetupStage2Rpc()
     {
@@ -186,6 +257,10 @@ public class BiddingWarController : NetworkBehaviour
         hasSetUp = true;
         gameOngoing = true;
     }
+    /// <summary>
+    /// Metoda ustawiająca przyciski blokady licytacji dla drużyny, która przegrała.
+    /// </summary>
+    /// <param name="team">Drużyna, dla której przyciski blokady są konfigurowane.</param>
     public void SetupLockOutButtons(TeamManager team)
     {
         if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame)
@@ -199,12 +274,19 @@ public class BiddingWarController : NetworkBehaviour
 
     #endregion setup_functions
     #region updates
+    /// <summary>
+    /// Metoda zmieniająca ilość zgromadzonej gotówki  oraz kwotę licytacji dla drużyny.
+    /// </summary>
+    /// <param name="i">Indeks drużyny, której dane maja zostać zaktualizowane.</param>
     public void UpdateMoneyStatusForTeam(int i)
     {
         teamBalanceText[(int)teams[i].Colour].text = teams[i].Money.ToString();
         teamBidText[(int)teams[i].Colour].text = teams[i].Bid.ToString();
     }
 
+    /// <summary>
+    /// Metoda aktualizująca dane dla wszystkich drużyn.
+    /// </summary>
     public void UpdateMoneyStatus()
     {
         foreach (TeamManager t in teams)
@@ -216,6 +298,9 @@ public class BiddingWarController : NetworkBehaviour
         totalBidText.text = totalBid.ToString();
     }
 
+    /// <summary>
+    /// Metoda ustawiająca wartości dla przycisków.
+    /// </summary>
     public void UpdateButtons()
     {
         bidButtonText[0].text = "100";
@@ -237,6 +322,13 @@ public class BiddingWarController : NetworkBehaviour
             bidButtonText[5].text += "(" + ( difference + 1000 ).ToString() + ")";
         }
     }
+
+    /// <summary>
+    /// Metoda RPC, która aktualizuje licytacje dla wszystkich graczy.
+    /// </summary>
+    /// <param name="difference">Zmienna reprezentująca różnice między nową i poprzednia ofertą zaproponowaną przez drużynę.</param>
+    /// <param name="winning_bid">Zmienna reprezentująca najwyższa ofertę.</param>
+    /// <param name="winning_team_id">Identyfikator drużyny, która wygra licytację.</param>
     [Rpc(SendTo.Everyone)]
     public void UpdateBidsRpc(int difference, int winning_bid, int winning_team_id)
     {
@@ -248,11 +340,18 @@ public class BiddingWarController : NetworkBehaviour
     }
     #endregion updates
     #region bidding_functions
+    /// <summary>
+    /// Metoda, któa blokuje możliwość złożenia oferty przez drużynę.
+    /// </summary>
+    /// <param name="locked_out_team">Indeks drużyny, która zostaje zablokowana z licytacji.</param>
     public void LockOutBid(int locked_out_team)
     {
         int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid;
         Bid(amount);
     }
+    /// <summary>
+    /// Metoda umożliwiająca użycie w licytacji VaBanque.
+    /// </summary>
     public void VaBanque()
     {
         int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
@@ -260,6 +359,10 @@ public class BiddingWarController : NetworkBehaviour
         Bid(amount);
     }
 
+    /// <summary>
+    /// Metoda umożliwiająca podbicie stawki w bieżącej licytacji.
+    /// </summary>
+    /// <param name="amount">Zmienna przechowująca kwotę, którą drużyna chce dodać do licytacji.</param>
     public void Bid(int amount)
     {
         if (gameOngoing)
@@ -268,6 +371,11 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    ///  Metoda RPC, która przetwarza na serwerze ofertę licytacyjną danej drużyny.
+    /// </summary>
+    /// <param name="teamid">Identyfikator drużyny, która składa ofertę licytacyjną.</param>
+    /// <param name="amount">Kwota, którą drużyna chce dodać do licytacji.</param>
     [Rpc(SendTo.Server)]
     public void TeamBidRpc(ulong teamid, int amount)
     {
@@ -292,17 +400,28 @@ public class BiddingWarController : NetworkBehaviour
     }
     #endregion bidding_functions
 
+    /// <summary>
+    /// Metoda resetująca czasomierz.
+    /// </summary>
     public void ResetTimer()
     {
         timer = Time.time;
     }
 
+    /// <summary>
+    /// Metoda sprzedająca drużynie pytanie.
+    /// </summary>
+    /// <param name="team_id">Zmienna przechowująca identyfikator drużyny, której zostanie sprzedane pytanie.</param>
     void Sell(int team_id)
     {
         timer = 0;
         SellRpc(team_id);
     }
 
+    /// <summary>
+    /// Metoda RPC, która przetwarza zakończenie rundy aukcji i decyduje o dalszym przebiegu gry.
+    /// </summary>
+    /// <param name="team_id">Identyfikator drużyny, która wygrała licytację.</param>
     [Rpc(SendTo.Everyone)]
     void SellRpc(int team_id)
     {
@@ -414,12 +533,22 @@ public class BiddingWarController : NetworkBehaviour
             }
         }
     }
+    /// <summary>
+    /// Metoda do opóźnionego przeładowania sceny.
+    /// </summary>
+    /// <param name="name">Nazwa sceny, która ma zostać załadowana.</param>
+    /// <param name="delay">Opóźnienie w sekundach przed załadowaniem sceny.</param>
+    /// <returns></returns>
     private IEnumerator OpenSceneWithDelay(string name, int delay)
     {
         yield return new WaitForSeconds(delay);
         _ = NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 
+    /// <summary>
+    /// Metoda RPC, która ustawia bieżącą stawkę licytacji na serwerze.
+    /// </summary>
+    /// <param name="currentBid">Zmienna przechowująca aktualną stawke licytacji.</param>
     [ServerRpc(RequireOwnership = false)]
     private void PassCurrentBidServerRpc(int currentBid)
     {
@@ -428,6 +557,11 @@ public class BiddingWarController : NetworkBehaviour
 
     #region loss_handling
     //IEnumerator
+    /// <summary>
+    /// Metoda sprawdzająca, które drużyny zostały uznane za przegrane na podstawie stanu ich pieniedzy 
+    /// </summary>
+    /// <param name="winner_id">Identyfikator drużyny, która wygrała dane pytanie lub rundę.</param>
+    /// <returns>Lista identyfikatorów drużyn, któe zostały uznane za przegrane.</returns>
     public List<int> CheckForLosers(int winner_id)
     {
         List<int> losers = new();
@@ -453,6 +587,10 @@ public class BiddingWarController : NetworkBehaviour
     #endregion loss_handling
 
     #region inactivity_handling
+    /// <summary>
+    /// Metoda sprawdzająca, które drużyny są nieaktywne (w paru rundach) podczas licytacji.
+    /// </summary>
+    /// <returns>Lista identyfikatorów drużyn, które nie brały udziału w licytacji.</returns>
     public List<int> CheckForInactivity()
     {
         List<int> teams_warned = new();
@@ -469,7 +607,12 @@ public class BiddingWarController : NetworkBehaviour
 
         return teams_warned;
     }
-
+    /// <summary>
+    /// Metoda odpowiadająca za przydzielenie kary lub ostrzeżenia w zależności od nieaktywności w licytacjach.
+    /// </summary>
+    /// <param name="teams_warned">Lista drużyn, które zostały ostrzeżone za brak aktywności.</param>
+    /// <param name="delay">Zmienna przechowująca czas opóźnienia przed przydzieleniem kar i ostrzeżeń.</param>
+    /// <returns></returns>
     private IEnumerator PunishInactivity(List<int> teams_warned, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -521,6 +664,10 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
     #endregion inactivity_handling
+    /// <summary>
+    /// Metoda sprawdzjąca czy drużyna pozostaje w grze i czy ma możliwość brania udziału w następnych licytacjach.
+    /// </summary>
+    /// <returns></returns>
     private bool IsContinuingGamePossible()
     {
         teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
@@ -541,6 +688,9 @@ public class BiddingWarController : NetworkBehaviour
 
         return _teamsInGame >= 2;
     }
+    /// <summary>
+    /// Metoda pokazująca filmik.
+    /// </summary>
     private void ShowVideo()
     {
         _ = new WaitForSeconds(0.5f);
@@ -548,30 +698,51 @@ public class BiddingWarController : NetworkBehaviour
         uderzenieVideoPlayer.Play();
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłana na serwer, któa zwieksza liczbę wygranych licytacji przez drużynę.
+    /// </summary>
+    /// <param name="teamid">Zmienna przechowująca identyfikator drużyny.</param>
     [Rpc(SendTo.Server)]
     private void WonBidIncrementServerRpc(int teamid)
     {
         teams[(int)teamid].WonBid++;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłana na serwer, zwiększająca ilość użyć VaBanque
+    /// </summary>
+    /// <param name="teamid">Zmienna przechowująca identyfikator drużyny.</param>
     [Rpc(SendTo.Server)]
     private void VaBanqueIncrementServerRpc(int teamid)
     {
         teams[(int)teamid].VaBanque++;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłana na serwer, zwiększająca ilość czarnych skrzynek.
+    /// </summary>
+    /// <param name="teamid">Zmienna przechowująca identyfikator drużyny.</param>
     [Rpc(SendTo.Server)]
     private void BlackBoxesIncrementServerRpc(int teamid)
     {
         teams[(int)teamid].BlackBoxes++;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłana na serwer, która zwieksza liczbę podpowiedzi.
+    /// </summary>
+    /// <param name="teamid">Zmienna przechowująca identyfikator drużyny.</param>
     [Rpc(SendTo.Server)]
     private void CluesIncrementServerRpc(int teamid)
     {
         teams[(int)teamid].Clues++;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłana klientom i hostowi, która odblokowuje odznakę dla drużyny, jeśli jej identyfikator odpowiada lokalnemu identyfikatorowi klienta.
+    /// </summary>
+    /// <param name="name">Zmienna przechowująca nazwę odznaki.</param>
+    /// <param name="teamid">Zmienna przechowująca identyfikator drużyny, której ma zostać przypisana odznaka.</param>
     [Rpc(SendTo.ClientsAndHost)]
     private void UnlockBadgeRpc(string name, int teamid)
     {
@@ -581,6 +752,9 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda RPC sprawdzająca, czy drużyna odblokowała określone odznaki, na podstawie spełnionych warunków.
+    /// </summary>
     [Rpc(SendTo.ClientsAndHost)]
     private void CheckBadgeUnlockRpc()
     {

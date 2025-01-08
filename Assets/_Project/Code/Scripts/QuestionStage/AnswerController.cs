@@ -7,17 +7,47 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+/// <summary>
+/// Klasa odpowiedzialna za zarządzanie odpowiedziami.
+/// </summary>
 public class AnswerController : NetworkBehaviour
 {
+    /// <summary>
+    /// Zmienna typu TMP_Text reprezentująca całkowite podbicie podczas.
+    /// </summary>
     public TMP_Text totalBid;
+    /// <summary>
+    /// Zmienna reprezentująca cenę podpowiedzi.
+    /// </summary>
     public TMP_Text hintPriceText;
+    /// <summary>
+    /// Zmienna reprezentująca pole, w którym drużyna odpowiada na pytanie.
+    /// </summary>
     public TMP_InputField answerInput;
+    /// <summary>
+    /// Zmienna reprezentująca treść pytania.
+    /// </summary>
     public TMP_Text questionText;
+    /// <summary>
+    /// Zmienna reprezentująca informację zwrotną.
+    /// </summary>
     public TMP_Text feedbackText;
+    /// <summary>
+    /// Zmienna reprezentująca czasomierz.
+    /// </summary>
     public TMP_Text timerText;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk zatwierdzenia.
+    /// </summary>
     public Button submitButton;
+    /// <summary>
+    /// Zmienna przechowująca informacje o numer rundy.
+    /// </summary>
     public TMP_Text roundNumber;
     public GameObject hintButtonsContainer;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk pozwalający skorzystać z podpowiedzi.
+    /// </summary>
     public Button useHintsButton;
 
     public Image backgroundImage;
@@ -25,18 +55,48 @@ public class AnswerController : NetworkBehaviour
     public Sprite artGreenTeamAnswering;
     public Sprite artBlueTeamAnswering;
 
+    /// <summary>
+    /// Tablica zawierająca przyciski z podanymi odpowiedziami.
+    /// </summary>
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
+    /// <summary>
+    /// Zmienna reprezentująca czas jaki pozostał na udzielenie odpowiedzi.
+    /// </summary>
     private float _timeRemaining;
+    /// <summary>
+    /// Zmienna informująca czy odpowiedź została sprawdzona.
+    /// </summary>
     private bool _isAnswerChecked;
+    /// <summary>
+    /// Tablica podpowiedzi.
+    /// </summary>
     private string[] hints;
+    /// <summary>
+    /// Zmienna reprezentująca losową cenę za podpowiedź.
+    /// </summary>
     private int randomHintPrice;
 
+    /// <summary>
+    /// Obiekt statyczny reprezentujący kategorię pytania.
+    /// </summary>
     public static Category category;
+    /// <summary>
+    /// Obiekt reprezentujący aktualne pytanie.
+    /// </summary>
     public Question currentQuestion;
+    /// <summary>
+    /// Lista przechowująca drużyny.
+    /// </summary>
     private List<TeamManager> _teams;
+    /// <summary>
+    /// Zmienna reprezentująca ilość drużyn w bieżącej rundzie.
+    /// </summary>
     private uint _teamsInGame;
 
+    /// <summary>
+    /// Metoda przygotowuje wszystkie niezbędne elementy do rozpoczęcia gry (wyświetlanie tła, ustawianie puli pytania, inicjalizację przycisków odpowiedzi, przypisanie akcji do przycisków, przygotowanie informacji o zespołach oraz dostosowanie interfejsu w zależności od roli gracza (wygrana przegrana licytacja)).
+    /// </summary>
     private void Start()
     {
         ShowBackgroundImage();
@@ -63,6 +123,9 @@ public class AnswerController : NetworkBehaviour
             ? "Jesteś graczem ktory wygrał licytacje"
             : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
     }
+    /// <summary>
+    /// Metoda ustawiająca tło w zależności od koloru zespołu, który udziela odpowiedzi. 
+    /// </summary>
     private void ShowBackgroundImage()
     {
         TeamManager _answeringTeam = NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>();
@@ -82,6 +145,11 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda uruchamiająca odliczanie czasu, która aktualizuje pozostały czas i wyświetla go na interfejsie użytkownika.
+    /// Po upływie czasu, interakcje z elementami UI zostają wyłaczone, a na ekranie wyświetlana jest odpowiedź. W zależności od poprawności odpowiedzi następuje zmiana sceny. 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartCountdown()
     {
         while (_timeRemaining > 0 && _isAnswerChecked == false)
@@ -101,6 +169,9 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda sprawdzająca odpowiedź gracza, pobierając ją z pola tekstowego i przesyłając na serwer.
+    /// </summary>
     public void CheckAnswer()
     {
         SetItemsInteractivity(false);
@@ -110,6 +181,10 @@ public class AnswerController : NetworkBehaviour
         NotifyAnswerCheckedServerRpc();
     }
 
+    /// <summary>
+    ///  Metoda sprawdzająca odpowiedź gracza, przekazaną jako argument, i przesyłająca ją na serwer.
+    /// </summary>
+    /// <param name="playerAnswer">Zmienna przechowująca odpowiedź gracza do sprawdzenia.</param>
     public void CheckAnswer(string playerAnswer)
     {
         SetItemsInteractivity(false);
@@ -118,6 +193,9 @@ public class AnswerController : NetworkBehaviour
         NotifyAnswerCheckedServerRpc();
     }
 
+    /// <summary>
+    /// Metoda RPC wywoływana na serwerze, aby zaktualizować stan odpowiedzi, a także powiadomić klientów o jej sprawdzeniu.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     private void NotifyAnswerCheckedServerRpc()
     {
@@ -130,12 +208,19 @@ public class AnswerController : NetworkBehaviour
         NotifyClientsAnswerCheckedRpc();
     }
 
+    /// <summary>
+    /// Metoda RPC wywoływana na klientach i hoście, aby zaktualizować stan odpowiedzi na wszystkich urządzeniach.
+    /// </summary>
     [Rpc(SendTo.ClientsAndHost)]
     private void NotifyClientsAnswerCheckedRpc()
     {
         _isAnswerChecked = true;
     }
 
+    /// <summary>
+    /// Metoda RPC wywoływana na serwerze w celu sprawdzenia odpowiedzi gracza.
+    /// </summary>
+    /// <param name="playerAnswer">Zmienna reprezentująca odpowiedź gracza.</param>
     [ServerRpc(RequireOwnership = false)]
     private void CheckAnswerServerRpc(string playerAnswer)
     {
@@ -163,6 +248,11 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    ///  Metoda RPC wysyłająca informacje zwrotne do wszystkich graczy oraz hosta, a także decydująca o dalszym przebiegu gry.
+    /// </summary>
+    /// <param name="feedback">Zmienna zawierająca informację zwrotną, która będzie wyświetlana drużynie.</param>
+    /// <param name="gameContinuing">Flaga wskazująca, czy gra ma być kontynuowana czy zakończona.</param>
     [Rpc(SendTo.ClientsAndHost)]
     private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing)
     {
@@ -183,8 +273,14 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda wywołująca zapytanie o podpowiedź, przekazująca kontrolę do serwera, aby sprawdzić, czy gracz może skorzystać z podpowiedzi.
+    /// </summary>
     public void AskForHint() => UseHintNotifyServerRpc();
 
+    /// <summary>
+    ///  Metoda RPC wywoływana na serwerze w celu sprawdzenia, czy drużyna ma wystarczająco dużo pieniędzy, aby wykupić podpowiedź.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     private void UseHintNotifyServerRpc()
     {
@@ -202,12 +298,22 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    ///  Metoda RPC wywoływana w przypadku gdy gracz nie może sobie pozwolić na podpowiedź. Ustawia tekst zwrotny w interfejsie użytkownika.
+    /// </summary>
     [Rpc(SendTo.ClientsAndHost)]
     private void HintAskRejectionRpc()
     {
         hintPriceText.text = "Nie stać Cię na podpowiedź";
     }
 
+    /// <summary>
+    /// Metoda RPC wywoływana w celu wyświetlenia podpowiedzi na przyciskach odpowiedzi. Ustawia tryb podpowiedzi oraz przypisuje teksty do czterech przycisków odpowiedzi.
+    /// </summary>
+    /// <param name="h1">Zmienna przechowująca pierwszą podpowiedź wyświetlaną na przycisku 1.</param>
+    /// <param name="h2">Zmienna przechowująca drugą podpowiedź wyświetlaną na przycisku 2.</param>
+    /// <param name="h3">Zmienna przechowująca trzecią podpowiedź wyświetlaną na przycisku 3.</param>
+    /// <param name="h4">Zmienna przechowująca czwartą podpowiedź wyświetlaną na przycisku 4.</param>
     [Rpc(SendTo.ClientsAndHost)]
     private void ShowHintRpc(string h1, string h2, string h3, string h4)
     {
@@ -217,6 +323,10 @@ public class AnswerController : NetworkBehaviour
         answerButtons[2].GetComponentInChildren<TMP_Text>().text = h3;
         answerButtons[3].GetComponentInChildren<TMP_Text>().text = h4;
     }
+    /// <summary>
+    /// Metoda ustawiająca tryb podpowiedzi w grze.
+    /// </summary>
+    /// <param name="active">Zmienna aktywacji trybu podpowiedzi.</param>
     private void SetHintMode(bool active)
     {
         if (active)
@@ -229,6 +339,10 @@ public class AnswerController : NetworkBehaviour
         hintButtonsContainer.SetActive(active);
     }
 
+    /// <summary>
+    /// Metoda obsługująca kliknięcie przycisku odpowiedzi.
+    /// </summary>
+    /// <param name="button">Obiekt reprezentujący przycisk.</param>
     private void OnSelectButton(Button button)
     {
         SetButtonsDefaultColor();
@@ -238,6 +352,9 @@ public class AnswerController : NetworkBehaviour
         CheckAnswer(buttonValue);
     }
 
+    /// <summary>
+    /// Metoda ustawiająca domyślny kolor przycisku.
+    /// </summary>
     private void SetButtonsDefaultColor()
     {
         foreach (Button button in answerButtons)
@@ -246,12 +363,22 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda zmieniająca scenę po określonym czasie.
+    /// </summary>
+    /// <param name="sceneName">Zmienna przechowująca nazwę sceny.</param>
+    /// <param name="time">Zmienna reprezentująca czas.</param>
+    /// <returns></returns>
     private IEnumerator ChangeScene(string sceneName, float time)
     {
         yield return new WaitForSeconds(time);
         _ = NetworkManager.Singleton.SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
+    /// <summary>
+    /// Metoda służąca do ustawiania interaktywności wszystkich elementów odpowiedzi (przycisków, pola tekstowego i przycisku zatwierdzenia). W zależności od przekazanej wartości, metoda włącza lub wyłącza interakcję z tymi elementami.
+    /// </summary>
+    /// <param name="set">Zmienna przechowująca wartość określająca czy elementy mają być interaktywne czy nie.</param>
     private void SetItemsInteractivity(bool set)
     {
         foreach (Button button in answerButtons)
@@ -264,6 +391,12 @@ public class AnswerController : NetworkBehaviour
         submitButton.interactable = set;
     }
 
+    /// <summary>
+    /// Metoda RPC, która wysyła dane pytania do wszystkich klientów.
+    /// </summary>
+    /// <param name="questionText">Zmienna przechowująca treść wylosowanego pytania.</param>
+    /// <param name="currentQuestionIndex"></param>
+    /// <param name="hintPrice">Zmienna przechowująca cenę podpowiedzi.</param>
     [Rpc(SendTo.Everyone)]
     public void SendQuestionToClientRpc(string questionText, int currentQuestionIndex, float hintPrice)
     {
@@ -278,6 +411,9 @@ public class AnswerController : NetworkBehaviour
         timerText.text = "";
     }
 
+    /// <summary>
+    /// Metoda RPC, ustawiająca kategorie wylosowanego pytania.
+    /// </summary>
     [Rpc(SendTo.Server)]
     private void SetCategoryServerRpc()
     {
@@ -285,6 +421,10 @@ public class AnswerController : NetworkBehaviour
         currentQuestion = category.DrawQuestion();
     }
 
+    /// <summary>
+    /// Metoda RPC uruchamiająca nową rundę w grze.
+    /// Zwiększa numer pytania, ustawia cenę podpowiedzi, wysyła pytanie do klientów oraz rozpoczyna odliczanie czasu. Jeśli liczba rund przekroczy limit, kończy grę.
+    /// </summary>
     [Rpc(SendTo.Server)]
     private void StartRoundServerRpc()
     {
@@ -304,9 +444,16 @@ public class AnswerController : NetworkBehaviour
             feedbackText.text = "Koniec gry";
         }
     }
+    /// <summary>
+    /// Metoda RPC, która aktualizuje wyświetlany czas pozostały drużynie na odpowiedź.
+    /// </summary>
+    /// <param name="timeRemaining">Zmienna przechowująca pozostały czasu.</param>
     [Rpc(SendTo.ClientsAndHost)]
     private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
 
+    /// <summary>
+    /// Metoda RPC, która umożliwia włączenie trybu odpowiedzi dla drużyny, która wygrała licytacje pytania.
+    /// </summary>
     [Rpc(SendTo.ClientsAndHost)]
     private void AnsweringModeRpc()
     {
@@ -315,6 +462,10 @@ public class AnswerController : NetworkBehaviour
             SetItemsInteractivity(true);
         }
     }
+    /// <summary>
+    /// Metoda sprawdzająca czy drużyna posiada wystarczająco pieniędzy aby wejść do następnej rundy.
+    /// </summary>
+    /// <returns>True, jeśli przynajmniej dwie drużyny mają wystarczająco dużo pieniędzy, False w przeciwnym razie. </returns>
     private bool IsContinuingGamePossible()
     {
         
@@ -330,6 +481,10 @@ public class AnswerController : NetworkBehaviour
         return _teamsInGame >= 2;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłająca na klientom i hostowi informacje o odblokowanej odznace.
+    /// </summary>
+    /// <param name="name">Zmienna przechowująca nazwę odznaki. </param>
     [Rpc(SendTo.ClientsAndHost)]
     private void UnlockBadgeRpc(string name)
     {
@@ -339,12 +494,18 @@ public class AnswerController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłająca na serwer zwiększenie licznika przechowującego liczbę pytań, na które odpowiedziała drużyna.
+    /// </summary>
     [Rpc(SendTo.Server)]
     private void QuestionAnsweredIncrementServerRpc()
     {
         _teams[(int)GameManager.Instance.Winner.Value].QuestionsAnswered++;
     }
 
+    /// <summary>
+    /// Metoda RPC wysyłająca na serwer zwiększenie licznika przechowującego ilość zadanych pytań drużynie.
+    /// </summary>
     [Rpc(SendTo.Server)]
     private void QuestionAskedIncrementServerRpc()
     {

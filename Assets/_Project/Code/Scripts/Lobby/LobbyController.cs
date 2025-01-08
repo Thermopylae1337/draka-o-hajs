@@ -9,24 +9,57 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Klasa zarządzająca lobby.
+/// </summary>
 public class LobbyController : NetworkBehaviour
 {
     // Używam Jednego obiektu do zarządzania logiką lobby, bo lobby musi być
     // reaktywne na wiele związanych ze sobą i zdarzen i w wielu miejscach.
+    /// <summary>
+    /// Obiekt reprezentujący przycisk rozpoczynający rozgrywkę.
+    /// </summary>
     public Button startButton;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk menu głównego
+    /// </summary>
     public Button mainMenuButton;
+    /// <summary>
+    /// Obiekt reprezentujący przycisk gotowości.
+    /// </summary>
     public Button readyButton;
     //adding this for the purposes of testing the bidding war, thus the unorthodox formatting (for easier deletion)
     public Button biddingWarButton; //TODO: delete after testing
+    /// <summary>
+    /// Obiekt gry reprezentujący listę graczy w grze.
+    /// </summary>
     public GameObject playerListGameObject;
+    /// <summary>
+    /// Prefab obiektu gry (GameObject), który reprezentuje pojedynczy wpis na liście graczy.
+    /// </summary>
     public GameObject playerListEntryPrefab;
+    /// <summary>
+    /// Obrazek reprezentujący przycisk "Gotowy". 
+    /// </summary>
     private Image readyButtonImage;
+    /// <summary>
+    /// Słownik przechowujący dane o graczach, w tych stan gotowości.
+    /// </summary>
     private readonly Dictionary<ulong, (bool ready, Transform tile)> playerTiles = new();  // For each user i will store if he is ready and his text on playerListGameObject
+    /// <summary>
+    /// Kolor przypisywany do gracza, który jest gotowy.
+    /// </summary>
     private Color readyColor = Color.green;
+    /// <summary>
+    /// Kolor przypisywany do gracza, który nie jest gotowy.
+    /// </summary>
     private Color notReadyColor = Color.red;
     private NetworkObject playerObj;
     private GameManager gameManager;
 
+    /// <summary>
+    /// Metoda RPC służąca do załadowania sceny "Bidding_War".
+    /// </summary>
     private void LoadBWHostRpc()
     {
         _ = NetworkManager.Singleton.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
@@ -51,6 +84,10 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda która połączy wszystkich graczy. 
+    /// </summary>
+    /// <param name="ClientID">Zmienna przechowująca identyfikator gracza.</param>
     void LoadAllPlayers(ulong ClientID)
     {
         foreach (ulong item in NetworkManager.ConnectedClientsIds)
@@ -91,11 +128,18 @@ public class LobbyController : NetworkBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback -= LoadMainMenu;
     }
 
+    /// <summary>
+    /// Metoda rozłączająca z gry.
+    /// </summary>
     private void Disconnect()
     {
         NetworkManager.Singleton.Shutdown();
     }
 
+    /// <summary>
+    /// Metoda, która umożliwia załadowanie menu głównego graczom.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowująca identyfikator gracza.</param>
     private void LoadMainMenu(ulong clientId)
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
@@ -104,6 +148,9 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda RPC rozpoczynająca rozgrywkę wywoływana przez hosta. Przypisuje kolory drużynom, inicjując menadżera gry oraz ładuje odpowiednią scenę.
+    /// </summary>
     [Rpc(SendTo.ClientsAndHost)]
     private void StartGameRpc()
     {
@@ -127,12 +174,20 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda RPC wywołująca dodanie gracza do listy graczy na wszystkich klientach.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowująca identyfikator gracza.</param>
     [Rpc(SendTo.Everyone)]
     void AddPlayerToListRpc(ulong clientId)
     {
         AddPlayerToList(clientId);
     }
 
+    /// <summary>
+    /// Metoda dodająca gracza do listy graczy w interfejsie użytkownika. Sprawdza, czy gracz już istnieje na liście, a jeśli nie tworzy nowy wpis. Ustawia nazwę drużyny gracza oraz możliwość oznaczenia go jako gotowego.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowująca identyfikator gracza.</param>
     void AddPlayerToList(ulong clientId)
     {
         GameObject playerListEntry;
@@ -158,6 +213,9 @@ public class LobbyController : NetworkBehaviour
         SetPlayerReady(false, clientId);
     }
 
+    /// <summary>
+    /// Metoda przypisująca kolory drużynom. Iteruje przez wszystkich połączonych graczy i przypisuje im odpowiedni kolor drużyny na podstawie indeksu.
+    /// </summary>
     void AddColoursToTeams()
     {
         int i = 0;
@@ -168,6 +226,10 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda RPC usuwająca graczy z listy.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowująca identyfikator gracza.</param>
     [Rpc(SendTo.Everyone)]
     void RemovePlayerFromListRpc(ulong clientId)
     {
@@ -175,12 +237,22 @@ public class LobbyController : NetworkBehaviour
         _ = playerTiles.Remove(clientId);
     }
 
+    /// <summary>
+    /// Metoda RPC, która rozsyła informację o gotowości gracza do wszystkich klientów i hosta.
+    /// </summary>
+    /// <param name="ready">Zmienna logiczna informująca, czy gracz jest gotowy.</param>
+    /// <param name="clientId">Identyfikator gracza, którego status gotowości jest akutalizowany.</param>
     [Rpc(SendTo.ClientsAndHost)]
     private void BroadcastPlayerReadySetRpc(bool ready, ulong clientId)
     {
         SetPlayerReady(ready, clientId);
     }
 
+    /// <summary>
+    /// Metoda ustawiająca stan gotowości gracza i aktualizująca wygląd w UI. Ustawia kolor w interfejsie użytkownika na podstawie stanu gotowości gracza.
+    /// </summary>
+    /// <param name="ready"></param>
+    /// <param name="clientId"></param>
     void SetPlayerReady(bool ready, ulong clientId)
     {
         playerTiles[clientId].tile.GetComponent<TextMeshProUGUI>().color = ready ? readyColor : notReadyColor;
@@ -198,6 +270,9 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda wywoływana, gdy gracz zmienia swój stan gotowości.
+    /// </summary>
     public void OnPlayerReadySwitch()
     {
         ulong localClientId = NetworkManager.Singleton.LocalClientId;
