@@ -80,12 +80,7 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().TeamId = localTeamId;
-
-        if (teams.Count < 4)
-        {
-            totalBidText.transform.position = teamBalanceText[GameManager.Instance.StartingTeamCount.Value].transform.position;
-        }
-
+         
         int i = GameManager.Instance.StartingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
