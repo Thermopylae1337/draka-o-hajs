@@ -7,9 +7,9 @@ using UnityEngine;
 
 public enum ColourEnum
 {
-    YELLOW,
+    BLUE,
     GREEN,
-    BLUE
+    YELLOW
 }
 public static class ColorHelper
 {
