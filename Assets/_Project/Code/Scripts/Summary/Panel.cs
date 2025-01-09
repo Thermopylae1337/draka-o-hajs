@@ -52,7 +52,7 @@ public class Panel : MonoBehaviour
 
         LeaderboardList leaderboard = new LeaderboardList();
         leaderboard.Deserializuj();
-        leaderboard.AddTeam(new LeaderboardTeam(teamName, money));
+        leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money,team.BadgeList.Badges));
         leaderboard.Serializuj();
 
 
