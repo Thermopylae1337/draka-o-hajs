@@ -17,7 +17,8 @@ public class LeaderboardList
     /// <summary>
     /// Ścieżka do pliku JSON przechowującego dane tablicy wyników.
     /// </summary>
-    string path = Path.Combine(Application.streamingAssetsPath, "teams.json");
+    //string path = Path.Combine(Application.streamingAssetsPath, "teams.json");
+    string path = "teams.json";
     /// <summary>
     /// Właściwość tylko do odczytu, zwracająca listę drużyn.
     /// </summary>
