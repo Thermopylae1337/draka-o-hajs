@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
@@ -166,12 +167,12 @@ public class BiddingWarController : NetworkBehaviour
         {
             if (t.InGame)
             {
-                SetupLockOutButtons(t);
-                totalBid += 500;
                 if (IsHost)
                 {
                     t.RaiseBid(500);
                 }
+                SetupLockOutButtons(t);
+                totalBid += 500;
             }
 
             UpdateMoneyStatusForTeam((int)t.TeamId);
@@ -184,8 +185,7 @@ public class BiddingWarController : NetworkBehaviour
     }
     public void SetupLockOutButtons(TeamManager team)
     {
-        if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame)
-        {
+        if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame &&   teams[(int)localTeamId].Money>= team.Money)        {
             lockOutButtons[(int)team.Colour].enabled = true;
             lockOutButtons[(int)team.Colour].image.enabled = true;
             lockOutButtons[(int)team.Colour].GetComponentInChildren<TextMeshProUGUI>().enabled = true;
@@ -197,8 +197,8 @@ public class BiddingWarController : NetworkBehaviour
     #region updates
     public void UpdateMoneyStatusForTeam(int i)
     {
-        teamBalanceText[(int)teams[i].Colour].text = teams[i].Money.ToString();
-        teamBidText[(int)teams[i].Colour].text = teams[i].Bid.ToString();
+        teamBalanceText[(int)teams[i].Colour].text = ( winningBidAmount + 100 - teams[i].Bid ) <= teams[i].Money ? teams[i].Money.ToString(): "<color=grey>" + teams[i].Money.ToString() + "</color>";
+        teamBidText[(int)teams[i].Colour].text =teams[i].Bid.ToString();
     }
 
     public void UpdateMoneyStatus()
@@ -219,8 +219,7 @@ public class BiddingWarController : NetworkBehaviour
         bidButtonText[2].text = "300";
         bidButtonText[3].text = "400";
         bidButtonText[4].text = "500";
-        bidButtonText[5].text = "1000";
-
+        bidButtonText[5].text = "1000"; 
         if (winningBidAmount != teams[(int)localTeamId].Bid)
         {
             int difference = winningBidAmount - teams[(int)localTeamId].Bid;
@@ -232,7 +231,19 @@ public class BiddingWarController : NetworkBehaviour
             bidButtonText[4].text += "(" + ( difference + 500 ).ToString() + ")";
             bidButtonText[5].text += "(" + ( difference + 1000 ).ToString() + ")";
         }
-    }
+
+        bidButtons[0].image.color = ( ( winningBidAmount + 100 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ?new Color32(150, 150, 150, 100)  :new Color32(255, 255, 255, 255);
+        bidButtons[1].image.color = ( ( winningBidAmount + 200 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[2].image.color = ( ( winningBidAmount + 300 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[3].image.color = ( ( winningBidAmount + 400 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[4].image.color = ( ( winningBidAmount + 500 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[5].image.color = ( ( winningBidAmount + 1000 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        vbButton.image.color = (localTeamId == winningTeamID && winningBidAmount != 500 ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        if ( winningBidAmount > teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid )
+        {
+            lockOutButtons[winningTeamID].image.enabled = false;
+            lockOutButtons[winningTeamID].enabled = false; }
+        }
     [Rpc(SendTo.Everyone)]
     public void UpdateBidsRpc(int difference, int winning_bid, int winning_team_id)
     {
@@ -246,8 +257,12 @@ public class BiddingWarController : NetworkBehaviour
     #region bidding_functions
     public void LockOutBid(int locked_out_team)
     {
-        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid;
+        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid; 
         Bid(amount);
+        lockOutButtons[locked_out_team].enabled = false;
+        lockOutButtons[locked_out_team].image.enabled = false;
+
+        lockOutButtons[locked_out_team].GetComponentInChildren<TextMeshProUGUI>().text = "";
     }
     public void VaBanque()
     {
