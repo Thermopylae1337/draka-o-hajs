@@ -7,8 +7,6 @@ using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
-using System.Reflection;
-using Unity.VisualScripting;
 
 /// <summary>
 /// Klasa zarządzająca etapem podsumowania.

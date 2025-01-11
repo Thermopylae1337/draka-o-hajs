@@ -77,4 +77,17 @@ public class GameManager : NetworkBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }
+    /// <summary>
+    /// Rpc wyczyszczający dane gry po zakończonej rozgrywce.
+    /// </summary>
+    [ServerRpc(RequireOwnership = false)]
+    public void ClearServerRpc()
+    {
+        Question.Value = default;
+        Category.Value = default;
+        Winner.Value = 0;
+        Round.Value = 1;
+        CurrentBid.Value = 0;
+        StartingTeamCount.Value = 0;
+    }
 }
