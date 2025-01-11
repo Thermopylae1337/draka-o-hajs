@@ -52,6 +52,7 @@ public class BiddingWarController : NetworkBehaviour
     public VideoPlayer uderzenieVideoPlayer;
 
     public AudioSource audioBeginBidding;
+    public AudioSource audioHammer;
 
     public class Timer
     {
@@ -550,6 +551,11 @@ public class BiddingWarController : NetworkBehaviour
         _ = new WaitForSeconds(0.5f);
         uderzenieImage.SetActive(true);
         uderzenieVideoPlayer.Play();
+        Invoke("PlayHammerAudio", 1.0f);
+    }
+    private void PlayHammerAudio()
+    {
+        audioHammer.Play();
     }
 
     [Rpc(SendTo.Server)]

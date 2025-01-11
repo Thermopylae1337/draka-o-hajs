@@ -33,7 +33,7 @@ public class CategoryDrawManager : NetworkBehaviour
 
         wheel.OnWheelStopped += HandleWheelStopped;
         startTime = Time.time;
-        Invoke("AudioPlaySpinWheel", 1.0f); //delay aby zsynchronizowac z kolem fortuny
+        Invoke("AudioPlaySpinWheel", 1.5f); //delay aby zsynchronizowac z kolem fortuny
     }
 
     private void AudioPlaySpinWheel()
