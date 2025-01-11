@@ -86,6 +86,5 @@ public class GameManager : NetworkBehaviour
         Winner.Value = 0;
         Round.Value = 1;
         CurrentBid.Value = 0;
-        StartingTeamCount.Value = 0;
     }
 }

@@ -137,7 +137,7 @@ public class SummaryManager : NetworkBehaviour
             {
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1.5f);
             }
         }
 
