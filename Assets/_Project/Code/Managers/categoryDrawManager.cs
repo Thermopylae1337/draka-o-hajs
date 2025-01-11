@@ -33,11 +33,12 @@ public class CategoryDrawManager : NetworkBehaviour
     }
 
     private void HandleWheelStopped(int result)
-    {
+    { 
         categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
@@ -45,6 +46,7 @@ public class CategoryDrawManager : NetworkBehaviour
         }
         else if (categoryNames[result] == "Podpowiedź")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
@@ -55,8 +57,7 @@ public class CategoryDrawManager : NetworkBehaviour
             
             if (IsHost)
             {
-                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]);
-
+                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]); 
                 GameManager.Instance.Round.Value += 1;
             }
             // WyświetlPytanie(category)
@@ -87,9 +88,6 @@ public class CategoryDrawManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)
     {
-        if (GameManager.Instance.Round.Value < Utils.ROUNDS_LIMIT)
-        {
-            wheel.SpinWheel(angle);
-        }
+        wheel.SpinWheel(angle);
     }
 }

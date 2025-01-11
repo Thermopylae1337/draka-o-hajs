@@ -32,8 +32,7 @@ public class AnswerController : NetworkBehaviour
     public Sprite artQuestionBackgroundBlue;
     public Sprite artResultWrong;
 
-    private Button[] answerButtons;
-    public static int currentQuestionIndex = 0;
+    private Button[] answerButtons; 
     private float _timeRemaining;
     private bool _isAnswerChecked;
     private string[] hints;
@@ -51,8 +50,7 @@ public class AnswerController : NetworkBehaviour
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
         SetHintMode(false);
-        _teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
-
+        _teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList(); 
         foreach (Button button in answerButtons)
         {
             button.onClick.AddListener(() => OnSelectButton(button));
@@ -115,7 +113,7 @@ public class AnswerController : NetworkBehaviour
             resultImage.gameObject.SetActive(true);
             resultImage.sprite = artResultWrong;
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
-            _ = currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible()
+            _ =  IsContinuingGamePossible()
                 ? StartCoroutine(ChangeScene("CategoryDraw", 4))
                 : StartCoroutine(ChangeScene("Summary", 4));
         }
@@ -168,13 +166,13 @@ public class AnswerController : NetworkBehaviour
 
             NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
-            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), true);
+            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", IsContinuingGamePossible(), true);
         }
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " + 
                 $"Poprawna odpowiedź to: "+currentQuestion.CorrectAnswers[0],
-                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), false);
+                IsContinuingGamePossible(), false);
  
             if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
             {
@@ -193,7 +191,7 @@ public class AnswerController : NetworkBehaviour
             resultImage.sprite = artResultWrong;
         }
 
-        if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
+        if(GameManager.Instance.Round.Value <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
         {
             UnlockBadgeRpc("Bankruci");
         }
@@ -325,12 +323,11 @@ public class AnswerController : NetworkBehaviour
 
     [Rpc(SendTo.Server)]
     private void StartRoundServerRpc()
-    {
-        currentQuestionIndex++;
-        if (currentQuestionIndex <= Utils.ROUNDS_LIMIT)
+    { 
+        if (GameManager.Instance.Round.Value <= Utils.ROUNDS_LIMIT)
         {
             randomHintPrice = Convert.ToInt32(Mathf.Round(Convert.ToSingle(UnityEngine.Random.Range(20, 31)) / 100 * GameManager.Instance.CurrentBid.Value / 100f) * 100f);
-            SendQuestionToClientRpc(currentQuestion.Content, currentQuestionIndex, randomHintPrice);
+            SendQuestionToClientRpc(currentQuestion.Content, GameManager.Instance.Round.Value, randomHintPrice);
             _timeRemaining = 30f;
             AnsweringModeRpc();
             SetHintMode(false);
@@ -355,7 +352,10 @@ public class AnswerController : NetworkBehaviour
     }
     private bool IsContinuingGamePossible()
     {
-        
+        // > ponieważ dla 7 pytania indeks rundy zostanie ustawiony na 8 (indeks rundy jest inkrementowany po wylosowaniu pytania) więc dla == gra kończyła by się po pytaniu 6
+        //możnaby sprawić aby było to bardziej logiczne, inkrementujac indeks rundy na początku każdej rundy i dekrementując jeżeli trafi się runda bonusowa
+        //ale to mogłoby sprawić errory wynikające z opóźnienia więc zwłaszcza zważywszy na brak czasu lepiej to tak zostawić
+        if (GameManager.Instance.Round.Value > Utils.ROUNDS_LIMIT) return false;
         _teamsInGame = 0;
         foreach (TeamManager team in _teams)
         {

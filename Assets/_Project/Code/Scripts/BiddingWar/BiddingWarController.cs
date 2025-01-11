@@ -546,7 +546,10 @@ public class BiddingWarController : NetworkBehaviour
             }
             else
             {
-                team.InGame = false;
+                if (IsHost)
+                {
+                    team.InGame = false;
+                }
             }
         }
 
