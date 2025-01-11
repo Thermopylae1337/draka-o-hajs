@@ -32,6 +32,9 @@ public class AnswerController : NetworkBehaviour
     public Sprite artQuestionBackgroundBlue;
     public Sprite artResultWrong;
 
+    public AudioSource audioAnswerCorrect;
+    public AudioSource audioAnswerWrong;
+
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
     private float _timeRemaining;
@@ -183,6 +186,10 @@ public class AnswerController : NetworkBehaviour
         if (!correctAnswer)
         {
             resultImage.sprite = artResultWrong;
+            audioAnswerWrong.Play();
+        } else
+        {
+            audioAnswerCorrect.Play();
         }
 
         if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
