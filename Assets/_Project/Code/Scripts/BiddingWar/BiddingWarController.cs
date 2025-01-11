@@ -51,6 +51,8 @@ public class BiddingWarController : NetworkBehaviour
     public GameObject uderzenieImage;
     public VideoPlayer uderzenieVideoPlayer;
 
+    public AudioSource audioBeginBidding;
+
     public class Timer
     {
         float StartTime;
@@ -181,6 +183,7 @@ public class BiddingWarController : NetworkBehaviour
 
             UpdateMoneyStatusForTeam((int)t.TeamId);
         }
+        audioBeginBidding.Play();
 
         totalBidText.text = totalBid.ToString();
         winningBidAmount = 500;
