@@ -86,9 +86,15 @@ public class LeaderboardList
     /// </summary>
     public void Deserializuj()
     {
+        if (!File.Exists(path))
+        {
+            File.WriteAllText(path, "");
+
+        }
         string json = File.ReadAllText(path);
         teamList = json.Equals("") || json.Equals(null)
             ? new List<LeaderboardTeam>()
             : JsonConvert.DeserializeObject<List<LeaderboardTeam>>(json);
     }
+
 }

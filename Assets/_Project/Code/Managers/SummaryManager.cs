@@ -285,6 +285,31 @@ public class SummaryManager : NetworkBehaviour
             {
                 team.BadgeList.UnlockBadge("Królowie skarbca");
             }
+
+            if(team.CzasToPieniadz == true)
+            {
+                team.BadgeList.UnlockBadge("Czas to pieniądz");
+            }
+
+            if (team.Bankruci == true)
+            {
+                team.BadgeList.UnlockBadge("Bankruci");
+            }
+
+            if (team.WonBid >= 5)
+            {
+                team.BadgeList.UnlockBadge("Mistrzowie Aukcji");
+            }
+
+            if (team.VaBanque >= 3)
+            {
+                team.BadgeList.UnlockBadge("Ryzykanci");
+            }
+
+            if (team.BlackBoxes >= 2)
+            {
+                team.BadgeList.UnlockBadge("Czarni Łowcy");
+            }
     }
     /// <summary>
     /// Metoda zajmująca się deaktywacją obiektów uczestniczących w animacji.
