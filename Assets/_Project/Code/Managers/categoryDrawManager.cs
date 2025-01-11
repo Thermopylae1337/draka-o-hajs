@@ -15,6 +15,9 @@ public class CategoryDrawManager : NetworkBehaviour
     private float startTime;
     private bool wheelSpinned;
 
+    public AudioSource audioSpinWheel;
+    public AudioSource audioRevealCategory;
+
     private void Start()
     {
         wheelSpinned = false;
@@ -30,11 +33,18 @@ public class CategoryDrawManager : NetworkBehaviour
 
         wheel.OnWheelStopped += HandleWheelStopped;
         startTime = Time.time;
+        Invoke("AudioPlaySpinWheel", 1.0f); //delay aby zsynchronizowac z kolem fortuny
+    }
+
+    private void AudioPlaySpinWheel()
+    {
+        audioSpinWheel.Play();
     }
 
     private void HandleWheelStopped(int result)
     {
         categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
+        audioRevealCategory.Play();
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
