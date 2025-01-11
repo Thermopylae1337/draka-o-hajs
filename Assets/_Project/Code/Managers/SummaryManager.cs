@@ -146,6 +146,7 @@ public class SummaryManager : NetworkBehaviour
             ulong clientId = teamClient.ClientId;
             CreatePanelClientRpc(clientId);
         }
+
         GameManager.Instance.ClearServerRpc();
     }
     /// <summary>

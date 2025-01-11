@@ -83,8 +83,6 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ClearServerRpc()
     {
-        Question.Value = default;
-        Category.Value = default;
         Winner.Value = 0;
         Round.Value = 1;
         CurrentBid.Value = 0;
