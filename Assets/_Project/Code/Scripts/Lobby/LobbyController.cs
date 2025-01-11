@@ -30,6 +30,7 @@ public class LobbyController : NetworkBehaviour
     public Button readyButton;
     //adding this for the purposes of testing the bidding war, thus the unorthodox formatting (for easier deletion)
     public Button biddingWarButton; //TODO: delete after testing
+    
     /// <summary>
     /// Obiekt gry reprezentujący listę graczy w grze.
     /// </summary>
@@ -67,10 +68,6 @@ public class LobbyController : NetworkBehaviour
 
     private void Start()
     {
-        //to delete after testing start
-        biddingWarButton.onClick.AddListener(LoadBWHostRpc);
-
-        //to delete after testing end
         readyButtonImage = readyButton.GetComponent<Image>();
         readyButton.onClick.AddListener(OnPlayerReadySwitch);
         startButton.onClick.AddListener(StartGameRpc);

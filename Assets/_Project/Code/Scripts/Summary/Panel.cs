@@ -1,11 +1,17 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
+//using Assets._Project.Code.Models;
 
 /// <summary>
 /// Klasa odpowiedzialna za streszcznie po zakończeniu rozgrywki.
 /// </summary>
 public class Panel : MonoBehaviour
 {
+    [SerializeField]
+    public List<Sprite> panelSprites = new List<Sprite>();              // wsadzać Y, G, B !
+
     /// <summary>
     /// Zmienne typu TMP_Text przechowujące informacje o drużynie takie jak nazwa, pieniadze, poprawność oraz liczba wykorzystanych podpowiedzi.
     /// </summary>
@@ -42,6 +48,13 @@ public class Panel : MonoBehaviour
     /// <param name="team">Obiekt drużyny, którego dane będą wyświetlane.</param>
     public void Initialize(TeamManager team)
     {
+        if (team.Colour == ColourEnum.YELLOW)
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zolci");
+        else if (team.Colour == ColourEnum.GREEN)
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zieloni");
+        else
+            GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_niebiescy");
+        
         string teamName = team.TeamName;
         int money = team.Money;
         float goodAnswers = team.QuestionsAnswered;

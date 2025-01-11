@@ -22,6 +22,7 @@ public enum ColourEnum
     /// Kolor reprezentujący drużynę niebieską.
     /// </summary>
     BLUE
+
 }
 /// <summary>
 /// Klasa pomocnicza do konwersji wyliczeń kolorów na kolory w Unity.

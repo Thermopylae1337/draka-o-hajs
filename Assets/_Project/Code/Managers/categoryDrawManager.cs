@@ -99,10 +99,14 @@ public class CategoryDrawManager : NetworkBehaviour
 
         if (NetworkManager.Singleton.IsHost)
         {
-            _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
+            Invoke("LoadBiddingWar", 3.0f);
         }
     }
-
+    
+    private void LoadBiddingWar()
+    {
+        _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);
+    }
     /// <summary>
     /// Metoda odpowiedzialna za animację koła (wylosowanie następnej kategorii) po spełnieniu określonych warunków.
     /// </summary>

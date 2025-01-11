@@ -51,9 +51,16 @@ public class AnswerController : NetworkBehaviour
     public Button useHintsButton;
 
     public Image backgroundImage;
+    public Image answerImage;
+    public Image resultImage;
+    public Image questionBackgroundImage;
     public Sprite artYellowTeamAnswering;
     public Sprite artGreenTeamAnswering;
     public Sprite artBlueTeamAnswering;
+    public Sprite artQuestionBackgroundYellow;
+    public Sprite artQuestionBackgroundGreen;
+    public Sprite artQuestionBackgroundBlue;
+    public Sprite artResultWrong;
 
     /// <summary>
     /// Tablica zawierająca przyciski z podanymi odpowiedziami.
@@ -99,8 +106,8 @@ public class AnswerController : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        ShowBackgroundImage();
-        totalBid.text = "Pula pytania: " + GameManager.Instance.CurrentBid.Value.ToString();
+        ShowBackgroundImages();
+        totalBid.text = "PULA: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
         SetHintMode(false);
@@ -120,13 +127,16 @@ public class AnswerController : NetworkBehaviour
         }
 
         feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
-            ? "Jesteś graczem ktory wygrał licytacje"
-            : "Jesteś graczem ktory przegrał licytacje. Tryb obserwatora";
+            ? "Wygrałeś(aś) licytację. Odpowiadasz na pytanie."
+            : "Przegrałeś(aś) licytację. Jesteś obserwatorem.";
     }
     /// <summary>
     /// Metoda ustawiająca tło w zależności od koloru zespołu, który udziela odpowiedzi. 
     /// </summary>
     private void ShowBackgroundImage()
+
+    private void ShowBackgroundImages()
+
     {
         TeamManager _answeringTeam = NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>();
         ColourEnum _colour = _answeringTeam.Colour;
@@ -135,12 +145,15 @@ public class AnswerController : NetworkBehaviour
         {
             case ColourEnum.YELLOW:
                 backgroundImage.sprite = artYellowTeamAnswering;
+                questionBackgroundImage.sprite = artQuestionBackgroundYellow;
                 break;
             case ColourEnum.GREEN:
                 backgroundImage.sprite = artGreenTeamAnswering;
+                questionBackgroundImage.sprite = artQuestionBackgroundGreen;
                 break;
             case ColourEnum.BLUE:
                 backgroundImage.sprite = artBlueTeamAnswering;
+                questionBackgroundImage.sprite = artQuestionBackgroundBlue;
                 break;
         }
     }
@@ -162,6 +175,8 @@ public class AnswerController : NetworkBehaviour
         if (_timeRemaining <= 0)
         {
             SetItemsInteractivity(false);
+            resultImage.gameObject.SetActive(true);
+            resultImage.sprite = artResultWrong;
             feedbackText.text = "Czas minął! Odpowiedzi: " + string.Join(", ", currentQuestion.CorrectAnswers);
             _ = currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible()
                 ? StartCoroutine(ChangeScene("CategoryDraw", 4))
@@ -233,13 +248,14 @@ public class AnswerController : NetworkBehaviour
 
             NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
             GameManager.Instance.CurrentBid.Value = 0;
-            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
+            SendFeedbackToClientsRpc("Brawo! Poprawna odpowiedź.", currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), true);
         }
         else
         {
             SendFeedbackToClientsRpc($"Niestety, to nie jest poprawna odpowiedź. " +
                 $"Poprawne odpowiedzi to: {string.Join(", ", currentQuestion.CorrectAnswers)}",
-                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible());
+                currentQuestionIndex < Utils.ROUNDS_LIMIT && IsContinuingGamePossible(), false);
+
             if (_teams[(int)GameManager.Instance.Winner.Value].Money <= 500)
             {
                 //dodane po to, żeby nie sprawdzać na początku każdej rundy licytacji kto ma <600zł
@@ -254,8 +270,14 @@ public class AnswerController : NetworkBehaviour
     /// <param name="feedback">Zmienna zawierająca informację zwrotną, która będzie wyświetlana drużynie.</param>
     /// <param name="gameContinuing">Flaga wskazująca, czy gra ma być kontynuowana czy zakończona.</param>
     [Rpc(SendTo.ClientsAndHost)]
-    private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing)
+    private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing, bool correctAnswer)
     {
+        resultImage.gameObject.SetActive(true);
+        if (!correctAnswer)
+        {
+            resultImage.sprite = artResultWrong;
+        }
+
         if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
         {
             UnlockBadgeRpc("Bankruci");
@@ -335,6 +357,7 @@ public class AnswerController : NetworkBehaviour
         }
 
         answerInput.gameObject.SetActive(!active);
+        answerImage.gameObject.SetActive(!active);
 
         hintButtonsContainer.SetActive(active);
     }
@@ -403,9 +426,9 @@ public class AnswerController : NetworkBehaviour
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         SetItemsInteractivity(false);
         this.questionText.text = questionText;
-        hintPriceText.text = "Cena podpowiedzi: " + Convert.ToString(hintPrice);
+        hintPriceText.text = "Cena: " + Convert.ToString(hintPrice) + " PLN";
         _isAnswerChecked = false;
-        roundNumber.text = "Runda numer: " + currentQuestionIndex.ToString();
+        roundNumber.text = "PYTANIE " + currentQuestionIndex.ToString();
         feedbackText.text = "";
         answerInput.text = "";
         timerText.text = "";
@@ -449,7 +472,7 @@ public class AnswerController : NetworkBehaviour
     /// </summary>
     /// <param name="timeRemaining">Zmienna przechowująca pozostały czasu.</param>
     [Rpc(SendTo.ClientsAndHost)]
-    private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas: " + Mathf.Ceil(timeRemaining) + "s";
+    private void ShowCurrentTimeRpc(float timeRemaining) => timerText.text = "Czas " + Mathf.Ceil(timeRemaining) + "s";
 
     /// <summary>
     /// Metoda RPC, która umożliwia włączenie trybu odpowiedzi dla drużyny, która wygrała licytacje pytania.
