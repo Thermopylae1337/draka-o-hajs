@@ -7,6 +7,8 @@ using TMPro;
 using UnityEngine.Video;
 using System.Collections;
 using UnityEngine.UI;
+using System.Reflection;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Klasa zarządzająca etapem podsumowania.
@@ -50,7 +52,6 @@ public class SummaryManager : NetworkBehaviour
     /// Zmienna przechowywująca Id zwycięzcy rozgrywki.
     /// </summary>
     ulong winnerId;
-
     /// <summary>
     /// Zmienna wykorzystywana do losowania nagród.
     /// </summary>
@@ -62,7 +63,7 @@ public class SummaryManager : NetworkBehaviour
     /// <summary>
     /// Zmienna statyczna przechowywująca szanse na nagrody przedmiotowe.
     /// </summary>
-    private static readonly double[] _badgeChances = { 0.2, 0.8 };
+    private static readonly double[] _badgeChances = { 0.1, 0.9 };
     /// <summary>
     /// Zmienna statyczna przechowywująca możliwe nagrody pieniężne.
     /// </summary>
@@ -85,6 +86,11 @@ public class SummaryManager : NetworkBehaviour
             teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
             richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
             winnerId = richestTeam.OwnerClientId;
+
+            if (NetworkManager.Singleton.LocalClientId == winnerId)
+            {
+                teams[(int)NetworkManager.Singleton.LocalClientId].Money += GameManager.Instance.CurrentBid.Value;
+            }
 
             if (NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
             {
@@ -122,11 +128,10 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
 
-
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
             //test
-            team.BlackBoxes = _random.Next(4);
+            team.BlackBoxes = _random.Next(1, 4);
             Debug.Log(team.name);
             Debug.Log(team.BlackBoxes);
 
@@ -134,12 +139,16 @@ public class SummaryManager : NetworkBehaviour
             {
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
+                yield return new WaitForSeconds(1f);
             }
-
-            CreatePanelClientRpc(clientId);
-
-            yield return new WaitForSeconds(2f);
         }
+
+        foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
+        {
+            ulong clientId = teamClient.ClientId;
+            CreatePanelClientRpc(clientId);
+        }
+        GameManager.Instance.ClearServerRpc();
     }
     /// <summary>
     /// RPC tworzący i wyświetlający panel podsumowania drużyny.
@@ -163,24 +172,24 @@ public class SummaryManager : NetworkBehaviour
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-
         PrizeData[] prizes = Enumerable.Range(0, team.BlackBoxes)
                                 .Select(_ => DrawPrize(team))
                                 .ToArray();
 
         HandleBlackBoxBadges(clientId, new PrizeDataList { prizes = prizes });
-        DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
+        DisplayPrizeClientRpc(team.TeamName, new PrizeDataList { prizes = prizes });
 
     }
     /// <summary>
     /// RPC odpowiedzialny za przyporządkowywanie tekstu nagród i odtwarzanie odpowiedniej animacji dla każdego z klientów.
     /// </summary>
+    /// <param name="teamName">Zmienna przechowująca nazwę drużyny.</param>
     /// <param name="prizeDataList">Zmienna przechowująca informację o liście wylosowanych nagród.</param>
     [ClientRpc]
-    private void DisplayPrizeClientRpc(PrizeDataList prizeDataList)
+    private void DisplayPrizeClientRpc(string teamName, PrizeDataList prizeDataList)
     {
         PrizeData[] prizes = prizeDataList.prizes;
-        teamDrawingText.text = $"Drużyna {prizes[0].teamName} losuje czarną skrzynkę:";
+        teamDrawingText.text = $"Drużyna {teamName} losuje czarną skrzynkę:";
 
         if (prizes.Length == 1)
         {
@@ -293,7 +302,7 @@ public class SummaryManager : NetworkBehaviour
     /// <returns>Zwraca informacje o nagrodzie jaką wylosowała drużyna.</returns>
     private PrizeData DrawPrize(TeamManager team)
     {
-        bool isMoneyPrize = _random.NextDouble() < 0.8;
+        bool isMoneyPrize = _random.NextDouble() < 0.9;
         return isMoneyPrize ? CreateMoneyPrize(team) : CreateBadgePrize(team);
     }
     /// <summary>
@@ -389,3 +398,4 @@ public class SummaryManager : NetworkBehaviour
         teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge(name);
     }
 }
+
