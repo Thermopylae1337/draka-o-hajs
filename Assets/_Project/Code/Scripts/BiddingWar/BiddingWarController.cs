@@ -96,9 +96,10 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         timerText.text = "5";
-        categoryNameText.text = GameManager.Instance.Category.Value.Name.ToUpper();
         Setup();
         AddListeners();
+        if (IsHost)
+            PopulateCategoryNameRpc(GameManager.Instance.Category.Value.Name.ToUpper());
     }
 
     void OnEnable()
@@ -302,6 +303,12 @@ public class BiddingWarController : NetworkBehaviour
     {
         timer = 0;
         SellRpc(team_id);
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void PopulateCategoryNameRpc(string name)
+    {
+        categoryNameText.text = name;
     }
 
     [Rpc(SendTo.Everyone)]
