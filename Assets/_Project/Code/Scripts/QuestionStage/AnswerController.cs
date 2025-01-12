@@ -194,7 +194,7 @@ public class AnswerController : NetworkBehaviour
 
         if(IsHost)
         {
-            if (currentQuestionIndex <= 1 && NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money <= 0)
+            if (GameManager.Instance.Round.Value <= 1 && NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money <= 0)
             {
                 NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Bankruci = true;
             }

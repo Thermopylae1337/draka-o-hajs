@@ -121,8 +121,7 @@ public class SummaryManager : NetworkBehaviour
             ulong clientId = teamClient.ClientId;
             CreatePanelClientRpc(clientId);
         }
-
-        GameManager.Instance.ClearServerRpc();
+         
     }
     [ClientRpc]
     private void SaveTeamClientRpc(ulong clientId)
@@ -160,7 +159,7 @@ public class SummaryManager : NetworkBehaviour
                                 .ToArray();
 
         HandleBlackBoxBadgesClientRpc(clientId, new PrizeDataList { prizes = prizes });
-        DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
+        DisplayPrizeClientRpc(team.name, new PrizeDataList { prizes = prizes });
 
     }
     /// <summary>
