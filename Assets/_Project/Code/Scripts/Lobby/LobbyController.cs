@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,7 +21,7 @@ public class LobbyController : NetworkBehaviour
     private Color readyColor = Color.green;
     private Color notReadyColor = Color.red;
     private NetworkObject playerObj;
-    private GameManager gameManager;
+    public GameObject gameManagerPrefab;
 
     private void LoadBWHostRpc()
     {
@@ -102,7 +100,6 @@ public class LobbyController : NetworkBehaviour
     private void StartGameRpc()
     {
         AddColoursToTeams();
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         foreach (KeyValuePair<ulong, NetworkClient> client in NetworkManager.Singleton.ConnectedClients)
         {
@@ -111,7 +108,10 @@ public class LobbyController : NetworkBehaviour
 
         if (NetworkManager.Singleton.IsHost)
         {
-            gameManager.StartingTeamCount.Value = NetworkManager.Singleton.ConnectedClients.Count;
+            _ = Instantiate(gameManagerPrefab);
+            GameManager.Instance.GetComponent<NetworkObject>().Spawn();
+
+            GameManager.Instance.StartingTeamCount.Value = NetworkManager.Singleton.ConnectedClients.Count;
             foreach (NetworkClient client in NetworkManager.Singleton.ConnectedClients.Values)
             {
                 client.PlayerObject.GetComponent<TeamManager>().NetworkId = (uint)client.ClientId;
@@ -125,10 +125,12 @@ public class LobbyController : NetworkBehaviour
     void AddPlayerToListRpc(ulong clientId)
     {
         AddPlayerToList(clientId);
-        var playerKeys = playerTiles.Keys.ToList();
-        foreach (var key in playerKeys)
+        List<ulong> playerKeys = playerTiles.Keys.ToList();
+        foreach (ulong key in playerKeys)
         {
             SetPlayerReady(false, key);
+            NetworkObject playerObject = NetworkManager.Singleton.ConnectedClients[key].PlayerObject;
+            playerObject.name = playerObject.GetComponent<TeamManager>().teamName.Value.ToString();
         }
     }
 

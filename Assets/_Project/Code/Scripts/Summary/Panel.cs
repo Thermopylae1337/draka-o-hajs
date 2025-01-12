@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
-//using Assets._Project.Code.Models;
 
 public class Panel : MonoBehaviour
 {
@@ -34,7 +33,7 @@ public class Panel : MonoBehaviour
             GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_zieloni");
         else
             GetComponent<Image>().sprite = Resources.Load<Sprite>("Summary/tabelka_niebiescy");
-        
+
         string teamName = team.TeamName;
         int money = team.Money;
         float goodAnswers = team.QuestionsAnswered;
@@ -59,11 +58,11 @@ public class Panel : MonoBehaviour
         teamNameObj.text = teamName;
         moneyObj.text = $"<color=green>{money}</color>pln";
 
-        accuracyObj.text = questions == 0 
-            ?  $"<size=22>Poprawne odpowiedzi\n</size>" +
+        accuracyObj.text = questions == 0
+            ? $"<size=22>Poprawne odpowiedzi\n</size>" +
             $"<size=60><color=red>0%\n</color></size>" +
-            $"<size=18>(0/0)</size>" 
-            :  $"<size=22>Poprawne odpowiedzi\n</size>" +
+            $"<size=18>(0/0)</size>"
+            : $"<size=22>Poprawne odpowiedzi\n</size>" +
             $"<size=60><color=red>{Mathf.Round(goodAnswers / questions * 100f)}%\n</color></size>" +
             $"<size=18>({goodAnswers}/{questions})</size>";
 
