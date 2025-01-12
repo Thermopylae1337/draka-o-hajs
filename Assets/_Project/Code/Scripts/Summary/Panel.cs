@@ -49,10 +49,10 @@ public class Panel : MonoBehaviour
         //float questions = goodAnswers + wrongAnswers;
         //int cluesUsed = 5;
 
-        LeaderboardList leaderboard = new LeaderboardList();
-        leaderboard.Deserializuj();
-        leaderboard.AddTeam(new LeaderboardTeam(teamName, money));
-        leaderboard.Serializuj();
+        //LeaderboardList leaderboard = new LeaderboardList();
+        //leaderboard.Deserializuj();
+        //leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money,team.BadgeList.Badges));
+        //leaderboard.Serializuj();
 
 
         teamNameObj.text = teamName;

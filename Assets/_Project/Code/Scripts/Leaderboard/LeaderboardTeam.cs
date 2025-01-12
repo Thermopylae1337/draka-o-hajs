@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Klasa reprezentująca drużynę na tablicy wyników.
@@ -16,14 +18,38 @@ public class LeaderboardTeam : IComparable<LeaderboardTeam>
     int money;
 
     /// <summary>
+    /// Odznaki druzyny.
+    /// </summary>
+    List<Badge> badges;
+
+    /// <summary>
     /// Konstruktor klasy LeaderboardTeam.
     /// </summary>
     /// <param name="name">Nazwa drużyny.</param>
     /// <param name="money">Ilość pieniędzy posiadanych przez drużynę.</param>
-    public LeaderboardTeam(string name, int money)
+    /// <param name="badges">Odznaki drużyny.</param>
+    public LeaderboardTeam(string name, int money, List<Badge> badges)
     {
         this.name = name;
         this.money = money;
+        this.badges = badges;
+    }
+    /// <summary>
+    /// Wyszukuje odznake z odznak danej drużyny na podstawie nazwy.
+    /// </summary>
+    /// <param name="name">Nazwa odznaki do wyszukania.</param>
+    /// <returns>Zwraca odznake, jeśli istnieje w liście.</returns>
+    /// <exception cref="Exception">Wyrzucany, gdy odznaka o podanej nazwie nie istnieje.</exception>
+    public Badge FindBadge(string name)
+    {
+        foreach (Badge badge in badges)
+        {
+            if(badge.Name.Equals(name))
+            {
+                return badge;
+            }
+        }
+        throw new Exception("Badge does not exist");
     }
 
     /// <summary>
@@ -41,6 +67,14 @@ public class LeaderboardTeam : IComparable<LeaderboardTeam>
     {
         get => money;
         set => money = value;
+    }
+    /// <summary>
+    /// Właściwość do odczytu i zapisu, reprezentuje odznaki drużyny.
+    /// </summary>
+    public List<Badge> Badges
+    {
+        get => badges;
+        set => badges = value;
     }
 
     /// <summary>

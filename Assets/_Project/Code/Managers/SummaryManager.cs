@@ -80,33 +80,6 @@ public class SummaryManager : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        if (NetworkManager != null)
-        {
-            teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
-            richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
-            winnerId = richestTeam.OwnerClientId;
-
-            if (NetworkManager.Singleton.LocalClientId == winnerId && teams[(int)NetworkManager.Singleton.LocalClientId].CluesUsed == 0)
-            {
-                UnlockBadge("Samodzielni Geniusze");
-            }
-
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == 0 && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked > 0)
-            {
-                UnlockBadge("Mistrzowie pomyłek");
-            }
-
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered > 0)
-            {
-                UnlockBadge("As opowiedzi");
-            }
-
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].Money >= 19000)
-            {
-                UnlockBadge("Królowie skarbca");
-            }
-        }
-
         if (NetworkManager.Singleton?.IsHost == true)
         {
             _ = StartCoroutine(HandleTeams());
@@ -122,7 +95,6 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
 
-
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
             //test
@@ -135,11 +107,21 @@ public class SummaryManager : NetworkBehaviour
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
             }
-
+            HandleBadgesClientRpc(clientId);
+            SaveTeamClientRpc(clientId);
             CreatePanelClientRpc(clientId);
 
             yield return new WaitForSeconds(2f);
         }
+    }
+    [ClientRpc]
+    private void SaveTeamClientRpc(ulong clientId)
+    {
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+        LeaderboardList leaderboard = new LeaderboardList();
+        leaderboard.Deserializuj();
+        leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money, team.BadgeList.Badges));
+        leaderboard.Serializuj();
     }
     /// <summary>
     /// RPC tworzący i wyświetlający panel podsumowania drużyny.
@@ -168,7 +150,7 @@ public class SummaryManager : NetworkBehaviour
                                 .Select(_ => DrawPrize(team))
                                 .ToArray();
 
-        HandleBlackBoxBadges(clientId, new PrizeDataList { prizes = prizes });
+        HandleBlackBoxBadgesClientRpc(clientId, new PrizeDataList { prizes = prizes });
         DisplayPrizeClientRpc(new PrizeDataList { prizes = prizes });
 
     }
@@ -243,35 +225,90 @@ public class SummaryManager : NetworkBehaviour
     /// </summary>
     /// <param name="clientId">Zmienna przechowywująca ID drużyny, która ma szansę odblokować odznakę.</param>
     /// <param name="prizeDataList">Zmienna przechowywująca nagrody wylosowane z czarnych skrzynek.</param>
-    private void HandleBlackBoxBadges(ulong clientId, PrizeDataList prizeDataList)
+    [ClientRpc]
+    private void HandleBlackBoxBadgesClientRpc(ulong clientId, PrizeDataList prizeDataList)
     {
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
         foreach (PrizeData item in prizeDataList.prizes)
         {
             if (item.money == 1)
             {
-                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Symboliczna złotówka");
+                team.BadgeList.UnlockBadge("Symboliczna złotówka");
             }
 
             if (item.badge == "Ogórek")
             {
-                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Łowcy ogórka");
+                team.BadgeList.UnlockBadge("Łowcy ogórka");
             }
 
             if (item.badge == "Samochód")
             {
-                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Samochód");
+                team.BadgeList.UnlockBadge("Samochód");
             }
 
             if (item.money == 5000 && winnerId == clientId)
             {
-                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 5000zł");
+                team.BadgeList.UnlockBadge("Nagroda + 5000zł");
             }
 
             if (item.money == 10000 && winnerId == clientId)
             {
-                teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 10000zł");
+                team.BadgeList.UnlockBadge("Nagroda + 10000zł");
             }
         }
+    }
+    [ClientRpc]
+    private void HandleBadgesClientRpc(ulong clientId)
+    {
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+            teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+            richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
+            winnerId = richestTeam.OwnerClientId;
+
+            if (clientId == winnerId && team.CluesUsed == 0)
+            {
+                team.BadgeList.UnlockBadge("Samodzielni Geniusze");
+            }
+
+            if (team.QuestionsAnswered == 0 && team.QuestionsAsked > 0)
+            {
+                team.BadgeList.UnlockBadge("Mistrzowie pomyłek");
+            }
+
+            if (team.QuestionsAnswered == team.QuestionsAsked && team.QuestionsAnswered > 0)
+            {
+                team.BadgeList.UnlockBadge("As opowiedzi");
+            }
+
+            if (team.Money >= 19000)
+            {
+                team.BadgeList.UnlockBadge("Królowie skarbca");
+            }
+
+            if(team.CzasToPieniadz == true)
+            {
+                team.BadgeList.UnlockBadge("Czas to pieniądz");
+            }
+
+            if (team.Bankruci == true)
+            {
+                team.BadgeList.UnlockBadge("Bankruci");
+            }
+
+            if (team.WonBid >= 5)
+            {
+                team.BadgeList.UnlockBadge("Mistrzowie Aukcji");
+            }
+
+            if (team.VaBanque >= 3)
+            {
+                team.BadgeList.UnlockBadge("Ryzykanci");
+            }
+
+            if (team.BlackBoxes >= 2)
+            {
+                team.BadgeList.UnlockBadge("Czarni Łowcy");
+            }
     }
     /// <summary>
     /// Metoda zajmująca się deaktywacją obiektów uczestniczących w animacji.
