@@ -41,6 +41,9 @@ public class SummaryManager : NetworkBehaviour
     /// Zmienna przechowywująca listę obiektów odpowiedzalnych za wyświetlanie tekstu nagród z czarnej skrzynki.
     /// </summary>
     [SerializeField] private GameObject[] prizesObjects;
+    /// <summary>
+    /// Zmienna przechowywująca listę drużyn.
+    /// </summary>
     public List<TeamManager> teams;
     /// <summary>
     /// Zmienna przechowuwująca dryżynę dysponującą największą kwotą.
@@ -136,10 +139,12 @@ public class SummaryManager : NetworkBehaviour
             if (team.BlackBoxes > 0)
             {
                 CalculatePrizeServerRpc(clientId);
-                yield return new WaitUntil(() => videoCanvas.gameObject.activeSelf == false);
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitUntil(() => teamDrawingText.IsActive() == false);
+                yield return new WaitForSeconds(0.1f);
             }
         }
+
+        DeactivateVideoCanvasClientRpc();
 
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
@@ -220,23 +225,39 @@ public class SummaryManager : NetworkBehaviour
     private IEnumerator PlayVideo(int index)
     {
         VideoPlayer videoPlayer = boxOpeningVideoPlayer[index];
-        ClearVideoTexture(videoPlayer);
-        videoCanvas.gameObject.SetActive(true);
 
-        videoPlayer.Prepare();
-        yield return new WaitUntil(() => videoPlayer.isPrepared);
-
-        teamDrawingText.gameObject.SetActive(true);
         videoPlayer.Play();
+        teamDrawingText.gameObject.SetActive(true);
+
 
         yield return new WaitForSeconds((float)videoPlayer.length + 0.1f);
 
         ShowPrizeObjects(index);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
 
-        DeactivateAll();
-        ReleaseVideoTexture(videoPlayer);
+        DeactivateTextClientRpc();
+    }
+    /// <summary>
+    /// Rpc zajmujący się deaktywacją obiektów uczestniczących w animacji.
+    /// </summary>
+    [ClientRpc]
+    private void DeactivateTextClientRpc()
+    {
+        foreach (GameObject obiekt in prizesObjects)
+        {
+            obiekt.gameObject.SetActive(false);
+        }
+
+        teamDrawingText.gameObject.SetActive(false);
+    }
+    /// <summary>
+    /// Rpc zajmujący się deaktywacją płótna, na którym renderowane jest video.
+    /// </summary>
+    [ClientRpc]
+    private void DeactivateVideoCanvasClientRpc()
+    {
+        videoCanvas.gameObject.SetActive(false);
     }
     /// <summary>
     /// Metoda odpowiedzialna za aktywację obiektów tesktowych biorących udział w animacji.
@@ -280,19 +301,6 @@ public class SummaryManager : NetworkBehaviour
                 teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge("Nagroda + 10000zł");
             }
         }
-    }
-    /// <summary>
-    /// Metoda zajmująca się deaktywacją obiektów uczestniczących w animacji.
-    /// </summary>
-    private void DeactivateAll()
-    {
-        foreach (GameObject obiekt in prizesObjects)
-        {
-            obiekt.gameObject.SetActive(false);
-        }
-
-        teamDrawingText.gameObject.SetActive(false);
-        videoCanvas.gameObject.SetActive(false);
     }
     /// <summary>
     /// Metoda odpowiedzialna za logikę losowania między nagrodą pieniężną a odznaką.
