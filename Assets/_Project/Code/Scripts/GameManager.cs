@@ -31,7 +31,7 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     public NetworkVariable<ulong> Winner { get; } = new();
 
-    public NetworkVariable<int> Round { get; } = new(0); // zaczynamy licznik rund od zera bo w category draw incrementuje licznik po wylosowaniu 
+    public NetworkVariable<int> Round { get; } = new(1);  
     /// <summary>
     /// Zmienna sieciowa przechowująca aktualną stawkę w grze.
     /// </summary>

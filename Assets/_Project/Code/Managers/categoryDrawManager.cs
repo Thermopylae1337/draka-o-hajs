@@ -21,7 +21,6 @@ public class CategoryDrawManager : NetworkBehaviour
         {
             TextAsset categoryAssets = Resources.Load<TextAsset>("questions");
             categoryList = JsonConvert.DeserializeObject<CategoryList>(categoryAssets.text);
-            GameManager.Instance.Round.Value += 1;
         }
 
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
@@ -56,7 +55,7 @@ public class CategoryDrawManager : NetworkBehaviour
         { 
             
             if (IsHost)
-            {
+            {    
                 GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]); 
             }
             // WyświetlPytanie(category)
