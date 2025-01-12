@@ -159,7 +159,7 @@ public class SummaryManager : NetworkBehaviour
                                 .ToArray();
 
         HandleBlackBoxBadgesClientRpc(clientId, new PrizeDataList { prizes = prizes });
-        DisplayPrizeClientRpc(team.name, new PrizeDataList { prizes = prizes });
+        DisplayPrizeClientRpc(team.TeamName, new PrizeDataList { prizes = prizes });
 
     }
     /// <summary>
