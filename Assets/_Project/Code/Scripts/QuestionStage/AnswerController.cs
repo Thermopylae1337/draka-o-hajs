@@ -34,6 +34,7 @@ public class AnswerController : NetworkBehaviour
 
     public AudioSource audioAnswerCorrect;
     public AudioSource audioAnswerWrong;
+    public AudioSource audioMusic;
 
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
@@ -50,6 +51,7 @@ public class AnswerController : NetworkBehaviour
     private void Start()
     {
         ShowBackgroundImages();
+        audioMusic.Play();
         totalBid.text = "PULA: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
@@ -183,6 +185,7 @@ public class AnswerController : NetworkBehaviour
     private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing, bool correctAnswer)
     {
         resultImage.gameObject.SetActive(true);
+        audioMusic.mute = true;
         if (!correctAnswer)
         {
             resultImage.sprite = artResultWrong;
