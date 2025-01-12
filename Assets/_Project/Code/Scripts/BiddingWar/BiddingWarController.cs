@@ -32,6 +32,7 @@ public class BiddingWarController : NetworkBehaviour
     int winningBidAmount = 500;
     bool hasSetUp = false;
     bool gameOngoing = false;
+    bool updateTimerText = true;
     private int defaultSceneChangeDelay = 5;
     //przyciski kolejno mają wartość: 100,200,300,400,500,1000zł
     //no i va banque
@@ -91,7 +92,6 @@ public class BiddingWarController : NetworkBehaviour
             i += 1;
         }
 
-        timerText.text = "5";
         categoryNameText.text = GameManager.Instance.Category.Value.Name.ToUpper();
         Setup();
         AddListeners();
@@ -266,6 +266,7 @@ public class BiddingWarController : NetworkBehaviour
     }
     public void VaBanque()
     {
+        StopUpdateTimerTextRpc();
         int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
         VaBanqueIncrementServerRpc((int)localTeamId);
         Bid(amount);
@@ -307,6 +308,10 @@ public class BiddingWarController : NetworkBehaviour
     {
         timer = Time.time;
     }
+
+    [Rpc(SendTo.Everyone)]
+    void StopUpdateTimerTextRpc()
+    { updateTimerText = false; }
 
     void Sell(int team_id)
     {
@@ -408,7 +413,8 @@ public class BiddingWarController : NetworkBehaviour
             UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
-                timerText.text = ( Mathf.Round(( timeGiven - ( Time.time - timer ) ) * 10) / 10 ).ToString();
+                if (updateTimerText)
+                    timerText.text = ( Mathf.Round(( timeGiven - ( Time.time - timer ) ) * 10) / 10 ).ToString();
                 if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 
