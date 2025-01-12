@@ -17,8 +17,8 @@ public class LeaderboardList
     /// <summary>
     /// Ścieżka do pliku JSON przechowującego dane tablicy wyników.
     /// </summary>
-    string path = Path.Combine(Application.streamingAssetsPath, "leaderboard.json");
-
+    //string path = Path.Combine(Application.streamingAssetsPath, "teams.json");
+    string path = "teams.json";
     /// <summary>
     /// Właściwość tylko do odczytu, zwracająca listę drużyn.
     /// </summary>
@@ -38,6 +38,13 @@ public class LeaderboardList
             if (item.Name.Equals(team.Name))
             {
                 item.Money += team.Money;
+                foreach(Badge badge in team.Badges)
+                {
+                    if (badge.Unlocked==true)
+                    {
+                        item.FindBadge(badge.Name).Unlocked = true;
+                    }
+                }
                 return;
             }
         }
@@ -68,9 +75,10 @@ public class LeaderboardList
     /// </summary>
     public void Serializuj()
     {
-        StreamWriter sw = new(path);
-        sw.Write(JsonConvert.SerializeObject(teamList));
-        sw.Close();
+        //StreamWriter sw = new(path);
+        //sw.Write(JsonConvert.SerializeObject(teamList));
+        //sw.Close();
+        File.WriteAllText(path,JsonConvert.SerializeObject(teamList));
     }
 
     /// <summary>
@@ -78,9 +86,15 @@ public class LeaderboardList
     /// </summary>
     public void Deserializuj()
     {
+        if (!File.Exists(path))
+        {
+            File.WriteAllText(path, "");
+
+        }
         string json = File.ReadAllText(path);
         teamList = json.Equals("") || json.Equals(null)
             ? new List<LeaderboardTeam>()
             : JsonConvert.DeserializeObject<List<LeaderboardTeam>>(json);
     }
+
 }

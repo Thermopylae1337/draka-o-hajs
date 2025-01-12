@@ -13,48 +13,43 @@ public class BadgeSpawner : MonoBehaviour
     public GameObject badgePrefab;
     public Transform contentParent;
     public Sprite basicSprite;
-    public class TemporaryBadgeClass
-    {
-        public TemporaryBadgeClass(string title, string description, Sprite sprite, bool isUnlocked)
-        {
-            Title = title;
-            Description = description;
-            Sprite = sprite;
-            IsUnlocked = isUnlocked;
-        }
-        public bool IsUnlocked { get; }
-        public string Title { get; }
-        public string Description { get; }
-        public Sprite Sprite { get; }
-    }
-    public List<TemporaryBadgeClass> badges = new();
+    public TMP_Dropdown dropdown;
+    LeaderboardList leaderboard = new();
 
     private void Start()
     {
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[0], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[1], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[2], true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[3], false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[4], true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[5], true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[6], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[7], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[8], true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[9], false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[10], true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[11], true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[12], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[13], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", basicSprite, true));
+        leaderboard.Deserializuj();
+        List<LeaderboardTeam> teams = leaderboard.TeamList;
+        dropdown.ClearOptions();
+        List<string> options = new List<string>();
+        foreach (LeaderboardTeam team in teams)
+        {
+            options.Add(team.Name);
+        }
+        if(options.Count == 0)
+        {
+            options.Add("Brak drużyn");
+        }
+
+        dropdown.AddOptions(options);
         GenerateBadges();
     }
 
-    private void GenerateBadges()
+    public void GenerateBadges()
     {
-        foreach (TemporaryBadgeClass badge in badges)
+        ClearBadges();
+        List<LeaderboardTeam> teams = leaderboard.TeamList;
+        int counter = 0;
+        foreach(LeaderboardTeam team in teams)
+        {
+            Debug.Log(team.Name);
+            foreach(Badge b in team.Badges)
+            {
+                if(b.Unlocked==true)
+                    Debug.Log(b.Name+" "+b.Unlocked);
+            }
+        }
+        foreach (Badge badge in leaderboard.FindTeam(dropdown.options[dropdown.value].text).Badges)
         {
             GameObject badgeObject = Instantiate(badgePrefab, contentParent);
             Image badgeImage = badgeObject.transform.Find("BadgeImage").GetComponent<Image>();
@@ -63,11 +58,19 @@ public class BadgeSpawner : MonoBehaviour
             Image badgeDescriptionBackground = badgeObject.transform.Find("BadgeDescriptionBackground").GetComponent<Image>();
             badgeDescriptionBackground.color = Color.clear;
             badgeDescription.gameObject.SetActive(false);
-            badgeDescription.text = badge.Description;
-            badgeImage.sprite = badge.Sprite;
-            badgeText.text = badge.Title;
-            badgeImage.color = badge.IsUnlocked ? Color.white : Color.gray;
-            AddHoverEvents(badgeObject, badge.Description);
+            badgeDescription.text = badge.UnlockCondition;
+            badgeImage.sprite = badgesSprites[counter];
+            counter++;
+            badgeText.text = badge.Name;
+            badgeImage.color = badge.Unlocked ? Color.white : Color.gray;
+            AddHoverEvents(badgeObject, badge.UnlockCondition);
+        }
+    }
+    public void ClearBadges()
+    {
+        foreach (Transform child in contentParent)
+        {
+            Destroy(child.gameObject);
         }
     }
 

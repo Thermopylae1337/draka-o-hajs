@@ -38,6 +38,13 @@ public class BadgeList
 
     }
     /// <summary>
+    /// Właściwość tylko do odczytu, zwracająca listę odznak.
+    /// </summary>
+    public List<Badge> Badges
+    {
+        get => badges;
+    }
+    /// <summary>
     /// Metoda odpowiadająca za dodanie odznaki do listy posiadancyh przez drużynę.
     /// </summary>
     /// <param name="badge">Zmienna reprezentująca odznakę.</param>

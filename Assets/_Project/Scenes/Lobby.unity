@@ -1804,6 +1804,7 @@ MonoBehaviour:
   readyButton: {fileID: 1129137065}
   playerListGameObject: {fileID: 1311950121}
   playerListEntryPrefab: {fileID: 2058924103618325763, guid: bb5f3d71765d178488fedb7e850414c4, type: 3}
+  gameManagerPrefab: {fileID: 3429623606898588834, guid: 2c1d8a93d1ef9eb44b6cf3780c6e0583, type: 3}
 --- !u!1 &4714330447362558771
 GameObject:
   m_ObjectHideFlags: 0
