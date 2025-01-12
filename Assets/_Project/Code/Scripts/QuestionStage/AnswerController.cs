@@ -133,7 +133,7 @@ public class AnswerController : NetworkBehaviour
     /// <summary>
     /// Metoda ustawiająca tło w zależności od koloru zespołu, który udziela odpowiedzi. 
     /// </summary>
-    private void ShowBackgroundImage()
+    private void ShowBackgroundImage() {}
 
     private void ShowBackgroundImages()
 
