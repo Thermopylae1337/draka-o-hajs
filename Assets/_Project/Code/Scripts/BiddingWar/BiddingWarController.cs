@@ -118,8 +118,27 @@ public class BiddingWarController : NetworkBehaviour
         vbButton.onClick.AddListener(VaBanque);
         exitButton.onClick.AddListener(delegate { NetworkManager.Shutdown(); });
 
+    } 
+    /// <summary>
+    /// Funkcja usuwająca przyciski licytacji z UI dla graczy którzy przegrali grę
+    /// </summary>
+    public void RemoveButtons()
+    {
+        bidButtons[0].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[0].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[1].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[1].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[2].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[2].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[3].GetComponentInChildren<Image>().enabled = false; 
+        bidButtons[3].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[4].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[4].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[5].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[5].GetComponentInChildren<TextMeshProUGUI>().enabled = false; 
+        vbButton.GetComponentInChildren<Image>().enabled = false;
+        vbButton.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
-
     private void HandleDisconnection(ulong clientId)
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
@@ -156,7 +175,10 @@ public class BiddingWarController : NetworkBehaviour
             Destroy(teamBalanceText[i]);
             i += 1;
         }
-
+        if (!teams[(int)localTeamId].InGame)
+        {
+            RemoveButtons();
+        }
         ResetTimer();
     }
 
@@ -266,10 +288,13 @@ public class BiddingWarController : NetworkBehaviour
     }
     public void VaBanque()
     {
-        StopUpdateTimerTextRpc();
-        int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
-        VaBanqueIncrementServerRpc((int)localTeamId);
-        Bid(amount);
+        if (teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid > winningBidAmount)
+        {
+            StopUpdateTimerTextRpc();
+            int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
+            VaBanqueIncrementServerRpc((int)localTeamId);
+            Bid(amount);
+        }
     }
 
     public void Bid(int amount)
@@ -393,11 +418,9 @@ public class BiddingWarController : NetworkBehaviour
                 teams[(int)localTeamId].BadgeList.UnlockBadge("Czarni Łowcy");
             }
 
-            CheckBadgeUnlockRpc();
         }
         else
         {
-            CheckBadgeUnlockRpc();
             _ = StartCoroutine(OpenSceneWithDelay("QuestionStage", scene_change_delay));
         }
 
@@ -601,31 +624,4 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    private void CheckBadgeUnlockRpc()
-    {
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Mistrzowie Aukcji"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].WonBid == 5)
-            {
-                UnlockBadgeRpc("Mistrzowie Aukcji", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Ryzykanci"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].VaBanque == 3)
-            {
-                UnlockBadgeRpc("Ryzykanci", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Czarni Łowcy"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].BlackBoxes == 2)
-            {
-                UnlockBadgeRpc("Czarni Łowcy", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-    }
 }

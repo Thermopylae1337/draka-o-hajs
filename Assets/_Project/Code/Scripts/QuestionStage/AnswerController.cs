@@ -139,10 +139,6 @@ public class AnswerController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void NotifyAnswerCheckedServerRpc()
     {
-        if(_timeRemaining > 27f)
-        {
-            UnlockBadgeRpc("Czas to pieniądz");
-        }
 
         _isAnswerChecked = true;
         NotifyClientsAnswerCheckedRpc();
@@ -161,6 +157,11 @@ public class AnswerController : NetworkBehaviour
         {
             if(IsHost)
             {
+                if (_timeRemaining > 27f)
+                {
+                    NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().CzasToPieniadz = true;
+                }
+
                 QuestionAnsweredIncrementServerRpc();
             }
 
@@ -191,15 +192,22 @@ public class AnswerController : NetworkBehaviour
             resultImage.sprite = artResultWrong;
         }
 
-        if(GameManager.Instance.Round.Value <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
+        if(IsHost)
         {
-            UnlockBadgeRpc("Bankruci");
+            if (GameManager.Instance.Round.Value <= 1 && NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money <= 0)
+            {
+                NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Bankruci = true;
+            }
         }
 
         if (gameContinuing)
         {
             feedbackText.text = feedback;
             _ = StartCoroutine(ChangeScene("CategoryDraw", 4));
+            if (IsHost)
+            {
+                GameManager.Instance.Round.Value += 1;
+            }
         }
         else
         {
@@ -331,7 +339,7 @@ public class AnswerController : NetworkBehaviour
             _timeRemaining = 30f;
             AnsweringModeRpc();
             SetHintMode(false);
-            _ = StartCoroutine(StartCountdown());
+            _ = StartCoroutine(StartCountdown()); 
         }
         else
         {
@@ -351,11 +359,8 @@ public class AnswerController : NetworkBehaviour
         }
     }
     private bool IsContinuingGamePossible()
-    {
-        // > ponieważ dla 7 pytania indeks rundy zostanie ustawiony na 8 (indeks rundy jest inkrementowany po wylosowaniu pytania) więc dla == gra kończyła by się po pytaniu 6
-        //możnaby sprawić aby było to bardziej logiczne, inkrementujac indeks rundy na początku każdej rundy i dekrementując jeżeli trafi się runda bonusowa
-        //ale to mogłoby sprawić errory wynikające z opóźnienia więc zwłaszcza zważywszy na brak czasu lepiej to tak zostawić
-        if (GameManager.Instance.Round.Value > Utils.ROUNDS_LIMIT) return false;
+    { 
+        if (GameManager.Instance.Round.Value >= Utils.ROUNDS_LIMIT) return false;
         _teamsInGame = 0;
         foreach (TeamManager team in _teams)
         {
@@ -366,15 +371,6 @@ public class AnswerController : NetworkBehaviour
         }
 
         return _teamsInGame >= 2;
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void UnlockBadgeRpc(string name)
-    {
-        if (GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId)
-        {
-            _teams[(int)GameManager.Instance.Winner.Value].BadgeList.UnlockBadge(name);
-        }
     }
 
     [Rpc(SendTo.Server)]

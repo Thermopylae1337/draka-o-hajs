@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using NUnit.Framework;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -59,7 +58,6 @@ public class CategoryDrawManager : NetworkBehaviour
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]); 
-                //GameManager.Instance.Round.Value += 1;
             }
             // WyświetlPytanie(category)
         }

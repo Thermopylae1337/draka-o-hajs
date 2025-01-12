@@ -33,6 +33,10 @@ public class TeamManager : NetworkBehaviour
     [SerializeField]
     private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
+    private NetworkVariable<bool> czasToPieniadz = new(false, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
+    private NetworkVariable<bool> bankruci = new(false, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
+
     private BadgeList badgeList = new();
 
     [SerializeField]
@@ -212,6 +216,18 @@ public class TeamManager : NetworkBehaviour
 
             inactiveRounds.Value = value;
         }
+    }
+
+    public bool CzasToPieniadz
+    {
+        get => czasToPieniadz.Value;
+        set => czasToPieniadz.Value = value;
+    }
+
+    public bool Bankruci
+    {
+        get => bankruci.Value;
+        set => bankruci.Value = value;
     }
 
     public int TotalMoney { get; set; }
