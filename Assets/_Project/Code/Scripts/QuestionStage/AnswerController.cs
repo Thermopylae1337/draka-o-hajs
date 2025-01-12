@@ -200,6 +200,10 @@ public class AnswerController : NetworkBehaviour
         {
             feedbackText.text = feedback;
             _ = StartCoroutine(ChangeScene("CategoryDraw", 4));
+            if (IsHost)
+            {
+                GameManager.Instance.Round.Value += 1;
+            }
         }
         else
         {
@@ -331,7 +335,7 @@ public class AnswerController : NetworkBehaviour
             _timeRemaining = 30f;
             AnsweringModeRpc();
             SetHintMode(false);
-            _ = StartCoroutine(StartCountdown());
+            _ = StartCoroutine(StartCountdown()); 
         }
         else
         {
@@ -351,11 +355,8 @@ public class AnswerController : NetworkBehaviour
         }
     }
     private bool IsContinuingGamePossible()
-    {
-        // > ponieważ dla 7 pytania indeks rundy zostanie ustawiony na 8 (indeks rundy jest inkrementowany po wylosowaniu pytania) więc dla == gra kończyła by się po pytaniu 6
-        //możnaby sprawić aby było to bardziej logiczne, inkrementujac indeks rundy na początku każdej rundy i dekrementując jeżeli trafi się runda bonusowa
-        //ale to mogłoby sprawić errory wynikające z opóźnienia więc zwłaszcza zważywszy na brak czasu lepiej to tak zostawić
-        if (GameManager.Instance.Round.Value > Utils.ROUNDS_LIMIT) return false;
+    { 
+        if (GameManager.Instance.Round.Value >= Utils.ROUNDS_LIMIT) return false;
         _teamsInGame = 0;
         foreach (TeamManager team in _teams)
         {
