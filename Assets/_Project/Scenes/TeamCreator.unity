@@ -1514,6 +1514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  teamManagerPrefab: {fileID: 3429623606898588834, guid: 2c1d8a93d1ef9eb44b6cf3780c6e0583, type: 3}
   inputField: {fileID: 130292822}
   spinner: {fileID: 280786923}
   ipField: {fileID: 996865582}
