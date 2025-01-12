@@ -26,6 +26,11 @@ public class BadgeSpawner : MonoBehaviour
         {
             options.Add(team.Name);
         }
+        if(options.Count == 0)
+        {
+            options.Add("Brak drużyn");
+        }
+
         dropdown.AddOptions(options);
         GenerateBadges();
     }
