@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using static Utils;
@@ -43,7 +42,8 @@ public class Wheel : MonoBehaviour
                 // Indeks wylosowanej kategorii
                 float correctedAngle = targetAngle + ( angleStep * 0.5f );
                 int wynik = (int)( Mathf.Round(correctedAngle / angleStep) % numberOfSegments ) - 1;
-                if (wynik < 0) { 
+                if (wynik < 0)
+                {
                     wynik = numberOfSegments - 1;    // dla ostatniej kategorii wynik = 0 - 1
                 }
 
@@ -60,7 +60,7 @@ public class Wheel : MonoBehaviour
         if (!spinning)
         {
             spinning = true;
-            targetAngle = angle+this.angle;
+            targetAngle = angle + this.angle;
         }
     }
 
