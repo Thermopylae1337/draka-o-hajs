@@ -125,6 +125,11 @@ public class LobbyController : NetworkBehaviour
     void AddPlayerToListRpc(ulong clientId)
     {
         AddPlayerToList(clientId);
+        var playerKeys = playerTiles.Keys.ToList();
+        foreach (var key in playerKeys)
+        {
+            SetPlayerReady(false, key);
+        }
     }
 
     void AddPlayerToList(ulong clientId)
