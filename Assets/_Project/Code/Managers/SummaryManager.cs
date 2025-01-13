@@ -108,8 +108,9 @@ public class SummaryManager : NetworkBehaviour
             {
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => teamDrawingText.IsActive() == false);
-                yield return new WaitForSeconds(0.1f);
+                //yield return new WaitForSeconds(0.1f);
             }
+
             HandleBadgesClientRpc(clientId);
             SaveTeamClientRpc(clientId);
         }
@@ -120,14 +121,17 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
             CreatePanelClientRpc(clientId);
-        }
-         
+        }   
     }
+    /// <summary>
+    /// Rpc zajmujący się zapisem drużyny w leaderboardzie.
+    /// </summary>
+    /// <param name="clientId"></param>
     [ClientRpc]
     private void SaveTeamClientRpc(ulong clientId)
     {
         TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
-        LeaderboardList leaderboard = new LeaderboardList();
+        LeaderboardList leaderboard = new();
         leaderboard.Deserializuj();
         leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money, team.BadgeList.Badges));
         leaderboard.Serializuj();
@@ -207,7 +211,6 @@ public class SummaryManager : NetworkBehaviour
         videoPlayer.Play();
         teamDrawingText.gameObject.SetActive(true);
 
-
         yield return new WaitForSeconds((float)videoPlayer.length + 0.1f);
 
         ShowPrizeObjects(index);
@@ -282,6 +285,10 @@ public class SummaryManager : NetworkBehaviour
             }
         }
     }
+    /// <summary>
+    /// Rpc odpowiadający za odblokowanie odznak przez drużynę po spełnieniu odpowiednich warunków.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowywująca ID drużyny, która ma szansę odblokować odznakę.</param>
     [ClientRpc]
     private void HandleBadgesClientRpc(ulong clientId)
     {
