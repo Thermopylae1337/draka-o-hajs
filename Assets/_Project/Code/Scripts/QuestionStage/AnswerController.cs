@@ -32,7 +32,17 @@ public class AnswerController : NetworkBehaviour
     public Sprite artQuestionBackgroundBlue;
     public Sprite artResultWrong;
 
-    private Button[] answerButtons; 
+    public AudioSource audioAnswerCorrect;
+    public AudioSource audioAnswerWrong;
+    public AudioSource audioMusic;
+    public AudioSource audioVoice8;
+    public AudioSource audioVoice9;
+    public AudioSource audioVoice14;
+    public AudioSource audioVoice6;
+
+    private Button[] answerButtons;
+    public static int currentQuestionIndex = 0;
+
     private float _timeRemaining;
     private bool _isAnswerChecked;
     private string[] hints;
@@ -46,6 +56,8 @@ public class AnswerController : NetworkBehaviour
     private void Start()
     {
         ShowBackgroundImages();
+        Invoke("PlayVoiceTimeRemaining", 15.0f);
+        audioMusic.Play();
         totalBid.text = "PULA: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
         _isAnswerChecked = false;
@@ -75,6 +87,14 @@ public class AnswerController : NetworkBehaviour
         feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
             ? "Wygrałeś(aś) licytację. Odpowiadasz na pytanie."
             : "Przegrałeś(aś) licytację. Jesteś obserwatorem.";
+    }
+
+    private void PlayVoiceTimeRemaining()
+    {
+        if (!_isAnswerChecked && GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId)
+        {
+            audioVoice6.Play();
+        }
     }
     private void ShowBackgroundImages()
     {
@@ -187,9 +207,17 @@ public class AnswerController : NetworkBehaviour
     private void SendFeedbackToClientsRpc(string feedback, bool gameContinuing, bool correctAnswer)
     {
         resultImage.gameObject.SetActive(true);
+        audioMusic.mute = true;
+        audioVoice6.Stop();
         if (!correctAnswer)
         {
             resultImage.sprite = artResultWrong;
+            audioAnswerWrong.Play();
+            Invoke("PlayVoiceWrongAnswer", 1.0f);
+        } else
+        {
+            audioAnswerCorrect.Play();
+            Invoke("PlayVoiceCorrectAnswer", 0.5f);
         }
 
         if(IsHost)
@@ -214,6 +242,17 @@ public class AnswerController : NetworkBehaviour
             feedbackText.text = feedback;
             _ = StartCoroutine(ChangeScene("Summary", 4));
         }
+    }
+
+    private void PlayVoiceCorrectAnswer()
+    {
+        float randomValue = UnityEngine.Random.value;
+        if (randomValue < 0.5) audioVoice8.Play();
+        else audioVoice14.Play();
+    }
+    private void PlayVoiceWrongAnswer()
+    {
+        audioVoice9.Play();
     }
 
     public void AskForHint() => UseHintNotifyServerRpc();
