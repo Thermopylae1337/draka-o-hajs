@@ -1,12 +1,13 @@
 using Newtonsoft.Json;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Utils;
 
 public class CategoryDrawManager : NetworkBehaviour
 {
-    private int currentRound = 0;
+ 
     private Wheel wheel;
     private TMP_Text categoryDisplayText;
     private TMP_Text roundDisplayText;
@@ -29,7 +30,7 @@ public class CategoryDrawManager : NetworkBehaviour
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
-
+        roundDisplayText.text = "Runda: " + GameManager.Instance.Round.Value;
         wheel.OnWheelStopped += HandleWheelStopped;
         startTime = Time.time;
         Invoke("AudioPlaySpinWheel", 1.5f); //delay aby zsynchronizowac z kolem fortuny
@@ -41,12 +42,13 @@ public class CategoryDrawManager : NetworkBehaviour
     }
 
     private void HandleWheelStopped(int result)
-    {
+    { 
         categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
         audioRevealCategory.Play();
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
@@ -54,18 +56,18 @@ public class CategoryDrawManager : NetworkBehaviour
         }
         else if (categoryNames[result] == "Podpowiedź")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
             }
         }
         else
-        {
-            currentRound++;
-            roundDisplayText.text = "Runda: " + currentRound;
+        { 
+            
             if (IsHost)
-            {
-                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]);
+            {    
+                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]); 
             }
             // WyświetlPytanie(category)
         }
@@ -95,7 +97,7 @@ public class CategoryDrawManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)
     {
-        if (currentRound < Utils.ROUNDS_LIMIT)
+        if(GameManager.Instance.Round.Value <= Utils.ROUNDS_LIMIT)
         {
             wheel.SpinWheel(angle);
         }
