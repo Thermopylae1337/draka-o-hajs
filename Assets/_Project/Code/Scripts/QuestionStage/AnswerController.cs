@@ -38,6 +38,7 @@ public class AnswerController : NetworkBehaviour
     public AudioSource audioVoice8;
     public AudioSource audioVoice9;
     public AudioSource audioVoice14;
+    public AudioSource audioVoice6;
 
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
@@ -54,6 +55,7 @@ public class AnswerController : NetworkBehaviour
     private void Start()
     {
         ShowBackgroundImages();
+        Invoke("PlayVoiceTimeRemaining", 15.0f);
         audioMusic.Play();
         totalBid.text = "PULA: " + GameManager.Instance.CurrentBid.Value.ToString();
         answerButtons = hintButtonsContainer.GetComponentsInChildren<Button>();
@@ -77,6 +79,14 @@ public class AnswerController : NetworkBehaviour
         feedbackText.text = GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId
             ? "Wygrałeś(aś) licytację. Odpowiadasz na pytanie."
             : "Przegrałeś(aś) licytację. Jesteś obserwatorem.";
+    }
+
+    private void PlayVoiceTimeRemaining()
+    {
+        if (!_isAnswerChecked && GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId)
+        {
+            audioVoice6.Play();
+        }
     }
     private void ShowBackgroundImages()
     {
@@ -190,6 +200,7 @@ public class AnswerController : NetworkBehaviour
     {
         resultImage.gameObject.SetActive(true);
         audioMusic.mute = true;
+        audioVoice6.Stop();
         if (!correctAnswer)
         {
             resultImage.sprite = artResultWrong;
