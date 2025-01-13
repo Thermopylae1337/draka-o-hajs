@@ -82,10 +82,23 @@ public class SummaryManager : NetworkBehaviour
     /// </summary>
     private void Start()
     {
+        
+
         if (NetworkManager.Singleton?.IsHost == true)
         {
+                UpdateMoneyServerRpc();
             _ = StartCoroutine(HandleTeams());
         }
+    }
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateMoneyServerRpc()
+    {
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+        richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
+        winnerId = richestTeam.OwnerClientId;
+
+        NetworkManager.ConnectedClients[winnerId].PlayerObject.GetComponent<TeamManager>().Money += GameManager.Instance.CurrentBid.Value;
+
     }
     /// <summary>
     /// Metoda zajmująca się obsługą drużyn na etapie podusmowania.
@@ -292,11 +305,11 @@ public class SummaryManager : NetworkBehaviour
     [ClientRpc]
     private void HandleBadgesClientRpc(ulong clientId)
     {
-        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+            TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
             teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
             richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
             winnerId = richestTeam.OwnerClientId;
-
+            
             if (clientId == winnerId && team.CluesUsed == 0)
             {
                 team.BadgeList.UnlockBadge("Samodzielni Geniusze");
