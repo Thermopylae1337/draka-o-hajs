@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Utils;
 
@@ -86,6 +87,9 @@ public class CategoryDrawManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)
     {
-        wheel.SpinWheel(angle);
+        if(GameManager.Instance.Round.Value <= Utils.ROUNDS_LIMIT)
+        {
+            wheel.SpinWheel(angle);
+        }
     }
 }
