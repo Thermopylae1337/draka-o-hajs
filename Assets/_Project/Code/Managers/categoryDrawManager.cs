@@ -17,6 +17,11 @@ public class CategoryDrawManager : NetworkBehaviour
 
     public AudioSource audioSpinWheel;
     public AudioSource audioRevealCategory;
+    public AudioSource audioVoice1;
+    public AudioSource audioVoice2;
+    public AudioSource audioVoice3;
+    public AudioSource audioVoice3a;
+    public AudioSource audioVoice4;
 
     private void Start()
     {
@@ -34,11 +39,29 @@ public class CategoryDrawManager : NetworkBehaviour
         wheel.OnWheelStopped += HandleWheelStopped;
         startTime = Time.time;
         Invoke("AudioPlaySpinWheel", 1.5f); //delay aby zsynchronizowac z kolem fortuny
+        AudioPlayEarlyVoice();
+        Invoke("AudioPlayLateVoice", 7.0f);
     }
 
     private void AudioPlaySpinWheel()
     {
         audioSpinWheel.Play();
+    }
+
+    private void AudioPlayEarlyVoice()
+    {
+        if (GameManager.Instance.Round.Value == 1) audioVoice1.Play();
+        else if (GameManager.Instance.Round.Value == 7) audioVoice4.Play();
+    }
+    private void AudioPlayLateVoice()
+    {
+        if (GameManager.Instance.Round.Value == 1) audioVoice3.Play();
+        else
+        {
+            float random = Random.value;
+            if (random < 0.33) audioVoice3a.Play();
+            else if (random > 0.66) audioVoice2.Play();
+        }
     }
 
     private void HandleWheelStopped(int result)
