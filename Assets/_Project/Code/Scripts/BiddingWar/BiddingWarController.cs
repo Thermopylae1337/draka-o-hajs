@@ -53,6 +53,11 @@ public class BiddingWarController : NetworkBehaviour
 
     public AudioSource audioBeginBidding;
     public AudioSource audioHammer;
+    public AudioSource audioVoice10;
+    public AudioSource audioVoice5;
+    public AudioSource audioVoice11;
+    public AudioSource audioVoice7;
+    private bool voice11HasPlayed = false;
 
     public class Timer
     {
@@ -281,6 +286,7 @@ public class BiddingWarController : NetworkBehaviour
         //                                                                                                                    Z powodu wprowadzenia lekkiego opóźnienia, trzeba też sprawdzać czy ktoś o mniejszej liczbie pieniędzy nie zrobił va banque, ten sposób wydaje się rozwiązywać problem
         if (teams[team_id].Money >= difference && ( teams[team_id].Bid != winningBidAmount || winningBidAmount == 500 ) && !( teams[winningTeamID].Money == 0 && teams[winningTeamID].Bid != 0 ))
         {
+            PlayVoiceWhileBidding();
             winningBidAmount += amount;
             teams[team_id].RaiseBid(difference);
             UpdateBidsRpc(difference, winningBidAmount, team_id);
@@ -317,6 +323,7 @@ public class BiddingWarController : NetworkBehaviour
         winnersText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
         ShowVideo();
+        PlayVoiceEndBidding();
 
         List<int> teams_warned = CheckForInactivity();
         if (teams_warned.Count > 0)
@@ -544,6 +551,7 @@ public class BiddingWarController : NetworkBehaviour
 
         return _teamsInGame >= 2;
     }
+    #region cosmetics
     private void ShowVideo()
     {
         _ = new WaitForSeconds(0.5f);
@@ -551,10 +559,34 @@ public class BiddingWarController : NetworkBehaviour
         uderzenieVideoPlayer.Play();
         Invoke("PlayHammerAudio", 1.0f);
     }
+
     private void PlayHammerAudio()
     {
         audioHammer.Play();
     }
+
+    private void PlayVoiceEndBidding()
+    {
+        float random = Random.value;
+        if (random < 0.5) audioVoice10.Play();
+        else audioVoice5.Play();
+    }
+
+    private void PlayVoiceWhileBidding()
+    {
+        float random = Random.value;
+        if (random < 0.3 && !voice11HasPlayed) {
+            PlayVoiceWhileBiddingRandomized();
+            voice11HasPlayed = true;
+        }
+    }
+    private void PlayVoiceWhileBiddingRandomized()
+    {
+        float random = Random.value;
+        if (random < 0.5) audioVoice11.Play();
+        else audioVoice7.Play();
+    }
+    #endregion cosmetics
 
     [Rpc(SendTo.Server)]
     private void WonBidIncrementServerRpc(int teamid)
