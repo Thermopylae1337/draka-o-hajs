@@ -141,10 +141,6 @@ public class AnswerController : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void NotifyAnswerCheckedServerRpc()
     {
-        if(_timeRemaining > 27f)
-        {
-            UnlockBadgeRpc("Czas to pieniądz");
-        }
 
         _isAnswerChecked = true;
         NotifyClientsAnswerCheckedRpc();
@@ -163,6 +159,11 @@ public class AnswerController : NetworkBehaviour
         {
             if(IsHost)
             {
+                if (_timeRemaining > 27f)
+                {
+                    NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().CzasToPieniadz = true;
+                }
+
                 QuestionAnsweredIncrementServerRpc();
             }
 
@@ -200,9 +201,12 @@ public class AnswerController : NetworkBehaviour
             Invoke("PlayVoiceCorrectAnswer", 0.5f);
         }
 
-        if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
+        if(IsHost)
         {
-            UnlockBadgeRpc("Bankruci");
+            if (currentQuestionIndex <= 1 && NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Money <= 0)
+            {
+                NetworkManager.Singleton.ConnectedClients[GameManager.Instance.Winner.Value].PlayerObject.GetComponent<TeamManager>().Bankruci = true;
+            }
         }
 
         if (gameContinuing)
@@ -374,15 +378,6 @@ public class AnswerController : NetworkBehaviour
         }
 
         return _teamsInGame >= 2;
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    private void UnlockBadgeRpc(string name)
-    {
-        if (GameManager.Instance.Winner.Value == NetworkManager.Singleton.LocalClientId)
-        {
-            _teams[(int)GameManager.Instance.Winner.Value].BadgeList.UnlockBadge(name);
-        }
     }
 
     [Rpc(SendTo.Server)]
