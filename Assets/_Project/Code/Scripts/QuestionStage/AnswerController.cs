@@ -35,6 +35,9 @@ public class AnswerController : NetworkBehaviour
     public AudioSource audioAnswerCorrect;
     public AudioSource audioAnswerWrong;
     public AudioSource audioMusic;
+    public AudioSource audioVoice8;
+    public AudioSource audioVoice9;
+    public AudioSource audioVoice14;
 
     private Button[] answerButtons;
     public static int currentQuestionIndex = 0;
@@ -190,9 +193,11 @@ public class AnswerController : NetworkBehaviour
         {
             resultImage.sprite = artResultWrong;
             audioAnswerWrong.Play();
+            Invoke("PlayVoiceWrongAnswer", 1.0f);
         } else
         {
             audioAnswerCorrect.Play();
+            Invoke("PlayVoiceCorrectAnswer", 0.5f);
         }
 
         if(currentQuestionIndex <= 1 && _teams[(int)NetworkManager.Singleton.LocalClientId].Money <= 0)
@@ -210,6 +215,17 @@ public class AnswerController : NetworkBehaviour
             feedbackText.text = feedback;
             _ = StartCoroutine(ChangeScene("Summary", 4));
         }
+    }
+
+    private void PlayVoiceCorrectAnswer()
+    {
+        float randomValue = UnityEngine.Random.value;
+        if (randomValue < 0.5) audioVoice8.Play();
+        else audioVoice14.Play();
+    }
+    private void PlayVoiceWrongAnswer()
+    {
+        audioVoice9.Play();
     }
 
     public void AskForHint() => UseHintNotifyServerRpc();
