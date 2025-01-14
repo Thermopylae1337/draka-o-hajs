@@ -31,20 +31,23 @@ public class BiddingWarController : NetworkBehaviour
     /// </summary>
     public List<TextMeshProUGUI> bidButtonText;
     /// <summary>
-    /// Obiekt wyświetlający czas w grze.
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlający czas w grze.
     /// </summary>
     public TextMeshProUGUI timerText;
+    /// <summary>
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlającego tekst z listą zwycięzców.
+    /// </summary>
     public TextMeshProUGUI winnersText;
     /// <summary>
-    /// Obiekt wyświetlający nazwę kategorii.
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlający nazwę kategorii.
     /// </summary>
     public TextMeshProUGUI categoryNameText;
     /// <summary>
-    /// Obiekt wyświetlający ostrzeżenie.
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlający ostrzeżenie.
     /// </summary>
     public TextMeshProUGUI warningText;
     /// <summary>
-    /// Obiekt wyświetlający karę za brak aktywności.
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlający karę za brak aktywności.
     /// </summary>
     public TextMeshProUGUI punishmentText;
     /// <summary>
@@ -52,7 +55,7 @@ public class BiddingWarController : NetworkBehaviour
     /// </summary>
     public List<TeamManager> teams;
     /// <summary>
-    /// Obiekt wyświetlający ilość pieniedzy w puli.
+    /// Pole przechowujące referencję do komponentu TextMeshProUGUI, wyświetlający ilość pieniedzy w puli.
     /// </summary>
     public TextMeshProUGUI totalBidText;
     /// <summary>
@@ -76,8 +79,17 @@ public class BiddingWarController : NetworkBehaviour
     /// Enum odpowiadający kolorowy wygranej drużyny.
     /// </summary>
     ColourEnum winningTeamColour;
+    /// <summary>
+    /// Zmienna przechowująca początkową wartość licytacji (500 zł) pobieraną od każdej drużyny przez prowadzącego.
+    /// </summary>
     int winningBidAmount = 500;
+    /// <summary>
+    /// Zmienna przechowująca informację o tym, czy ustawienia gry zostały ukończone.
+    /// </summary>
     bool hasSetUp = false;
+    /// <summary>
+    /// Zmienna przechowująca informację o tym, czy gra jest aktualnie w trakcie rozgrywki.
+    /// </summary>
     bool gameOngoing = false;
     private int defaultSceneChangeDelay = 5;
     //przyciski kolejno mają wartość: 100,200,300,400,500,1000zł
@@ -88,7 +100,13 @@ public class BiddingWarController : NetworkBehaviour
     /// Lista przycisków licytacyjnych z określoną kwotą.
     /// </summary>
     public List<Button> bidButtons;
+    /// <summary>
+    /// Lista przechowującą informacje dotyczącą zablokowanych przycisków np. gdy drużyna odpadnie.
+    /// </summary>
     public List<Button> lockOutButtons;
+    /// <summary>
+    /// Przycisk odpowiedzialny za użycie podczas rundy 'VaBanque'.
+    /// </summary>
     public Button vbButton;
     /// <summary>
     /// Przycisk odpowiadający za wyjście.
@@ -104,14 +122,31 @@ public class BiddingWarController : NetworkBehaviour
     /// </summary>
     private uint _teamsInGame;
     //used for storing information about which team this instance of the program represents
+    /// <summary>
+    /// Zmienna przechowująca identyfikator drużyny.
+    /// </summary>
     private uint localTeamId;
+    /// <summary>
+    /// Obiekt graficzny, który reprezentuje efekt wizualny uderzenia.
+    /// </summary>
     public GameObject uderzenieImage;
+    /// <summary>
+    /// Pole przechowujące referencję do komponentu VideoPlayer, który odtwarza wideo związane z efektem uderzenia.
+    /// </summary>
     public VideoPlayer uderzenieVideoPlayer;
 
-
+    /// <summary>
+    /// Klasa przechowująca i zarządzająca czasem, umożliwiająca śledzenie upływu czasu w kontekście określonego interwału.
+    /// </summary>
     public class Timer
     {
+        /// <summary>
+        /// Czas rozpoczęcia odliczania (czas w momencie, gdy timer został uruchomiony).
+        /// </summary>
         float StartTime;
+        /// <summary>
+        /// Czas, który ma upłynąć przed wykonaniem jakiejś akcji.
+        /// </summary>
         float DesiredGap;
     }
     #endregion variables
@@ -119,6 +154,10 @@ public class BiddingWarController : NetworkBehaviour
 
     #endregion disconnection_handling
     #region setup_functions
+    /// <summary>
+    /// Inicjalizuje stan gry i konfigurację drużyn po uruchomieniu skryptu.
+    /// Pobiera listę połączonych klientów, przypisuje identyfikator drużyny do lokalnego gracza, oraz dostosowuje elementy interfejsu użytkownika w zależności od liczby aktywnych drużyn.
+    /// </summary>
     void Start()
     {
 
@@ -159,11 +198,17 @@ public class BiddingWarController : NetworkBehaviour
         AddListeners();
     }
 
+    /// <summary>
+    /// Rejestruje obsługę rozłączenia klienta.
+    /// </summary>
     void OnEnable()
     {
         NetworkManager.Singleton.OnClientDisconnectCallback += HandleDisconnection;
     }
 
+    /// <summary>
+    /// Usuwa obsługę rozłączenia klienta.
+    /// </summary>
     private void OnDisable()
     {
         NetworkManager.Singleton.OnClientDisconnectCallback -= HandleDisconnection;
@@ -186,9 +231,9 @@ public class BiddingWarController : NetworkBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Obsługuje rozłączenie klienta z siecią. Jeśli rozłączenie dotyczy lokalnego klienta, przeładowuje scenę głównego menu, w przeciwnym razie usuwa powiązane dane drużyny (nazwę drużyny, stawkę, saldo). 
     /// </summary>
-    /// <param name="clientId"></param>
+    /// <param name="clientId">Zmienna przechowująca identyfikator klienta.</param>
     private void HandleDisconnection(ulong clientId)
     {
         if (clientId == NetworkManager.Singleton.LocalClientId)
@@ -510,6 +555,12 @@ public class BiddingWarController : NetworkBehaviour
             PassCurrentBidServerRpc(totalBid);
         }
     }
+    /// <summary>
+    /// Metoda aktualizująca interfejs użytkownika. Sprawdza, czy gra jest w toku i obsługuje logikę licytacji oraz aktualizację statusu finansowego drużyn.
+    /// Jeśli licytacja jest aktywna i czas na licytację minął, inicjuje sprzedaż przedmiotu.
+    /// Jeśli gra nie jest w toku, sprawdza, czy powinien rozpocząć się kolejny etap.
+    /// </summary>
+    /// </summary>
     void Update()
     {
         if (gameOngoing)
@@ -588,6 +639,7 @@ public class BiddingWarController : NetworkBehaviour
     #endregion loss_handling
 
     #region inactivity_handling
+
     /// <summary>
     /// Metoda sprawdzająca, które drużyny są nieaktywne (w paru rundach) podczas licytacji.
     /// </summary>

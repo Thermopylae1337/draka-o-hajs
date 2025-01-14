@@ -55,7 +55,13 @@ public class LobbyController : NetworkBehaviour
     /// Kolor przypisywany do gracza, który nie jest gotowy.
     /// </summary>
     private Color notReadyColor = Color.red;
+    /// <summary>
+    /// Pole przechowujące referencje do obiektu sieciowego, który reprezentuje gracza.
+    /// </summary>
     private NetworkObject playerObj;
+    /// <summary>
+    /// Pole przechowujące referencje do klasy GameManager, odpowiedzialnej za zarządzanie logiką gry.
+    /// </summary>
     private GameManager gameManager;
 
     /// <summary>
@@ -66,6 +72,11 @@ public class LobbyController : NetworkBehaviour
         _ = NetworkManager.Singleton.SceneManager.LoadScene("Bidding_War", LoadSceneMode.Single);
     }
 
+    /// <summary>
+    /// Metoda wywoływana przy uruchomieniu skryptu. Inicjalizuje przyciski interfejsu użytkownika i ustawia odpowiednie nasłuchiwania na kliknięcia.
+    /// Blokuje przycisk rozpoczęcia gry i dodaje lokalnego gracza do listy, jeśli jest hostem.
+    /// </summary>
+    /// </summary>
     private void Start()
     {
         readyButtonImage = readyButton.GetComponent<Image>();
@@ -93,6 +104,9 @@ public class LobbyController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Rejestruje odpowiednie metody obsługi zdarzeń połączenia i rozłączenia klientów w zależności od tego, czy klient jest hostem.
+    /// </summary>
     void OnEnable()
     {
         // NetworkManager.Singleton.OnClientConnectedCallback += AddPlayerToList;
@@ -110,6 +124,9 @@ public class LobbyController : NetworkBehaviour
         NetworkManager.Singleton.OnClientDisconnectCallback += LoadMainMenu;
     }
 
+    /// <summary>
+    /// Wyrejestrowuje metody obsługi zdarzeń połączenia i rozłączenia klientów.
+    /// </summary>
     void OnDisable()
     {
         if (IsHost)

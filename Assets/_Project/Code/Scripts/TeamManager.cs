@@ -64,16 +64,19 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<int> inactiveRounds = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone); //licznik rund bierności w licytacji
 
     /// <summary>
-    /// 
+    /// Lista odznak przechowująca dostępne odznaki dla drużyn.
     /// </summary>
     private BadgeList badgeList = new();
 
     /// <summary>
-    /// Prywatna zmienna przechowująca nazwę danej drużyny.
+    /// Zmienna przechowująca nazwę danej drużyny.
     /// </summary>
     [SerializeField]
     public NetworkVariable<FixedString64Bytes> teamName = new(Utils.TEAM_DEFAULT_NAME, writePerm: NetworkVariableWritePermission.Owner);
 
+    /// <summary>
+    /// Właściwość, która zwraca nazwę drużyny. Zmienna `teamName` jest synchronizowana przez sieć, a ta właściwość pozwala na dostęp do jej wartości w formie tekstu.
+    /// </summary>
     [SerializeField]
     public string TeamName => teamName.Value.ToString();
 
@@ -82,6 +85,9 @@ public class TeamManager : NetworkBehaviour
     /// </summary>
     private NetworkVariable<int> bid = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
+    /// <summary>
+    /// Prytwatna zmienna przechowująca kolor.
+    /// </summary>
     [SerializeField]
     private ColourEnum colour;
 
@@ -101,7 +107,7 @@ public class TeamManager : NetworkBehaviour
     private NetworkVariable<uint> networkId = new(0, writePerm: NetworkVariableWritePermission.Server, readPerm: NetworkVariableReadPermission.Everyone);
 
     /// <summary>
-    /// Zmienna przechowująca numer sieci.
+    /// Właściwość do odczytu i zapisu przechowująca numer sieci.
     /// </summary>
     public uint NetworkId
     {
@@ -110,7 +116,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca numer drużyny
+    /// Właściwość do odczytu i zapisu przechowująca numer drużyny.
     /// </summary>
     public uint TeamId
     {
@@ -118,7 +124,7 @@ public class TeamManager : NetworkBehaviour
         set => teamId.Value = value;
     }
     /// <summary>
-    /// Zmienna przechowująca informacje czy dana drużyna uczestniczy w rozgrywce.
+    /// Właściwość do odczytu i zapisu przechowująca informacje czy dana drużyna uczestniczy w rozgrywce.
     /// </summary>
     public bool InGame
     {
@@ -127,13 +133,16 @@ public class TeamManager : NetworkBehaviour
     }
 
     //gettery i settery
+    /// <summary>
+    /// Zapobiega zniszczeniu obiektu przy zmianie sceny, zapewniając jego przetrwanie przez cały czas życia aplikacji.
+    /// </summary>
     public void Awake()
     {
         DontDestroyOnLoad(this);
     }
 
     /// <summary>
-    /// Zmienna przechowująca ilość pieniedzy drużyny.
+    /// Właściwość przechowująca aktualną ilość pieniędzy drużyny. Pozwala na pobranie lub ustawienie tej wartości.
     /// </summary>
     public int Money
     {
@@ -151,11 +160,17 @@ public class TeamManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Właściwość reprezentująca stawkę licytacji. Umożliwia odczyt i zapis wartości stawki.
+    /// </summary>
     public int Bid
     {
         get => bid.Value;
         set => bid.Value = value;
     }
+    /// <summary>
+    /// Właściwość reprezentująca kolor drużyny. Umożliwia odczyt i zapis koloru drużyny.
+    /// </summary>
     public ColourEnum Colour
     {
         get => colour;
@@ -163,7 +178,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca ilość dostepnych wskazówek dla kokretnej drużyny.
+    /// Właściwość przechowująca ilość dostepnych wskazówek dla kokretnej drużyny. Pozwala na pobranie lub ustawienie tej wartości.
     /// </summary>
     public int Clues
     {
@@ -180,7 +195,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca ilośc użytych wskazówek przez drużynę.
+    /// Właściwość przechowująca ilość użytych wskazówek przez drużynę.
     /// </summary>
     public int CluesUsed
     {
@@ -197,7 +212,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca informacje odnośnie czarnych skrzynek.
+    /// Właściwość przechowująca informacje odnośnie czarnych skrzynek.
     /// </summary>
     public int BlackBoxes
     {
@@ -214,7 +229,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca informacje wygrania rundy.
+    /// Właściwość przechowująca informacje wygrania rundy.
     /// </summary>
     public int WonBid
     {
@@ -231,7 +246,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca informacje na ile pytań odpowiedziano.
+    /// Właściwość przechowująca informacje na ile pytań odpowiedziano.
     /// </summary>
     public int QuestionsAnswered
     {
@@ -248,7 +263,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowujaca informacje ile było pytań.
+    /// Właściwość przechowujaca informacje ile było pytań.
     /// </summary>
     public int QuestionsAsked
     {
@@ -265,7 +280,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca informacje odnośnie VaBanque.
+    /// Właściwość przechowująca informacje odnośnie VaBanque.
     /// </summary>
     public int VaBanque
     {
@@ -282,7 +297,7 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca informacje nieaktywności w licytacji.
+    /// Właściwość przechowująca informacje nieaktywności w licytacji.
     /// </summary>
     public int InactiveRounds
     {
@@ -299,9 +314,12 @@ public class TeamManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Zmienna przechowująca zgromadzoną ilość pieniedzy przez drużynę.
+    /// Właściwość przechowująca zgromadzoną ilość pieniedzy przez drużynę.
     /// </summary>
     public int TotalMoney { get; set; }
+    /// <summary>
+    /// Właściwość do odczytu i zapisu, reprezentująca listę z odznakami.
+    /// </summary>
     public BadgeList BadgeList
     {
         get => badgeList;
@@ -320,12 +338,18 @@ public class TeamManager : NetworkBehaviour
             bid.Value += amount;
         }
     }
+    /// <summary>
+    /// Metoda umożliwiająca restowanie kwoty licytacji.
+    /// </summary>
     public void ResetBid()
     {
         //dodałem funkcję reset bid żeby można było np zrobić odznakę "zakończ licytację z jakąśtam kwotą na końcu"
         bid.Value = 0;
     }
 
+    /// <summary>
+    /// Inicjalizuje nazwę drużyny i aktualizuje nazwę obiektu gry przy zmianie.
+    /// </summary>
     public void Start()
     {
         teamName.OnValueChanged = delegate (FixedString64Bytes oldName, FixedString64Bytes newName)
@@ -337,7 +361,6 @@ public class TeamManager : NetworkBehaviour
             teamName.Value = TeamCreatorController.chosenTeamName;
         }
     }
-
 
     /// <summary>
     /// Metoda wykonująca serializacje bieżącego obiektu TeamManager do formatu JSON, która zapisuję go do wskazanego pliku.

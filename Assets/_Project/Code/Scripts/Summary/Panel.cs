@@ -9,6 +9,9 @@ using UnityEngine.UI;
 /// </summary>
 public class Panel : MonoBehaviour
 {
+    /// <summary>
+    /// Lista przechowująca sprite'y, które będą używane do wyświetlania różnych paneli w interfejsie użytkownika.
+    /// </summary>
     [SerializeField]
     public List<Sprite> panelSprites = new List<Sprite>();              // wsadzać Y, G, B !
 
@@ -74,7 +77,6 @@ public class Panel : MonoBehaviour
         leaderboard.Deserializuj();
         leaderboard.AddTeam(new LeaderboardTeam(teamName, money));
         leaderboard.Serializuj();
-
 
         teamNameObj.text = teamName;
         moneyObj.text = $"<color=green>{money}</color>pln";

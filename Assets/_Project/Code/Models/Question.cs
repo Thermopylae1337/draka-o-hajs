@@ -74,6 +74,9 @@ public class Question : INetworkSerializable, IEquatable<Question>
         this.answerChoices = answerChoices.Count != 4 ? throw new ArgumentException("Niepoprawna ilość podpowiedzi") : answerChoices;
     }
 
+    /// <summary>
+    /// Konstruktor kopiujący.
+    /// </summary>
     public Question()
     {
     }

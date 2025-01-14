@@ -48,7 +48,7 @@ public class CategoryList
     /// <summary>
     /// Metoda umożliwiająca dodanie do listy konkretnej kategorii.
     /// </summary>
-    /// <param name="k">Zmienna reprezentująca kategorie. </param>
+    /// <param name="k">Zmienna reprezentująca kategorie.</param>
     public void AddCategory(Category k)
     {
         if (k == null)

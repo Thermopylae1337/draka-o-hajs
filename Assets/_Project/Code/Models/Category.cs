@@ -65,7 +65,11 @@ public class Category : INetworkSerializable, IEquatable<Category>
 
         questionList.Add(question);
     }
-    
+
+    /// <summary>
+    /// Losuje pytanie z dostępnej listy pytań i usuwa je z listy.
+    /// </summary>
+    /// <returns>Wylosowane pytanie typu <see cref="Question"/> lub null, jeśli lista pytań jest pusta.</returns>
     public Question DrawQuestion()
     {
         Question question = questionList.Count == 0 ? null : questionList[_random.Next(questionList.Count)];
@@ -105,6 +109,11 @@ public class Category : INetworkSerializable, IEquatable<Category>
         return JsonConvert.DeserializeObject<Category>(json);
     }
 
+    /// <summary>
+    /// Serializuje dane obiektu przez sieć przy użyciu dostarczonego serializatora.
+    /// </summary>
+    /// <typeparam name="T">Typ serializatora implementującego interfejs <see cref="IReaderWriter"/>.</typeparam>
+    /// <param name="serializer">Zmienna przechowująca serializator używana do serializacji danych.</param>
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref name);

@@ -6,7 +6,7 @@ using UnityEngine;
 using static Utils;
 
 /// <summary>
-/// Klasa odpowiadająca za wylosowanie kategorii pytania.
+/// Klasa odpowiadająca za wylosowanie danej kategorii pytania.
 /// </summary>
 public class CategoryDrawManager : NetworkBehaviour
 {
@@ -24,7 +24,7 @@ public class CategoryDrawManager : NetworkBehaviour
     /// </summary>
     private TMP_Text categoryDisplayText;
     /// <summary>
-    /// Zmienna przechowująca referencje do komponentu tekstowego (TMP_Text) odpowiedzialnego za wyświetlanie informacji o aktualnej rundzie.
+    /// Zmienna przechowująca referencję do komponentu tekstowego (TMP_Text) odpowiedzialnego za wyświetlanie informacji o aktualnej rundzie.
     /// </summary>
     private TMP_Text roundDisplayText;
     /// <summary>
@@ -36,7 +36,7 @@ public class CategoryDrawManager : NetworkBehaviour
     /// </summary>
     private float startTime;
     /// <summary>
-    /// Zmienna reprezentująca informacje czy zakręcono kołem.
+    /// Zmienna reprezentująca informację czy zakręcono kołem.
     /// </summary>
     private bool wheelSpinned;
 
@@ -102,7 +102,10 @@ public class CategoryDrawManager : NetworkBehaviour
             Invoke("LoadBiddingWar", 3.0f);
         }
     }
-    
+
+    /// <summary>
+    /// Metoda odpowiedzialna za zmianę sceny, w której odbywa się licytacja.
+    /// </summary>
     private void LoadBiddingWar()
     {
         _ = NetworkManager.Singleton.SceneManager.LoadScene("BiddingWar", UnityEngine.SceneManagement.LoadSceneMode.Single);

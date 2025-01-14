@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class LoadMainMenuOnStartup : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// Metoda ładująca scenę 'MainMenu'.
+    /// </summary>
     private void Start()
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);

@@ -30,7 +30,7 @@ public class Badge
     public int UnlockCounter { get; private set; }
 
     /// <summary>
-    /// Konstruktor inicjalizujący wszystkie  pola składowe klasy
+    /// Konstruktor inicjalizujący wszystkie pola składowe klasy
     /// </summary>
     /// <param name="name">Nazwa odznaki</param>
     /// <param name="unlockCondition">Opis warunku spełnionego, aby odblokować odznakę.</param>

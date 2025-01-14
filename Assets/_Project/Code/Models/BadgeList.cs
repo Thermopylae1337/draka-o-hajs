@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Klasa  służąca do przechowywania informacjii o możliwych odznak do zdobycia przez drużynę.
+/// Klasa służąca do przechowywania informacjii o możliwych odznak do zdobycia przez drużynę.
 /// </summary>
 public class BadgeList
 {
+    /// <summary>
+    /// Lista odczytująca przechowane odznaki.
+    /// </summary>
     [JsonProperty("badges")]
     private readonly List<Badge> badges;
 

@@ -59,6 +59,9 @@ public class BadgeSpawner : MonoBehaviour
         /// Zmienna przechowująca opis (odblokowania) odznaki.
         /// </summary>
         public string Description { get; }
+        /// <summary>
+        /// Obiekt Sprite odpowiedzialny za reprezentację graficzną elementu w grze.
+        /// </summary>
         public Sprite Sprite { get; }
     }
     /// <summary>

@@ -31,5 +31,8 @@ public class MainMenuController : MonoBehaviour
     /// Ładuję scenę 'Badges', która odpowiada za wyświetlanie odznak.
     /// </summary>
     public void LoadBadgesScene() => SceneManager.LoadScene("Badges");
+    /// <summary>
+    /// Ładuje scenę 'Leaderboard', która odpowiada za wyświetlenie tablicy wyników.
+    /// </summary>
     public void LoadLeaderboardScene() => SceneManager.LoadScene("Leaderboard");
 }

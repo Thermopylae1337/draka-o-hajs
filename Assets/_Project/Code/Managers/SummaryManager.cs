@@ -9,10 +9,16 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SummaryManager : NetworkBehaviour
 {
+    /// <summary>
+    /// Pole przechowujące referencję do prefabrykatu panelu, używane podczas tworzenia nowych instancji panelu w interfejsie użytkownika.
+    /// </summary>
     [SerializeField] private GameObject panelPrefab;
+    /// <summary>
+    /// Zmienna reprezentująca siatkę.
+    /// </summary>
     [SerializeField] private Transform grid;
     /// <summary>
-    /// Zmienna przechowujaca listę drużyn.
+    /// Zmienna przechowująca listę drużyn.
     /// </summary>
     public List<TeamManager> teams;
     /// <summary>

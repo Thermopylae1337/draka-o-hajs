@@ -15,11 +15,11 @@ public class Wheel : MonoBehaviour
     private float delta, angleStep, angleStepRad;
 
     /// <summary>
-    /// Zmienna przechowująca stan koła (czy jest w trakcie obracania)
+    /// Zmienna przechowująca stan koła (czy jest w trakcie obracania).
     /// </summary>
     [SerializeField] private bool spinning = false;
     /// <summary>
-    /// Zmienna przechowująca ilość segmentów na kole
+    /// Zmienna przechowująca ilość segmentów na kole.
     /// </summary>
     private readonly int numberOfSegments = 29;       // Ilosc segmentow kola
 

@@ -45,6 +45,9 @@ public class GameManager : NetworkBehaviour
     /// Zmienna sieciowa przechowująca aktualną stawkę w grze.
     /// </summary>
     public NetworkVariable<int> CurrentBid { get; } = new();
+    /// <summary>
+    /// Zmienna sieciowa przechowująca ilość drużyn biorących udział w grze.
+    /// </summary>
     public NetworkVariable<int> StartingTeamCount { get; } = new();
 
     /// <summary>
