@@ -82,8 +82,6 @@ public class SummaryManager : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        
-
         if (NetworkManager.Singleton?.IsHost == true)
         {
                 UpdateMoneyServerRpc();
@@ -112,16 +110,10 @@ public class SummaryManager : NetworkBehaviour
 
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-            //test
-            team.BlackBoxes = _random.Next(1, 4);
-            Debug.Log(team.name);
-            Debug.Log(team.BlackBoxes);
-
             if (team.BlackBoxes > 0)
             {
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => teamDrawingText.IsActive() == false);
-                //yield return new WaitForSeconds(0.1f);
             }
 
             HandleBadgesClientRpc(clientId);
