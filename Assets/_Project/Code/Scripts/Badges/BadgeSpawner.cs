@@ -28,70 +28,28 @@ public class BadgeSpawner : MonoBehaviour
     /// Domyślny sprite odznaki
     /// </summary>
     public Sprite basicSprite;
-    /// <summary>
-    /// Tymczasowa klasa odznak.
-    /// </summary>
-    public class TemporaryBadgeClass
-    {
-        /// <summary>
-        /// Konstruktor kopiujący inicjalizujący wszystkie pola składowe klasy.
-        /// </summary>
-        /// <param name="title">Przechowuje tytuł odznaki.</param>
-        /// <param name="description">Przechowuje opis danej odznaki.</param>
-        /// <param name="sprite"></param>
-        /// <param name="isUnlocked">Przechowuje informacje czy odznaka została odblokowana.</param>
-        public TemporaryBadgeClass(string title, string description, Sprite sprite, bool isUnlocked)
-        {
-            Title = title;
-            Description = description;
-            Sprite = sprite;
-            IsUnlocked = isUnlocked;
-        }
-        /// <summary>
-        /// Zmienna przechowująca informacje czy odznaka jest odblokowana.
-        /// </summary>
-        public bool IsUnlocked { get; }
-        /// <summary>
-        /// Zmienna przechowująca tytuł odznaki.
-        /// </summary>
-        public string Title { get; }
-        /// <summary>
-        /// Zmienna przechowująca opis (odblokowania) odznaki.
-        /// </summary>
-        public string Description { get; }
-        /// <summary>
-        /// Obiekt Sprite odpowiedzialny za reprezentację graficzną elementu w grze.
-        /// </summary>
-        public Sprite Sprite { get; }
-    }
-    /// <summary>
-    /// Lista zainicjowana z domyślną wartością null, która będzie przechowywać odznaki.
-    /// </summary>
-    public List<TemporaryBadgeClass> badges = new();
+    public TMP_Dropdown dropdown;
+    LeaderboardList leaderboard = new();
 
     /// <summary>
     /// Metoda dodająca na starcie kilka odznak do listy.
     /// </summary>
     private void Start()
     {
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[0], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[1], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[2], true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[3], false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[4], true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[5], true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[6], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[7], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", badgesSprites[8], true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", badgesSprites[9], false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", badgesSprites[10], true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", badgesSprites[11], true));
-        badges.Add(new TemporaryBadgeClass("odzn1", "opis odznaki 1", badgesSprites[12], true));
-        badges.Add(new TemporaryBadgeClass("odznaka2", "troche dluzszy opis odznaki 2", badgesSprites[13], false));
-        badges.Add(new TemporaryBadgeClass("aaaaaaaaaa", "jeszcze dluzszy od poprzedniego opis odznaki 3", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("123456897", "opis odznaki 4", basicSprite, false));
-        badges.Add(new TemporaryBadgeClass("pomidor", "opis odznaki 5", basicSprite, true));
-        badges.Add(new TemporaryBadgeClass("odzn6", "opis odznaki 6", basicSprite, true));
+        leaderboard.Deserializuj();
+        List<LeaderboardTeam> teams = leaderboard.TeamList;
+        dropdown.ClearOptions();
+        List<string> options = new List<string>();
+        foreach (LeaderboardTeam team in teams)
+        {
+            options.Add(team.Name);
+        }
+        if(options.Count == 0)
+        {
+            options.Add("Brak drużyn");
+        }
+
+        dropdown.AddOptions(options);
         GenerateBadges();
     }
 
@@ -99,9 +57,21 @@ public class BadgeSpawner : MonoBehaviour
     /// Tworzy odznaki na podstawie danych przechowywanych w liście 'badges'
     /// Dla każdej odznaki generowany jest obiekt UI (zawierający obrazek, tytuł i opis), a także przypisywane są odpowiednie dane oraz kolory w zależności od stanu odznaki.
     /// </summary>
-    private void GenerateBadges()
+    public void GenerateBadges()
     {
-        foreach (TemporaryBadgeClass badge in badges)
+        ClearBadges();
+        List<LeaderboardTeam> teams = leaderboard.TeamList;
+        int counter = 0;
+        foreach(LeaderboardTeam team in teams)
+        {
+            Debug.Log(team.Name);
+            foreach(Badge b in team.Badges)
+            {
+                if(b.Unlocked==true)
+                    Debug.Log(b.Name+" "+b.Unlocked);
+            }
+        }
+        foreach (Badge badge in leaderboard.FindTeam(dropdown.options[dropdown.value].text).Badges)
         {
             GameObject badgeObject = Instantiate(badgePrefab, contentParent);
             Image badgeImage = badgeObject.transform.Find("BadgeImage").GetComponent<Image>();
@@ -110,11 +80,22 @@ public class BadgeSpawner : MonoBehaviour
             Image badgeDescriptionBackground = badgeObject.transform.Find("BadgeDescriptionBackground").GetComponent<Image>();
             badgeDescriptionBackground.color = Color.clear;
             badgeDescription.gameObject.SetActive(false);
-            badgeDescription.text = badge.Description;
-            badgeImage.sprite = badge.Sprite;
-            badgeText.text = badge.Title;
-            badgeImage.color = badge.IsUnlocked ? Color.white : Color.gray;
-            AddHoverEvents(badgeObject, badge.Description);
+            badgeDescription.text = badge.UnlockCondition;
+            badgeImage.sprite = badgesSprites[counter];
+            counter++;
+            badgeText.text = badge.Name;
+            badgeImage.color = badge.Unlocked ? Color.white : Color.gray;
+            AddHoverEvents(badgeObject, badge.UnlockCondition);
+        }
+    }
+    /// <summary>
+    /// Metoda usuwająca odznaki.
+    /// </summary>
+    public void ClearBadges()
+    {
+        foreach (Transform child in contentParent)
+        {
+            Destroy(child.gameObject);
         }
     }
 

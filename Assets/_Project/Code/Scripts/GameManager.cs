@@ -1,15 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using Unity.Netcode;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
-using System.Text;
-using System.Collections.ObjectModel;
-using Unity.VisualScripting;
-using System;
 
 /// <summary>
 /// Główna klasa menedżera gry, odpowiedzialna za zarządzanie rozgrywką i synchronizację stanu gry między klientami.
@@ -41,6 +31,7 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     public NetworkVariable<ulong> Winner { get; } = new();
 
+    public NetworkVariable<int> Round { get; } = new(1);  
     /// <summary>
     /// Zmienna sieciowa przechowująca aktualną stawkę w grze.
     /// </summary>
@@ -77,6 +68,15 @@ public class GameManager : NetworkBehaviour
         }
 
         _instance = this;
+        NetworkManager.Singleton.OnClientDisconnectCallback += HandleNetworkDisconnect;
         DontDestroyOnLoad(gameObject);
+    }
+
+    void HandleNetworkDisconnect(ulong clientId)
+    {
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            Destroy(this);
+        }
     }
 }

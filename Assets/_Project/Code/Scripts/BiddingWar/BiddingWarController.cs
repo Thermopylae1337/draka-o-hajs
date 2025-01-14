@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using TMPro;
 using Unity.Netcode;
@@ -91,6 +92,7 @@ public class BiddingWarController : NetworkBehaviour
     /// Zmienna przechowująca informację o tym, czy gra jest aktualnie w trakcie rozgrywki.
     /// </summary>
     bool gameOngoing = false;
+    bool updateTimerText = true;
     private int defaultSceneChangeDelay = 5;
     //przyciski kolejno mają wartość: 100,200,300,400,500,1000zł
     //no i va banque
@@ -134,6 +136,13 @@ public class BiddingWarController : NetworkBehaviour
     /// Pole przechowujące referencję do komponentu VideoPlayer, który odtwarza wideo związane z efektem uderzenia.
     /// </summary>
     public VideoPlayer uderzenieVideoPlayer;
+    public AudioSource audioBeginBidding;
+    public AudioSource audioHammer;
+    public AudioSource audioVoice10;
+    public AudioSource audioVoice5;
+    public AudioSource audioVoice11;
+    public AudioSource audioVoice7;
+    private bool voice11HasPlayed = false;
 
     /// <summary>
     /// Klasa przechowująca i zarządzająca czasem, umożliwiająca śledzenie upływu czasu w kontekście określonego interwału.
@@ -177,12 +186,7 @@ public class BiddingWarController : NetworkBehaviour
         }
 
         NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<TeamManager>().TeamId = localTeamId;
-
-        if (teams.Count < 4)
-        {
-            totalBidText.transform.position = teamBalanceText[GameManager.Instance.StartingTeamCount.Value].transform.position;
-        }
-
+         
         int i = GameManager.Instance.StartingTeamCount.Value;
         while (i < teamNamesText.Count)
         {
@@ -192,7 +196,6 @@ public class BiddingWarController : NetworkBehaviour
             i += 1;
         }
 
-        timerText.text = "5";
         categoryNameText.text = GameManager.Instance.Category.Value.Name.ToUpper();
         Setup();
         AddListeners();
@@ -228,6 +231,26 @@ public class BiddingWarController : NetworkBehaviour
         vbButton.onClick.AddListener(VaBanque);
         exitButton.onClick.AddListener(delegate { NetworkManager.Shutdown(); });
 
+    } 
+    /// <summary>
+    /// Funkcja usuwająca przyciski licytacji z UI dla graczy którzy przegrali grę
+    /// </summary>
+    public void RemoveButtons()
+    {
+        bidButtons[0].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[0].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[1].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[1].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[2].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[2].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[3].GetComponentInChildren<Image>().enabled = false; 
+        bidButtons[3].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[4].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[4].GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        bidButtons[5].GetComponentInChildren<Image>().enabled = false;
+        bidButtons[5].GetComponentInChildren<TextMeshProUGUI>().enabled = false; 
+        vbButton.GetComponentInChildren<Image>().enabled = false;
+        vbButton.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
 
     /// <summary>
@@ -273,7 +296,10 @@ public class BiddingWarController : NetworkBehaviour
             Destroy(teamBalanceText[i]);
             i += 1;
         }
-
+        if (!teams[(int)localTeamId].InGame)
+        {
+            RemoveButtons();
+        }
         ResetTimer();
     }
 
@@ -287,16 +313,17 @@ public class BiddingWarController : NetworkBehaviour
         {
             if (t.InGame)
             {
-                SetupLockOutButtons(t);
-                totalBid += 500;
                 if (IsHost)
                 {
                     t.RaiseBid(500);
                 }
+                SetupLockOutButtons(t);
+                totalBid += 500;
             }
 
             UpdateMoneyStatusForTeam((int)t.TeamId);
         }
+        audioBeginBidding.Play();
 
         totalBidText.text = totalBid.ToString();
         winningBidAmount = 500;
@@ -309,8 +336,7 @@ public class BiddingWarController : NetworkBehaviour
     /// <param name="team">Drużyna, dla której przyciski blokady są konfigurowane.</param>
     public void SetupLockOutButtons(TeamManager team)
     {
-        if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame)
-        {
+        if (team.NetworkId != NetworkManager.Singleton.LocalClientId && team.InGame &&   teams[(int)localTeamId].Money>= team.Money)        {
             lockOutButtons[(int)team.Colour].enabled = true;
             lockOutButtons[(int)team.Colour].image.enabled = true;
             lockOutButtons[(int)team.Colour].GetComponentInChildren<TextMeshProUGUI>().enabled = true;
@@ -326,8 +352,8 @@ public class BiddingWarController : NetworkBehaviour
     /// <param name="i">Indeks drużyny, której dane maja zostać zaktualizowane.</param>
     public void UpdateMoneyStatusForTeam(int i)
     {
-        teamBalanceText[(int)teams[i].Colour].text = teams[i].Money.ToString();
-        teamBidText[(int)teams[i].Colour].text = teams[i].Bid.ToString();
+        teamBalanceText[(int)teams[i].Colour].text = ( winningBidAmount + 100 - teams[i].Bid ) <= teams[i].Money ? teams[i].Money.ToString(): "<color=grey>" + teams[i].Money.ToString() + "</color>";
+        teamBidText[(int)teams[i].Colour].text =teams[i].Bid.ToString();
     }
 
     /// <summary>
@@ -354,8 +380,7 @@ public class BiddingWarController : NetworkBehaviour
         bidButtonText[2].text = "300";
         bidButtonText[3].text = "400";
         bidButtonText[4].text = "500";
-        bidButtonText[5].text = "1000";
-
+        bidButtonText[5].text = "1000"; 
         if (winningBidAmount != teams[(int)localTeamId].Bid)
         {
             int difference = winningBidAmount - teams[(int)localTeamId].Bid;
@@ -369,6 +394,18 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
 
+        bidButtons[0].image.color = ( ( winningBidAmount + 100 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ?new Color32(150, 150, 150, 100)  :new Color32(255, 255, 255, 255);
+        bidButtons[1].image.color = ( ( winningBidAmount + 200 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[2].image.color = ( ( winningBidAmount + 300 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[3].image.color = ( ( winningBidAmount + 400 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[4].image.color = ( ( winningBidAmount + 500 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        bidButtons[5].image.color = ( ( winningBidAmount + 1000 > teams[(int)localTeamId].Bid + teams[(int)localTeamId].Money ) || (localTeamId == winningTeamID && winningBidAmount != 500 ) ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        vbButton.image.color = (localTeamId == winningTeamID && winningBidAmount != 500 ) ? new Color32(150, 150, 150, 100) : new Color32(255, 255, 255, 255);
+        if ( winningBidAmount > teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid )
+        {
+            lockOutButtons[winningTeamID].image.enabled = false;
+            lockOutButtons[winningTeamID].enabled = false; }
+        }
     /// <summary>
     /// Metoda RPC, która aktualizuje licytacje dla wszystkich graczy.
     /// </summary>
@@ -392,17 +429,25 @@ public class BiddingWarController : NetworkBehaviour
     /// <param name="locked_out_team">Indeks drużyny, która zostaje zablokowana z licytacji.</param>
     public void LockOutBid(int locked_out_team)
     {
-        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid;
+        int amount = teams[locked_out_team].Money + teams[locked_out_team].Bid - teams[(int)localTeamId].Bid; 
         Bid(amount);
+        lockOutButtons[locked_out_team].enabled = false;
+        lockOutButtons[locked_out_team].image.enabled = false;
+
+        lockOutButtons[locked_out_team].GetComponentInChildren<TextMeshProUGUI>().text = "";
     }
     /// <summary>
     /// Metoda umożliwiająca użycie w licytacji VaBanque.
     /// </summary>
     public void VaBanque()
     {
-        int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
-        VaBanqueIncrementServerRpc((int)localTeamId);
-        Bid(amount);
+        if (teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid > winningBidAmount)
+        {
+            StopUpdateTimerTextRpc();
+            int amount = teams[(int)localTeamId].Money + teams[(int)localTeamId].Bid - winningBidAmount;
+            VaBanqueIncrementServerRpc((int)localTeamId);
+            Bid(amount);
+        }
     }
 
     /// <summary>
@@ -430,6 +475,7 @@ public class BiddingWarController : NetworkBehaviour
         //                                                                                                                    Z powodu wprowadzenia lekkiego opóźnienia, trzeba też sprawdzać czy ktoś o mniejszej liczbie pieniędzy nie zrobił va banque, ten sposób wydaje się rozwiązywać problem
         if (teams[team_id].Money >= difference && ( teams[team_id].Bid != winningBidAmount || winningBidAmount == 500 ) && !( teams[winningTeamID].Money == 0 && teams[winningTeamID].Bid != 0 ))
         {
+            PlayVoiceWhileBidding();
             winningBidAmount += amount;
             teams[team_id].RaiseBid(difference);
             UpdateBidsRpc(difference, winningBidAmount, team_id);
@@ -454,6 +500,10 @@ public class BiddingWarController : NetworkBehaviour
         timer = Time.time;
     }
 
+    [Rpc(SendTo.Everyone)]
+    void StopUpdateTimerTextRpc()
+    { updateTimerText = false; }
+
     /// <summary>
     /// Metoda sprzedająca drużynie pytanie.
     /// </summary>
@@ -477,6 +527,7 @@ public class BiddingWarController : NetworkBehaviour
         winnersText.color = ColorHelper.ToUnityColor(teams[team_id].Colour);
 
         ShowVideo();
+        PlayVoiceEndBidding();
 
         List<int> teams_warned = CheckForInactivity();
         if (teams_warned.Count > 0)
@@ -542,11 +593,9 @@ public class BiddingWarController : NetworkBehaviour
                 teams[(int)localTeamId].BadgeList.UnlockBadge("Czarni Łowcy");
             }
 
-            CheckBadgeUnlockRpc();
         }
         else
         {
-            CheckBadgeUnlockRpc();
             _ = StartCoroutine(OpenSceneWithDelay("QuestionStage", scene_change_delay));
         }
 
@@ -568,7 +617,8 @@ public class BiddingWarController : NetworkBehaviour
             UpdateMoneyStatus();
             if (winningBidAmount != 500)
             {
-                timerText.text = ( Mathf.Round(( timeGiven - ( Time.time - timer ) ) * 10) / 10 ).ToString();
+                if (updateTimerText)
+                    timerText.text = ( Mathf.Round(( timeGiven - ( Time.time - timer ) ) * 10) / 10 ).ToString();
                 if (Time.time - timer > timeGiven && NetworkManager.Singleton.IsHost)
                 {
 
@@ -735,12 +785,16 @@ public class BiddingWarController : NetworkBehaviour
             }
             else
             {
-                team.InGame = false;
+                if (IsHost)
+                {
+                    team.InGame = false;
+                }
             }
         }
 
         return _teamsInGame >= 2;
     }
+    #region cosmetics
     /// <summary>
     /// Metoda pokazująca filmik.
     /// </summary>
@@ -749,10 +803,39 @@ public class BiddingWarController : NetworkBehaviour
         _ = new WaitForSeconds(0.5f);
         uderzenieImage.SetActive(true);
         uderzenieVideoPlayer.Play();
+        Invoke("PlayHammerAudio", 1.0f);
     }
 
+    private void PlayHammerAudio()
+    {
+        audioHammer.Play();
+    }
+
+    private void PlayVoiceEndBidding()
+    {
+        float random = Random.value;
+        if (random < 0.5) audioVoice10.Play();
+        else audioVoice5.Play();
+    }
+
+    private void PlayVoiceWhileBidding()
+    {
+        float random = Random.value;
+        if (random < 0.3 && !voice11HasPlayed) {
+            PlayVoiceWhileBiddingRandomized();
+            voice11HasPlayed = true;
+        }
+    }
+    private void PlayVoiceWhileBiddingRandomized()
+    {
+        float random = Random.value;
+        if (random < 0.5) audioVoice11.Play();
+        else audioVoice7.Play();
+    }
+    #endregion cosmetics
+    
     /// <summary>
-    /// Metoda RPC wysyłana na serwer, któa zwieksza liczbę wygranych licytacji przez drużynę.
+    /// Metoda RPC wysyłana na serwer, która zwieksza liczbę wygranych licytacji przez drużynę.
     /// </summary>
     /// <param name="teamid">Zmienna przechowująca identyfikator drużyny.</param>
     [Rpc(SendTo.Server)]
@@ -805,34 +888,4 @@ public class BiddingWarController : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Metoda RPC sprawdzająca, czy drużyna odblokowała określone odznaki, na podstawie spełnionych warunków.
-    /// </summary>
-    [Rpc(SendTo.ClientsAndHost)]
-    private void CheckBadgeUnlockRpc()
-    {
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Mistrzowie Aukcji"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].WonBid == 5)
-            {
-                UnlockBadgeRpc("Mistrzowie Aukcji", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Ryzykanci"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].VaBanque == 3)
-            {
-                UnlockBadgeRpc("Ryzykanci", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-
-        if (!teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.IsBadgeUnlocked("Czarni Łowcy"))
-        {
-            if (teams[(int)NetworkManager.Singleton.LocalClientId].BlackBoxes == 2)
-            {
-                UnlockBadgeRpc("Czarni Łowcy", (int)NetworkManager.Singleton.LocalClientId);
-            }
-        }
-    }
 }

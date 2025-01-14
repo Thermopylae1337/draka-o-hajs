@@ -34,7 +34,14 @@ public class BadgeList
     }
 
     /// <summary>
-    /// Metoda odpowiadająca za dodanie odznaki do listy posiadancyh przez drużynę
+    /// Właściwość tylko do odczytu, zwracająca listę odznak.
+    /// </summary>
+    public List<Badge> Badges
+    {
+        get => badges;
+    }
+    /// <summary>
+    /// Metoda odpowiadająca za dodanie odznaki do listy posiadanych przez drużynę.
     /// </summary>
     /// <param name="badge">Zmienna reprezentująca odznakę.</param>
     public void AddBadge(Badge badge) => badges.Add(badge);

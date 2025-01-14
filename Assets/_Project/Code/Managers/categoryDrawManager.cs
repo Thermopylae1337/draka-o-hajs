@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using NUnit.Framework;
 using TMPro;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Utils;
 
@@ -40,6 +40,14 @@ public class CategoryDrawManager : NetworkBehaviour
     /// </summary>
     private bool wheelSpinned;
 
+    public AudioSource audioSpinWheel;
+    public AudioSource audioRevealCategory;
+    public AudioSource audioVoice1;
+    public AudioSource audioVoice2;
+    public AudioSource audioVoice3;
+    public AudioSource audioVoice3a;
+    public AudioSource audioVoice4;
+
     /// <summary>
     /// Metoda odpowiedzialna za inicjalizację komponentów, załadowanie zasobów.
     /// </summary>
@@ -55,9 +63,33 @@ public class CategoryDrawManager : NetworkBehaviour
         wheel = GameObject.Find("Wheel").GetComponent<Wheel>();
         categoryDisplayText = GameObject.Find("CategoryDisplay").GetComponent<TMP_Text>();
         roundDisplayText = GameObject.Find("RoundCounter").GetComponent<TMP_Text>();
-
+        roundDisplayText.text = "Runda: " + GameManager.Instance.Round.Value;
         wheel.OnWheelStopped += HandleWheelStopped;
         startTime = Time.time;
+        Invoke("AudioPlaySpinWheel", 1.5f); //delay aby zsynchronizowac z kolem fortuny
+        AudioPlayEarlyVoice();
+        Invoke("AudioPlayLateVoice", 7.0f);
+    }
+
+    private void AudioPlaySpinWheel()
+    {
+        audioSpinWheel.Play();
+    }
+
+    private void AudioPlayEarlyVoice()
+    {
+        if (GameManager.Instance.Round.Value == 1) audioVoice1.Play();
+        else if (GameManager.Instance.Round.Value == 7) audioVoice4.Play();
+    }
+    private void AudioPlayLateVoice()
+    {
+        if (GameManager.Instance.Round.Value == 1) audioVoice3.Play();
+        else
+        {
+            float random = Random.value;
+            if (random < 0.33) audioVoice3a.Play();
+            else if (random > 0.66) audioVoice2.Play();
+        }
     }
 
     /// <summary>
@@ -69,11 +101,13 @@ public class CategoryDrawManager : NetworkBehaviour
     /// </summary>
     /// <param name="result">Zmienna reprezentująca indeks wylosowanej kategorii z listy kategorii</param>
     private void HandleWheelStopped(int result)
-    {
+    { 
         categoryDisplayText.text = "Wylosowano: " + categoryNames[result];
+        audioRevealCategory.Play();
 
         if (categoryNames[result] == "Czarna skrzynka")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Czarna skrzynka", new System.Collections.Generic.List<Question>());
@@ -81,18 +115,18 @@ public class CategoryDrawManager : NetworkBehaviour
         }
         else if (categoryNames[result] == "Podpowiedź")
         {
+            roundDisplayText.text = "Runda Bonusowa";
             if (IsHost)
             {
                 GameManager.Instance.Category.Value = new Category("Podpowiedź", new System.Collections.Generic.List<Question>());
             }
         }
         else
-        {
-            currentRound++;
-            roundDisplayText.text = "Runda: " + currentRound;
+        { 
+            
             if (IsHost)
-            {
-                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]);
+            {    
+                GameManager.Instance.Category.Value = categoryList.FindCategory(categoryNames[result]); 
             }
             // WyświetlPytanie(category)
         }
@@ -133,7 +167,7 @@ public class CategoryDrawManager : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void SpinWheelRpc(float angle)
     {
-        if (currentRound < Utils.ROUNDS_LIMIT)
+        if(GameManager.Instance.Round.Value <= Utils.ROUNDS_LIMIT)
         {
             wheel.SpinWheel(angle);
         }
