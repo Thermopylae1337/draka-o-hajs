@@ -82,9 +82,7 @@ public class SummaryManager : NetworkBehaviour
     /// </summary>
     private void Start()
     {
-        
-
-        if (teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAnswered == 0 && teams[(int)NetworkManager.Singleton.LocalClientId].QuestionsAsked > 0)
+        if (NetworkManager.Singleton?.IsHost == true)
         {
                 UpdateMoneyServerRpc();
             _ = StartCoroutine(HandleTeams());
@@ -112,16 +110,10 @@ public class SummaryManager : NetworkBehaviour
 
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
-            //test
-            team.BlackBoxes = _random.Next(1, 4);
-            Debug.Log(team.name);
-            Debug.Log(team.BlackBoxes);
-
             if (team.BlackBoxes > 0)
             {
                 CalculatePrizeServerRpc(clientId);
                 yield return new WaitUntil(() => teamDrawingText.IsActive() == false);
-                //yield return new WaitForSeconds(0.1f);
             }
 
             HandleBadgesClientRpc(clientId);
