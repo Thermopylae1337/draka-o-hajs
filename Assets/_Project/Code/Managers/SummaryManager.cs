@@ -3,6 +3,10 @@ using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.Video;
+using System.Collections;
+using UnityEngine.UI;
 
 /// <summary>
 /// Klasa zarządzająca etapem podsumowania.
@@ -104,6 +108,7 @@ public class SummaryManager : NetworkBehaviour
     {
         foreach (NetworkClient teamClient in NetworkManager.ConnectedClientsList)
         {
+            ulong clientId = teamClient.ClientId;
 
             TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
@@ -144,6 +149,14 @@ public class SummaryManager : NetworkBehaviour
         leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money, team.BadgeList.Badges));
         leaderboard.Serializuj();
     }
+    /// <summary>
+    /// RPC tworzący i wyświetlający panel podsumowania drużyny.
+    /// </summary>
+    /// <param name="clientId">Zmienna przechowywująca ID drużyny.</param>
+    [ClientRpc]
+    private void CreatePanelClientRpc(ulong clientId)
+    {
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
 
         GameObject panelObject = Instantiate(panelPrefab, grid);
         Panel panel = panelObject.GetComponent<Panel>();
