@@ -11,17 +11,17 @@ using UnityEngine;
 public enum ColourEnum
 {
     /// <summary>
-    /// Kolor reprezentujący drużynę żółtą. 
+    /// Kolor reprezentujący drużynę niebieską.
     /// </summary>
-    YELLOW,
+    BLUE,
     /// <summary>
     /// Kolor reprezentujący drużynę zieloną.
     /// </summary>
     GREEN,
     /// <summary>
-    /// Kolor reprezentujący drużynę niebieską.
+    /// Kolor reprezentujący drużynę żółtą. 
     /// </summary>
-    BLUE
+    YELLOW
 
 }
 /// <summary>
