@@ -28,7 +28,12 @@ public class BadgeList
             new("Czarni łowcy", "za wylicytyowanie min 2 czarnych skrzynek"),
             new("Bankruci", "VaBanque i odpadniecie z gry przzy pierwszym pytaniu"),
             new("Mistrzowie pomyłek", "Za niepoprawne odpowiedzenie na wszystkie swoje pytania"),
-            new("Samodzielni geniusze", "Wygranie gry bez podpowiedzi")
+            new("Samodzielni geniusze", "Wygranie gry bez podpowiedzi"),
+            new("Łowcy ogórka","Za wylosowanie kiszonego ogórka"),
+            new("Symboliczna złotówka" ,"Za wylosowanie jednej złotówki"),
+            new("Samochód", "Odznaka za wygranie samochodu"),
+            new("Nagroda + 5000zł", "Za wylosowanie 5 000 zł"),
+            new("Nagroda + 10000zł", "Za wylosowanie 10 000 zł")
         };
 
     }
@@ -69,7 +74,7 @@ public class BadgeList
     /// <param name="name">Zmienna reprezentująca nazwę odznaki.</param>
     public void UnlockBadge(string name)
     {
-        if(FindBadge(name) != null)
+        if (FindBadge(name) != null)
         {
             FindBadge(name).Unlocked = true;
         }

@@ -84,7 +84,7 @@ public class SummaryManager : NetworkBehaviour
     {
         if (NetworkManager.Singleton?.IsHost == true)
         {
-                UpdateMoneyServerRpc();
+            UpdateMoneyServerRpc();
             _ = StartCoroutine(HandleTeams());
         }
     }
@@ -126,7 +126,7 @@ public class SummaryManager : NetworkBehaviour
         {
             ulong clientId = teamClient.ClientId;
             CreatePanelClientRpc(clientId);
-        }   
+        }
     }
     /// <summary>
     /// Rpc zajmujący się zapisem drużyny w leaderboardzie.
@@ -297,55 +297,55 @@ public class SummaryManager : NetworkBehaviour
     [ClientRpc]
     private void HandleBadgesClientRpc(ulong clientId)
     {
-            TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
-            teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
-            richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
-            winnerId = richestTeam.OwnerClientId;
-            
-            if (clientId == winnerId && team.CluesUsed == 0)
-            {
-                team.BadgeList.UnlockBadge("Samodzielni Geniusze");
-            }
+        TeamManager team = NetworkManager.ConnectedClients[clientId].PlayerObject.GetComponent<TeamManager>();
+        teams = NetworkManager.Singleton.ConnectedClients.Select((teamClient) => teamClient.Value.PlayerObject.GetComponent<TeamManager>()).ToList();
+        richestTeam = teams.OrderByDescending(team => team.Money).FirstOrDefault();
+        winnerId = richestTeam.OwnerClientId;
 
-            if (team.QuestionsAnswered == 0 && team.QuestionsAsked > 0)
-            {
-                team.BadgeList.UnlockBadge("Mistrzowie pomyłek");
-            }
+        if (clientId == winnerId && team.CluesUsed == 0)
+        {
+            team.BadgeList.UnlockBadge("Samodzielni Geniusze");
+        }
 
-            if (team.QuestionsAnswered == team.QuestionsAsked && team.QuestionsAnswered > 0)
-            {
-                team.BadgeList.UnlockBadge("As opowiedzi");
-            }
+        if (team.QuestionsAnswered == 0 && team.QuestionsAsked > 0)
+        {
+            team.BadgeList.UnlockBadge("Mistrzowie pomyłek");
+        }
 
-            if (team.Money >= 19000)
-            {
-                team.BadgeList.UnlockBadge("Królowie skarbca");
-            }
+        if (team.QuestionsAnswered == team.QuestionsAsked && team.QuestionsAnswered > 0)
+        {
+            team.BadgeList.UnlockBadge("As opowiedzi");
+        }
 
-            if(team.CzasToPieniadz == true)
-            {
-                team.BadgeList.UnlockBadge("Czas to pieniądz");
-            }
+        if (team.Money >= 19000)
+        {
+            team.BadgeList.UnlockBadge("Królowie skarbca");
+        }
 
-            if (team.Bankruci == true)
-            {
-                team.BadgeList.UnlockBadge("Bankruci");
-            }
+        if (team.CzasToPieniadz == true)
+        {
+            team.BadgeList.UnlockBadge("Czas to pieniądz");
+        }
 
-            if (team.WonBid >= 5)
-            {
-                team.BadgeList.UnlockBadge("Mistrzowie Aukcji");
-            }
+        if (team.Bankruci == true)
+        {
+            team.BadgeList.UnlockBadge("Bankruci");
+        }
 
-            if (team.VaBanque >= 3)
-            {
-                team.BadgeList.UnlockBadge("Ryzykanci");
-            }
+        if (team.WonBid >= 5)
+        {
+            team.BadgeList.UnlockBadge("Mistrzowie Aukcji");
+        }
 
-            if (team.BlackBoxes >= 2)
-            {
-                team.BadgeList.UnlockBadge("Czarni Łowcy");
-            }
+        if (team.VaBanque >= 3)
+        {
+            team.BadgeList.UnlockBadge("Ryzykanci");
+        }
+
+        if (team.BlackBoxes >= 2)
+        {
+            team.BadgeList.UnlockBadge("Czarni Łowcy");
+        }
     }
     /// <summary>
     /// Metoda zajmująca się deaktywacją obiektów uczestniczących w animacji.
@@ -446,7 +446,11 @@ public class SummaryManager : NetworkBehaviour
     /// <summary>
     /// Metoda pozwalająca na przejście do menu głownego gry.
     /// </summary>
-    public void ChangeScene() => SceneManager.LoadScene("MainMenu");   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
+    public void ChangeScene()
+    {
+        NetworkManager.Shutdown();
+        SceneManager.LoadScene("MainMenu");
+    }   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click   //utils jest statyczne i nie wyswietlaja się w inspektorze w On Click
 
     /// <summary>
     /// Odblokowuje odznakę o podanej nazwie dla drużyny gracza. Gracz jest identyfikowany za pomocą jego unikalnego identyfikatora (LocalClientId).
@@ -457,4 +461,3 @@ public class SummaryManager : NetworkBehaviour
         teams[(int)NetworkManager.Singleton.LocalClientId].BadgeList.UnlockBadge(name);
     }
 }
-
