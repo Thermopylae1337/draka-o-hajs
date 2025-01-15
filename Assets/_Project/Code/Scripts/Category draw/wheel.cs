@@ -33,7 +33,7 @@ public class Wheel : MonoBehaviour
     /// <param name="wynik">Wynik losowania (np. numer segmentu, na którym zatrzymało się koło).</param>
     public delegate void WheelStoppedHandler(int wynik);
     /// <summary>
-    /// Event wywoływany po zatrzymaniu koła. 
+    /// Event wywoływany po zatrzymaniu koła.
     /// </summary>
     public event WheelStoppedHandler OnWheelStopped;
 
@@ -42,7 +42,7 @@ public class Wheel : MonoBehaviour
     /// </summary>
     private float targetAngle;
     /// <summary>
-    /// Prywatna zmienna przechowująca aktualną wartość kąta. 
+    /// Prywatna zmienna przechowująca aktualną wartość kąta.
     /// </summary>
     private float angle = 0.0f;
 
@@ -145,7 +145,6 @@ public class Wheel : MonoBehaviour
             }
 
             textComponent.text = categoryNames[i];
-            textComponent.text += i;
         }
     }
 }
