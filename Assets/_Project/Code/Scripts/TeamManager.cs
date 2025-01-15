@@ -140,9 +140,17 @@ public class TeamManager : NetworkBehaviour
     /// <summary>
     /// Zapobiega zniszczeniu obiektu przy zmianie sceny, zapewniając jego przetrwanie przez cały czas życia aplikacji.
     /// </summary>
-    public void Awake()
+    void Awake()
     {
         DontDestroyOnLoad(this);
+    }
+
+    /// <summary>
+    /// Metoda wywoływana podczas wyjęcia z aplikacji. Zamyka sieć.
+    /// </summary>
+    void OnApplicationQuit()
+    {
+        NetworkManager.Singleton.Shutdown();
     }
 
     /// <summary>
