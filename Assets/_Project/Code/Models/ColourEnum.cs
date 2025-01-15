@@ -5,14 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Wyliczenie reprezentujące dostępne kolory drużyn.
+/// </summary>
 public enum ColourEnum
 {
-    BLUE,
+    /// <summary>
+    /// Kolor reprezentujący drużynę żółtą. 
+    /// </summary>
+    YELLOW,
+    /// <summary>
+    /// Kolor reprezentujący drużynę zieloną.
+    /// </summary>
     GREEN,
-    YELLOW
+    /// <summary>
+    /// Kolor reprezentujący drużynę niebieską.
+    /// </summary>
+    BLUE
+
 }
+/// <summary>
+/// Klasa pomocnicza do konwersji wyliczeń kolorów na kolory w Unity.
+/// </summary>
 public static class ColorHelper
 {
+    /// <summary>
+    /// Konwertuje kolor z wyliczenia na obiekt typu <see cref="Color"/> Unity.
+    /// </summary>
+    /// <param name="kolor">Kolor w wyliczeniu</param>
+    /// <returns>Kolor Unity odpowiadający wybranemu kolorowi z wyliczenia.</returns>
     public static Color ToUnityColor(this ColourEnum kolor)
     {
         return kolor switch
