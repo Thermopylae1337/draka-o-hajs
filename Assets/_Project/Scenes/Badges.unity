@@ -993,20 +993,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   badgesSprites:
+  - {fileID: 4130640169021434097, guid: 784bdc5efd8aa8e4f8b1f6fca89ef782, type: 3}
+  - {fileID: -2966200626249415253, guid: 23e98b253ee7a2b4ea5918fabaef325d, type: 3}
+  - {fileID: -5099292496197868168, guid: f3d441adebe7e6244928fa0e1a1bf494, type: 3}
+  - {fileID: -1540426309290004842, guid: cfdb9b1d4e58cdc41b9b564d59a2d22b, type: 3}
+  - {fileID: -6470460504253458178, guid: bbb2f0c25ccacbd43adfeff7db794a13, type: 3}
+  - {fileID: -6270953770400647376, guid: 6f8614655c77f424c9fc60ce23bf7e25, type: 3}
+  - {fileID: 7028616704906629411, guid: 5eb79088b5d4b6242877857aef8c2a0c, type: 3}
+  - {fileID: -4178046375966092550, guid: 6ecc993b44fe69b4186315bb38651e65, type: 3}
+  - {fileID: 8389134475083476877, guid: d40dc1f6a7d9a4846ab42939dfd9827b, type: 3}
+  - {fileID: 3465286685962602723, guid: 2a723b5ac703e124aba7e8b2d527521f, type: 3}
+  - {fileID: 4113829005332862926, guid: f917340cfc2e3ed48bae4fecf159805c, type: 3}
+  - {fileID: 8288426215254106694, guid: 5b7547eeddde407498875b875a1e92ca, type: 3}
   - {fileID: -855298285791758126, guid: c0b45c55a341d4e4d9c5a3e63950fcda, type: 3}
   - {fileID: 6937817954938267909, guid: 06d5414b336693a43a9f9fc97114d69c, type: 3}
-  - {fileID: -6470460504253458178, guid: bbb2f0c25ccacbd43adfeff7db794a13, type: 3}
-  - {fileID: -4178046375966092550, guid: 6ecc993b44fe69b4186315bb38651e65, type: 3}
-  - {fileID: 4130640169021434097, guid: 784bdc5efd8aa8e4f8b1f6fca89ef782, type: 3}
-  - {fileID: 3465286685962602723, guid: 2a723b5ac703e124aba7e8b2d527521f, type: 3}
-  - {fileID: 7028616704906629411, guid: 5eb79088b5d4b6242877857aef8c2a0c, type: 3}
-  - {fileID: 8288426215254106694, guid: 5b7547eeddde407498875b875a1e92ca, type: 3}
-  - {fileID: 4113829005332862926, guid: f917340cfc2e3ed48bae4fecf159805c, type: 3}
-  - {fileID: -5099292496197868168, guid: f3d441adebe7e6244928fa0e1a1bf494, type: 3}
-  - {fileID: -2966200626249415253, guid: 23e98b253ee7a2b4ea5918fabaef325d, type: 3}
-  - {fileID: -1540426309290004842, guid: cfdb9b1d4e58cdc41b9b564d59a2d22b, type: 3}
-  - {fileID: 8389134475083476877, guid: d40dc1f6a7d9a4846ab42939dfd9827b, type: 3}
-  - {fileID: -6270953770400647376, guid: 6f8614655c77f424c9fc60ce23bf7e25, type: 3}
   badgePrefab: {fileID: 1151526656023075185, guid: 06f6761aa6c26b14e98f6254eb27eae0, type: 3}
   contentParent: {fileID: 1359991715}
   basicSprite: {fileID: 8580352971482666360, guid: b8bee95929edd1a4e95df722ed52d86a, type: 3}
