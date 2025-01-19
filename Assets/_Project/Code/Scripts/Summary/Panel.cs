@@ -3,13 +3,29 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+/// <summary>
+/// Klasa odpowiedzialna za streszcznie po zakończeniu rozgrywki.
+/// </summary>
 public class Panel : MonoBehaviour
 {
+    /// <summary>
+    /// Lista przechowująca sprite'y, które będą używane do wyświetlania różnych paneli w interfejsie użytkownika.
+    /// </summary>
     [SerializeField]
     public List<Sprite> panelSprites = new List<Sprite>();              // wsadzać Y, G, B !
+
+    /// <summary>
+    /// Zmienne typu TMP_Text przechowujące informacje o drużynie takie jak nazwa, pieniadze, poprawność oraz liczba wykorzystanych podpowiedzi.
+    /// </summary>
     private TMP_Text teamNameObj, moneyObj, accuracyObj, cluesUsedObj;
+    /// <summary>
+    /// Zmienna przechowująca czas.
+    /// </summary>
     private float time = 0.0f;
 
+    /// <summary>
+    /// Metoda pobierająca informacje o drużynie.
+    /// </summary>
     private void Awake()    // awake zeby pobrało obiekty zanim manager wywoła Initialize, ktore ich uzywa
     {
         teamNameObj = transform.Find("TeamName").GetComponent<TMP_Text>();
@@ -18,6 +34,9 @@ public class Panel : MonoBehaviour
         cluesUsedObj = transform.Find("CluesUsed").GetComponent<TMP_Text>();
     }
 
+    /// <summary>
+    /// Metoda odpowiedzialna za animowanie ilości zdobytej gotówki przez drużynę.
+    /// </summary>
     private void Update()
     {
         time += Time.deltaTime;
@@ -25,6 +44,10 @@ public class Panel : MonoBehaviour
         moneyObj.transform.localScale = new Vector2(scale, scale);
     }
 
+    /// <summary>
+    /// Inicjalizuje dane panelu na podstawie obiektu drużyny.
+    /// </summary>
+    /// <param name="team">Obiekt drużyny, którego dane będą wyświetlane.</param>
     public void Initialize(TeamManager team)
     {
         if (team.Colour == ColourEnum.YELLOW)
@@ -53,7 +76,6 @@ public class Panel : MonoBehaviour
         //leaderboard.Deserializuj();
         //leaderboard.AddTeam(new LeaderboardTeam(team.TeamName, team.Money,team.BadgeList.Badges));
         //leaderboard.Serializuj();
-
 
         teamNameObj.text = teamName;
         moneyObj.text = $"<color=green>{money}</color>pln";

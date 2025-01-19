@@ -3,21 +3,52 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Utils;
 
+/// <summary>
+/// Klasa odpowiedzialna za zarządzanie kołem fortuny w grze. Zawiera logiką obracania koła, generowania segmentów oraz wykrywania momentu, w którym koło zatrzyma się, aby ogłosić wynik.
+/// </summary>
 public class Wheel : MonoBehaviour
 {
+    /// <summary>
+    /// Zmienne przechowujące wartości delty, kąta oraż konwersje kąta radianów.
+    /// </summary>
     private float delta, angleStep, angleStepRad;
 
+    /// <summary>
+    /// Zmienna przechowująca stan koła (czy jest w trakcie obracania).
+    /// </summary>
     [SerializeField] private bool spinning = false;
+    /// <summary>
+    /// Zmienna przechowująca ilość segmentów na kole.
+    /// </summary>
     private readonly int numberOfSegments = 29;       // Ilosc segmentow kola
 
+    /// <summary>
+    /// Prefab pojedynczego segmentu koła.
+    /// </summary>
     [SerializeField] private GameObject segmentPrefab;              // Prefab pojedynczego segmentu
 
+    /// <summary>
+    /// Delegat wywoływany po zatrzymaniu koła.
+    /// </summary>
+    /// <param name="wynik">Wynik losowania (np. numer segmentu, na którym zatrzymało się koło).</param>
     public delegate void WheelStoppedHandler(int wynik);
+    /// <summary>
+    /// Event wywoływany po zatrzymaniu koła.
+    /// </summary>
     public event WheelStoppedHandler OnWheelStopped;
 
+    /// <summary>
+    /// Zmienna przechowująca docelowy kąt, do którego koło ma się obrócić.
+    /// </summary>
     private float targetAngle;
+    /// <summary>
+    /// Prywatna zmienna przechowująca aktualną wartość kąta.
+    /// </summary>
     private float angle = 0.0f;
 
+    /// <summary>
+    /// Inicjalizuje zmienne koła, oblicza kąt obrotu oraz wywołuje metode generującą koło.
+    /// </summary>
     private void Start()
     {
         angleStep = 360f / numberOfSegments;
@@ -26,6 +57,9 @@ public class Wheel : MonoBehaviour
         GenerateWheel();
     }
 
+    /// <summary>
+    /// Aktualizuje stan koła fortuny, obracając je do docelowego kąta. Po zakończeniu obrotu, wyzwala zdarzenie z wynikiem losowania.
+    /// </summary>
     private void Update()
     {
         delta = Time.deltaTime;
@@ -55,6 +89,10 @@ public class Wheel : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda umożlwiająca obracanie się koła.
+    /// </summary>
+    /// <param name="angle">Zmienna reprezentująca kąt obrotu.</param>
     public void SpinWheel(float angle)
     {
         if (!spinning)
@@ -64,6 +102,9 @@ public class Wheel : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Metoda generująca koło fortuny na którym znajdują sie różne kategorie.
+    /// </summary>
     private void GenerateWheel()
     {
         for (int i = 0; i < numberOfSegments; i++)
@@ -104,7 +145,6 @@ public class Wheel : MonoBehaviour
             }
 
             textComponent.text = categoryNames[i];
-            textComponent.text += i;
         }
     }
 }
