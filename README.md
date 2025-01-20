@@ -5,7 +5,7 @@ Projekt "Draka o hajs" jest projektem zaliczeniowym realizowanym w ramach labora
 
 ## Czym jest Draka o Hajs?
 
-Draka o hajs to projekt, którego celem było stworzenie gry na podstawie teleturnieju "Awantura o hajs". Gra ta opiera się na licytowaniu oraz odpowiadaniu na pytania z szerokiej wiedzy ogólnej. Jest to gra LANowa na silniku Unity, dla 2 lub 3 drużyn. Posiada system rankingu oraz system odznak, które można zdobyć w czasie gry.
+Draka o hajs to projekt, którego celem było stworzenie gry na podstawie teleturnieju "Awantura o kasę". Gra ta opiera się na licytowaniu oraz odpowiadaniu na pytania z szerokiej wiedzy ogólnej. Jest to gra LANowa na silniku Unity, dla 2 lub 3 drużyn. Posiada system rankingu oraz system odznak, które można zdobyć w czasie gry.
 
 ## Krótki opis gameplay'u
 
